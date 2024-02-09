@@ -8,7 +8,7 @@ This program is the back-end functionality for the web-based application Discret
 
 """
 # Imports
-from flask import Flask, render_template, request
+from flask import Flask
 from waitress import serve
 
 app = Flask(__name__)
