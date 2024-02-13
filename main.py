@@ -13,7 +13,8 @@ from waitress import serve
 import json #converts lattice array to a json so it can be sent to the website
 import time
 
-lattice = [1, 0, 0 ,0,  1, 1, 1, 0, 1, 1]
+lattice = [1, 1, 0 ,0,  1, 1, 1, 0, 1, 1]
+
 """
 nextLatice = [] * len(lattice)
 
