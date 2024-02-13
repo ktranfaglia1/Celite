@@ -8,18 +8,18 @@ This program is the back-end functionality for the web-based application Discret
 
 """
 # Imports
-from flask import Flask
+from flask import Flask, render_template
 from waitress import serve
+
+
+lattice = [1, 0, 0 ,0,  1, 1, 1, 0, 1, 0]
 
 app = Flask(__name__)
 
 @app.route('/')
 def startScreen():
-#    return render_template('templates/index.html')
+    return render_template('index.html')
     return "Hello World"
-@app.route('/index')
-def indexScreen():
-    return "Welcome to Index Screen"
 
 # App startup
 if __name__ == "main":
