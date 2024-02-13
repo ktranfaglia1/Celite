@@ -15,8 +15,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def startScreen():
-    return render_template('templates/index.html')
-
+#    return render_template('templates/index.html')
+    return "Hello World"
 @app.route('/index')
 def indexScreen():
     return "Welcome to Index Screen"
