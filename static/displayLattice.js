@@ -1,3 +1,5 @@
+//import { generateLattice } from './generateLattice.js'
+
 
 var latticeArray = new Array ( new Array);
 var currentLattice = new Array(1, 0, 1, 1, 0, 1, 0, 1);
@@ -7,7 +9,7 @@ var nextLattice = new Array()
 var canvas = document.getElementById("latticeRegion");
 var ctx = canvas.getContext("2d"); // gets the lattice display region
 
-var numOfIterations = 12;
+var numOfIterations = 300;
 var currentIteration = 1;
 
 latticeArray[0] = currentLattice;
@@ -57,12 +59,3 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
 
 }
 
-function generateLattice(currentLattice)
-{
-	newLattice = new Array();
-	for(i = 0; i < currentLattice.length; i++)
-	{
-		newLattice[(i + 1) % currentLattice.length] = currentLattice[i];
-	}
-	return newLattice;
-}
