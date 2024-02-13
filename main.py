@@ -14,9 +14,12 @@ from waitress import serve
 app = Flask(__name__)
 
 @app.route('/')
+def startScreen():
+    return render_template('templates/index.html')
+
 @app.route('/index')
-def index():
-    return "Hello World!"
+def indexScreen():
+    return "Welcome to Index Screen"
 
 # App startup
 if __name__ == "main":
