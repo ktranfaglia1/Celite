@@ -1,32 +1,68 @@
 
-//lattice = {{lattice | tojson}};
+var latticeArray = new Array ( new Array);
+var currentLattice = new Array(1, 0, 1, 1, 0, 1, 0, 1);
+var nextLattice = new Array()
+
 
 var canvas = document.getElementById("latticeRegion");
 var ctx = canvas.getContext("2d"); // gets the lattice display region
 
-console.log("lattice:", lattice);
+var numOfIterations = 12;
+var currentIteration = 1;
 
-drawLattice(lattice);
-//JSON.parse(lattice);
+latticeArray[0] = currentLattice;
 
-function drawLattice(lattice){
-	for (let i = 0; i < lattice.length; i++)
+console.log("lattice:", latticeArray);
+
+
+updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
+drawLattice(latticeArray);
+
+
+
+
+function drawLattice(latticeArray){
+	for (let j = 0; j < latticeArray.length; j++)
 	{
-		var size = 30;
-		var XIndent = 40;
-		var YIndent = 10;
+		for (let i = 0; i < latticeArray[j].length; i++)
+		{
+			var size = 30;
+			var XIndent = 40;
+			var YIndent = 10;
 	
-		if(lattice[i] == 1)
-		{
-			ctx.fillStyle = "black"
-		}
-		else
-		{
-			ctx.fillStyle = "#89CFF0"
-		}
+			ctx.fillStyle = "black";
+			
+			ctx.fillRect(XIndent + size * i + i * 3 - 1, YIndent + j * 40 - 1, size + 2, size + 2); //creates an outline on the boxes
 
-		ctx.fillRect(XIndent + size * i + i, YIndent, size, size);
+			if(latticeArray[j][i] == 0)
+			{
+				ctx.fillStyle = "white";
+			}
+	
+			ctx.fillRect(XIndent + size * i + i * 3, YIndent + j * 40, size, size);
+		}
 	}
 }
 
 
+function updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration){
+
+	for(; currentIteration < numOfIterations; currentIteration++)
+	{
+		nextLattice = generateLattice(currentLattice);
+		latticeArray[currentIteration] = nextLattice;
+		currentLattice = nextLattice;
+	}
+
+
+}
+
+function generateLattice(currentLattice)
+{
+	newLattice = new Array();
+	for(i = 0; i < currentLattice.length; i++)
+	{
+		newLattice[(i + 1) % currentLattice.length] = currentLattice[i];
+	}
+	return newLattice;
+}
