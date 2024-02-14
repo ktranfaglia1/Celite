@@ -2,8 +2,41 @@
 
 
 var latticeArray = new Array ( new Array);
-var currentLattice = new Array(1, 0, 1, 1, 0, 1, 0, 1);
+var currentLattice = new Array(0, 0, 0, 0, 0, 0, 0, 0);
 var nextLattice = new Array()
+
+
+
+
+
+
+
+
+
+const button = document.createElement('button')
+
+// Set the button text to 'Can you click me?'
+//button.innerText = 'Can you click me?'
+
+button.id = 'mainButton'
+
+// Attach the "click" event to your button
+button.addEventListener('click', () => {
+        // When there is a "click"
+        // it shows an alert in the browser
+alert('Oh, you clicked me!')
+})
+
+document.body.appendChild(button)
+
+
+
+
+
+
+
+
+
 
 
 var canvas = document.getElementById("latticeRegion");
