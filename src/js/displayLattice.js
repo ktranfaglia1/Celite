@@ -21,41 +21,37 @@ updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, curren
 drawLattice(latticeArray);
 
 
-
-
 function drawLattice(latticeArray){
-	for (let j = 0; j < latticeArray.length; j++)
-	{
-		for (let i = 0; i < latticeArray[j].length; i++)
-		{
-			var size = 30;
-			var XIndent = 40;
-			var YIndent = 10;
-	
-			ctx.fillStyle = "black";
-			
-			ctx.fillRect(XIndent + size * i + i * 3 - 1, YIndent + j * 40 - 1, size + 2, size + 2); //creates an outline on the boxes
+  for (let j = 0; j < latticeArray.length; j++)
+  {
+    for (let i = 0; i < latticeArray[j].length; i++)
+    {
+      var size = 30;
+      var XIndent = 40;
+      var YIndent = 10;
+ 
+      ctx.fillStyle = "black";
 
-			if(latticeArray[j][i] == 0)
-			{
-				ctx.fillStyle = "white";
-			}
-	
-			ctx.fillRect(XIndent + size * i + i * 3, YIndent + j * 40, size, size);
-		}
-	}
+      ctx.fillRect(XIndent + size * i + i * 3 - 1, YIndent + j * 40 - 1, size + 2, size + 2); //creates an outline on the boxes
+
+      if(latticeArray[j][i] == 0)
+      {
+        ctx.fillStyle = "white";
+      }
+      
+      ctx.fillRect(XIndent + size * i + i * 3, YIndent + j * 40, size, size);
+    }
+  }
 }
-
 
 function updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration){
 
-	for(; currentIteration < numOfIterations; currentIteration++)
-	{
-		nextLattice = generateLattice(currentLattice);
-		latticeArray[currentIteration] = nextLattice;
-		currentLattice = nextLattice;
-	}
-
+  for(; currentIteration < numOfIterations; currentIteration++)
+  {
+    nextLattice = generateLattice(currentLattice);
+    latticeArray[currentIteration] = nextLattice;
+    currentLattice = nextLattice;
+  }
 
 }
 
