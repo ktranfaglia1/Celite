@@ -2,6 +2,19 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
 }
+hr {
+  border: none;
+  background-color: black;
+  height: 2px;
+  margin-bottom: 30px;
+}
+h1 {
+  font-family: Ariel;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+}
 .navbar {
   background-color: black;
   overflow: hidden;
@@ -53,4 +66,61 @@ body {
 }
 .dropdown:hover .dropdown_item {
   display: block;
+}
+.simulation_button {
+  background-color: #8a2be2;
+  color: white;
+  padding: 18px 36px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border: none;
+  border-radius: 20px;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+.simulation_button:hover {
+  cursor: pointer;
+  background-color: #9370DB;
+}
+.primary_toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 80%;
+  margin: 0 auto;
+}
+.secondary_toolbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 80%;
+  padding-top: 20px;
+  margin: 0 auto;
+} 
+.input_container {
+  display: flex;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+.input_label {
+  font-size: 18px;
+  padding: 6px 6px;
+}
+.simulation_input {
+  border: 2px solid black;
+}
+.submit_button {
+  padding: 6px 12px;
+  border: 2px solid #8a2be2;
+  background-color: #9370DB;
+  color: whitesmoke;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+}
+.submit_button:hover {
+  cursor: pointer;
+  background-color: #8a2be2;
 }

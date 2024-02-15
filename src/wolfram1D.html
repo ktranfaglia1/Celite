@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Discrete Mathematical Systems </title>
+    <link rel="stylesheet" type="text/css" href="../styles/global.css">
+    <link rel="stylesheet" type="text/css" href="../styles/wolfram1D.css">
+  </head>
+  <body>
+    <!-- Nav Bar-->
+    <header>
+      <div class="navbar">
+        <a href="../src/index.html"> Home </a>
+        <div class="dropdown">
+          <button class="drop_button"> Simulators <i class="fa fa-caret-down"> </i> </button>
+          <div class="dropdown_item">
+            <a href="../src/wolfram1D.html"> 1D Nearest Neighbor </a>
+            <a href="../src/wolfram2D.html"> 2D Nearest Neighbor </a>
+            <a href="../src/conway.html"> Game of Life </a>
+          </div>
+        </div>
+        <a href="../src/documentation.html"> Documentation </a>
+        <a href="../src/index.html"> Source </a>
+        <a href="../src/about.html"> About </a>
+      </div>
+    </header>
+    <h1> Wolfram's Nearest Neighbor 1D </h1> <hr>
+    <div class="primary_toolbar">
+      <button id="primaryButton1" class="simulation_button"> Start </button>
+      <button id="primaryButton2" class="simulation_button"> Stop </button>
+      <button id="primaryButton3" class="simulation_button"> Iterate </button>
+      <button id="primaryButton4" class="simulation_button"> Clear </button>
+      <button id="primaryButton5" class="simulation_button"> Download </button>
+      <button id="primaryButton6" class="simulation_button"> About </button>
+    </div>
+    <div class="secondary_toolbar">
+      <div class="input_container">
+        <label for="inputBox1" class="input_label"> Iterations:</label>
+        <input type="text" id="inputBox1" class="simulation_input" placeholder="Enter # of iterations...">
+        <button id="submitButton1" class="submit_button"> Enter </button>
+      </div>
+      <div class="input_container">
+        <label for="inputBox2" class="input_label"> Rule: </label>
+        <input type="text" id="inputBox2" class="simulation_input" placeholder="Enter rule # (0-255)...">
+        <button id="submitButton2" class="submit_button"> Enter </button>
+      </div>
+    </div>
+    <!-- Display region for the lattices -->
+    <center> <canvas id = "latticeRegion" width = "350" height = "4000"> </canvas> </center>
+    <script src= "../src/js/generateLattice.js"> </script> <!-- Connect Javascript for calculation -->
+    <script src= "../src/js/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->
+  </body>
+</html>
