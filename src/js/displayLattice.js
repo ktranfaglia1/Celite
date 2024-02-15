@@ -1,9 +1,10 @@
 //import { generateLattice } from './generateLattice.js'
-
+//import { ruleNumToRule } from '.generateLattice.js'
 
 var latticeArray = new Array ( new Array);
 var currentLattice = new Array(1, 0, 1, 1, 0, 1, 0, 1);
 var nextLattice = new Array()
+var Rule = new Array()
 
 
 var canvas = document.getElementById("latticeRegion");
@@ -11,15 +12,15 @@ var ctx = canvas.getContext("2d"); // gets the lattice display region
 
 var numOfIterations = 300;
 var currentIteration = 1;
+var RuleNum = 240;
 
 latticeArray[0] = currentLattice;
 
 console.log("lattice:", latticeArray);
 
-
-updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
+Rule = ruleNumToRule(RuleNum);
+updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule);
 drawLattice(latticeArray);
-
 
 function drawLattice(latticeArray){
   for (let j = 0; j < latticeArray.length; j++)
@@ -44,14 +45,13 @@ function drawLattice(latticeArray){
   }
 }
 
-function updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration){
+function updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule){
 
   for(; currentIteration < numOfIterations; currentIteration++)
   {
-    nextLattice = generateLattice(currentLattice);
+    nextLattice = generateLattice(currentLattice, Rule);
     latticeArray[currentIteration] = nextLattice;
     currentLattice = nextLattice;
   }
 
 }
-
