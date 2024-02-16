@@ -12,6 +12,7 @@ console.log(Rule);
 
 function generateLattice(currentLattice, Rule, BoundaryCon)
 {
+	console.log("Rule Number:", Rule);
   newLattice = new Array();
   if (BoundaryCon == 1)
   	{
@@ -34,7 +35,6 @@ function generateLattice(currentLattice, Rule, BoundaryCon)
 	}
 	else
 	{
-		console.log("RULE: FUCKCKCKKKKK", Rule);
 		for(i = 0; i < currentLattice.length; i++)
 		{
 			if (i == 0)

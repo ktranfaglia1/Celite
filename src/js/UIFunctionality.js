@@ -37,7 +37,7 @@ startButton.addEventListener("click", function()
 
 ruleSubmit.addEventListener("click", function()
 	{
-	setRule();
+	setRule(Rule);
 	})
 
 
@@ -54,12 +54,14 @@ function continouslyIterate()
 }
 
 
-function setRule()
+function setRule(Rule)
 {
-	var newRule = parseInt(iterationInputBox.value);
+	var newRule = parseInt(ruleInputBox.value);
+	console.log(newRule);
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
 	{
-		addIterations = newRule;	
+		Rule = ruleNumToRule(newRule);
+		
 	}
 	else
 	{
@@ -108,7 +110,6 @@ function iterate(currentIteration ,newIterations)
 	{
 		latticeArray.pop();
 	}
-	console.log("I'M HERE", Rule);
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule, BoundaryCon);
 	return currentIteration;
 }
