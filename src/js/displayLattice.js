@@ -14,8 +14,6 @@ var currentIteration = 1;
 
 latticeArray[0] = currentLattice;
 
-console.log("lattice:", latticeArray);
-
 
 updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
 

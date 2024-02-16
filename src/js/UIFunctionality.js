@@ -76,10 +76,17 @@ function clear(latticeArray)
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
 }
 
+
+
+
 function iterate(currentIteration ,newIterations)
 {
 	console.log(newIterations);
 	numOfIterations += newIterations;
+	while(latticeArray.length > numOfIterations)
+	{
+		latticeArray.pop();
+	}
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
 	return currentIteration;
 }
