@@ -15,7 +15,9 @@ var addIterations = 1; //Defaults iterations to add to 1
 var Run = 0; //Defaults to not keep running
 
 iterateButton.addEventListener("click", function()
-{iterate(currentIteration, addIterations);});
+{
+	iterate(currentIteration, addIterations);
+});
 
 clearButton.addEventListener("click", function()
 {clear(latticeArray);});
@@ -87,7 +89,8 @@ function iterate(currentIteration ,newIterations)
 	{
 		latticeArray.pop();
 	}
-	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
+	console.log("I'M HERE", Rule);
+	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule, BoundaryCon);
 	return currentIteration;
 }
 
