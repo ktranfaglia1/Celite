@@ -29,7 +29,7 @@ ctx.clearRect(0,0, canvas.width, canvas.height);
       var size = 30;
       var XIndent = 40;
       var YIndent = 10;
-      var YGap = 10
+      var YGap = 12;
       var XGap = 1;
  
       ctx.fillStyle = "black";
