@@ -35,6 +35,12 @@ startButton.addEventListener("click", function()
 })
 
 
+ruleSubmit.addEventListener("click", function()
+	{
+	setRule();
+	})
+
+
 
 function continouslyIterate()
 {
@@ -47,6 +53,19 @@ function continouslyIterate()
 	}
 }
 
+
+function setRule()
+{
+	var newRule = parseInt(iterationInputBox.value);
+	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
+	{
+		addIterations = newRule;	
+	}
+	else
+	{
+		console.log("Not a number");
+	}
+}
 
 function setIterations()
 {
