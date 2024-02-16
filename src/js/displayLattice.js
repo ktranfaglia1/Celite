@@ -21,11 +21,12 @@ updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, curren
 
 
 function drawLattice(latticeArray){
+ctx.clearRect(0,0, canvas.width, canvas.height);
   for (let j = 0; j < latticeArray.length; j++)
   {
     for (let i = 0; i < latticeArray[j].length; i++)
     {
-      var size = 60;
+      var size = 30;
       var XIndent = 40;
       var YIndent = 10;
       var YGap = 10

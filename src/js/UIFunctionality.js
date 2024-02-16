@@ -36,6 +36,10 @@ function clear(latticeArray)
 	{
 		latticeArray.pop();
 	}
+	for (var i = 0; i < latticeArray[0].length; i++)
+	{
+		latticeArray[0][i] = 0;
+	}
 	currentLattice = latticeArray[0];
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
 }
