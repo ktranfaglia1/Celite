@@ -45,9 +45,14 @@
         <input type="text" id="inputBox2" class="simulation_input" placeholder="Enter rule # (0-255)...">
         <button id="submitButton2" class="submit_button"> Enter </button>
       </div>
+      <div class="input_container">
+        <label for="inputBox3" class="input_label"> Lattice Size: </label>
+        <input type="text" id="inputBox2" class="simulation_input" placeholder="Enter # of cells for lattice...">
+        <button id="submitButton3" class="submit_button"> Enter </button>
+      </div>
     </div>
     <!-- Display region for the lattices -->
-    <center> <canvas id = "latticeRegion" width = "500" height = "4000"> </canvas> </center>
+    <center> <canvas id = "latticeRegion" width = "1800" height = "4000"> </canvas> </center>
     <script src= "../src/js/generateLattice.js"> </script> <!-- Connect Javascript for calculation -->
     <script src= "../src/js/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->
     <script src="../src/js/UIFunctionality.js"> </script>

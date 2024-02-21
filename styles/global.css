@@ -1,14 +1,19 @@
 body {
+    background-color:rgb(199, 221, 240);
     margin: 0;
     font-family: Arial, sans-serif;
 }
 hr {
+  margin: 0;
   border: none;
   background-color: black;
   height: 2px;
   margin-bottom: 30px;
 }
 h1 {
+  margin: 0;
+  padding: 20px;
+  background-color: rgb(95, 144, 235);
   font-family: Ariel;
   font-size: 30px;
   font-weight: bold;
