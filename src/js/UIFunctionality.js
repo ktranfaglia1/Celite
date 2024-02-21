@@ -34,6 +34,14 @@ startButton.addEventListener("click", function()
 	continouslyIterate();
 })
 
+canvas.addEventListener('click', function(event)
+{
+	var paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+	var bounds = canvas.getBoundingClientRect();
+	var mouseX = event.clientX - bounds.left - paddingLeft;
+	var mouseY = event.clientY - bounds.top;
+	setCells(latticeArray, mouseX, mouseY);	
+});
 
 ruleSubmit.addEventListener("click", function()
 	{
@@ -57,7 +65,6 @@ function continouslyIterate()
 function setRule(Rule)
 {
 	var newRule = parseInt(ruleInputBox.value);
-	console.log(newRule);
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
 	{
 		Rule = ruleNumToRule(newRule);
@@ -93,18 +100,29 @@ function clear(latticeArray)
 	}
 	for (var i = 0; i < latticeArray[0].length; i++)
 	{
-		latticeArray[0][i] = 0;
+		latticeArray[0][i] = (new cell (size, size, i * size + i + XIndent, 0, 0))
 	}
 	currentLattice = latticeArray[0];
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
 }
 
+function setCells(latticeArray, mouseX, mouseY)
+{
 
+	for (var i = 0 ; i < latticeArray[0].length; i++)
+	{
+		if(latticeArray[0][i].insideCell(mouseX, mouseY))
+		{
+			latticeArray[0][i].flipColor();
+		}
+	(latticeArray[0][i]).drawCell(ctx);
+	}
+
+}
 
 
 function iterate(currentIteration ,newIterations)
 {
-	console.log(newIterations);
 	numOfIterations += newIterations;
 	while(latticeArray.length > numOfIterations)
 	{

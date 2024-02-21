@@ -1,35 +1,34 @@
 function ruleNumToRule(RuleNum)
 {
   Rule = new Array();
-  for(i = 0; i < 8; i++)
+  for(var i = 0; i < 8; i++)
   {
     Rule[i] = RuleNum % 2;
     RuleNum = Math.floor(RuleNum / 2);
   }
-console.log(Rule);
   return Rule
 }
 
-function generateLattice(currentLattice, Rule, BoundaryCon)
+function generateLattice(currentLattice, Rule, BoundaryCon, rowIndex, size, XIndent, YIndent)
 {
-	console.log("Rule Number:", Rule);
   newLattice = new Array();
   if (BoundaryCon == 1)
-  	{
+  	{ 
 
 		for(i = 0; i < currentLattice.length; i++)
 		{
+			newLattice.push(new cell (size, size, i * size + i + XIndent, YIndent * rowIndex + rowIndex * size, 0))
 			if (i == 0)
 			{
-				newLattice[i] = Rule[(currentLattice[currentLattice.length - 1] * 4) + (currentLattice[i] * 2) + currentLattice[i + 1]];
+				newLattice[i].setColor(Rule[(currentLattice[currentLattice.length - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[i + 1].color]);
 			}
 			else if (i == (currentLattice.length - 1))
 			{
-				newLattice[i] = Rule[(currentLattice[i - 1] * 4) + (currentLattice[i] * 2) + currentLattice[0]];
+				newLattice[i].setColor(Rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[0].color]);
 			}
 			else
 			{
-				newLattice[i] = Rule[(currentLattice[i - 1] * 4) + (currentLattice[i] * 2) + currentLattice[i + 1]];
+				newLattice[i].setColor(Rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[i + 1].color]);
 			}
 		}
 	}
@@ -37,18 +36,18 @@ function generateLattice(currentLattice, Rule, BoundaryCon)
 	{
 		for(i = 0; i < currentLattice.length; i++)
 		{
+			newLattice.push(new cell (size, size, i * size + i + XIndent, YIndent * rowIndex + rowIndex * size, 0))
 			if (i == 0)
 			{
-				console.log(Rule[0])
-				newLattice[i] = Rule[(currentLattice[i] * 2) + currentLattice[i + 1]];
+				newLattice[i].setColor(Rule[(currentLattice[i].color * 2) + currentLattice[i + 1].color]);
 			}
 			else if (i == (currentLattice.length - 1))
 			{
-				newLattice[i] = Rule[(currentLattice[i - 1] * 4) + (currentLattice[i] * 2)];
+				newLattice[i].setColor(Rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2)]);
 			}
 			else
 			{
-				newLattice[i] = Rule[(currentLattice[i - 1] * 4) + (currentLattice[i] * 2) + currentLattice[i + 1]];
+				newLattice[i].setColor(Rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[i + 1].color]);
 			}
 		}
 	}
