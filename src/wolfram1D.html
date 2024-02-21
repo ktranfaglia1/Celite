@@ -50,9 +50,24 @@
         <input type="text" id="inputBox2" class="simulation_input" placeholder="Enter # of cells for lattice...">
         <button id="submitButton3" class="submit_button"> Enter </button>
       </div>
+      <div class="input_container">
+        <div class="toggle_bar" onclick="toggleCheckbox()">
+          <div class="toggle_button"> </div>
+        </div>
+      </div>
+        <div class="checkbox_container" id="checkbox1">
+          <label>
+            <input type="checkbox" class="checkbox_label"> Check Me!
+          </label>
+        </div>
+        <div class="checkbox_container" id="checkbox2">
+          <label>
+            <input type="checkbox" class="checkbox_label"> No, Check Me!
+          </label>
+        </div>
     </div>
     <!-- Display region for the lattices -->
-    <center> <canvas id = "latticeRegion" width = "1800" height = "4000"> </canvas> </center>
+    <center> <canvas id="latticeRegion" width="1800" height="4000"> </canvas> </center>
     <script src= "../src/js/generateLattice.js"> </script> <!-- Connect Javascript for calculation -->
     <script src="../src/js/cellClass.js"> </script>
     <script src= "../src/js/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->

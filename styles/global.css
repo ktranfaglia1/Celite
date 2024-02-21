@@ -1,5 +1,5 @@
 body {
-    background-color:rgb(199, 221, 240);
+    background-color: #add8e6;
     margin: 0;
     font-family: Arial, sans-serif;
 }
@@ -13,12 +13,12 @@ hr {
 h1 {
   margin: 0;
   padding: 20px;
-  background-color: rgb(95, 144, 235);
+  background-color: #4682b4;
   font-family: Ariel;
-  font-size: 30px;
+  font-size: 32px;
   font-weight: bold;
   text-align: center;
-  color: black;
+  color: whitesmoke;
 }
 .navbar {
   background-color: black;

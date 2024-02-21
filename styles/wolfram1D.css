@@ -5,3 +5,29 @@ canvas {
   max-width: 85%;
   margin-top: 30px;
 }
+.toggle_bar {
+  width: 100px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 15px;
+  position: relative;
+  cursor: pointer;
+}
+.toggle_button {
+  width: 50px;
+  height: 100%;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.2s ease;
+}
+.checkbox_container {
+  display: none;
+  margin-top: 10px;
+}
+.checkbox_label {
+  display: block;
+  margin-top: 5px;
+}

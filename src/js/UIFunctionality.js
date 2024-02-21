@@ -132,4 +132,19 @@ function iterate(currentIteration ,newIterations)
 	return currentIteration;
 }
 
+function toggleCheckbox() {
+    var checkbox1 = document.getElementById('checkbox1');
+    var checkbox2 = document.getElementById('checkbox2');
+    var toggleButton = document.querySelector('.toggle_button');
+
+    if (checkbox1.style.display === 'none'|| checkbox1.style.display === '') {
+      checkbox1.style.display = 'block';
+	  checkbox2.style.display = 'block';
+      toggleButton.style.transform = 'translateX(50px)'; // Move the toggle button to the right
+    } else {
+      checkbox1.style.display = 'none';
+	  checkbox2.style.display = 'none';
+      toggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
+    }
+  }
 
