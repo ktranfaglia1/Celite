@@ -150,10 +150,10 @@ function toggleCheckbox() {
 }
 
 // Ensure only one checkbox can be checked at a time
-document.querySelectorAll('.checkbox_label').forEach(function(checkbox) {
+document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
     checkbox.addEventListener('change', function() {
         if (this.checked) {
-            document.querySelectorAll('.checkbox_label').forEach(function(otherCheckbox) {
+            document.querySelectorAll('.checkbox_select').forEach(function(otherCheckbox) {
                 if (otherCheckbox != checkbox) {
                     otherCheckbox.checked = false;
                 }
