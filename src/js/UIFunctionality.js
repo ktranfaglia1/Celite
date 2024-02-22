@@ -11,6 +11,11 @@ clearButton = document.getElementById("primaryButton4");
 downloadButton = document.getElementById("primaryButton5");
 aboutButton = document.getElementById("primaryButton6");
 
+var infiniteCheckBox = document.getElementById('checkbox1');
+var finiteCheckBox = document.getElementById('checkbox2');
+
+var toggleButton = document.querySelector('.toggle_button');
+
 var addIterations = 1; //Defaults iterations to add to 1
 var Run = 0; //Defaults to not keep running
 
@@ -120,7 +125,6 @@ function setCells(latticeArray, mouseX, mouseY)
 
 }
 
-
 function iterate(currentIteration ,newIterations)
 {
 	numOfIterations += newIterations;
@@ -133,18 +137,27 @@ function iterate(currentIteration ,newIterations)
 }
 
 function toggleCheckbox() {
-    var checkbox1 = document.getElementById('checkbox1');
-    var checkbox2 = document.getElementById('checkbox2');
-    var toggleButton = document.querySelector('.toggle_button');
 
-    if (checkbox1.style.display === 'none'|| checkbox1.style.display === '') {
-      checkbox1.style.display = 'block';
-	  checkbox2.style.display = 'block';
-      toggleButton.style.transform = 'translateX(50px)'; // Move the toggle button to the right
+	if (infiniteCheckBox.style.display == 'none'|| infiniteCheckBox.style.display == '') {
+		infiniteCheckBox.style.display = 'block';
+		finiteCheckBox.style.display = 'block';
+		toggleButton.style.transform = 'translateX(40px)'; // Move the toggle button to the right
     } else {
-      checkbox1.style.display = 'none';
-	  checkbox2.style.display = 'none';
-      toggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
+		infiniteCheckBox.style.display = 'none';
+		finiteCheckBox.style.display = 'none';
+		toggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
     }
-  }
+}
 
+// Ensure only one checkbox can be checked at a time
+document.querySelectorAll('.checkbox_label').forEach(function(checkbox) {
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            document.querySelectorAll('.checkbox_label').forEach(function(otherCheckbox) {
+                if (otherCheckbox != checkbox) {
+                    otherCheckbox.checked = false;
+                }
+            });
+        }
+    });
+});

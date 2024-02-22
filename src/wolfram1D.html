@@ -51,20 +51,20 @@
         <button id="submitButton3" class="submit_button"> Enter </button>
       </div>
       <div class="input_container">
+        <label class="toggle_label"> Infinite </label>
         <div class="toggle_bar" onclick="toggleCheckbox()">
           <div class="toggle_button"> </div>
         </div>
+        <label class="toggle_label"> Finite </label>
       </div>
-        <div class="checkbox_container" id="checkbox1">
-          <label>
-            <input type="checkbox" class="checkbox_label"> Check Me!
-          </label>
-        </div>
-        <div class="checkbox_container" id="checkbox2">
-          <label>
-            <input type="checkbox" class="checkbox_label"> No, Check Me!
-          </label>
-        </div>
+      <div class="checkbox_container" id="checkbox1">
+        <input type="checkbox" class="checkbox_select">
+        <label class="checkbox_label"> Periodic </label>
+      </div>
+      <div class="checkbox_container" id="checkbox2">
+        <input type="checkbox" class="checkbox_select">
+        <label class="checkbox_label"> Null </label>
+      </div>
     </div>
     <!-- Display region for the lattices -->
     <center> <canvas id="latticeRegion" width="1800" height="4000"> </canvas> </center>

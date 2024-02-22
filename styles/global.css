@@ -101,17 +101,17 @@ h1 {
   justify-content: center;
   align-items: center;
   max-width: 80%;
-  padding-top: 20px;
+  padding-top: 25px;
   margin: 0 auto;
 } 
 .input_container {
   display: flex;
-  margin-left: 2%;
-  margin-right: 2%;
+  margin-left: 1%;
+  margin-right: 1%;
 }
 .input_label {
   font-size: 18px;
-  padding: 6px 6px;
+  margin: 6px 8px;
 }
 .simulation_input {
   border: 2px solid black;
