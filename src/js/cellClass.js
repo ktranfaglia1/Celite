@@ -29,6 +29,7 @@ class cell {
 
 	insideCell(MouseX, MouseY)
 	{
+		//console.log("Location X:", this.XLocation, "Location Y:", this.YLocation);
 		if ((MouseX >= this.XLocation && MouseX <= this.XLocation + this.width) && (MouseY >= this.YLocation && MouseY <= this.YLocation + this.height))
 		{
 			return true;
