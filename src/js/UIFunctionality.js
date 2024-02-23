@@ -172,6 +172,9 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
                 }
             });
         }
+		else {
+			this.checked = true;
+		}
     });
 });
 
