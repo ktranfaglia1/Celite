@@ -35,16 +35,26 @@ stopButton.addEventListener("click", function()
 
 startButton.addEventListener("click", function()
 {
+	if (Run != 1)
+	{
 	Run = 1;
 	continouslyIterate();
+	}
 })
 
 canvas.addEventListener('click', function(event)
 {
-	var paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
 	var bounds = canvas.getBoundingClientRect();
-	var mouseX = event.clientX - bounds.left - paddingLeft;
-	var mouseY = event.clientY - bounds.top;
+	var cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
+	var cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+	var borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+	var paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+	var paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
+
+	
+	var mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
+	var mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
+	
 	setCells(latticeArray, mouseX, mouseY);	
 });
 

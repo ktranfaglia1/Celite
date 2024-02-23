@@ -8,6 +8,12 @@ var Rule = new Array()
 
 var canvas = document.getElementById("latticeRegion");
 var ctx = canvas.getContext("2d"); // gets the lattice display region
+//this.canvas.width = this.canvas.offsetWidth;
+//this.canvas.height = this.canvas.offsetHeight;
+canvas.width = 1600;
+canvas.height = 1400;
+canvas.style.width = 1600;
+canvas.style.height = 1400;
 
 var numOfIterations = 1;
 var currentIteration = 1;
@@ -29,7 +35,7 @@ can figure out how to toggle them). numOfIterations determines the number of tim
 timestep.
 */
 var Inf = false;
-var LatSize = 10;
+var LatSize = 30;
 
 /*if (Inf)
 {
