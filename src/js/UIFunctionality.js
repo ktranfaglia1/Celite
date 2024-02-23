@@ -144,7 +144,7 @@ function toggleCheckbox() {
 	if (infiniteCheckBox.style.display == 'none'|| infiniteCheckBox.style.display == '') {
 		infiniteCheckBox.style.display = 'block';
 		finiteCheckBox.style.display = 'block';
-		toggleButton.style.transform = 'translateX(40px)'; // Move the toggle button to the right
+		toggleButton.style.transform = 'translateX(25px)'; // Move the toggle button to the right
     } else {
 		infiniteCheckBox.style.display = 'none';
 		finiteCheckBox.style.display = 'none';
