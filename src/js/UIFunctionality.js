@@ -42,15 +42,14 @@ canvas.addEventListener('click', function(event)
 	var bounds = canvas.getBoundingClientRect();
 	var cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
 	var cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+	var borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
 	var paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
 	var paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
 
-	console.log(cssWidth);
 	
-	var mouseX = (event.clientX - bounds.left - paddingLeft) * canvas.width / cssWidth;
-	var mouseY = (event.clientY - bounds.top - paddingTop) * canvas.height / cssHeight;
+	var mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
+	var mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
 	
-	console.log("Mouse X:", mouseX, "Mouse Y", mouseY);
 	setCells(latticeArray, mouseX, mouseY);	
 });
 
