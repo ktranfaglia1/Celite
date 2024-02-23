@@ -66,11 +66,26 @@
         <label class="checkbox_label"> Null </label>
       </div>
     </div>
+    <div class = "timestepZero" id = "canvasLookalike">
+
+    </div>
     <!-- Display region for the lattices -->
     <center> <canvas id="latticeRegion" width="1800" height="4000"> </canvas> </center>
     <script src= "../src/js/generateLattice.js"> </script> <!-- Connect Javascript for calculation -->
     <script src="../src/js/cellClass.js"> </script>
     <script src= "../src/js/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->
     <script src="../src/js/UIFunctionality.js"> </script>
+    <!-- stackoverflow.com/questions/47626005/allow-user-to-add-buttons-to-html-page -->
+    <script>
+      function newbuttons(num) {
+        for (let i = 0; i < num; i++){
+          var div = document.querySelector('.timestepZero')
+          dom = '<input type="button" class="menu" value="">'
+          div.innerHTML += dom;
+        }
+      }
+      var ButtonNum = 50;
+      newbuttons(ButtonNum);
+    </script>
   </body>
 </html>
