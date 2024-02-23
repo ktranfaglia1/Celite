@@ -143,6 +143,7 @@ function iterate(currentIteration, newIterations)
 	if(numOfIterations + newIterations > addIterations)
 	{
 		numOfIterations = addIterations;
+		Run = 0;
 	}
 	else
 	{
