@@ -125,7 +125,7 @@ function setCells(latticeArray, mouseX, mouseY)
 
 }
 
-function iterate(currentIteration ,newIterations)
+function iterate(currentIteration, newIterations)
 {
 	numOfIterations += newIterations;
 	while(latticeArray.length > numOfIterations)
@@ -137,6 +137,9 @@ function iterate(currentIteration ,newIterations)
 }
 
 function toggleCheckbox() {
+
+	var checkboxes = document.querySelectorAll('.checkbox_select');
+    checkboxes[0].checked = true;
 
 	if (infiniteCheckBox.style.display == 'none'|| infiniteCheckBox.style.display == '') {
 		infiniteCheckBox.style.display = 'block';
@@ -154,10 +157,15 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
     checkbox.addEventListener('change', function() {
         if (this.checked) {
             document.querySelectorAll('.checkbox_select').forEach(function(otherCheckbox) {
-                if (otherCheckbox != checkbox) {
+				if (otherCheckbox != checkbox) {
                     otherCheckbox.checked = false;
                 }
             });
         }
     });
+});
+
+document.querySelector('.toggle_bar').addEventListener('click', function() {
+    // Set the first checkbox to be checked when the toggle bar is activated
+    checkboxes[0].checked = true;
 });
