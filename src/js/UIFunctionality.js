@@ -30,8 +30,11 @@ stopButton.addEventListener("click", function()
 
 startButton.addEventListener("click", function()
 {
+	if (Run != 1)
+	{
 	Run = 1;
 	continouslyIterate();
+	}
 })
 
 canvas.addEventListener('click', function(event)
