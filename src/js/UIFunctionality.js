@@ -80,6 +80,7 @@ function continouslyIterate()
 function setRule(Rule)
 {
 	var newRule = parseInt(ruleInputBox.value);
+	Run = 0;
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
 	{
 		Rule = ruleNumToRule(newRule);
@@ -94,6 +95,7 @@ function setRule(Rule)
 function setIterations()
 {
 	var newValue = parseInt(iterationInputBox.value);
+	Run = 0;
 	if(!isNaN(newValue) && newValue >= 0 && newValue <= 1000)
 	{
 		addIterations = newValue;		
@@ -135,13 +137,23 @@ function setCells(latticeArray, mouseX, mouseY)
 
 }
 
+
 function iterate(currentIteration, newIterations)
 {
-	numOfIterations += newIterations;
+	if(numOfIterations + newIterations > addIterations)
+	{
+		numOfIterations = addIterations;
+	}
+	else
+	{
+	{numOfIterations += newIterations}
+	//numOfIterations = newIterations;
+	}
 	while(latticeArray.length > numOfIterations)
 	{
 		latticeArray.pop();
 	}
+
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule, BoundaryCon);
 	return currentIteration;
 }
