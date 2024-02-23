@@ -1,5 +1,5 @@
 body {
-    background-color:rgb(199, 221, 240);
+    background-color: #add8e6;
     margin: 0;
     font-family: Arial, sans-serif;
 }
@@ -13,12 +13,12 @@ hr {
 h1 {
   margin: 0;
   padding: 20px;
-  background-color: rgb(95, 144, 235);
+  background-color: #4682b4;
   font-family: Ariel;
-  font-size: 30px;
+  font-size: 32px;
   font-weight: bold;
   text-align: center;
-  color: black;
+  color: whitesmoke;
 }
 .navbar {
   background-color: black;
@@ -93,25 +93,25 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 80%;
+  max-width: 90%;
   margin: 0 auto;
 }
 .secondary_toolbar {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 80%;
-  padding-top: 20px;
+  max-width: 90%;
+  padding-top: 25px;
   margin: 0 auto;
 } 
 .input_container {
   display: flex;
-  margin-left: 2%;
-  margin-right: 2%;
+  margin-left: 1%;
+  margin-right: 1%;
 }
 .input_label {
-  font-size: 18px;
-  padding: 6px 6px;
+  font-size: 16px;
+  margin: 6px 6px;
 }
 .simulation_input {
   border: 2px solid black;

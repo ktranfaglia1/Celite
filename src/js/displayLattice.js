@@ -8,9 +8,25 @@ var Rule = new Array()
 
 var canvas = document.getElementById("latticeRegion");
 var ctx = canvas.getContext("2d"); // gets the lattice display region
+//this.canvas.width = this.canvas.offsetWidth;
+//this.canvas.height = this.canvas.offsetHeight;
+canvas.width = 1600;
+canvas.height = 1400;
+canvas.style.width = 1600;
+canvas.style.height = 1400;
 
 var numOfIterations = 1;
 var currentIteration = 1;
+
+
+
+var size = 45;
+var XIndent = 1;
+var YIndent = 10;
+var YGap = 12;
+var XGap = 1;
+
+
 /*
 These variables effect the creation of the starting lattice. Inf determines whether the lattice should
 autofit such that given the number of iterations, the simulation never needs to trigger a boundary condition.
@@ -19,7 +35,7 @@ can figure out how to toggle them). numOfIterations determines the number of tim
 timestep.
 */
 var Inf = false;
-var LatSize = 10;
+var LatSize = 30;
 
 /*if (Inf)
 {
@@ -31,7 +47,7 @@ var LatSize = 10;
 */
 for (i = 0; i < LatSize; i++)
 {
-	currentLattice.push(Math.floor(Math.random() * 2))
+	currentLattice.push(new cell (size, size, i * size + i + XIndent, 0, 0))
 }
 /*
 if (Inf)
@@ -60,11 +76,12 @@ if (RuleNum < 0)
 {
 	RuleNum = 0
 }
-console.log(currentLattice);
+
+//console.log(currentLattice);
 latticeArray[0] = currentLattice;
 
 
-console.log("lattice:", latticeArray);
+//console.log("lattice:", latticeArray);
 
 Rule = ruleNumToRule(RuleNum);
 updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule, BoundaryCon);
@@ -75,22 +92,7 @@ ctx.clearRect(0,0, canvas.width, canvas.height);
   {
     for (let i = 0; i < latticeArray[j].length; i++)
     {
-      var size = 45;
-      var XIndent = 1;
-      var YIndent = 10;
-      var YGap = 12;
-      var XGap = 1;
- 
-      ctx.fillStyle = "black";
-
-      ctx.fillRect(XIndent + size * i + i * (XGap + 2) - 1, YIndent + j * (size + YGap) - 1, size + 2, size + 2); //creates an outline on the boxes
-
-      if(latticeArray[j][i] == 0)
-      {
-        ctx.fillStyle = "white";
-      }
-      
-      ctx.fillRect(XIndent + size * i + i * (XGap + 2), YIndent + j * (size + YGap), size, size);
+	(latticeArray[j][i]).drawCell(ctx);
     }
   }
 }
@@ -99,7 +101,7 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
 
   for(; currentIteration < numOfIterations; currentIteration++)
   {
-    nextLattice = generateLattice(currentLattice, Rule, BoundaryCon);
+    nextLattice = generateLattice(currentLattice, Rule, BoundaryCon, currentIteration, size, XIndent, YIndent);
     latticeArray[currentIteration] = nextLattice;
     currentLattice = nextLattice;
   }
