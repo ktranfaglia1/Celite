@@ -38,10 +38,12 @@ canvas.addEventListener('click', function(event)
 {
 	var bounds = canvas.getBoundingClientRect();
 	var paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
-    	var paddingRight = parseFloat(getComputedStyle(canvas).paddingRight);
+//    	var paddingRight = parseFloat(getComputedStyle(canvas).paddingRight);
+	var paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
+
 	
 	var mouseX = (event.clientX - bounds.left - paddingLeft);
-	var mouseY = (event.clientY - bounds.top);
+	var mouseY = (event.clientY - bounds.top - paddingTop);
 	
 	console.log("Mouse X:", mouseX, "Mouse Y", mouseY);
 	setCells(latticeArray, mouseX, mouseY);	
