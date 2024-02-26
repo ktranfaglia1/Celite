@@ -1,8 +1,10 @@
 iterationInputBox = document.getElementById("inputBox1");
 ruleInputBox = document.getElementById("inputBox2");
+latticeSizeBox = document.getElementById("inputBox3");
 
 iterationSubmit = document.getElementById("submitButton1");
 ruleSubmit = document.getElementById("submitButton2");
+latticeSizeSubmit = document.getElementById("submitButton3");
 
 startButton = document.getElementById("primaryButton1");
 stopButton = document.getElementById("primaryButton2");
@@ -28,7 +30,7 @@ clearButton.addEventListener("click", function()
 {clear(latticeArray);});
 
 iterationSubmit.addEventListener("click", function()
-	{setIterations();});
+	{setLatticeSize();});
 
 stopButton.addEventListener("click", function()
 	{Run = 0;});
@@ -63,7 +65,29 @@ ruleSubmit.addEventListener("click", function()
 	setRule(Rule);
 	})
 
-
+latticeSizeSubmit.addEventListener("click", function()
+	{
+	LatSize = setCellNum(LatSize);
+	while ((LatSize * (size - 1)) > canvas.width)
+	{
+		size = size - 1;
+	}
+	if ((LatSize * size) > canvas.width)
+	{
+		size = size - 1;
+	}
+	while (((LatSize * (size + 1)) < canvas.width) && (size < 45))
+	{
+		size = size + 1;
+	}
+	/*
+	if ((LatSize * size) < canvas.width)
+	{
+		size = size + 1;
+	}
+	*/
+	clear(latticeArray);
+	})
 
 function continouslyIterate()
 {
@@ -84,7 +108,6 @@ function setRule(Rule)
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
 	{
 		Rule = ruleNumToRule(newRule);
-		
 	}
 	else
 	{
@@ -92,7 +115,21 @@ function setRule(Rule)
 	}
 }
 
-function setIterations()
+function setCellNum(LatSize)
+{
+	var newCellNum = parseInt(latticeSizeBox.value);
+	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 500)
+	{
+		LatSize = newCellNum;
+	}
+	else
+	{
+		console.log("Not a number")
+	}
+	return LatSize;
+}
+
+function setLatticeSize()
 {
 	var newValue = parseInt(iterationInputBox.value);
 	Run = 0;
@@ -106,19 +143,21 @@ function setIterations()
 	}
 }
 
-
 function clear(latticeArray)
 {
 	numOfIterations = 1;
 	currentIteration = 1;
-	while(latticeArray.length > 1)
-	{
+	var clearedLattice = new Array ( new Array);
+	nextLattice = new Array;
+	StartX = (canvas.width / 2) - (LatSize * size / 2)
+	while (latticeArray.length > 1){
 		latticeArray.pop();
 	}
-	for (var i = 0; i < latticeArray[0].length; i++)
+	for (var i = 0; i < LatSize; i++)
 	{
-		latticeArray[0][i] = (new cell (size, size, i * size + i + XIndent, 0, 0))
+		clearedLattice[0][i] = (new cell (size, size, StartX + i *size, 0, 0));
 	}
+	latticeArray[0] = clearedLattice[0].slice(0);
 	currentLattice = latticeArray[0];
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
 }
