@@ -35,28 +35,20 @@ can figure out how to toggle them). numOfIterations determines the number of tim
 timestep.
 */
 var Inf = false;
-var LatSize = 30;
+var LatSize = 10;
 
-/*if (Inf)
-{
-	for (i = 0; i < (numOfIterations - 1); i++)
+function LatticeDisplay(){
+	var StartDif = (LatSize * size) / 2;
+	var center = canvas.width / 2;
+	var StartX = center - StartDif;
+	
+	for (i = 0; i < LatSize; i++)
 	{
-		currentLattice.push(0)
+		currentLattice.push(new cell (size, size, StartX + i * size, 0, 0))
 	}
 }
-*/
-for (i = 0; i < LatSize; i++)
-{
-	currentLattice.push(new cell (size, size, i * size + i + XIndent, 0, 0))
-}
-/*
-if (Inf)
-{
-	for (i = 0; i < (numOfIterations - 1); i++)
-	{
-		currentLattice.push(0)
-	}
-}*/
+
+LatticeDisplay()
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells

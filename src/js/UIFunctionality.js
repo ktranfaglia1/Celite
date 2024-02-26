@@ -29,7 +29,7 @@ clearButton.addEventListener("click", function()
 {clear(latticeArray);});
 
 iterationSubmit.addEventListener("click", function()
-	{setIterations();});
+	{setLatticeSize();});
 
 stopButton.addEventListener("click", function()
 	{Run = 0;});
@@ -74,10 +74,10 @@ function continouslyIterate()
 function setRule(Rule)
 {
 	var newRule = parseInt(ruleInputBox.value);
+	Run = 0;
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
 	{
 		Rule = ruleNumToRule(newRule);
-		
 	}
 	else
 	{
@@ -85,10 +85,25 @@ function setRule(Rule)
 	}
 }
 
-function setIterations()
+function setCellNum(LatSize)
+{
+	var newCellNum = parseInt(latticeSizeBox.value);
+	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
+	{
+		LatSize = newCellNum;
+	}
+	else
+	{
+		console.log("Not a number")
+	}
+	return LatSize;
+}
+
+function setLatticeSize()
 {
 	var newValue = parseInt(iterationInputBox.value);
-	if(!isNaN(newValue) && newValue >= 0 && newValue <= 1000)
+	Run = 0;
+	if(!isNaN(newValue) && newValue > 0 && newValue <= 1000)
 	{
 		addIterations = newValue;		
 	}
@@ -98,19 +113,21 @@ function setIterations()
 	}
 }
 
-
 function clear(latticeArray)
 {
 	numOfIterations = 1;
 	currentIteration = 1;
-	while(latticeArray.length > 1)
-	{
+	var clearedLattice = new Array ( new Array);
+	nextLattice = new Array;
+	StartX = (canvas.width / 2) - (LatSize * size / 2)
+	while (latticeArray.length > 1){
 		latticeArray.pop();
 	}
-	for (var i = 0; i < latticeArray[0].length; i++)
+	for (var i = 0; i < LatSize; i++)
 	{
-		latticeArray[0][i] = (new cell (size, size, i * size + i + XIndent, 0, 0))
+		clearedLattice[0][i] = (new cell (size, size, StartX + i *size, 0, 0));
 	}
+	latticeArray[0] = clearedLattice[0].slice(0);
 	currentLattice = latticeArray[0];
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
 }
@@ -129,13 +146,24 @@ function setCells(latticeArray, mouseX, mouseY)
 
 }
 
+
 function iterate(currentIteration, newIterations)
 {
-	numOfIterations += newIterations;
+	if(numOfIterations + newIterations > addIterations)
+	{
+		numOfIterations = addIterations;
+		Run = 0;
+	}
+	else
+	{
+	{numOfIterations += newIterations}
+	//numOfIterations = newIterations;
+	}
 	while(latticeArray.length > numOfIterations)
 	{
 		latticeArray.pop();
 	}
+
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule, BoundaryCon);
 	return currentIteration;
 }
