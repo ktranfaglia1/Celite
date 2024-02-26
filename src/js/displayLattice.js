@@ -96,5 +96,4 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
     currentLattice = nextLattice;
   }
 	drawLattice(latticeArray);
-	outputIteration.innerHTML = "Iteration Count:" + currentIteration - 1;
 }
