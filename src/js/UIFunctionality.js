@@ -68,7 +68,7 @@ ruleSubmit.addEventListener("click", function()
 latticeSizeSubmit.addEventListener("click", function()
 	{
 	LatSize = setCellNum(LatSize);
-	while ((LatSize * (size - 1)) > canvas.width)
+	/*while ((LatSize * (size - 1)) > canvas.width)
 	{
 		size = size - 1;
 	}
@@ -79,6 +79,11 @@ latticeSizeSubmit.addEventListener("click", function()
 	while (((LatSize * (size + 1)) < canvas.width) && (size < 45))
 	{
 		size = size + 1;
+	}*/
+	
+	size = canvas.width / LatSize;
+	if (size > 45){
+		size = 45;
 	}
 	/*
 	if ((LatSize * size) < canvas.width)
@@ -118,7 +123,7 @@ function setRule(Rule)
 function setCellNum(LatSize)
 {
 	var newCellNum = parseInt(latticeSizeBox.value);
-	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 500)
+	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
 	{
 		LatSize = newCellNum;
 	}
