@@ -29,18 +29,10 @@ function generateLattice(currentLattice, Rule, BoundaryCon, rowIndex, size, XInd
 		*/
 		for(i = 0; i < currentLattice.length; i++)
 		{
-			var Left = 0;
-			var Right = 0;
-			var Center = 0;
 			newLattice.push(new cell (size, size, StartX + i * size, rowIndex * size, 0))
 			if (i == 0)
 			{
-				if (LatSize = 1){
-					newLattice[i].setColor(Rule[(currentLattice[i].color * 4 + currentLattice[i].color * 2 + currentLattice[i].color)]);
-				}
-				else{
-					newLattice[i].setColor(Rule[(currentLattice[currentLattice.length - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[i + 1].color]);
-				}
+				newLattice[i].setColor(Rule[(currentLattice[currentLattice.length - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[i + 1].color]);
 			}
 			else if (i == (currentLattice.length - 1))
 			{

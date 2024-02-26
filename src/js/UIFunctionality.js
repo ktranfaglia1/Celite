@@ -57,7 +57,33 @@ canvas.addEventListener('click', function(event) {
 });
 
 ruleSubmit.addEventListener("click", function()
-{setRule(Rule);})
+	{
+	setRule(Rule);
+	})
+
+latticeSizeSubmit.addEventListener("click", function()
+	{
+	LatSize = setCellNum(LatSize);
+	while ((LatSize * (size - 1)) > canvas.width)
+	{
+		size = size - 1;
+	}
+	if ((LatSize * size) > canvas.width)
+	{
+		size = size - 1;
+	}
+	while (((LatSize * (size + 1)) < canvas.width) && (size < 45))
+	{
+		size = size + 1;
+	}
+	/*
+	if ((LatSize * size) < canvas.width)
+	{
+		size = size + 1;
+	}
+	*/
+	clear(latticeArray);
+	})
 
 function continouslyIterate()
 {
@@ -87,7 +113,7 @@ function setRule(Rule)
 function setCellNum(LatSize)
 {
 	var newCellNum = parseInt(latticeSizeBox.value);
-	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
+	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 500)
 	{
 		LatSize = newCellNum;
 	}
