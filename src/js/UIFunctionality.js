@@ -1,26 +1,27 @@
-iterationInputBox = document.getElementById("inputBox1");
-ruleInputBox = document.getElementById("inputBox2");
+var iterationInputBox = document.getElementById("inputBox1");
+var ruleInputBox = document.getElementById("inputBox2");
 
-iterationSubmit = document.getElementById("submitButton1");
-ruleSubmit = document.getElementById("submitButton2");
+var iterationSubmit = document.getElementById("submitButton1");
+var ruleSubmit = document.getElementById("submitButton2");
 
-startButton = document.getElementById("primaryButton1");
-stopButton = document.getElementById("primaryButton2");
-iterateButton = document.getElementById("primaryButton3");
-clearButton = document.getElementById("primaryButton4");
-downloadButton = document.getElementById("primaryButton5");
-aboutButton = document.getElementById("primaryButton6");
+var startButton = document.getElementById("primaryButton1");
+var stopButton = document.getElementById("primaryButton2");
+var iterateButton = document.getElementById("primaryButton3");
+var clearButton = document.getElementById("primaryButton4");
+var downloadButton = document.getElementById("primaryButton5");
+var aboutButton = document.getElementById("primaryButton6");
 
 var infiniteCheckBox = document.getElementById('checkbox1');
 var finiteCheckBox = document.getElementById('checkbox2');
 
 var toggleButton = document.querySelector('.toggle_button');
 
-var addIterations = 1; //Defaults iterations to add to 1
-var Run = 0; //Defaults to not keep running
+var outputIteration = document.getElementById("iterationOutput");
 
-iterateButton.addEventListener("click", function()
-{
+var addIterations = 1; // Defaults iterations to add to 1
+var Run = 0; // Defaults to not keep running
+
+iterateButton.addEventListener("click", function() {
 	iterate(currentIteration, addIterations);
 });
 
@@ -33,17 +34,14 @@ iterationSubmit.addEventListener("click", function()
 stopButton.addEventListener("click", function()
 	{Run = 0;});
 
-startButton.addEventListener("click", function()
-{
-	if (Run != 1)
-	{
+startButton.addEventListener("click", function() {
+	if (Run != 1) {
 	Run = 1;
 	continouslyIterate();
 	}
 })
 
-canvas.addEventListener('click', function(event)
-{
+canvas.addEventListener('click', function(event) {
 	var bounds = canvas.getBoundingClientRect();
 	var cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
 	var cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
@@ -59,11 +57,7 @@ canvas.addEventListener('click', function(event)
 });
 
 ruleSubmit.addEventListener("click", function()
-	{
-	setRule(Rule);
-	})
-
-
+{setRule(Rule);})
 
 function continouslyIterate()
 {
@@ -182,3 +176,5 @@ document.querySelector('.toggle_bar').addEventListener('click', function() {
     // Set the first checkbox to be checked when the toggle bar is activated
     checkboxes[0].checked = true;
 });
+
+outputIteration.innerHTML = currentIteration - 1;

@@ -106,4 +106,5 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
     currentLattice = nextLattice;
   }
 	drawLattice(latticeArray);
+	outputIteration.innerHTML = currentIteration - 1;
 }

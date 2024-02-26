@@ -1,9 +1,17 @@
 canvas {
   background-color: lightgrey;
   border: 3px solid black;
-  padding: 1% 2% 2% 2%;
+  padding: 1% 1% 1% 1%;
   max-width: 85%;
-  margin-top: 30px;
+  margin-top: 12px;
+}
+p {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 0;
+  margin: 0;
+  margin-left: 9%;
+  margin-top: 20px;
 }
 .toggle_bar {
   width: 50px;
@@ -28,9 +36,9 @@ canvas {
   margin-top: 10px;
 }
 .checkbox_select {
-  margin-left: 12px;
-  width: 20px;
-  height: 20px;
+  margin-left: 8px;
+  width: 18px;
+  height: 18px;
   vertical-align: middle;
 }
 .checkbox_label {
