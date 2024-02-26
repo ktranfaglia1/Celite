@@ -96,7 +96,7 @@ function setIterations()
 {
 	var newValue = parseInt(iterationInputBox.value);
 	Run = 0;
-	if(!isNaN(newValue) && newValue >= 0 && newValue <= 1000)
+	if(!isNaN(newValue) && newValue > 0 && newValue <= 1000)
 	{
 		addIterations = newValue;		
 	}
