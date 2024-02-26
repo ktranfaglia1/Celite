@@ -1,26 +1,27 @@
-iterationInputBox = document.getElementById("inputBox1");
-ruleInputBox = document.getElementById("inputBox2");
+var iterationInputBox = document.getElementById("inputBox1");
+var ruleInputBox = document.getElementById("inputBox2");
 
-iterationSubmit = document.getElementById("submitButton1");
-ruleSubmit = document.getElementById("submitButton2");
+var iterationSubmit = document.getElementById("submitButton1");
+var ruleSubmit = document.getElementById("submitButton2");
 
-startButton = document.getElementById("primaryButton1");
-stopButton = document.getElementById("primaryButton2");
-iterateButton = document.getElementById("primaryButton3");
-clearButton = document.getElementById("primaryButton4");
-downloadButton = document.getElementById("primaryButton5");
-aboutButton = document.getElementById("primaryButton6");
+var startButton = document.getElementById("primaryButton1");
+var stopButton = document.getElementById("primaryButton2");
+var iterateButton = document.getElementById("primaryButton3");
+var clearButton = document.getElementById("primaryButton4");
+var downloadButton = document.getElementById("primaryButton5");
+var aboutButton = document.getElementById("primaryButton6");
 
 var infiniteCheckBox = document.getElementById('checkbox1');
 var finiteCheckBox = document.getElementById('checkbox2');
 
 var toggleButton = document.querySelector('.toggle_button');
 
-var addIterations = 1; //Defaults iterations to add to 1
-var Run = 0; //Defaults to not keep running
+var outputIteration = document.getElementById("iterationOutput");
 
-iterateButton.addEventListener("click", function()
-{
+var addIterations = 1; // Defaults iterations to add to 1
+var Run = 0; // Defaults to not keep running
+
+iterateButton.addEventListener("click", function() {
 	iterate(currentIteration, addIterations);
 });
 
@@ -28,22 +29,19 @@ clearButton.addEventListener("click", function()
 {clear(latticeArray);});
 
 iterationSubmit.addEventListener("click", function()
-	{setLatticeSize();});
+	{setIterations();});
 
 stopButton.addEventListener("click", function()
 	{Run = 0;});
 
-startButton.addEventListener("click", function()
-{
-	if (Run != 1)
-	{
+startButton.addEventListener("click", function() {
+	if (Run != 1) {
 	Run = 1;
 	continouslyIterate();
 	}
 })
 
-canvas.addEventListener('click', function(event)
-{
+canvas.addEventListener('click', function(event) {
 	var bounds = canvas.getBoundingClientRect();
 	var cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
 	var cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
@@ -59,10 +57,7 @@ canvas.addEventListener('click', function(event)
 });
 
 ruleSubmit.addEventListener("click", function()
-	{
-	setRule(Rule);
-	})
-
+{setRule(Rule);})
 
 function continouslyIterate()
 {
@@ -75,13 +70,14 @@ function continouslyIterate()
 	}
 }
 
+
 function setRule(Rule)
 {
 	var newRule = parseInt(ruleInputBox.value);
-	Run = 0;
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
 	{
 		Rule = ruleNumToRule(newRule);
+		
 	}
 	else
 	{
@@ -89,25 +85,10 @@ function setRule(Rule)
 	}
 }
 
-function setCellNum(LatSize)
-{
-	var newCellNum = parseInt(latticeSizeBox.value);
-	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 500)
-	{
-		LatSize = newCellNum;
-	}
-	else
-	{
-		console.log("Not a number")
-	}
-	return LatSize;
-}
-
-function setLatticeSize()
+function setIterations()
 {
 	var newValue = parseInt(iterationInputBox.value);
-	Run = 0;
-	if(!isNaN(newValue) && newValue > 0 && newValue <= 1000)
+	if(!isNaN(newValue) && newValue >= 0 && newValue <= 1000)
 	{
 		addIterations = newValue;		
 	}
@@ -117,21 +98,19 @@ function setLatticeSize()
 	}
 }
 
+
 function clear(latticeArray)
 {
 	numOfIterations = 1;
 	currentIteration = 1;
-	var clearedLattice = new Array ( new Array);
-	nextLattice = new Array;
-	StartX = (canvas.width / 2) - (LatSize * size / 2)
-	while (latticeArray.length > 1){
+	while(latticeArray.length > 1)
+	{
 		latticeArray.pop();
 	}
-	for (var i = 0; i < LatSize; i++)
+	for (var i = 0; i < latticeArray[0].length; i++)
 	{
-		clearedLattice[0][i] = (new cell (size, size, StartX + i *size, 0, 0));
+		latticeArray[0][i] = (new cell (size, size, i * size + i + XIndent, 0, 0))
 	}
-	latticeArray[0] = clearedLattice[0].slice(0);
 	currentLattice = latticeArray[0];
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
 }
@@ -150,24 +129,13 @@ function setCells(latticeArray, mouseX, mouseY)
 
 }
 
-
 function iterate(currentIteration, newIterations)
 {
-	if(numOfIterations + newIterations > addIterations)
-	{
-		numOfIterations = addIterations;
-		Run = 0;
-	}
-	else
-	{
-	{numOfIterations += newIterations}
-	//numOfIterations = newIterations;
-	}
+	numOfIterations += newIterations;
 	while(latticeArray.length > numOfIterations)
 	{
 		latticeArray.pop();
 	}
-
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule, BoundaryCon);
 	return currentIteration;
 }
@@ -208,3 +176,5 @@ document.querySelector('.toggle_bar').addEventListener('click', function() {
     // Set the first checkbox to be checked when the toggle bar is activated
     checkboxes[0].checked = true;
 });
+
+outputIteration.innerHTML = currentIteration - 1;
