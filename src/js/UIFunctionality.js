@@ -70,7 +70,6 @@ function continouslyIterate()
 	}
 }
 
-
 function setRule(Rule)
 {
 	var newRule = parseInt(ruleInputBox.value);
@@ -205,4 +204,4 @@ document.querySelector('.toggle_bar').addEventListener('click', function() {
     checkboxes[0].checked = true;
 });
 
-outputIteration.innerHTML = currentIteration - 1;
+outputIteration.innerHTML = "Iteration Count:" + currentIteration - 1;

@@ -18,8 +18,6 @@ canvas.style.height = 1400;
 var numOfIterations = 1;
 var currentIteration = 1;
 
-
-
 var size = 45;
 var XIndent = 1;
 var YIndent = 10;
@@ -98,5 +96,5 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
     currentLattice = nextLattice;
   }
 	drawLattice(latticeArray);
-	outputIteration.innerHTML = currentIteration - 1;
+	outputIteration.innerHTML = "Iteration Count:" + currentIteration - 1;
 }

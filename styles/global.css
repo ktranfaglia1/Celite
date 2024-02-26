@@ -93,14 +93,14 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 95%;
+  max-width: 98%;
   margin: 0 auto;
 }
 .secondary_toolbar {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 95%;
+  max-width: 98%;
   padding-top: 25px;
   margin: 0 auto;
 } 
