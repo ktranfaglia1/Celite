@@ -14,17 +14,34 @@ class cell {
 	drawCell(ctx)
 	{
 
+		if(LatSize <= 200)
+		{
+		if(this.color == 1)
+		{
+      		ctx.fillStyle = "grey";
+		}
+		else
+		{
       		ctx.fillStyle = "black";
+		}
 
 		ctx.fillRect(this.XLocation, this.YLocation , this.height, this.width);
-
+		}
 
       		if(this.color == 0)
       		{
       			ctx.fillStyle = "white";
       		}
-
+		else
+		{
+		ctx.fillStyle = "black"
+		}
+		
+		if(LatSize <= 200)
 		ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.height - 2, this.width - 2);
+		else
+		ctx.fillRect(this.XLocation, this.YLocation, this.height, this.width);
+		
 	}
 
 	insideCell(MouseX, MouseY)

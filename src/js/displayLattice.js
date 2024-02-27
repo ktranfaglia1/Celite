@@ -10,15 +10,13 @@ var canvas = document.getElementById("latticeRegion");
 var ctx = canvas.getContext("2d"); // gets the lattice display region
 //this.canvas.width = this.canvas.offsetWidth;
 //this.canvas.height = this.canvas.offsetHeight;
-canvas.width = 1600;
+canvas.width = 1800;
 canvas.height = 1400;
-canvas.style.width = 1600;
+canvas.style.width = 1800;
 canvas.style.height = 1400;
 
 var numOfIterations = 1;
 var currentIteration = 1;
-
-
 
 var size = 45;
 var XIndent = 1;
@@ -35,28 +33,20 @@ can figure out how to toggle them). numOfIterations determines the number of tim
 timestep.
 */
 var Inf = false;
-var LatSize = 30;
+var LatSize = 10;
 
-/*if (Inf)
-{
-	for (i = 0; i < (numOfIterations - 1); i++)
+function LatticeDisplay() {
+	var StartDif = (LatSize * size) / 2;
+	var center = canvas.width / 2;
+	var StartX = center - StartDif;
+	
+	for (i = 0; i < LatSize; i++)
 	{
-		currentLattice.push(0)
+		currentLattice.push(new cell (size, size, StartX + i * size, 0, 0))
 	}
 }
-*/
-for (i = 0; i < LatSize; i++)
-{
-	currentLattice.push(new cell (size, size, i * size + i + XIndent, 0, 0))
-}
-/*
-if (Inf)
-{
-	for (i = 0; i < (numOfIterations - 1); i++)
-	{
-		currentLattice.push(0)
-	}
-}*/
+
+LatticeDisplay()
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
@@ -88,7 +78,7 @@ updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, curren
 
 function drawLattice(latticeArray){
 ctx.clearRect(0,0, canvas.width, canvas.height);
-  for (let j = 0; j < latticeArray.length; j++)
+for (let j = 0; j < latticeArray.length; j++)
   {
     for (let i = 0; i < latticeArray[j].length; i++)
     {
@@ -106,5 +96,5 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
     currentLattice = nextLattice;
   }
 	drawLattice(latticeArray);
-	outputIteration.innerHTML = currentIteration - 1;
+	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
 }

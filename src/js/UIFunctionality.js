@@ -1,8 +1,10 @@
 var iterationInputBox = document.getElementById("inputBox1");
 var ruleInputBox = document.getElementById("inputBox2");
+var latticeSizeBox = document.getElementById("inputBox3");
 
 var iterationSubmit = document.getElementById("submitButton1");
 var ruleSubmit = document.getElementById("submitButton2");
+var latticeSizeSubmit = document.getElementById("submitButton3");
 
 var startButton = document.getElementById("primaryButton1");
 var stopButton = document.getElementById("primaryButton2");
@@ -16,12 +18,18 @@ var finiteCheckBox = document.getElementById('checkbox2');
 
 var toggleButton = document.querySelector('.toggle_button');
 
-var outputIteration = document.getElementById("iterationOutput");
+var outputIteration = document.getElementById("iterationOutput")
+
+// var errorBox = document.getElementById('errorBox');
+// var errorMessage = document.getElementById('errorMessage');
+// var closeButton = document.getElementById('closeButton');
+// var canvas = document.getElementById('latticeRegion');
 
 var addIterations = 1; // Defaults iterations to add to 1
 var Run = 0; // Defaults to not keep running
 
-iterateButton.addEventListener("click", function() {
+iterateButton.addEventListener("click", function()
+{
 	iterate(currentIteration, addIterations);
 });
 
@@ -29,19 +37,22 @@ clearButton.addEventListener("click", function()
 {clear(latticeArray);});
 
 iterationSubmit.addEventListener("click", function()
-	{setIterations();});
+	{setLatticeSize();});
 
 stopButton.addEventListener("click", function()
 	{Run = 0;});
 
-startButton.addEventListener("click", function() {
-	if (Run != 1) {
+startButton.addEventListener("click", function()
+{
+	if (Run != 1)
+	{
 	Run = 1;
 	continouslyIterate();
 	}
 })
 
-canvas.addEventListener('click', function(event) {
+canvas.addEventListener('click', function(event)
+{
 	var bounds = canvas.getBoundingClientRect();
 	var cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
 	var cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
@@ -57,7 +68,38 @@ canvas.addEventListener('click', function(event) {
 });
 
 ruleSubmit.addEventListener("click", function()
-{setRule(Rule);})
+	{
+	setRule(Rule);
+	})
+
+latticeSizeSubmit.addEventListener("click", function()
+	{
+	LatSize = setCellNum(LatSize);
+	/*while ((LatSize * (size - 1)) > canvas.width)
+	{
+		size = size - 1;
+	}
+	if ((LatSize * size) > canvas.width)
+	{
+		size = size - 1;
+	}
+	while (((LatSize * (size + 1)) < canvas.width) && (size < 45))
+	{
+		size = size + 1;
+	}*/
+	
+	size = canvas.width / LatSize;
+	if (size > 45){
+		size = 45;
+	}
+	/*
+	if ((LatSize * size) < canvas.width)
+	{
+		size = size + 1;
+	}
+	*/
+	clear(latticeArray);
+	})
 
 function continouslyIterate()
 {
@@ -74,10 +116,10 @@ function continouslyIterate()
 function setRule(Rule)
 {
 	var newRule = parseInt(ruleInputBox.value);
+	Run = 0;
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
 	{
 		Rule = ruleNumToRule(newRule);
-		
 	}
 	else
 	{
@@ -85,32 +127,50 @@ function setRule(Rule)
 	}
 }
 
-function setIterations()
+function setCellNum(LatSize)
+{
+	var newCellNum = parseInt(latticeSizeBox.value);
+	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
+	{
+		LatSize = newCellNum;
+	}
+	else
+	{
+		console.log("Not a number")
+	}
+	return LatSize;
+}
+
+function setLatticeSize()
 {
 	var newValue = parseInt(iterationInputBox.value);
-	if(!isNaN(newValue) && newValue >= 0 && newValue <= 1000)
+	Run = 0;
+	if(!isNaN(newValue) && newValue > 0 && newValue <= 1000)
 	{
 		addIterations = newValue;		
 	}
 	else
 	{
 		console.log("Not a number");
+		// showError("Invalid Input. Please enter a positive integer less than or equal to 1000.");
 	}
 }
-
 
 function clear(latticeArray)
 {
 	numOfIterations = 1;
 	currentIteration = 1;
-	while(latticeArray.length > 1)
-	{
+	var clearedLattice = new Array ( new Array);
+	nextLattice = new Array;
+	StartX = (canvas.width / 2) - (LatSize * size / 2)
+	while (latticeArray.length > 1){
 		latticeArray.pop();
 	}
-	for (var i = 0; i < latticeArray[0].length; i++)
+	for (var i = 0; i < LatSize; i++)
 	{
-		latticeArray[0][i] = (new cell (size, size, i * size + i + XIndent, 0, 0))
+		clearedLattice[0][i] = (new cell (size, size, StartX + i *size, 0, 0));
 	}
+	latticeArray[0] = clearedLattice[0].slice(0);
 	currentLattice = latticeArray[0];
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
 }
@@ -129,13 +189,24 @@ function setCells(latticeArray, mouseX, mouseY)
 
 }
 
+
 function iterate(currentIteration, newIterations)
 {
-	numOfIterations += newIterations;
+	if(numOfIterations + newIterations > addIterations)
+	{
+		numOfIterations = addIterations;
+		Run = 0;
+	}
+	else
+	{
+	{numOfIterations += newIterations}
+	//numOfIterations = newIterations;
+	}
 	while(latticeArray.length > numOfIterations)
 	{
 		latticeArray.pop();
 	}
+
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule, BoundaryCon);
 	return currentIteration;
 }
@@ -166,9 +237,6 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
                 }
             });
         }
-		else {
-			this.checked = true;
-		}
     });
 });
 
@@ -177,4 +245,18 @@ document.querySelector('.toggle_bar').addEventListener('click', function() {
     checkboxes[0].checked = true;
 });
 
-outputIteration.innerHTML = currentIteration - 1;
+// // Function to show the error box with a given message
+// function showError(message) {
+// 	errorMessage.textContent = message;
+// 	errorBox.style.display = 'block';
+// }
+
+// // Event listener for the close button by hiding the error box
+// closeButton.addEventListener('click', function() {
+// 	errorBox.style.display = 'none';
+// });
+
+outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
+
+// errorBox.style.top = canvas.offsetTop + '100';
+// errorBox.style.left = canvas.offsetLeft + '100';

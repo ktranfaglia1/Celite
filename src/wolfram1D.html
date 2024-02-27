@@ -1,31 +1,35 @@
+<!-- Wolfram's Nearest Neighbor 1D Simulation Page -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">  <!-- Set the character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Define the viewport for responsive design -->
     <title> Discrete Mathematical Systems </title>
-    <link rel="stylesheet" type="text/css" href="../styles/global.css">
-    <link rel="stylesheet" type="text/css" href="../styles/wolfram1D.css">
+    <link rel="stylesheet" type="text/css" href="../styles/global.css">  <!-- Link to global CSS styles -->
+    <link rel="stylesheet" type="text/css" href="../styles/home.css">  <!-- Link to home specific CSS styles -->
   </head>
   <body>
-    <!-- Nav Bar-->
+    <!-- Navigation Bar-->
     <header>
       <div class="navbar">
-        <a href="../src/index.html"> Home </a>
+        <a href="../src/index.html"> Home </a>  <!-- Link to the home page -->
+        <!-- Dropdown menu for simulators -->
         <div class="dropdown">
           <button class="drop_button"> Simulators <i class="fa fa-caret-down"> </i> </button>
+          <!-- Dropdown items -->
           <div class="dropdown_item">
-            <a href="../src/wolfram1D.html"> 1D Nearest Neighbor </a>
-            <a href="../src/wolfram2D.html"> 2D Nearest Neighbor </a>
-            <a href="../src/conway.html"> Game of Life </a>
+            <a href="../src/wolfram1D.html"> 1D Nearest Neighbor </a>  <!-- Link to Wolfram's Nearest Neighbor 1D Simulation Page -->
+            <a href="../src/wolfram2D.html"> 2D Nearest Neighbor </a>  <!-- Link to Wolfram's Nearest Neighbor 2D Simulation Page -->
+            <a href="../src/conway.html"> Game of Life </a>  <!-- Link to Conway's Game of Life Simulation Page -->
           </div>
         </div>
-        <a href="../src/documentation.html"> Documentation </a>
-        <a href="../src/index.html"> Source </a>
-        <a href="../src/about.html"> About </a>
+        <a href="../src/documentation.html"> Documentation </a>  <!-- Link to the documentation page -->
+        <a href="../src/index.html"> Source </a>  <!-- Link to the source code page -->
+        <a href="../src/about.html"> About </a>  <!-- Link to the about page -->
       </div>
     </header>
     <h1> Wolfram's Nearest Neighbor 1D </h1> <hr>
+    <!-- Primary tool bar containing main buttons for simulation -->
     <div class="primary_toolbar">
       <button id="primaryButton1" class="simulation_button"> Start </button>
       <button id="primaryButton2" class="simulation_button"> Stop </button>
@@ -34,45 +38,56 @@
       <button id="primaryButton5" class="simulation_button"> Download </button>
       <button id="primaryButton6" class="simulation_button"> About </button>
     </div>
+    <!-- Secondary tool bar containing input boxes and options to manipulate the simulation -->
     <div class="secondary_toolbar">
+      <!-- Container for iteration input box -->
       <div class="input_container">
         <label for="inputBox1" class="input_label"> Iterations:</label>
         <input type="text" id="inputBox1" class="simulation_input" placeholder="Enter # of iterations...">
         <button id="submitButton1" class="submit_button"> Enter </button>
       </div>
+      <!-- Container for rule input box -->
       <div class="input_container">
         <label for="inputBox2" class="input_label"> Rule: </label>
         <input type="text" id="inputBox2" class="simulation_input" placeholder="Enter rule # (0-255)...">
         <button id="submitButton2" class="submit_button"> Enter </button>
       </div>
+      <!-- Container for lattice size input box -->
       <div class="input_container">
         <label for="inputBox3" class="input_label"> Lattice Size: </label>
-        <input type="text" id="inputBox2" class="simulation_input" placeholder="Enter a lattice size...">
+        <input type="text" id="inputBox3" class="simulation_input" placeholder="Enter lattice size...">
         <button id="submitButton3" class="submit_button"> Enter </button>
       </div>
+      <!-- Container for finite/infinite toggle bar -->
       <div class="input_container">
+        <!-- Create Toggle bar and use Javascript function to handle click -->
         <label class="toggle_label"> Infinite </label>
         <div class="toggle_bar" onclick="toggleCheckbox()">
           <div class="toggle_button"> </div>
         </div>
         <label class="toggle_label"> Finite </label>
       </div>
+      <!-- Create periodic checkbox -->
       <div class="checkbox_container" id="checkbox1">
         <input type="checkbox" class="checkbox_select">
         <label class="checkbox_label"> Periodic </label>
       </div>
+      <!-- Create null checkbox -->
       <div class="checkbox_container" id="checkbox2">
         <input type="checkbox" class="checkbox_select">
         <label class="checkbox_label"> Null </label>
       </div>
     </div>
-    <p> Iteration Count: </p>
-    <div id="iterationOutput"></div>
-    <!-- Display region for the lattices -->
-    <center> <canvas id="latticeRegion" width="1800" height="4000"> </canvas> </center>
-    <script src= "../src/js/generateLattice.js"> </script> <!-- Connect Javascript for calculation -->
-    <script src="../src/js/cellClass.js"> </script>
-    <script src= "../src/js/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->
-    <script src="../src/js/UIFunctionality.js"> </script>
+    <div id="iterationOutput" class="iteration_output"></div>  <!-- Output region for iteration count -->
+    <!-- Error box 
+    <div id="errorBox" class="error_box">
+      <span id="errorMessage"> Error message </span>
+      <button id="closeButton"> Close </button>
+    </div>-->
+    <center> <canvas id="latticeRegion"> </canvas> </center>  <!-- Display region for the lattices -->
+    <script src= "../src/js/generateLattice.js"> </script>  <!-- Connect Javascript for lattice calculation -->
+    <script src="../src/js/cellClass.js"> </script>  <!-- Connect Javascript for cell creation -->
+    <script src= "../src/js/displayLattice.js"> </script>  <!-- Connect Javascript for lattice display -->
+    <script src="../src/js/UIFunctionality.js"> </script>  <!-- Connect Javascript for user interface -->
   </body>
 </html>

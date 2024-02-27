@@ -1,3 +1,5 @@
+/* Global styles page linked to entire website */
+/* General formatting */
 body {
   background-color: #add8e6;
   margin: 0;
@@ -20,6 +22,7 @@ font-weight: bold;
 text-align: center;
 color: whitesmoke;
 }
+/* Navigation formatting */
 .navbar {
 background-color: black;
 overflow: hidden;
@@ -36,6 +39,7 @@ text-decoration: none;
 background-color: lightgray;
 color: black;
 }
+/* Simulation dropdown and button formatting in navigation bar */
 .dropdown {
 float: left;
 overflow: hidden;
@@ -72,6 +76,7 @@ background-color: #ddd;
 .dropdown:hover .dropdown_item {
 display: block;
 }
+/* Large button formatting: used for primary tool bar */
 .simulation_button {
 background-color: #8a2be2;
 color: white;
@@ -89,6 +94,7 @@ margin-right: 2%;
 cursor: pointer;
 background-color: #9370DB;
 }
+/* Primary tool bar formatting */
 .primary_toolbar {
 display: flex;
 justify-content: center;
@@ -96,6 +102,7 @@ align-items: center;
 max-width: 98%;
 margin: 0 auto;
 }
+/* Secondary tool bar formatting */
 .secondary_toolbar {
 display: flex;
 justify-content: center;
@@ -104,11 +111,13 @@ max-width: 98%;
 padding-top: 25px;
 margin: 0 auto;
 } 
+/* Container for store multiple elements on the same row: used for secondary tool bar */
 .input_container {
 display: flex;
 margin-left: 1%;
 margin-right: 1%;
 }
+/* input (submit) button, input box, and input label formatting */
 .input_label {
 font-size: 16px;
 margin: 6px 6px;
@@ -130,3 +139,16 @@ text-decoration: none;
 cursor: pointer;
 background-color: #8a2be2;
 }
+/* Error box formatting 
+.error_box {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffcccc;
+  padding: 20px;
+  border: 1px solid #ff0000;
+  border-radius: 5px;
+}
+*/
