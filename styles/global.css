@@ -1,131 +1,141 @@
+/* Global styles page linked to entire website */
+/* General formatting */
 body {
-    background-color: #add8e6;
-    margin: 0;
-    font-family: Arial, sans-serif;
+  background-color: #add8e6;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 hr {
-  margin: 0;
-  border: none;
-  background-color: black;
-  height: 2px;
-  margin-bottom: 30px;
+margin: 0;
+border: none;
+background-color: black;
+height: 2px;
+margin-bottom: 30px;
 }
 h1 {
-  margin: 0;
-  padding: 20px;
-  background-color: #4682b4;
-  font-family: Ariel;
-  font-size: 32px;
-  font-weight: bold;
-  text-align: center;
-  color: whitesmoke;
+margin: 0;
+padding: 20px;
+background-color: #4682b4;
+font-family: Ariel;
+font-size: 32px;
+font-weight: bold;
+text-align: center;
+color: whitesmoke;
 }
+/* Navigation formatting */
 .navbar {
-  background-color: black;
-  overflow: hidden;
+background-color: black;
+overflow: hidden;
 }
 .navbar a {
-  float: left;
-  display: block;
-  color: whitesmoke;
-  text-align: center;
-  padding: 20px 24px;
-  text-decoration: none;
+float: left;
+display: block;
+color: whitesmoke;
+text-align: center;
+padding: 20px 24px;
+text-decoration: none;
 }
 .navbar a:hover {
-  background-color: lightgray;
-  color: black;
+background-color: lightgray;
+color: black;
 }
+/* Simulation dropdown and button formatting in navigation bar */
 .dropdown {
-  float: left;
-  overflow: hidden;
+float: left;
+overflow: hidden;
 }
 .drop_button {
-  font-size: 16px;  
-  border: none;
-  outline: none;
-  color: whitesmoke;
-  padding: 20px 24px;
-  background-color: inherit;
-  font-family: inherit;
-  margin: 0;
+font-size: 16px;  
+border: none;
+outline: none;
+color: whitesmoke;
+padding: 20px 24px;
+background-color: inherit;
+font-family: inherit;
+margin: 0;
 }
 .dropdown_item {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 125px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+display: none;
+position: absolute;
+background-color: #f9f9f9;
+min-width: 125px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 1;
 }
 .dropdown_item a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
+float: none;
+color: black;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+text-align: left;
 }
 .dropdown_item a:hover {
-  background-color: #ddd;
+background-color: #ddd;
 }
 .dropdown:hover .dropdown_item {
-  display: block;
+display: block;
 }
+/* Large button formatting: used for primary tool bar */
 .simulation_button {
-  background-color: #8a2be2;
-  color: white;
-  padding: 18px 36px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border: none;
-  border-radius: 20px;
-  margin-left: 2%;
-  margin-right: 2%;
+background-color: #8a2be2;
+color: white;
+padding: 18px 36px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+border: none;
+border-radius: 20px;
+margin-left: 2%;
+margin-right: 2%;
 }
 .simulation_button:hover {
-  cursor: pointer;
-  background-color: #9370DB;
+cursor: pointer;
+background-color: #9370DB;
 }
+/* Primary tool bar formatting */
 .primary_toolbar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 90%;
-  margin: 0 auto;
+display: flex;
+justify-content: center;
+align-items: center;
+max-width: 98%;
+margin: 0 auto;
 }
+/* Secondary tool bar formatting */
 .secondary_toolbar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 90%;
-  padding-top: 25px;
-  margin: 0 auto;
+display: flex;
+justify-content: center;
+align-items: center;
+max-width: 98%;
+padding-top: 25px;
+margin: 0 auto;
 } 
+/* Container for store multiple elements on the same row: used for secondary tool bar */
 .input_container {
-  display: flex;
-  margin-left: 1%;
-  margin-right: 1%;
+display: flex;
+margin-left: 1%;
+margin-right: 1%;
 }
+/* input (submit) button, input box, and input label formatting */
 .input_label {
-  font-size: 16px;
-  margin: 6px 6px;
+font-size: 16px;
+margin: 6px 6px;
 }
 .simulation_input {
-  border: 2px solid black;
+border: 2px solid black;
+width: 135px;
 }
 .submit_button {
-  padding: 6px 12px;
-  border: 2px solid #8a2be2;
-  background-color: #9370DB;
-  color: whitesmoke;
-  font-size: 14px;
-  text-align: center;
-  text-decoration: none;
+padding: 6px 12px;
+border: 2px solid #8a2be2;
+background-color: #9370DB;
+color: whitesmoke;
+font-size: 14px;
+text-align: center;
+text-decoration: none;
 }
 .submit_button:hover {
-  cursor: pointer;
-  background-color: #8a2be2;
+cursor: pointer;
+background-color: #8a2be2;
 }
