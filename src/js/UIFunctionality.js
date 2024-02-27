@@ -1,27 +1,27 @@
-var iterationInputBox = document.getElementById("inputBox1");
-var ruleInputBox = document.getElementById("inputBox2");
-var latticeSizeBox = document.getElementById("inputBox3");
+let iterationInputBox = document.getElementById("inputBox1");
+let ruleInputBox = document.getElementById("inputBox2");
+let latticeSizeBox = document.getElementById("inputBox3");
 
-var iterationSubmit = document.getElementById("submitButton1");
-var ruleSubmit = document.getElementById("submitButton2");
-var latticeSizeSubmit = document.getElementById("submitButton3");
+let iterationSubmit = document.getElementById("submitButton1");
+let ruleSubmit = document.getElementById("submitButton2");
+let latticeSizeSubmit = document.getElementById("submitButton3");
 
-var startButton = document.getElementById("primaryButton1");
-var stopButton = document.getElementById("primaryButton2");
-var iterateButton = document.getElementById("primaryButton3");
-var clearButton = document.getElementById("primaryButton4");
-var downloadButton = document.getElementById("primaryButton5");
-var aboutButton = document.getElementById("primaryButton6");
+let startButton = document.getElementById("primaryButton1");
+let stopButton = document.getElementById("primaryButton2");
+let iterateButton = document.getElementById("primaryButton3");
+let clearButton = document.getElementById("primaryButton4");
+let downloadButton = document.getElementById("primaryButton5");
+let aboutButton = document.getElementById("primaryButton6");
 
-var infiniteCheckBox = document.getElementById('checkbox1');
-var finiteCheckBox = document.getElementById('checkbox2');
+let infiniteCheckBox = document.getElementById('checkbox1');
+let finiteCheckBox = document.getElementById('checkbox2');
 
-var toggleButton = document.querySelector('.toggle_button');
+let toggleButton = document.querySelector('.toggle_button');
 
 var outputIteration = document.getElementById("iterationOutput")
 
-var addIterations = 1; // Defaults iterations to add to 1
-var Run = 0; // Defaults to not keep running
+let addIterations = 1; // Defaults iterations to add to 1
+let Run = 0; // Defaults to not keep running
 
 iterateButton.addEventListener("click", function()
 {
@@ -48,16 +48,15 @@ startButton.addEventListener("click", function()
 
 canvas.addEventListener('click', function(event)
 {
-	var bounds = canvas.getBoundingClientRect();
-	var cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
-	var cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
-	var borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
-	var paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
-	var paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
-
+	let bounds = canvas.getBoundingClientRect();
+	let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
+	let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+	let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+	let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+	let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
 	
-	var mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
-	var mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
+	let mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
+	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
 	
 	setCells(latticeArray, mouseX, mouseY);	
 });
@@ -70,29 +69,10 @@ ruleSubmit.addEventListener("click", function()
 latticeSizeSubmit.addEventListener("click", function()
 	{
 	LatSize = setCellNum(LatSize);
-	/*while ((LatSize * (size - 1)) > canvas.width)
-	{
-		size = size - 1;
-	}
-	if ((LatSize * size) > canvas.width)
-	{
-		size = size - 1;
-	}
-	while (((LatSize * (size + 1)) < canvas.width) && (size < 45))
-	{
-		size = size + 1;
-	}*/
-	
 	size = canvas.width / LatSize;
 	if (size > 45){
 		size = 45;
 	}
-	/*
-	if ((LatSize * size) < canvas.width)
-	{
-		size = size + 1;
-	}
-	*/
 	clear(latticeArray);
 	})
 
@@ -110,7 +90,7 @@ function continouslyIterate()
 
 function setRule(Rule)
 {
-	var newRule = parseInt(ruleInputBox.value);
+	let newRule = parseInt(ruleInputBox.value);
 	Run = 0;
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
 	{
@@ -124,7 +104,7 @@ function setRule(Rule)
 
 function setCellNum(LatSize)
 {
-	var newCellNum = parseInt(latticeSizeBox.value);
+	let newCellNum = parseInt(latticeSizeBox.value);
 	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
 	{
 		LatSize = newCellNum;
@@ -138,7 +118,7 @@ function setCellNum(LatSize)
 
 function setLatticeSize()
 {
-	var newValue = parseInt(iterationInputBox.value);
+	let newValue = parseInt(iterationInputBox.value);
 	Run = 0;
 	if(!isNaN(newValue) && newValue > 0 && newValue <= 10000)
 	{
@@ -154,7 +134,7 @@ function clear(latticeArray)
 {
 	numOfIterations = 1;
 	currentIteration = 1;
-	var clearedLattice = new Array ( new Array);
+	let clearedLattice = new Array ( new Array);
 	nextLattice = new Array;
 	StartX = (canvas.width / 2) - (LatSize * size / 2)
 	while (latticeArray.length > 1){
@@ -172,7 +152,7 @@ function clear(latticeArray)
 function setCells(latticeArray, mouseX, mouseY)
 {
 
-	for (var i = 0 ; i < latticeArray[0].length; i++)
+	for (let i = 0 ; i < latticeArray[0].length; i++)
 	{
 		if(latticeArray[0][i].insideCell(mouseX, mouseY))
 		{
@@ -194,7 +174,6 @@ function iterate(currentIteration, newIterations)
 	else
 	{
 	{numOfIterations += newIterations}
-	//numOfIterations = newIterations;
 	}
 	while(latticeArray.length > numOfIterations)
 	{
@@ -208,7 +187,7 @@ function iterate(currentIteration, newIterations)
 // Handle when toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
 function toggleCheckbox() {
 	// Set the first checkbox to be checked upon toggle button activation
-	var checkboxes = document.querySelectorAll('.checkbox_select');
+	let checkboxes = document.querySelectorAll('.checkbox_select');
     checkboxes[0].checked = true;
 	// If checkboxes are currently hidden (toggle bar was not active) display the checkboxes and animate toggle button
 	if (infiniteCheckBox.style.display == 'none'|| infiniteCheckBox.style.display == '') {
@@ -249,21 +228,21 @@ document.querySelector('.toggle_bar').addEventListener('click', function() {
 
 // capture canvas as a PDF upon clickling the 'Download" button
 downloadButton.addEventListener('click', function () {
-	var randNum = Math.floor(Math.random() * 99) + 1;  // Get random number for "unique" pdf save names 
-	var imgData = canvas.toDataURL("image/png");  // Get the image data from the canvas
-	var pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);  // Create a new PDF document with the canvas dimensions as page size
+	let randNum = Math.floor(Math.random() * 99) + 1;  // Get random number for "unique" pdf save names 
+	let imgData = canvas.toDataURL("image/png");  // Get the image data from the canvas
+	let pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);  // Create a new PDF document with the canvas dimensions as page size
 
 	// Calculate the aspect ratio of the canvas content
-	var canvasAspectRatio = canvas.width / canvas.height;
+	let canvasAspectRatio = canvas.width / canvas.height;
 
 	// Calculate the aspect ratio of the PDF page
-	var pdfWidth = pdf.internal.pageSize.getWidth();
-	var pdfHeight = pdf.internal.pageSize.getHeight();
-	var pdfAspectRatio = pdfWidth / pdfHeight;
+	let pdfWidth = pdf.internal.pageSize.getWidth();
+	let pdfHeight = pdf.internal.pageSize.getHeight();
+	let pdfAspectRatio = pdfWidth / pdfHeight;
 
 	// Default image dimensions with assumption that the canvas is taller than PDF page
-	var imgWidth = pdfHeight * canvasAspectRatio;
-	var imgHeight = pdfHeight;
+	let imgWidth = pdfHeight * canvasAspectRatio;
+	let imgHeight = pdfHeight;
 
 	// Change size of the image in the PDF using the aspect ratios if canvas is wider than PDF page
 	if (canvasAspectRatio > pdfAspectRatio) {
@@ -272,8 +251,8 @@ downloadButton.addEventListener('click', function () {
 	} 
  
 	// Add the image to the PDF document and center it on the page
-	var offsetX = (pdfWidth - imgWidth) / 2;
-	var offsetY = (pdfHeight - imgHeight) / 2;
+	let offsetX = (pdfWidth - imgWidth) / 2;
+	let offsetY = (pdfHeight - imgHeight) / 2;
 	pdf.addImage(imgData, 'PNG', offsetX, offsetY, imgWidth, imgHeight);
 
 	pdf.save("Wolfram1DCanvas" + randNum + ".pdf");  // Save the PDF

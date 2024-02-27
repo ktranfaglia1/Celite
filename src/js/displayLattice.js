@@ -1,6 +1,3 @@
-//import { generateLattice } from './generateLattice.js'
-//import { ruleNumToRule } from '.generateLattice.js'
-
 var latticeArray = new Array ( new Array);
 var currentLattice = new Array()
 var nextLattice = new Array()
@@ -9,10 +6,6 @@ var Rule = new Array()
 var canvas = document.getElementById("latticeRegion");
 var ctx = canvas.getContext("2d"); // gets the lattice display region
 var outputIteration = document.getElementById("iterationOutput")
-//this.canvas.width = this.canvas.offsetWidth;
-//this.canvas.height = this.canvas.offsetHeight;
-//canvas.style.width = 1800;
-//canvas.style.height = 1400;
 
 var numOfIterations = 1;
 var currentIteration = 1;
@@ -23,12 +16,8 @@ var YIndent = 10;
 var YGap = 12;
 var XGap = 1;
 
-
-
 canvas.width = 1400;
 canvas.height = 400;
-
-//canvas.height = (latticeArray.length * size + 10 + YIndent) + 'px';
 
 /*
 These variables effect the creation of the starting lattice. Inf determines whether the lattice should
@@ -50,7 +39,6 @@ function LatticeDisplay() {
 		currentLattice.push(new cell (size, size, StartX + i * size, 0, 0))
 	}
 }
-
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
