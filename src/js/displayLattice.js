@@ -10,15 +10,11 @@ var canvas = document.getElementById("latticeRegion");
 var ctx = canvas.getContext("2d"); // gets the lattice display region
 //this.canvas.width = this.canvas.offsetWidth;
 //this.canvas.height = this.canvas.offsetHeight;
-canvas.width = 1600;
-canvas.height = 1400;
-canvas.style.width = 1600;
-canvas.style.height = 1400;
+//canvas.style.width = 1800;
+//canvas.style.height = 1400;
 
 var numOfIterations = 1;
 var currentIteration = 1;
-
-
 
 var size = 45;
 var XIndent = 1;
@@ -26,6 +22,12 @@ var YIndent = 10;
 var YGap = 12;
 var XGap = 1;
 
+
+
+canvas.width = 1400;
+canvas.height = 1500;
+
+//canvas.height = (latticeArray.length * size + 10 + YIndent) + 'px';
 
 /*
 These variables effect the creation of the starting lattice. Inf determines whether the lattice should
@@ -37,7 +39,7 @@ timestep.
 var Inf = false;
 var LatSize = 10;
 
-function LatticeDisplay(){
+function LatticeDisplay() {
 	var StartDif = (LatSize * size) / 2;
 	var center = canvas.width / 2;
 	var StartX = center - StartDif;
@@ -48,7 +50,6 @@ function LatticeDisplay(){
 	}
 }
 
-LatticeDisplay()
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
@@ -73,14 +74,24 @@ if (RuleNum < 0)
 latticeArray[0] = currentLattice;
 
 
+LatticeDisplay()
 //console.log("lattice:", latticeArray);
 
 Rule = ruleNumToRule(RuleNum);
 updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule, BoundaryCon);
 
 function drawLattice(latticeArray){
+//canvas.style.height = (latticeArray.length * size + 10) + 'px';
+
+var computedStyle = window.getComputedStyle(canvas);
+canvas.height = (latticeArray.length * size + YIndent);
+canvas.style.height = (latticeArray.length * size + YIndent) + 'px';
+//canvas.height = 1500;
+
+console.log(latticeArray);
+
 ctx.clearRect(0,0, canvas.width, canvas.height);
-  for (let j = 0; j < latticeArray.length; j++)
+for (let j = 0; j < latticeArray.length; j++)
   {
     for (let i = 0; i < latticeArray[j].length; i++)
     {
@@ -98,4 +109,5 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
     currentLattice = nextLattice;
   }
 	drawLattice(latticeArray);
+	//outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
 }
