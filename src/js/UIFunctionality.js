@@ -1,25 +1,27 @@
-iterationInputBox = document.getElementById("inputBox1");
-ruleInputBox = document.getElementById("inputBox2");
-latticeSizeBox = document.getElementById("inputBox3");
+var iterationInputBox = document.getElementById("inputBox1");
+var ruleInputBox = document.getElementById("inputBox2");
+var latticeSizeBox = document.getElementById("inputBox3");
 
-iterationSubmit = document.getElementById("submitButton1");
-ruleSubmit = document.getElementById("submitButton2");
-latticeSizeSubmit = document.getElementById("submitButton3");
+var iterationSubmit = document.getElementById("submitButton1");
+var ruleSubmit = document.getElementById("submitButton2");
+var latticeSizeSubmit = document.getElementById("submitButton3");
 
-startButton = document.getElementById("primaryButton1");
-stopButton = document.getElementById("primaryButton2");
-iterateButton = document.getElementById("primaryButton3");
-clearButton = document.getElementById("primaryButton4");
-downloadButton = document.getElementById("primaryButton5");
-aboutButton = document.getElementById("primaryButton6");
+var startButton = document.getElementById("primaryButton1");
+var stopButton = document.getElementById("primaryButton2");
+var iterateButton = document.getElementById("primaryButton3");
+var clearButton = document.getElementById("primaryButton4");
+var downloadButton = document.getElementById("primaryButton5");
+var aboutButton = document.getElementById("primaryButton6");
 
 var infiniteCheckBox = document.getElementById('checkbox1');
 var finiteCheckBox = document.getElementById('checkbox2');
 
 var toggleButton = document.querySelector('.toggle_button');
 
-var addIterations = 1; //Defaults iterations to add to 1
-var Run = 0; //Defaults to not keep running
+var outputIteration = document.getElementById("iterationOutput")
+
+var addIterations = 1; // Defaults iterations to add to 1
+var Run = 0; // Defaults to not keep running
 
 iterateButton.addEventListener("click", function()
 {
@@ -68,7 +70,7 @@ ruleSubmit.addEventListener("click", function()
 latticeSizeSubmit.addEventListener("click", function()
 	{
 	LatSize = setCellNum(LatSize);
-	while ((LatSize * (size - 1)) > canvas.width)
+	/*while ((LatSize * (size - 1)) > canvas.width)
 	{
 		size = size - 1;
 	}
@@ -79,6 +81,11 @@ latticeSizeSubmit.addEventListener("click", function()
 	while (((LatSize * (size + 1)) < canvas.width) && (size < 45))
 	{
 		size = size + 1;
+	}*/
+	
+	size = canvas.width / LatSize;
+	if (size > 45){
+		size = 45;
 	}
 	/*
 	if ((LatSize * size) < canvas.width)
@@ -104,6 +111,7 @@ function continouslyIterate()
 function setRule(Rule)
 {
 	var newRule = parseInt(ruleInputBox.value);
+	Run = 0;
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
 	{
 		Rule = ruleNumToRule(newRule);
@@ -117,7 +125,7 @@ function setRule(Rule)
 function setCellNum(LatSize)
 {
 	var newCellNum = parseInt(latticeSizeBox.value);
-	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 500)
+	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
 	{
 		LatSize = newCellNum;
 	}
@@ -131,7 +139,8 @@ function setCellNum(LatSize)
 function setLatticeSize()
 {
 	var newValue = parseInt(iterationInputBox.value);
-	if(!isNaN(newValue) && newValue >= 0 && newValue <= 1000)
+	Run = 0;
+	if(!isNaN(newValue) && newValue > 0 && newValue <= 1000)
 	{
 		addIterations = newValue;		
 	}
@@ -174,13 +183,24 @@ function setCells(latticeArray, mouseX, mouseY)
 
 }
 
+
 function iterate(currentIteration, newIterations)
 {
-	numOfIterations += newIterations;
+	if(numOfIterations + newIterations > addIterations)
+	{
+		numOfIterations = addIterations;
+		Run = 0;
+	}
+	else
+	{
+	{numOfIterations += newIterations}
+	//numOfIterations = newIterations;
+	}
 	while(latticeArray.length > numOfIterations)
 	{
 		latticeArray.pop();
 	}
+
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule, BoundaryCon);
 	return currentIteration;
 }
@@ -218,3 +238,5 @@ document.querySelector('.toggle_bar').addEventListener('click', function() {
     // Set the first checkbox to be checked when the toggle bar is activated
     checkboxes[0].checked = true;
 });
+
+outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
