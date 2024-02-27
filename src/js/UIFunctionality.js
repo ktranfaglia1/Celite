@@ -20,11 +20,6 @@ var toggleButton = document.querySelector('.toggle_button');
 
 var outputIteration = document.getElementById("iterationOutput")
 
-// var errorBox = document.getElementById('errorBox');
-// var errorMessage = document.getElementById('errorMessage');
-// var closeButton = document.getElementById('closeButton');
-// var canvas = document.getElementById('latticeRegion');
-
 var addIterations = 1; // Defaults iterations to add to 1
 var Run = 0; // Defaults to not keep running
 
@@ -152,7 +147,6 @@ function setLatticeSize()
 	else
 	{
 		console.log("Not a number");
-		// showError("Invalid Input. Please enter a positive integer less than or equal to 1000.");
 	}
 }
 
@@ -245,18 +239,4 @@ document.querySelector('.toggle_bar').addEventListener('click', function() {
     checkboxes[0].checked = true;
 });
 
-// // Function to show the error box with a given message
-// function showError(message) {
-// 	errorMessage.textContent = message;
-// 	errorBox.style.display = 'block';
-// }
-
-// // Event listener for the close button by hiding the error box
-// closeButton.addEventListener('click', function() {
-// 	errorBox.style.display = 'none';
-// });
-
 outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
-
-// errorBox.style.top = canvas.offsetTop + '100';
-// errorBox.style.left = canvas.offsetLeft + '100';

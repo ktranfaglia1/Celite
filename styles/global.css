@@ -139,16 +139,3 @@ text-decoration: none;
 cursor: pointer;
 background-color: #8a2be2;
 }
-/* Error box formatting 
-.error_box {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #ffcccc;
-  padding: 20px;
-  border: 1px solid #ff0000;
-  border-radius: 5px;
-}
-*/
