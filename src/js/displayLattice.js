@@ -8,6 +8,7 @@ var Rule = new Array()
 
 var canvas = document.getElementById("latticeRegion");
 var ctx = canvas.getContext("2d"); // gets the lattice display region
+var outputIteration = document.getElementById("iterationOutput")
 //this.canvas.width = this.canvas.offsetWidth;
 //this.canvas.height = this.canvas.offsetHeight;
 //canvas.style.width = 1800;
@@ -25,7 +26,7 @@ var XGap = 1;
 
 
 canvas.width = 1400;
-canvas.height = 350;
+canvas.height = 400;
 
 //canvas.height = (latticeArray.length * size + 10 + YIndent) + 'px';
 
@@ -109,5 +110,5 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
     currentLattice = nextLattice;
   }
 	drawLattice(latticeArray);
-	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
+	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();  // Display iteration count to HTML page upon update
 }
