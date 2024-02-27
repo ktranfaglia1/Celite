@@ -140,7 +140,7 @@ function clear(latticeArray)
 	while (latticeArray.length > 1){
 		latticeArray.pop();
 	}
-	for (var i = 0; i < LatSize; i++)
+	for (let i = 0; i < LatSize; i++)
 	{
 		clearedLattice[0][i] = (new cell (size, size, StartX + i *size, 0, 0));
 	}
@@ -186,9 +186,10 @@ function iterate(currentIteration, newIterations)
 
 // Handle when toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
 function toggleCheckbox() {
-	// Set the first checkbox to be checked upon toggle button activation
+	// Set the first checkbox (not second checkbox) to be checked upon toggle button activation
 	let checkboxes = document.querySelectorAll('.checkbox_select');
     checkboxes[0].checked = true;
+	checkboxes[1].checked = false;
 	// If checkboxes are currently hidden (toggle bar was not active) display the checkboxes and animate toggle button
 	if (infiniteCheckBox.style.display == 'none'|| infiniteCheckBox.style.display == '') {
 		infiniteCheckBox.style.display = 'block';
@@ -221,12 +222,7 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
     });
 });
 
-// Set the first checkbox to be checked when the toggle bar is activated
-document.querySelector('.toggle_bar').addEventListener('click', function() {
-    checkboxes[0].checked = true;
-});
-
-// capture canvas as a PDF upon clickling the 'Download" button
+// Capture canvas as a PDF upon clickling the 'Download" button
 downloadButton.addEventListener('click', function () {
 	let randNum = Math.floor(Math.random() * 99) + 1;  // Get random number for "unique" pdf save names 
 	let imgData = canvas.toDataURL("image/png");  // Get the image data from the canvas
