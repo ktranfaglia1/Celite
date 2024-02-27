@@ -56,8 +56,8 @@ canvas.addEventListener('click', function(event)
 	var paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
 
 	
-	var mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
-	var mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
+	let mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
+	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
 	
 	setCells(latticeArray, mouseX, mouseY);	
 });
@@ -70,18 +70,6 @@ ruleSubmit.addEventListener("click", function()
 latticeSizeSubmit.addEventListener("click", function()
 	{
 	LatSize = setCellNum(LatSize);
-	/*while ((LatSize * (size - 1)) > canvas.width)
-	{
-		size = size - 1;
-	}
-	if ((LatSize * size) > canvas.width)
-	{
-		size = size - 1;
-	}
-	while (((LatSize * (size + 1)) < canvas.width) && (size < 45))
-	{
-		size = size + 1;
-	}*/
 	
 	size = canvas.width / LatSize;
 	if (size > 45){
@@ -95,6 +83,33 @@ latticeSizeSubmit.addEventListener("click", function()
 	*/
 	clear(latticeArray);
 	})
+
+canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
+
+
+
+
+function makeTickBox(event, ctx)
+{
+	var bounds = canvas.getBoundingClientRect();
+	var cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
+	var cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+	var borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+	var paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+	var paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
+
+	var mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
+	var mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
+	
+	drawLattice(latticeArray);
+      	ctx.fillStyle = "grey";
+	ctx.fillRect(mouseX + 3, mouseY - 12, 33, 15);
+
+	ctx.font = "13px Arial";
+	ctx.fillStyle = "black";
+
+	ctx.fillText(Math.floor(mouseY / size), mouseX + 4, mouseY)
+}
 
 function continouslyIterate()
 {
