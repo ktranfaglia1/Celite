@@ -25,7 +25,7 @@ var XGap = 1;
 
 
 canvas.width = 1400;
-canvas.height = 1500;
+canvas.height = 350;
 
 //canvas.height = (latticeArray.length * size + 10 + YIndent) + 'px';
 
@@ -83,19 +83,19 @@ updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, curren
 function drawLattice(latticeArray){
 //canvas.style.height = (latticeArray.length * size + 10) + 'px';
 
-var computedStyle = window.getComputedStyle(canvas);
-canvas.height = (latticeArray.length * size + YIndent);
-canvas.style.height = (latticeArray.length * size + YIndent) + 'px';
-//canvas.height = 1500;
+  var computedStyle = window.getComputedStyle(canvas);
+  if ((latticeArray.length * size + YIndent) > canvas.height) {
+    canvas.height = (latticeArray.length * size + YIndent);
+    canvas.style.height = (latticeArray.length * size + YIndent) + 'px';
+  }
+  //canvas.height = 1500;
 
-console.log(latticeArray);
+  console.log(latticeArray);
 
-ctx.clearRect(0,0, canvas.width, canvas.height);
-for (let j = 0; j < latticeArray.length; j++)
-  {
-    for (let i = 0; i < latticeArray[j].length; i++)
-    {
-	(latticeArray[j][i]).drawCell(ctx);
+  ctx.clearRect(0,0, canvas.width, canvas.height);
+  for (let j = 0; j < latticeArray.length; j++) {
+    for (let i = 0; i < latticeArray[j].length; i++) {
+      (latticeArray[j][i]).drawCell(ctx);
     }
   }
 }
@@ -109,5 +109,5 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
     currentLattice = nextLattice;
   }
 	drawLattice(latticeArray);
-	//outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
+	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
 }
