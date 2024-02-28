@@ -10,13 +10,13 @@ var outputIteration = document.getElementById("iterationOutput")
 var numOfIterations = 1;
 var currentIteration = 1;
 
-var size = 45;
+var size = 50;
 var XIndent = 1;
 var YIndent = 10;
 var YGap = 12;
 var XGap = 1;
 
-canvas.width = 1400;
+canvas.width = 1800;
 canvas.height = 400;
 
 /*

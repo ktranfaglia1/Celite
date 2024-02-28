@@ -251,7 +251,7 @@ downloadButton.addEventListener('click', function () {
 	let offsetY = (pdfHeight - imgHeight) / 2;
 	pdf.addImage(imgData, 'PNG', offsetX, offsetY, imgWidth, imgHeight);
 
-	pdf.save("Wolfram1DCanvas" + randNum + ".pdf");  // Save the PDF
+	pdf.save("Wolfram1DCanvas" + "I" + numOfIterations + "R" + RuleNum + "L" + LatSize + ".pdf");  // Save the PDF
 });
 
 outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); // Display (initial) iteration count to HTML page
