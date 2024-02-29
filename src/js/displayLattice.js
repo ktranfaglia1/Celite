@@ -13,6 +13,12 @@ var ctx = canvas.getContext("2d"); // gets the lattice display region
 //canvas.style.width = 1800;
 //canvas.style.height = 1400;
 
+var errorBox = document.getElementById("errorRegion");
+var errorContext = errorBox.getContext("2d"); // gets the lattice display region
+
+
+outputError("ERROR: THIS IS AN EXAMPLE")
+
 var numOfIterations = 1;
 var currentIteration = 1;
 
@@ -110,4 +116,15 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
   }
 	drawLattice(latticeArray);
 	//outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
+}
+
+
+
+
+function outputError(text)
+{
+	errorContext.font = "12px Arial";
+	errorContext.fillStyle = "red";
+
+	errorContext.fillText(text, 5, 25)
 }

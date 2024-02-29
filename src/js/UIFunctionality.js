@@ -20,6 +20,7 @@ var toggleButton = document.querySelector('.toggle_button');
 
 var outputIteration = document.getElementById("iterationOutput")
 
+
 var addIterations = 1; // Defaults iterations to add to 1
 var Run = 0; // Defaults to not keep running
 
@@ -235,6 +236,22 @@ function toggleCheckbox() {
 		toggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Ensure only one checkbox can be checked at a time
 document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
