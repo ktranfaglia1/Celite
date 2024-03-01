@@ -1,66 +1,56 @@
-function ruleNumToRule(RuleNum)
-{
-  Rule = new Array();
-  for(var i = 0; i < 8; i++)
+//Generates rule array based on input rule number.
+function ruleNumToRule(ruleNum) {
+  rule = new Array();
+  //Converts rule number to binary represented as an array of 0s and 1s.
+  for(let i = 0; i < 8; i++)
   {
-    Rule[i] = RuleNum % 2;
-    RuleNum = Math.floor(RuleNum / 2);
+    rule[i] = ruleNum % 2;
+    ruleNum = Math.floor(ruleNum / 2);
   }
-  return Rule
+  return rule
 }
 
-function generateLattice(currentLattice, Rule, BoundaryCon, rowIndex, size, XIndent, YIndent)
-{
+//Generates the next lattice based on the current one, the rule, and the boundary condition.
+function generateLattice(currentLattice, rule, boundaryCon, rowIndex, size) {
   	newLattice = new Array();
-  	var StartDif = (LatSize * size) / 2;
-  	var center = canvas.width / 2;
-  	var StartX = center - StartDif;
-    if (BoundaryCon == 1)
-  	{
-		/*
-		var StartDif = (LatSize * size) / 2;
-		var center = canvas.width / 2;
-		var StartX = center - StartDif;
-	
-		for (i = 0; i < LatSize; i++)
-		{
-			currentLattice.push(new cell (size, size, StartX + i * size, 0, 0))
-		}
-		*/
-		for(i = 0; i < currentLattice.length; i++)
-		{
-			newLattice.push(new cell (size, size, StartX + i * size, rowIndex * size, 0))
-			if (i == 0)
-			{
-				newLattice[i].setColor(Rule[(currentLattice[currentLattice.length - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[i + 1].color]);
+  	let startDif = (latSize * size) / 2;
+  	let center = canvas.width / 2;
+  	let startX = center - startDif;
+	//If boundary condition is periodic:
+    if (boundaryCon == 1) {
+		//Iterate over length of new lattice
+		for(i = 0; i < currentLattice.length; i++) {
+			newLattice.push(new cell (size, size, startX + i * size, rowIndex * size, 0))
+			//If this is the first cell, access the last cell from previous timestep
+			//If this is the last cell, access the first cell from previous timestep
+			//Otherwise, access the above three cells normally.
+			if (i == 0) {
+				newLattice[i].setColor(rule[(currentLattice[currentLattice.length - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[i + 1].color]);
 			}
-			else if (i == (currentLattice.length - 1))
-			{
-				newLattice[i].setColor(Rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[0].color]);
+			else if (i == (currentLattice.length - 1)) {
+				newLattice[i].setColor(rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[0].color]);
 			}
-			else
-			{
-				newLattice[i].setColor(Rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[i + 1].color]);
+			else {
+				newLattice[i].setColor(rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[i + 1].color]);
 			}
 		}
 	}
-	else
-	{
-		for(i = 0; i < currentLattice.length; i++)
-		{
-			//newLattice.push(new cell (size, size, i * size + i + XIndent, YIndent * rowIndex + rowIndex * size, 0))
-			newLattice.push(new cell (size, size, StartX + i * size, rowIndex * size, 0));
-			if (i == 0)
-			{
-				newLattice[i].setColor(Rule[(currentLattice[i].color * 2) + currentLattice[i + 1].color]);
+	//If boundary condition is null:
+	else {
+		//Iterate over length of new lattice
+		for(i = 0; i < currentLattice.length; i++) {
+			newLattice.push(new cell (size, size, startX + i * size, rowIndex * size, 0));
+			//If this is the first cell, value of cell to the left is considered 0
+			//If this is the last cell, value of cell to the right is considered 0
+			//Otherwise, access the above three cells normally.
+			if (i == 0) {
+				newLattice[i].setColor(rule[(currentLattice[i].color * 2) + currentLattice[i + 1].color]);
 			}
-			else if (i == (currentLattice.length - 1))
-			{
-				newLattice[i].setColor(Rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2)]);
+			else if (i == (currentLattice.length - 1)) {
+				newLattice[i].setColor(rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2)]);
 			}
-			else
-			{
-				newLattice[i].setColor(Rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[i + 1].color]);
+			else {
+				newLattice[i].setColor(rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[i + 1].color]);
 			}
 		}
 	}
