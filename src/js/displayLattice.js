@@ -11,7 +11,7 @@ var errorBox = document.getElementById("errorRegion");
 var errorContext = errorBox.getContext("2d"); // gets the lattice display region
 
 
-outputError("ERROR: THIS IS AN EXAMPLE")
+//outputError("ERROR: THIS IS AN EXAMPLE")
 
 var numOfIterations = 1;
 var currentIteration = 1;
