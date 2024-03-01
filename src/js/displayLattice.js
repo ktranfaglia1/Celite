@@ -7,6 +7,12 @@ var canvas = document.getElementById("latticeRegion");
 var ctx = canvas.getContext("2d"); // gets the lattice display region
 var outputIteration = document.getElementById("iterationOutput")
 
+var errorBox = document.getElementById("errorRegion");
+var errorContext = errorBox.getContext("2d"); // gets the lattice display region
+
+
+outputError("ERROR: THIS IS AN EXAMPLE")
+
 var numOfIterations = 1;
 var currentIteration = 1;
 
