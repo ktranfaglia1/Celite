@@ -64,40 +64,22 @@ canvas.addEventListener('click', function(event)
 
 ruleSubmit.addEventListener("click", function()
 	{
-	setRule(Rule);
+	setRule(rule);
 	})
 
-latticeSizeSubmit.addEventListener("click", function()
-	{
-	LatSize = setCellNum(LatSize);
-	/*while ((LatSize * (size - 1)) > canvas.width)
-	{
-		size = size - 1;
-	}
-	if ((LatSize * size) > canvas.width)
-	{
-		size = size - 1;
-	}
-	while (((LatSize * (size + 1)) < canvas.width) && (size < 45))
-	{
-		size = size + 1;
-	}*/
+//Sets the number of cells in a lattice
+latticeSizeSubmit.addEventListener("click", function() {
+	latSize = setCellNum(latSize);
 	
-	size = canvas.width / LatSize;
+	size = canvas.width / latSize;
+	//Cells should have a maximum size of 45
 	if (size > 45){
 		size = 45;
 	}
-	/*
-	if ((LatSize * size) < canvas.width)
-	{
-		size = size + 1;
-	}
-	*/
 	clear(latticeArray);
 	})
 
-function continouslyIterate()
-{
+function continouslyIterate() {
 	if(Run)
 	{
 		setTimeout(function(){
@@ -108,13 +90,13 @@ function continouslyIterate()
 }
 
 
-function setRule(Rule)
+function setRule(rule)
 {
 	var newRule = parseInt(ruleInputBox.value);
 	Run = 0;
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
 	{
-		Rule = ruleNumToRule(newRule);
+		rule = ruleNumToRule(newRule);
 	}
 	else
 	{
@@ -122,18 +104,21 @@ function setRule(Rule)
 	}
 }
 
-function setCellNum(LatSize)
+//Sets new number of cells in a lattice
+function setCellNum(latSize)
 {
 	var newCellNum = parseInt(latticeSizeBox.value);
+	//If the value entered is NaN or outside of the boundary [1, 1000] then error will be sent to console.
+	//Otherwise, set latSize to newCellNum.
 	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
 	{
-		LatSize = newCellNum;
+		latSize = newCellNum;
 	}
 	else
 	{
 		console.log("Not a number")
 	}
-	return LatSize;
+	return latSize;
 }
 
 function setLatticeSize()
@@ -156,11 +141,11 @@ function clear(latticeArray)
 	currentIteration = 1;
 	var clearedLattice = new Array ( new Array);
 	nextLattice = new Array;
-	StartX = (canvas.width / 2) - (LatSize * size / 2)
+	StartX = (canvas.width / 2) - (latSize * size / 2)
 	while (latticeArray.length > 1){
 		latticeArray.pop();
 	}
-	for (var i = 0; i < LatSize; i++)
+	for (var i = 0; i < latSize; i++)
 	{
 		clearedLattice[0][i] = (new cell (size, size, StartX + i *size, 0, 0));
 	}
@@ -201,7 +186,7 @@ function iterate(currentIteration, newIterations)
 		latticeArray.pop();
 	}
 
-	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule, BoundaryCon);
+	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, rule, boundaryCon);
 	return currentIteration;
 }
 
