@@ -4,30 +4,18 @@
 var latticeArray = new Array ( new Array);
 var currentLattice = new Array()
 var nextLattice = new Array()
-var Rule = new Array()
+var rule = new Array()
 
 var canvas = document.getElementById("latticeRegion");
 var ctx = canvas.getContext("2d"); // gets the lattice display region
-//this.canvas.width = this.canvas.offsetWidth;
-//this.canvas.height = this.canvas.offsetHeight;
-//canvas.style.width = 1800;
-//canvas.style.height = 1400;
 
 var numOfIterations = 1;
 var currentIteration = 1;
 
 var size = 45;
-var XIndent = 1;
-var YIndent = 10;
-var YGap = 12;
-var XGap = 1;
-
-
 
 canvas.width = 1400;
 canvas.height = 350;
-
-//canvas.height = (latticeArray.length * size + 10 + YIndent) + 'px';
 
 /*
 These variables effect the creation of the starting lattice. Inf determines whether the lattice should
@@ -36,17 +24,21 @@ LatSize determines the number of adjustable cells in the timestep 0 lattice (The
 can figure out how to toggle them). numOfIterations determines the number of timesteps including the starting
 timestep.
 */
-var Inf = false;
-var LatSize = 10;
+var inf = false;
+var latSize = 10;
 
+/*
+This function pushes the initial timestep lattice of cells such that the user can select what cells they want
+on or off
+*/
 function LatticeDisplay() {
-	var StartDif = (LatSize * size) / 2;
-	var center = canvas.width / 2;
-	var StartX = center - StartDif;
+	let startDif = (latSize * size) / 2;
+	let center = canvas.width / 2;
+	let startX = center - startDif;
 	
-	for (i = 0; i < LatSize; i++)
-	{
-		currentLattice.push(new cell (size, size, StartX + i * size, 0, 0))
+  //Iterates over lattice size adding a new cell in top row.
+	for (let i = 0; i < latSize; i++) {
+		currentLattice.push(new cell (size, size, startX + i * size, 0, 0))
 	}
 }
 
@@ -58,41 +50,29 @@ that is out of bounds of the lattice. When the condition is null (0), all out of
 to be 0. When the condition is periodic (1), the simulation will wrap around and check the other end of the
 latice.
 */
-var RuleNum = 142;
-var BoundaryCon = 1;
+var ruleNum = 142;
+var boundaryCon = 1;
 
-if (RuleNum > 255)
-{
-	RuleNum = 255
-}
-if (RuleNum < 0)
-{
-	RuleNum = 0
-}
-
-//console.log(currentLattice);
 latticeArray[0] = currentLattice;
 
-
 LatticeDisplay()
-//console.log("lattice:", latticeArray);
+rule = ruleNumToRule(ruleNum);
+updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, rule, boundaryCon);
 
-Rule = ruleNumToRule(RuleNum);
-updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule, BoundaryCon);
+//Draws lattices to the canvas
+function drawLattice(latticeArray) {
 
-function drawLattice(latticeArray){
-//canvas.style.height = (latticeArray.length * size + 10) + 'px';
-
-  var computedStyle = window.getComputedStyle(canvas);
-  if ((latticeArray.length * size + YIndent) > canvas.height) {
-    canvas.height = (latticeArray.length * size + YIndent);
-    canvas.style.height = (latticeArray.length * size + YIndent) + 'px';
+  //var computedStyle = window.getComputedStyle(canvas);
+  //Increases canvas size such that lattice can fit.
+  if ((latticeArray.length * size) > canvas.height) {
+    canvas.height = (latticeArray.length * size);
+    canvas.style.height = (latticeArray.length * size) + 'px';
   }
-  //canvas.height = 1500;
 
   console.log(latticeArray);
 
   ctx.clearRect(0,0, canvas.width, canvas.height);
+  //Iterates over each cell in each lattice in each timestep drawing them to the canvas.
   for (let j = 0; j < latticeArray.length; j++) {
     for (let i = 0; i < latticeArray[j].length; i++) {
       (latticeArray[j][i]).drawCell(ctx);
@@ -100,14 +80,16 @@ function drawLattice(latticeArray){
   }
 }
 
-function updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, Rule, BoundaryCon){
+//Creates next timestep lattice then sets the new timestep as the current one.
+function updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, rule, boundaryCon){
 
+  //Iterates over each new iteration that needs to be added to the lattice array.
   for(; currentIteration < numOfIterations; currentIteration++)
   {
-    nextLattice = generateLattice(currentLattice, Rule, BoundaryCon, currentIteration, size, XIndent, YIndent);
+    nextLattice = generateLattice(currentLattice, rule, boundaryCon, currentIteration, size);
     latticeArray[currentIteration] = nextLattice;
     currentLattice = nextLattice;
   }
 	drawLattice(latticeArray);
-	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
+	iterationOutput.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
 }
