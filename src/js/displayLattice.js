@@ -19,6 +19,12 @@ var XGap = 1;
 canvas.width = 1800;
 canvas.height = 400;
 
+
+canvas.width = 1400;
+canvas.height = 350;
+
+//canvas.height = (latticeArray.length * size + 10 + YIndent) + 'px';
+
 /*
 These variables effect the creation of the starting lattice. Inf determines whether the lattice should
 autofit such that given the number of iterations, the simulation never needs to trigger a boundary condition.
