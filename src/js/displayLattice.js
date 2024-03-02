@@ -25,10 +25,6 @@ var XGap = 1;
 canvas.width = 1800;
 canvas.height = 400;
 
-
-canvas.width = 1400;
-canvas.height = 350;
-
 //canvas.height = (latticeArray.length * size + 10 + YIndent) + 'px';
 
 /*
