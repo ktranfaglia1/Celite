@@ -97,7 +97,7 @@ function makeTickBox(event, ctx)
 	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
 	
 	setCells(latticeArray, mouseX, mouseY);	
-});
+};
 
 ruleSubmit.addEventListener("click", function()
 	{
