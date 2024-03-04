@@ -4,11 +4,11 @@ var nextLattice = new Array()
 var Rule = new Array()
 
 var canvas = document.getElementById("latticeRegion");
-var ctx = canvas.getContext("2d"); // gets the lattice display region
+var ctx = canvas.getContext("2d"); // Gets the lattice display region
 var outputIteration = document.getElementById("iterationOutput")
 
-var errorBox = document.getElementById("errorRegion");
-var errorContext = errorBox.getContext("2d"); // gets the lattice display region
+var logBox = document.getElementById("logRegion");
+var logContext = logBox.getContext("2d"); // Gets the lattice display region
 
 
 //outputError("ERROR: THIS IS AN EXAMPLE")
@@ -24,10 +24,6 @@ var XGap = 1;
 
 canvas.width = 1800;
 canvas.height = 400;
-
-
-canvas.width = 1400;
-canvas.height = 350;
 
 //canvas.height = (latticeArray.length * size + 10 + YIndent) + 'px';
 

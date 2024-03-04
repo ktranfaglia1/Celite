@@ -7,6 +7,12 @@ canvas {
   max-width: 90%;
   margin-top: 12px;
 }
+/* Log box formatting */
+.log_box {
+  width: 170px;
+  height: 25px;
+  margin-left: 2%;
+}
 /* Iteration count formatting */
 .iteration_output {
   font-size: 16px;

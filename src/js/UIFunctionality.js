@@ -281,4 +281,20 @@ downloadButton.addEventListener('click', function () {
 	pdf.save("Wolfram1DCanvas" + "I" + numOfIterations + "R" + RuleNum + "L" + LatSize + ".pdf");  // Save the PDF
 });
 
+// Handle open and closing of About window 
+aboutButton.addEventListener("click", function() {
+	document.getElementById("aboutContainer").style.display = "block";
+});
+
+document.querySelector(".close").addEventListener("click", function() {
+	document.getElementById("aboutContainer").style.display = "none";
+});
+
+window.addEventListener("click", function(event) {
+	if (event.target == document.getElementById("aboutContainer")) {
+		document.getElementById("aboutContainer").style.display = "none";
+	}
+});
+  
+
 outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); // Display (initial) iteration count to HTML page

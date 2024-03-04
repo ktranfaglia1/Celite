@@ -31,13 +31,13 @@
     <h1> Wolfram's Nearest Neighbor 1D </h1> <hr>
     <!-- Primary tool bar containing main buttons for simulation -->
     <div class="primary_toolbar">
-    	<canvas id="errorRegion" width = "200", height = "25"> </canvas>  <!-- Display region for the Errors -->
       <button id="primaryButton1" class="simulation_button"> Start </button>
       <button id="primaryButton2" class="simulation_button"> Stop </button>
       <button id="primaryButton3" class="simulation_button"> Iterate </button>
       <button id="primaryButton4" class="simulation_button"> Clear </button>
       <button id="primaryButton5" class="simulation_button"> Download </button>
       <button id="primaryButton6" class="simulation_button"> About </button>
+      <canvas id="logRegion" class="log_box"> </canvas>  <!-- Display region for the logs -->
     </div>
     <!-- Secondary tool bar containing input boxes and options to manipulate the simulation -->
     <div class="secondary_toolbar">
@@ -81,6 +81,14 @@
     </div>
     <div id="iterationOutput" class="iteration_output"></div>  <!-- Output region for iteration count -->
     <center> <canvas id="latticeRegion"> </canvas> </center>  <!-- Display region for the lattices -->
+    <div id="aboutContainer" class="about_container">
+      <div id="aboutContent" class="about_content">
+        <span class="close">&times;</span>
+        <h2>About My Program</h2>
+        <p>This is a web-based simulator built with JS, HTML, and CSS.</p>
+  
+      </div>
+    </div>
     <!-- Connect online Javascript library to capture canvas as a PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
     <script src= "../src/js/generateLattice.js"> </script>  <!-- Connect Javascript for lattice calculation -->
