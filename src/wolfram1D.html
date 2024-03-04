@@ -31,6 +31,7 @@
     <h1> Wolfram's Nearest Neighbor 1D </h1> <hr>
     <!-- Primary tool bar containing main buttons for simulation -->
     <div class="primary_toolbar">
+    	<canvas id="errorRegion" width = "200", height = "25"> </canvas>  <!-- Display region for the Errors -->
       <button id="primaryButton1" class="simulation_button"> Start </button>
       <button id="primaryButton2" class="simulation_button"> Stop </button>
       <button id="primaryButton3" class="simulation_button"> Iterate </button>
@@ -80,6 +81,8 @@
     </div>
     <div id="iterationOutput" class="iteration_output"></div>  <!-- Output region for iteration count -->
     <center> <canvas id="latticeRegion"> </canvas> </center>  <!-- Display region for the lattices -->
+    <!-- Connect online Javascript library to capture canvas as a PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
     <script src= "../src/js/generateLattice.js"> </script>  <!-- Connect Javascript for lattice calculation -->
     <script src="../src/js/cellClass.js"> </script>  <!-- Connect Javascript for cell creation -->
     <script src= "../src/js/displayLattice.js"> </script>  <!-- Connect Javascript for lattice display -->

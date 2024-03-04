@@ -4,7 +4,7 @@ canvas {
   background-color: lightgrey;
   border: 3px solid black;
   padding: 1% 1% 1% 1%;
-  max-width: 90%;  /* I THINK Y DYNAMIC RESIZING MIGHT BE OVERRIDING THIS IDK ¯\_(ツ)_/¯*/
+  max-width: 90%;
   margin-top: 12px;
 }
 /* Iteration count formatting */

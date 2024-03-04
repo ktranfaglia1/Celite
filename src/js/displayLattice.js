@@ -1,6 +1,3 @@
-//import { generateLattice } from './generateLattice.js'
-//import { ruleNumToRule } from '.generateLattice.js'
-
 var latticeArray = new Array ( new Array);
 var currentLattice = new Array()
 var nextLattice = new Array()
@@ -8,6 +5,13 @@ var rule = new Array()
 
 var canvas = document.getElementById("latticeRegion");
 var ctx = canvas.getContext("2d"); // gets the lattice display region
+var outputIteration = document.getElementById("iterationOutput")
+
+var errorBox = document.getElementById("errorRegion");
+var errorContext = errorBox.getContext("2d"); // gets the lattice display region
+
+
+//outputError("ERROR: THIS IS AN EXAMPLE")
 
 var numOfIterations = 1;
 var currentIteration = 1;
@@ -41,7 +45,6 @@ function LatticeDisplay() {
 		currentLattice.push(new cell (size, size, startX + i * size, 0, 0))
 	}
 }
-
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
@@ -91,5 +94,5 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
     currentLattice = nextLattice;
   }
 	drawLattice(latticeArray);
-	iterationOutput.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
+	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();  // Display iteration count to HTML page upon update
 }

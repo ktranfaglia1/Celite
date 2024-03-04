@@ -1,27 +1,27 @@
-var iterationInputBox = document.getElementById("inputBox1");
-var ruleInputBox = document.getElementById("inputBox2");
-var latticeSizeBox = document.getElementById("inputBox3");
+let iterationInputBox = document.getElementById("inputBox1");
+let ruleInputBox = document.getElementById("inputBox2");
+let latticeSizeBox = document.getElementById("inputBox3");
 
-var iterationSubmit = document.getElementById("submitButton1");
-var ruleSubmit = document.getElementById("submitButton2");
-var latticeSizeSubmit = document.getElementById("submitButton3");
+let iterationSubmit = document.getElementById("submitButton1");
+let ruleSubmit = document.getElementById("submitButton2");
+let latticeSizeSubmit = document.getElementById("submitButton3");
 
-var startButton = document.getElementById("primaryButton1");
-var stopButton = document.getElementById("primaryButton2");
-var iterateButton = document.getElementById("primaryButton3");
-var clearButton = document.getElementById("primaryButton4");
-var downloadButton = document.getElementById("primaryButton5");
-var aboutButton = document.getElementById("primaryButton6");
+let startButton = document.getElementById("primaryButton1");
+let stopButton = document.getElementById("primaryButton2");
+let iterateButton = document.getElementById("primaryButton3");
+let clearButton = document.getElementById("primaryButton4");
+let downloadButton = document.getElementById("primaryButton5");
+let aboutButton = document.getElementById("primaryButton6");
 
-var infiniteCheckBox = document.getElementById('checkbox1');
-var finiteCheckBox = document.getElementById('checkbox2');
+let infiniteCheckBox = document.getElementById('checkbox1');
+let finiteCheckBox = document.getElementById('checkbox2');
 
-var toggleButton = document.querySelector('.toggle_button');
+let toggleButton = document.querySelector('.toggle_button');
 
 var outputIteration = document.getElementById("iterationOutput")
 
-var addIterations = 1; // Defaults iterations to add to 1
-var Run = 0; // Defaults to not keep running
+let addIterations = 1; // Defaults iterations to add to 1
+let Run = 0; // Defaults to not keep running
 
 iterateButton.addEventListener("click", function()
 {
@@ -48,16 +48,15 @@ startButton.addEventListener("click", function()
 
 canvas.addEventListener('click', function(event)
 {
-	var bounds = canvas.getBoundingClientRect();
-	var cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
-	var cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
-	var borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
-	var paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
-	var paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
-
+	let bounds = canvas.getBoundingClientRect();
+	let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
+	let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+	let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+	let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+	let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
 	
-	var mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
-	var mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
+	let mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
+	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
 	
 	setCells(latticeArray, mouseX, mouseY);	
 });
@@ -79,7 +78,73 @@ latticeSizeSubmit.addEventListener("click", function() {
 	clear(latticeArray);
 	})
 
-function continouslyIterate() {
+canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
+
+
+
+
+function makeTickBox(event, ctx)
+{
+	let bounds = canvas.getBoundingClientRect();
+	let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
+	let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+	let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+	let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+	let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
+
+	
+	let mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
+	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
+	
+	setCells(latticeArray, mouseX, mouseY);	
+});
+
+ruleSubmit.addEventListener("click", function()
+	{
+	setRule(rule);
+	})
+
+//Sets the number of cells in a lattice
+latticeSizeSubmit.addEventListener("click", function() {
+	latSize = setCellNum(latSize);
+	
+	size = canvas.width / latSize;
+	//Cells should have a maximum size of 45
+	if (size > 45){
+		size = 45;
+	}
+	clear(latticeArray);
+	})
+
+canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
+
+
+
+
+function makeTickBox(event, ctx)
+{
+	var bounds = canvas.getBoundingClientRect();
+	var cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
+	var cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+	var borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+	var paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+	var paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
+
+	var mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
+	var mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
+	
+	drawLattice(latticeArray);
+      	ctx.fillStyle = "grey";
+	ctx.fillRect(mouseX + 3, mouseY - 12, 33, 15);
+
+	ctx.font = "13px Arial";
+	ctx.fillStyle = "black";
+
+	ctx.fillText(Math.floor(mouseY / size), mouseX + 4, mouseY)
+}
+
+function continouslyIterate()
+{
 	if(Run)
 	{
 		setTimeout(function(){
@@ -92,7 +157,7 @@ function continouslyIterate() {
 
 function setRule(rule)
 {
-	var newRule = parseInt(ruleInputBox.value);
+	let newRule = parseInt(ruleInputBox.value);
 	Run = 0;
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
 	{
@@ -107,9 +172,7 @@ function setRule(rule)
 //Sets new number of cells in a lattice
 function setCellNum(latSize)
 {
-	var newCellNum = parseInt(latticeSizeBox.value);
-	//If the value entered is NaN or outside of the boundary [1, 1000] then error will be sent to console.
-	//Otherwise, set latSize to newCellNum.
+	let newCellNum = parseInt(latticeSizeBox.value);
 	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
 	{
 		latSize = newCellNum;
@@ -123,9 +186,9 @@ function setCellNum(latSize)
 
 function setLatticeSize()
 {
-	var newValue = parseInt(iterationInputBox.value);
+	let newValue = parseInt(iterationInputBox.value);
 	Run = 0;
-	if(!isNaN(newValue) && newValue > 0 && newValue <= 1000)
+	if(!isNaN(newValue) && newValue > 0 && newValue <= 10000)
 	{
 		addIterations = newValue;		
 	}
@@ -139,7 +202,7 @@ function clear(latticeArray)
 {
 	numOfIterations = 1;
 	currentIteration = 1;
-	var clearedLattice = new Array ( new Array);
+	let clearedLattice = new Array ( new Array);
 	nextLattice = new Array;
 	StartX = (canvas.width / 2) - (latSize * size / 2)
 	while (latticeArray.length > 1){
@@ -157,7 +220,7 @@ function clear(latticeArray)
 function setCells(latticeArray, mouseX, mouseY)
 {
 
-	for (var i = 0 ; i < latticeArray[0].length; i++)
+	for (let i = 0 ; i < latticeArray[0].length; i++)
 	{
 		if(latticeArray[0][i].insideCell(mouseX, mouseY))
 		{
@@ -179,7 +242,6 @@ function iterate(currentIteration, newIterations)
 	else
 	{
 	{numOfIterations += newIterations}
-	//numOfIterations = newIterations;
 	}
 	while(latticeArray.length > numOfIterations)
 	{
@@ -190,15 +252,18 @@ function iterate(currentIteration, newIterations)
 	return currentIteration;
 }
 
+// Handle when toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
 function toggleCheckbox() {
-
-	var checkboxes = document.querySelectorAll('.checkbox_select');
+	// Set the first checkbox (not second checkbox) to be checked upon toggle button activation
+	let checkboxes = document.querySelectorAll('.checkbox_select');
     checkboxes[0].checked = true;
-
+	checkboxes[1].checked = false;
+	// If checkboxes are currently hidden (toggle bar was not active) display the checkboxes and animate toggle button
 	if (infiniteCheckBox.style.display == 'none'|| infiniteCheckBox.style.display == '') {
 		infiniteCheckBox.style.display = 'block';
 		finiteCheckBox.style.display = 'block';
 		toggleButton.style.transform = 'translateX(25px)'; // Move the toggle button to the right
+	// If checkboxes are currently not hidden (toggle bar was active) hide the checkboxes and animate toggle button back
     } else {
 		infiniteCheckBox.style.display = 'none';
 		finiteCheckBox.style.display = 'none';
@@ -206,22 +271,55 @@ function toggleCheckbox() {
     }
 }
 
-// Ensure only one checkbox can be checked at a time
+// Ensure one and only one checkbox can be checked at a time upon checkbox click
 document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
     checkbox.addEventListener('change', function() {
+		// Box is set to be checked upon change
         if (this.checked) {
             document.querySelectorAll('.checkbox_select').forEach(function(otherCheckbox) {
+				// If one checkbox is already checked, uncheck the other checkbox
 				if (otherCheckbox != checkbox) {
                     otherCheckbox.checked = false;
                 }
             });
         }
+		// Box is set to be unchecked: Don't allow ... one box must be checked at all times
+		else {
+			this.checked = true;
+		}
     });
 });
 
-document.querySelector('.toggle_bar').addEventListener('click', function() {
-    // Set the first checkbox to be checked when the toggle bar is activated
-    checkboxes[0].checked = true;
+// Capture canvas as a PDF upon clickling the 'Download" button
+downloadButton.addEventListener('click', function () {
+	let randNum = Math.floor(Math.random() * 99) + 1;  // Get random number for "unique" pdf save names 
+	let imgData = canvas.toDataURL("image/png");  // Get the image data from the canvas
+	let pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);  // Create a new PDF document with the canvas dimensions as page size
+
+	// Calculate the aspect ratio of the canvas content
+	let canvasAspectRatio = canvas.width / canvas.height;
+
+	// Calculate the aspect ratio of the PDF page
+	let pdfWidth = pdf.internal.pageSize.getWidth();
+	let pdfHeight = pdf.internal.pageSize.getHeight();
+	let pdfAspectRatio = pdfWidth / pdfHeight;
+
+	// Default image dimensions with assumption that the canvas is taller than PDF page
+	let imgWidth = pdfHeight * canvasAspectRatio;
+	let imgHeight = pdfHeight;
+
+	// Change size of the image in the PDF using the aspect ratios if canvas is wider than PDF page
+	if (canvasAspectRatio > pdfAspectRatio) {
+		imgWidth = pdfWidth;
+		imgHeight = pdfWidth / canvasAspectRatio;
+	} 
+ 
+	// Add the image to the PDF document and center it on the page
+	let offsetX = (pdfWidth - imgWidth) / 2;
+	let offsetY = (pdfHeight - imgHeight) / 2;
+	pdf.addImage(imgData, 'PNG', offsetX, offsetY, imgWidth, imgHeight);
+
+	pdf.save("Wolfram1DCanvas" + "I" + numOfIterations + "R" + RuleNum + "L" + LatSize + ".pdf");  // Save the PDF
 });
 
-outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
+outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); // Display (initial) iteration count to HTML page
