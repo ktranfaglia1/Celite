@@ -126,6 +126,7 @@ function setRule(Rule)
 	else
 	{
 		console.log("Not a number");
+		outputError("Not a number")
 	}
 }
 
@@ -139,6 +140,7 @@ function setCellNum(LatSize)
 	else
 	{
 		console.log("Not a number")
+		outputError("Not a number")
 	}
 	return LatSize;
 }
@@ -248,6 +250,22 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
 		}
     });
 });
+
+function outputError(text)
+{
+	errorContext.font = "12px Arial";
+	errorContext.fillStyle = "red";
+
+	errorContext.fillText(text, 5, 25)
+		setTimeout(function(){
+
+	}, 750);
+}
+
+
+
+
+
 
 // Capture canvas as a PDF upon clickling the 'Download" button
 downloadButton.addEventListener('click', function () {

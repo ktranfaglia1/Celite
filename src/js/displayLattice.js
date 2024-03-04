@@ -112,3 +112,5 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
 	drawLattice(latticeArray);
 	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();  // Display iteration count to HTML page upon update
 }
+
+
