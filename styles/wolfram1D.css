@@ -1,6 +1,6 @@
 /* Wolfram's Nearest Neighbor 1D Simulation styles page */
 /* Display canvas formatting */
-canvas {
+.lattice_region {
   background-color: lightgrey;
   border: 3px solid black;
   padding: 1% 1% 1% 1%;
@@ -9,8 +9,11 @@ canvas {
 }
 /* Log box formatting */
 .log_box {
-  width: 170px;
-  height: 25px;
+  width: 140px;
+  height: 20px;
+  background-color: lightgrey;
+  border: 3px solid black;
+  padding: 1% 1% 1% 1%;
   margin-left: 2%;
 }
 /* Iteration count formatting */

@@ -251,7 +251,6 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
 
 // Capture canvas as a PDF upon clickling the 'Download" button
 downloadButton.addEventListener('click', function () {
-	let randNum = Math.floor(Math.random() * 99) + 1;  // Get random number for "unique" pdf save names 
 	let imgData = canvas.toDataURL("image/png");  // Get the image data from the canvas
 	let pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);  // Create a new PDF document with the canvas dimensions as page size
 
@@ -295,6 +294,5 @@ window.addEventListener("click", function(event) {
 		document.getElementById("aboutContainer").style.display = "none";
 	}
 });
-  
 
-outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); // Display (initial) iteration count to HTML page
+outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page

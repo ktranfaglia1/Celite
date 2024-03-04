@@ -80,13 +80,29 @@
       </div>
     </div>
     <div id="iterationOutput" class="iteration_output"></div>  <!-- Output region for iteration count -->
-    <center> <canvas id="latticeRegion"> </canvas> </center>  <!-- Display region for the lattices -->
+    <center> <canvas id="latticeRegion" class="lattice_region"> </canvas> </center>  <!-- Display region for the lattices -->
     <div id="aboutContainer" class="about_container">
       <div id="aboutContent" class="about_content">
-        <span class="close">&times;</span>
-        <h2>About My Program</h2>
-        <p>This is a web-based simulator built with JS, HTML, and CSS.</p>
-  
+        <span class="close">&times; </span>
+        <h2> About Wolfram's Nearest Neighbor 1D Simulator </h2>
+        <h3> Summary </h3>
+        <p> 
+          In the context of cellular automaton, the Nearest Neighbor algorithm can be applied to determine the state transition 
+          rules for each cell based on the states of its neighboring cells in the lattice. A cell, in mathematics, is a basic unit
+          within a lattice, or rather, a rectangular grid consisting of discrete cells arranged in rows and columns, forming a
+          multi-dimensional grid that acts as a spatial framework for cellular automaton evolution. Each cell typically
+          has a finite number of possible states, and the evolution of the cellular automaton is determined by rules
+          that govern cell state change over time by using neighboring cell states. A cell state specifically refers to the
+          condition or value associated with a cell within a cellular automaton, commonly represented in binary states (dead/alive),
+          which is used for this simulation. The grid structure allows for the simulation of dynamic systems and the emergence of
+          complex behaviors from simple local rules, in this case, rules 0-255 (2^8 rules). The rules change how the neighboring cells
+          (left and right) determine the next cell state. The simulation can be completed with varying rule sets, lattice sizes, and
+          iterations and and each alteration will produce a unique result. Additionally, the Nearest Neighbor algorithm can be done with
+          a finite or infinite lattice, such that an infinite lattice is unbounded in respect to neighbors where out of bound neighbors
+          are 0 and become bounded, and a finite lattice must be handled with null boundaries (cells outside of the lattice bounds have
+          no influence on the evolution of the system) or periodic boundaries (edges of the lattice wrap around to connect with the opposite edge).
+          Overall, cellular automaton are discrete computational models composed of a grid of cells that iteratively evolve using a set mathematical rule.        
+        </p>
       </div>
     </div>
     <!-- Connect online Javascript library to capture canvas as a PDF -->
