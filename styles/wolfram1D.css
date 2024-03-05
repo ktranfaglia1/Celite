@@ -9,8 +9,8 @@
 }
 /* Log box formatting */
 .log_box {
-  width: 140px;
-  height: 20px;
+  width: 160px;
+  height: 25px;
   background-color: lightgrey;
   border: 3px solid black;
   padding: 1% 1% 1% 1%;

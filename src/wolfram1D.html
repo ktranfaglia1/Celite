@@ -31,17 +31,6 @@
     <h1> Wolfram's Nearest Neighbor 1D </h1> <hr>
     <!-- Primary tool bar containing main buttons for simulation -->
     <div class="primary_toolbar">
-      <button id="primaryButton1" class="simulation_button"> Start </button>
-      <button id="primaryButton2" class="simulation_button"> Stop </button>
-      <button id="primaryButton3" class="simulation_button"> Iterate </button>
-      <button id="primaryButton4" class="simulation_button"> Clear </button>
-      <button id="primaryButton5" class="simulation_button"> Download </button>
-      <button id="primaryButton6" class="simulation_button"> About </button>
-      <canvas id="logRegion" class="log_box"> </canvas>  <!-- Display region for the logs -->
-    </div>
-    <!-- Secondary tool bar containing input boxes and options to manipulate the simulation -->
-    <div class="secondary_toolbar">
-      <!-- Container for iteration input box -->
       <div class="input_container">
         <label for="inputBox1" class="input_label"> Iterations:</label>
         <input type="text" id="inputBox1" class="simulation_input" placeholder="Enter # of iterations...">
@@ -78,6 +67,17 @@
         <input type="checkbox" class="checkbox_select">
         <label class="checkbox_label"> Null </label>
       </div>
+    </div>
+    <!-- Secondary tool bar containing input boxes and options to manipulate the simulation -->
+    <div class="secondary_toolbar">
+      <!-- Container for iteration input box -->
+      <button id="primaryButton1" class="simulation_button"> Start </button>
+      <button id="primaryButton2" class="simulation_button"> Stop </button>
+      <button id="primaryButton3" class="simulation_button"> Iterate </button>
+      <button id="primaryButton4" class="simulation_button"> Clear </button>
+      <button id="primaryButton5" class="simulation_button"> Download </button>
+      <button id="primaryButton6" class="simulation_button"> About </button>
+      <canvas id="logRegion" class="log_box"> </canvas>  <!-- Display region for the logs -->
     </div>
     <div id="iterationOutput" class="iteration_output"></div>  <!-- Output region for iteration count -->
     <center> <canvas id="latticeRegion" class="lattice_region"> </canvas> </center>  <!-- Display region for the lattices -->
