@@ -6,12 +6,12 @@ let iterationSubmit = document.getElementById("submitButton1");
 let ruleSubmit = document.getElementById("submitButton2");
 let latticeSizeSubmit = document.getElementById("submitButton3");
 
-let startButton = document.getElementById("primaryButton1");
-let stopButton = document.getElementById("primaryButton2");
-let iterateButton = document.getElementById("primaryButton3");
-let clearButton = document.getElementById("primaryButton4");
-let downloadButton = document.getElementById("primaryButton5");
-let aboutButton = document.getElementById("primaryButton6");
+let startButton = document.getElementById("bigButton1");
+let stopButton = document.getElementById("bigButton2");
+let iterateButton = document.getElementById("bigButton3");
+let clearButton = document.getElementById("bigButton4");
+let downloadButton = document.getElementById("bigButton5");
+let aboutButton = document.getElementById("bigButton6");
 
 let infiniteCheckBox = document.getElementById('checkbox1');
 let finiteCheckBox = document.getElementById('checkbox2');

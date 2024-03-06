@@ -71,12 +71,12 @@
     <!-- Secondary tool bar containing input boxes and options to manipulate the simulation -->
     <div class="secondary_toolbar">
       <!-- Container for iteration input box -->
-      <button id="primaryButton1" class="simulation_button"> Start </button>
-      <button id="primaryButton2" class="simulation_button"> Stop </button>
-      <button id="primaryButton3" class="simulation_button"> Iterate </button>
-      <button id="primaryButton4" class="simulation_button"> Clear </button>
-      <button id="primaryButton5" class="simulation_button"> Download </button>
-      <button id="primaryButton6" class="simulation_button"> About </button>
+      <button id="bigButton1" class="simulation_button"> Start </button>
+      <button id="bigButton2" class="simulation_button"> Stop </button>
+      <button id="bigButton3" class="simulation_button"> Iterate </button>
+      <button id="bigButton4" class="simulation_button"> Clear </button>
+      <button id="bigButton5" class="simulation_button"> Download </button>
+      <button id="bigButton6" class="simulation_button"> About </button>
       <canvas id="logRegion" class="log_box"> </canvas>  <!-- Display region for the logs -->
     </div>
     <div id="iterationOutput" class="iteration_output"></div>  <!-- Output region for iteration count -->
@@ -85,6 +85,86 @@
       <div id="aboutContent" class="about_content">
         <span class="close">&times; </span>
         <h2> About Wolfram's Nearest Neighbor 1D Simulator </h2>
+        <h3> Background </h3>
+        <p> 
+          This simulator was developed to explore Stephen Wolfram's work on 1-dimensional cellular automata, in particular, 
+          his Nearest Neighbor rules that use simple computational systems to produce complex emegergent behaviors. Stephan Wolfram,  
+          born August 29, 1959 is a highly regarded computer scientist, mathematician, and entrepreneur, and also the founder and CEO 
+          of Wolfram research, the company behind Mathematica, Wolfram|Alpha, and other compuational tools. Wolfram's Nearest Neighbor 
+          refers to how each cell in a 1-dimensional array interatcs with its adjacent neighbors based on certain rules. In a 
+          1-dimensional cellular automata, there is a row of cells, each of which can be in one of a finite number of states. At each 
+          time step, the state of each cell evolves according to a rule based on its current state and the states of its neighboring cells.  
+        </p>
+        <h3> Purpose </h3>
+        <p>
+          The study of 1-dimensional cellular automata, particularly focusing on nearest neighbor interactions, has several important purposes
+          and impacts that includes the following:
+        </p>
+        <ul>
+          <li>
+            Understanding Emergent Behavior
+          </li>
+          <ul>
+            <li>
+              One of the primary purposes is to understand how complex patterns and behavior emerge from simple local interactions. By studying  
+              how individual cells in a cellular automata interact with their nearest neighbors, researchers can uncover fundamental principles 
+              of self-organization and emergent phenomena. Beyond mathematics and computer science, this has wide-ranging applications in fields
+              such as biology, physics, sociology, and economics.
+            </li>
+          </ul>
+          <li>
+            Exploring Computational Universality
+          </li>
+          <ul>
+            <li>
+              Stephen Wolfram's research in this area has demonstrated that even simple cellular automata rules can exhibit computational 
+              universality, meaning they can perform any computation that a Turing machine can compute. A Turing machine is a theoretical 
+              mathematical model of computation proposed by Alan Turing in 1936. It consists of an infinite tape divided into cells, each capable 
+              of storing a symbol (such as 0 or 1) and a read/write head that can move left or right along the tape. The machine operates based on 
+              a finite set of states and transition rules. Based on the current state, the machine can perform three actions: write a symbol, move 
+              the head, and transition to a new state. Turing machines serve as a theoretical model of computation because they can simulate any 
+              algorithmic process, prove theorems about computability and complexity, and provide a foundation for understanding the limits and 
+              capabilities of algorithms. Overall, Wolfram's insight has profound implications for theoretical computer science and the nature of computation.
+            </li>
+          </ul>
+          <li>
+            Educational Tool
+          </li>
+          <ul>
+            <li>
+              Cellular automata, in this case 1-dimensional simulations, serve as excellent educational tools for teaching complex systems and computational 
+              thinking. They provide a tangible way for students to explore concepts such as pattern formation, rule-based systems, and emergent behavior. By 
+              experimenting with different rules and initial conditions, students can gain intuitive insights into how simple rules can lead to complex outcomes.
+              Wolfram's Nearest Neighbor is especially useful because of its simplicity as a 1-dimensional simulation that only considers adjacent neighbors, yet
+              it produces a large variation of complex systems, many which resemble the pattern of Pascal's Triangle.
+            </li>
+          </ul>
+          <li>
+            Research Tool
+          </li>
+          <ul>
+            <li>
+              Researchers use cellular automata as models for studying various phenomena, such as pattern formation, biological processes, and physical systems. 
+              The simplicity of the rules and the ability to simulate large-scale systems make cellular automata valuable tools for exploring theoretical questions 
+              and generating hypotheses for further study. In particular, Wolfram's Nearest Neighbor predominantly aids mathematical and computational studies, 
+              however, it has some applications in applicable biological research and analysis of physical systems.
+            </li>
+          </ul>
+          <li>
+            Mathematical Insights
+          </li>
+          <ul>
+            <li>
+              While cellular automata are not inherently mathematical objects, they provide insights into mathematical concepts such as chaos theory, fractals, 
+              and computational complexity. Studying the behavior of cellular automata can lead to new mathematical insights and conjectures, particularly in the 
+              realm of dynamical systems and discrete mathematics. specifically, Wolfram's Nearest Neighbor provides insight into pattern recognition, dimensionality
+              reduction of the data while preserving its local and global structure, cluster analysis (partitioned data points into groups based on their similarity 
+              or proximity), data interpolation and extrapolation (missing or incomplete data points are estimated based on the nearest neighbors), and topological 
+              analysis (topological properties of the space: connectivity, compactness, and dimensionality). Ultimately, Wolfram's Nearest Neighbor provides immense
+              mathematical insight through its vast applications in data analitics, data categorization, continuity, and predictions.
+            </li>
+          </ul>
+        </ul>
         <h3> Summary </h3>
         <p> 
           In the context of cellular automaton, the Nearest Neighbor algorithm can be applied to determine the state transition 
@@ -103,6 +183,7 @@
           no influence on the evolution of the system) or periodic boundaries (edges of the lattice wrap around to connect with the opposite edge).
           Overall, cellular automaton are discrete computational models composed of a grid of cells that iteratively evolve using a set mathematical rule.        
         </p>
+
       </div>
     </div>
     <!-- Connect online Javascript library to capture canvas as a PDF -->
