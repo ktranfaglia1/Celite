@@ -29,7 +29,7 @@
       </div>
     </header>
     <h1> Wolfram's Nearest Neighbor 1D </h1> <hr>
-    <!-- Primary tool bar containing main buttons for simulation -->
+    <!-- Primary tool bar containing input boxes and options to manipulate the simulation -->
     <div class="primary_toolbar">
       <div class="input_container">
         <label for="inputBox1" class="input_label"> Iterations:</label>
@@ -44,7 +44,7 @@
       </div>
       <!-- Container for lattice size input box -->
       <div class="input_container">
-        <label for="inputBox3" class="input_label"> Lattice Size: </label>
+        <label for="inputBox3" class="input_label"> Lattice: </label>
         <input type="text" id="inputBox3" class="simulation_input" placeholder="Enter lattice size...">
         <button id="submitButton3" class="submit_button"> Enter </button>
       </div>
@@ -68,7 +68,7 @@
         <label class="checkbox_label"> Null </label>
       </div>
     </div>
-    <!-- Secondary tool bar containing input boxes and options to manipulate the simulation -->
+    <!-- Secondary tool bar containing main buttons and log box for simulation -->
     <div class="secondary_toolbar">
       <!-- Container for iteration input box -->
       <button id="bigButton1" class="simulation_button"> Start </button>
@@ -79,8 +79,9 @@
       <button id="bigButton6" class="simulation_button"> About </button>
       <canvas id="logRegion" class="log_box"> </canvas>  <!-- Display region for the logs -->
     </div>
-    <div id="iterationOutput" class="iteration_output"></div>  <!-- Output region for iteration count -->
-    <center> <canvas id="latticeRegion" class="lattice_region"> </canvas> </center>  <!-- Display region for the lattices -->
+    <div id="iterationOutput" class="iteration_output"> </div>  <!-- Output region for iteration count -->
+    <center> <canvas id="latticeRegion" class="lattice_region"> </canvas> </center> <!-- Display region for the lattices -->
+    <!-- About window to provide information on Wolfram's Nearest Neighbor -->
     <div id="aboutContainer" class="about_container">
       <div id="aboutContent" class="about_content">
         <span class="close">&times; </span>
@@ -183,7 +184,6 @@
           no influence on the evolution of the system) or periodic boundaries (edges of the lattice wrap around to connect with the opposite edge).
           Overall, cellular automaton are discrete computational models composed of a grid of cells that iteratively evolve using a set mathematical rule.        
         </p>
-
       </div>
     </div>
     <!-- Connect online Javascript library to capture canvas as a PDF -->

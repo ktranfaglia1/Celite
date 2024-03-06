@@ -25,7 +25,7 @@ h1 {
   padding: 20px;
   background-color: #4682b4;
   font-family: Times;
-  font-size: 32px;
+  font-size: 34px;
   font-weight: bold;
   text-align: center;
   color: whitesmoke;
@@ -33,7 +33,7 @@ h1 {
 h2 {
   margin: 0;
   font-family: Times;
-  font-size: 32px;
+  font-size: 34px;
   font-weight: bold;
   text-align: center;
   color: black;
@@ -51,6 +51,7 @@ h3 {
   overflow: hidden;
 }
 .navbar a {
+  font-size: 16px;  
   float: left;
   display: block;
   color: whitesmoke;
@@ -68,12 +69,12 @@ h3 {
   overflow: hidden;
 }
 .drop_button {
-  font-size: 16px;  
   border: none;
   outline: none;
   color: whitesmoke;
   padding: 20px 24px;
   background-color: inherit;
+  font-size: inherit;
   font-family: inherit;
   margin: 0;
 }
@@ -107,7 +108,7 @@ h3 {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 18px;
+  font-size: 17px;
   border: none;
   border-radius: 20px;
   margin-left: 1.5%;
@@ -142,7 +143,7 @@ h3 {
 }
 /* input (submit) button, input box, and input label formatting */
 .input_label {
-  font-size: 16px;
+  font-size: 17px;
   margin: 8px 8px;
 }
 .simulation_input {
@@ -154,7 +155,7 @@ h3 {
   border: 2px solid #8a2be2;
   background-color: #9370DB;
   color: whitesmoke;
-  font-size: 14px;
+  font-size: 15px;
   text-align: center;
   text-decoration: none;
 }
