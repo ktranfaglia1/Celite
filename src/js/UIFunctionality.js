@@ -1,3 +1,10 @@
+/*
+UIFunctionality.js
+Authors: Kyle Tranfaglia, Timmy McKirgan, Dustin O'Brien
+Functions:
+
+*/
+
 let iterationInputBox = document.getElementById("inputBox1");
 let ruleInputBox = document.getElementById("inputBox2");
 let latticeSizeBox = document.getElementById("inputBox3");
@@ -18,25 +25,53 @@ let finiteCheckBox = document.getElementById('checkbox2');
 
 let toggleButton = document.querySelector('.toggle_button');
 
-var outputIteration = document.getElementById("iterationOutput")
+var outputIteration = document.getElementById("iterationOutput");
+
+
 
 let addIterations = 1; // Defaults iterations to add to 1
 let Run = 0; // Defaults to not keep running
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ * These Lines of code are all connecting some UI Functionality to a prebuilt function
+ * */
+
+
 iterateButton.addEventListener("click", function()
-{
-	iterate(currentIteration, addIterations);
-});
+{iterate(currentIteration, addIterations);});
 
 clearButton.addEventListener("click", function()
 {clear(latticeArray);});
 
 iterationSubmit.addEventListener("click", function()
-	{setLatticeSize();});
+{setLatticeSize();});
 
 stopButton.addEventListener("click", function()
-	{Run = 0;});
+{Run = 0;});
 
+ruleSubmit.addEventListener("click", function()
+{setRule(rule);})
+
+
+//Continously Checks where the mouse is on the Canvas too allow tick box to next to it
+canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
+
+
+// Blocks Start from working if already been clicked then runs its respective function
 startButton.addEventListener("click", function()
 {
 	if (Run != 1)
@@ -46,25 +81,38 @@ startButton.addEventListener("click", function()
 	}
 })
 
+
+// Runs program to flips squares if Clicked
 canvas.addEventListener('click', function(event)
 {
-	let bounds = canvas.getBoundingClientRect();
-	let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
-	let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
-	let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
-	let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
-	let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
-	
-	let mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
-	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
-	
-	setCells(latticeArray, mouseX, mouseY);	
+	let mouseX, mouseY;
+	[mouseX, mouseY] = getMouseLocation(event); //Calculates Proper location of mouse click for usage in setCells
+	setCells(latticeArray, mouseX, mouseY);	//Flips the cell if it was clicked on
 });
 
+
+//Sets the number of cells in a lattice
+latticeSizeSubmit.addEventListener("click", function() 
+{updateLatticeSize();})
+
+
+function updateLatticeSize()
+{
+	latSize = setCellNum(latSize); //updates latSize to no latSize
+	
+	//Sets cells to maximize usage of the canvas
+	size = canvas.width / latSize;
+
+	//Cells should have a maximum size of 45 :: This Caps cell size to 45
+	if (size > 45){
+		size = 45; 
+	}
+
+	clear(latticeArray); //emptys out canvas and redraws
+}
+
 ruleSubmit.addEventListener("click", function()
-	{
-	setRule(rule);
-	})
+	{setRule(rule);})
 
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
@@ -78,78 +126,36 @@ latticeSizeSubmit.addEventListener("click", function() {
 	clear(latticeArray);
 	})
 
-canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
 
 
-
-
+//generates the tick box in its proper location
 function makeTickBox(event, ctx)
 {
-	let bounds = canvas.getBoundingClientRect();
-	let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
-	let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
-	let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
-	let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
-	let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
 
-	
-	let mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
-	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
-	
-	setCells(latticeArray, mouseX, mouseY);	
-};
-
-ruleSubmit.addEventListener("click", function()
-	{
-	setRule(rule);
-	})
-
-//Sets the number of cells in a lattice
-latticeSizeSubmit.addEventListener("click", function() {
-	latSize = setCellNum(latSize);
-	
-	size = canvas.width / latSize;
-	//Cells should have a maximum size of 45
-	if (size > 45){
-		size = 45;
-	}
-	clear(latticeArray);
-	})
-
-canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
-
-
-
-
-function makeTickBox(event, ctx)
-{
-	var bounds = canvas.getBoundingClientRect();
-	var cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
-	var cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
-	var borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
-	var paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
-	var paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
-
-	var mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
-	var mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
+	var [mouseX, mouseY] = getMouseLocation(event); //Gets the mouse Location
 	
 	drawLattice(latticeArray);
-      	ctx.fillStyle = "grey";
-	ctx.fillRect(mouseX + 3, mouseY - 12, 33, 15);
+    ctx.fillStyle = "grey";
+	ctx.fillRect(mouseX + 3, mouseY - 12, 33, 15); //Draws the Tick Box square
 
+	//Sets text specifications
 	ctx.font = "13px Arial";
 	ctx.fillStyle = "black";
 
-	ctx.fillText(Math.floor(mouseY / size), mouseX + 4, mouseY)
+	let lineNumber = Math.floor(mouseY / size); //calculates what line your on
+
+	ctx.fillText(lineNumber, mouseX + 4, mouseY) //Puts the text in place
 }
 
+
+//repeatly iterates while run is true
 function continouslyIterate()
 {
-	if(Run)
+	if(Run) //Checks if Run is activate
 	{
-		setTimeout(function(){
-		iterate(currentIteration, 1);
-		continouslyIterate();
+		setTimeout(function(){ // puts a wait before iterating again
+		iterate(currentIteration, 1); //iterates the number of lattices
+		continouslyIterate(); // allows it to coninously run by calling it again
 		}, 750);
 	}
 }
@@ -157,66 +163,69 @@ function continouslyIterate()
 
 function setRule(rule)
 {
-	let newRule = parseInt(ruleInputBox.value);
-	Run = 0;
-	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
+	let newRule = parseInt(ruleInputBox.value); //Turns input in rule input box into a number
+	Run = 0; //Tells continous to not run
+	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255) //Checks if integer was a real integer and if its in the required range of the function
 	{
-		rule = ruleNumToRule(newRule);
+		rule = ruleNumToRule(newRule); //gets corresponding ruleNumber
 	}
 	else
 	{
-		console.log("Not a number");
+		console.log("Not a number"); //Outputs to console if something went wrong
 	}
 }
 
 //Sets new number of cells in a lattice
 function setCellNum(latSize)
 {
-	let newCellNum = parseInt(latticeSizeBox.value);
-	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
-	{
-		latSize = newCellNum;
-	}
+	let newCellNum = parseInt(latticeSizeBox.value); //Turns Input box input into a number
+	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) //Tests if input was truly an integer and then makes sure it was in the range of 1 and 1000 to make sure not too big
+	{latSize = newCellNum;} //updates the new cell number
 	else
-	{
-		console.log("Not a number")
-	}
-	return latSize;
+	{console.log("Not a number")} //outputs the error to console currently
+
+	return latSize; //returns the new lattice Size
 }
 
-function setLatticeSize()
+//sets Number of Lattice arrays to have
+function setLatticeSize() 
 {
-	let newValue = parseInt(iterationInputBox.value);
-	Run = 0;
-	if(!isNaN(newValue) && newValue > 0 && newValue <= 10000)
+	let newValue = parseInt(iterationInputBox.value); //Turns the iteration input to an integer
+	Run = 0; //sets run to stop
+	if(!isNaN(newValue) && newValue > 0 && newValue <= 10000) //Input Validates for iteration box
 	{
-		addIterations = newValue;		
+		addIterations = newValue;//updates the number of iterations
 	}
 	else
 	{
-		console.log("Not a number");
+		console.log("Not a number"); //outputs error to console
 	}
 }
 
+//gets rid of all arays except the first and sets it to all to dead
 function clear(latticeArray)
 {
 	numOfIterations = 1;
 	currentIteration = 1;
-	let clearedLattice = new Array ( new Array);
+	let clearedLattice = new Array (new Array);
 	nextLattice = new Array;
 	StartX = (canvas.width / 2) - (latSize * size / 2)
+
 	while (latticeArray.length > 1){
 		latticeArray.pop();
 	}
+
 	for (var i = 0; i < latSize; i++)
 	{
 		clearedLattice[0][i] = (new cell (size, size, StartX + i *size, 0, 0));
 	}
+
 	latticeArray[0] = clearedLattice[0].slice(0);
 	currentLattice = latticeArray[0];
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
 }
 
+//Takes Coordinates of mouseClick and calculates properly where it is in relation to the canvas
 function setCells(latticeArray, mouseX, mouseY)
 {
 
@@ -229,6 +238,30 @@ function setCells(latticeArray, mouseX, mouseY)
 	(latticeArray[0][i]).drawCell(ctx);
 	}
 
+}
+
+
+function getMouseLocation(event)
+{
+	//Gets the posistion of the edges of canvas
+	let bounds = canvas.getBoundingClientRect();
+
+	// Calculates Height and Width cooresponding to CSS setting of Canvas
+	let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
+	let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+	
+	//Calculates the width of the thin border that wraps around the canvas allowing for pixel perfect clicking
+	let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+	
+	//Gets the amount of padding which isnt generally considered in the mouse click
+	let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+	let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
+	
+	//calculates mouse X and mouse Y of the Mouse during click and then distorts and move the location to where it needs cooresponding
+	let mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
+	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
+
+	return [mouseX, mouseY];
 }
 
 
