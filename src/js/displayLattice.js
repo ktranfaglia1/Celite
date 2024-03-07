@@ -1,6 +1,3 @@
-//import { generateLattice } from './generateLattice.js'
-//import { ruleNumToRule } from '.generateLattice.js'
-
 var latticeArray = new Array ( new Array);
 var currentLattice = new Array()
 var nextLattice = new Array()
@@ -8,30 +5,29 @@ var Rule = new Array()
 
 var canvas = document.getElementById("latticeRegion");
 var ctx = canvas.getContext("2d"); // gets the lattice display region
-//this.canvas.width = this.canvas.offsetWidth;
-//this.canvas.height = this.canvas.offsetHeight;
-//canvas.style.width = 1800;
-//canvas.style.height = 1400;
+var outputIteration = document.getElementById("iterationOutput")
 
 var errorBox = document.getElementById("errorRegion");
 var errorContext = errorBox.getContext("2d"); // gets the lattice display region
 
 
-outputError("ERROR: THIS IS AN EXAMPLE")
+//outputError("ERROR: THIS IS AN EXAMPLE")
 
 var numOfIterations = 1;
 var currentIteration = 1;
 
-var size = 45;
+var size = 50;
 var XIndent = 1;
 var YIndent = 10;
 var YGap = 12;
 var XGap = 1;
 
+canvas.width = 1800;
+canvas.height = 400;
 
 
 canvas.width = 1400;
-canvas.height = 1500;
+canvas.height = 350;
 
 //canvas.height = (latticeArray.length * size + 10 + YIndent) + 'px';
 
@@ -55,7 +51,6 @@ function LatticeDisplay() {
 		currentLattice.push(new cell (size, size, StartX + i * size, 0, 0))
 	}
 }
-
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
@@ -89,19 +84,19 @@ updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, curren
 function drawLattice(latticeArray){
 //canvas.style.height = (latticeArray.length * size + 10) + 'px';
 
-var computedStyle = window.getComputedStyle(canvas);
-canvas.height = (latticeArray.length * size + YIndent);
-canvas.style.height = (latticeArray.length * size + YIndent) + 'px';
-//canvas.height = 1500;
+  var computedStyle = window.getComputedStyle(canvas);
+  if ((latticeArray.length * size + YIndent) > canvas.height) {
+    canvas.height = (latticeArray.length * size + YIndent);
+    canvas.style.height = (latticeArray.length * size + YIndent) + 'px';
+  }
+  //canvas.height = 1500;
 
-console.log(latticeArray);
+  console.log(latticeArray);
 
-ctx.clearRect(0,0, canvas.width, canvas.height);
-for (let j = 0; j < latticeArray.length; j++)
-  {
-    for (let i = 0; i < latticeArray[j].length; i++)
-    {
-	(latticeArray[j][i]).drawCell(ctx);
+  ctx.clearRect(0,0, canvas.width, canvas.height);
+  for (let j = 0; j < latticeArray.length; j++) {
+    for (let i = 0; i < latticeArray[j].length; i++) {
+      (latticeArray[j][i]).drawCell(ctx);
     }
   }
 }
@@ -115,16 +110,7 @@ function updateLattice(latticeArray, currentLattice, nextLattice, numOfIteration
     currentLattice = nextLattice;
   }
 	drawLattice(latticeArray);
-	//outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();
+	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();  // Display iteration count to HTML page upon update
 }
 
 
-
-
-function outputError(text)
-{
-	errorContext.font = "12px Arial";
-	errorContext.fillStyle = "red";
-
-	errorContext.fillText(text, 5, 25)
-}
