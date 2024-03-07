@@ -6,12 +6,11 @@ let iterationSubmit = document.getElementById("submitButton1");
 let ruleSubmit = document.getElementById("submitButton2");
 let latticeSizeSubmit = document.getElementById("submitButton3");
 
-let startButton = document.getElementById("bigButton1");
-let stopButton = document.getElementById("bigButton2");
-let iterateButton = document.getElementById("bigButton3");
-let clearButton = document.getElementById("bigButton4");
-let downloadButton = document.getElementById("bigButton5");
-let aboutButton = document.getElementById("bigButton6");
+const startStopButton = document.getElementById("bigButton1");
+let iterateButton = document.getElementById("bigButton2");
+let clearButton = document.getElementById("bigButton3");
+let downloadButton = document.getElementById("bigButton4");
+let aboutButton = document.getElementById("bigButton5");
 
 let infiniteCheckBox = document.getElementById('checkbox1');
 let finiteCheckBox = document.getElementById('checkbox2');
@@ -34,15 +33,18 @@ clearButton.addEventListener("click", function()
 iterationSubmit.addEventListener("click", function()
 	{setLatticeSize();});
 
-stopButton.addEventListener("click", function()
-	{Run = 0;});
+// stopButton.addEventListener("click", function()
+// 	{Run = 0;});
 
-startButton.addEventListener("click", function()
+startStopButton.addEventListener("click", function()
 {
 	if (Run != 1)
 	{
 	Run = 1;
 	continouslyIterate();
+	}
+	else {
+		Run = 0;
 	}
 })
 
@@ -280,15 +282,33 @@ downloadButton.addEventListener('click', function () {
 	pdf.save("Wolfram1DCanvas" + "I" + numOfIterations + "R" + RuleNum + "L" + LatSize + ".pdf");  // Save the PDF
 });
 
-// Handle open and closing of About window 
+// Handle switching GUI for Start/Stop Button upon click
+startStopButton.addEventListener("click", function() {
+	// If the button is in start state, change it to stop state and vice versa
+	if (startStopButton.classList.contains("start_button")) {
+    	startStopButton.innerHTML = "Stop";
+    	startStopButton.classList.remove("start_button");
+    	startStopButton.classList.add("stop_button");
+  	} 
+  	else {
+    	startStopButton.innerHTML = "Start";
+    	startStopButton.classList.remove("stop_button");
+    	startStopButton.classList.add("start_button");
+  	}
+});
+
+// Handle open and closing of About window
+// Open About button is clicked
 aboutButton.addEventListener("click", function() {
 	document.getElementById("aboutContainer").style.display = "block";
 });
 
+// Close if x button in top right of the window is cliked
 document.querySelector(".close").addEventListener("click", function() {
 	document.getElementById("aboutContainer").style.display = "none";
 });
 
+// Close if any space outside of the About window is clicked
 window.addEventListener("click", function(event) {
 	if (event.target == document.getElementById("aboutContainer")) {
 		document.getElementById("aboutContainer").style.display = "none";
