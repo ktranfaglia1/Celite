@@ -83,7 +83,7 @@ function drawLattice(latticeArray){
   var computedStyle = window.getComputedStyle(canvas);
   if ((latticeArray.length * size + YIndent) > canvas.height) {
     canvas.height = (latticeArray.length * size + YIndent);
-    canvas.style.height = (latticeArray.length * size + YIndent) + 'px';
+    //canvas.style.height = (latticeArray.length * size + YIndent) + 'px';
   }
   //canvas.height = 1500;
 
