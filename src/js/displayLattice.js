@@ -10,9 +10,6 @@ var outputIteration = document.getElementById("iterationOutput")
 var errorBox = document.getElementById("errorRegion");
 var errorContext = errorBox.getContext("2d"); // gets the lattice display region
 
-
-//outputError("ERROR: THIS IS AN EXAMPLE")
-
 var numOfIterations = 1;
 var currentIteration = 1;
 
@@ -64,12 +61,10 @@ updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, curren
 
 //Draws lattices to the canvas
 function drawLattice(latticeArray) {
-
-  //var computedStyle = window.getComputedStyle(canvas);
   //Increases canvas size such that lattice can fit.
   if ((latticeArray.length * size) > canvas.height) {
     canvas.height = (latticeArray.length * size);
-    canvas.style.height = (latticeArray.length * size) + 'px';
+    //canvas.style.height = (latticeArray.length * size) + 'px';
   }
 
   console.log(latticeArray);

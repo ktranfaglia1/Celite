@@ -1,6 +1,4 @@
-
 class cell {
-
 
 	constructor(height, width, XLocation, YLocation, color)
 	{
