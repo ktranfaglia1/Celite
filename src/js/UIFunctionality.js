@@ -1,3 +1,11 @@
+import {latticeArray, currentLattice, nextLattice, rule, canvas, ctx, outputIteration, alterRuleNum} from './displayLattice.js';
+import {numOfIterations, currentIteration, size, latSize, ruleNum, boundaryCon, drawLattice} from './displayLattice.js';
+import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice} from './displayLattice.js';
+import {alterRule, alterNumOfIterations, alterCurrentIteration} from './displayLattice.js';
+import {updateLattice} from './displayLattice.js';
+import {ruleNumToRule} from './generateLattice.js';
+import {cell} from './cellClass.js';
+
 let iterationInputBox = document.getElementById("inputBox1");
 let ruleInputBox = document.getElementById("inputBox2");
 let latticeSizeBox = document.getElementById("inputBox3");
@@ -16,12 +24,17 @@ let aboutButton = document.getElementById("primaryButton6");
 let infiniteCheckBox = document.getElementById('checkbox1');
 let finiteCheckBox = document.getElementById('checkbox2');
 
-let toggleButton = document.querySelector('.toggle_button');
+let toggleBar = document.getElementById('toggle_bar1')
 
-var outputIteration = document.getElementById("iterationOutput")
+let toggleButton = document.querySelector('.toggle_button');
 
 let addIterations = 1; // Defaults iterations to add to 1
 let Run = 0; // Defaults to not keep running
+
+toggleBar.addEventListener("click", function()
+{
+	toggleCheckbox();
+});
 
 iterateButton.addEventListener("click", function()
 {
@@ -68,21 +81,28 @@ ruleSubmit.addEventListener("click", function()
 
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
-	latSize = setCellNum(latSize);
-	
-	size = canvas.width / latSize;
+	//latSize = setCellNum(latSize);
+	let newCellNum = parseInt(latticeSizeBox.value);
+	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
+	{
+		alterLatSize(newCellNum);
+	}
+	else
+	{
+		console.log("Not a number")
+	}
+	alterSize(canvas.width / latSize);
 	//Cells should have a maximum size of 45
 	if (size > 45){
-		size = 45;
+		alterSize(45);
 	}
+	
 	clear(latticeArray);
 	})
 
 canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
 
-
-
-
+/*
 function makeTickBox(event, ctx)
 {
 	let bounds = canvas.getBoundingClientRect();
@@ -98,40 +118,21 @@ function makeTickBox(event, ctx)
 	
 	setCells(latticeArray, mouseX, mouseY);	
 };
-
-ruleSubmit.addEventListener("click", function()
-	{
-	setRule(rule);
-	})
-
-//Sets the number of cells in a lattice
-latticeSizeSubmit.addEventListener("click", function() {
-	latSize = setCellNum(latSize);
-	
-	size = canvas.width / latSize;
-	//Cells should have a maximum size of 45
-	if (size > 45){
-		size = 45;
-	}
-	clear(latticeArray);
-	})
+*/
 
 canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
 
-
-
-
 function makeTickBox(event, ctx)
 {
-	var bounds = canvas.getBoundingClientRect();
-	var cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
-	var cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
-	var borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
-	var paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
-	var paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
+	let bounds = canvas.getBoundingClientRect();
+	let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
+	let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+	let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+	let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+	let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
 
-	var mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
-	var mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
+	let mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
+	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
 	
 	drawLattice(latticeArray);
       	ctx.fillStyle = "grey";
@@ -155,33 +156,19 @@ function continouslyIterate()
 }
 
 
-function setRule(rule)
+function setRule()
 {
 	let newRule = parseInt(ruleInputBox.value);
 	Run = 0;
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255)
 	{
-		rule = ruleNumToRule(newRule);
+		alterRuleNum(newRule);
+		alterRule(ruleNumToRule(newRule));
 	}
 	else
 	{
 		console.log("Not a number");
 	}
-}
-
-//Sets new number of cells in a lattice
-function setCellNum(latSize)
-{
-	let newCellNum = parseInt(latticeSizeBox.value);
-	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
-	{
-		latSize = newCellNum;
-	}
-	else
-	{
-		console.log("Not a number")
-	}
-	return latSize;
 }
 
 function setLatticeSize()
@@ -200,33 +187,36 @@ function setLatticeSize()
 
 function clear(latticeArray)
 {
-	numOfIterations = 1;
-	currentIteration = 1;
+	alterNumOfIterations(1);
+	alterCurrentIteration(1);
 	let clearedLattice = new Array ( new Array);
-	nextLattice = new Array;
-	StartX = (canvas.width / 2) - (latSize * size / 2)
-	while (latticeArray.length > 1){
-		latticeArray.pop();
+	alterNextLattice(new Array);
+	let StartX = (canvas.width / 2) - (latSize * size / 2)
+	let neoLatticeArray = latticeArray;
+	while (neoLatticeArray.length > 1){
+		neoLatticeArray.pop();
 	}
-	for (var i = 0; i < latSize; i++)
+	for (let i = 0; i < latSize; i++)
 	{
 		clearedLattice[0][i] = (new cell (size, size, StartX + i *size, 0, 0));
 	}
-	latticeArray[0] = clearedLattice[0].slice(0);
-	currentLattice = latticeArray[0];
+	neoLatticeArray[0] = clearedLattice[0].slice(0);
+	alterLatticeArray(neoLatticeArray);
+	alterCurrentLattice(latticeArray[0]);
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
 }
 
 function setCells(latticeArray, mouseX, mouseY)
 {
-
+	let neoLatticeArray = latticeArray;
 	for (let i = 0 ; i < latticeArray[0].length; i++)
 	{
 		if(latticeArray[0][i].insideCell(mouseX, mouseY))
 		{
-			latticeArray[0][i].flipColor();
+			neoLatticeArray[0][i].flipColor();
 		}
-	(latticeArray[0][i]).drawCell(ctx);
+	(neoLatticeArray[0][i]).drawCell(ctx);
+	alterLatticeArray(neoLatticeArray);
 	}
 
 }
@@ -236,24 +226,26 @@ function iterate(currentIteration, newIterations)
 {
 	if(numOfIterations + newIterations > addIterations)
 	{
-		numOfIterations = addIterations;
+		alterNumOfIterations(addIterations);
 		Run = 0;
 	}
 	else
 	{
-	{numOfIterations += newIterations}
+		alterNumOfIterations(numOfIterations + newIterations);
 	}
-	while(latticeArray.length > numOfIterations)
+	let neoLatticeArray = latticeArray;
+	while(neoLatticeArray.length > numOfIterations)
 	{
-		latticeArray.pop();
+		neoLatticeArray.pop();
 	}
 
+	alterLatticeArray(neoLatticeArray);
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, rule, boundaryCon);
 	return currentIteration;
 }
 
 // Handle when toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
-function toggleCheckbox() {
+export function toggleCheckbox() {
 	// Set the first checkbox (not second checkbox) to be checked upon toggle button activation
 	let checkboxes = document.querySelectorAll('.checkbox_select');
     checkboxes[0].checked = true;
