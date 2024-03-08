@@ -186,7 +186,7 @@ h3 {
 }
 .submit_button {
   padding: 8px 8px;
-  border: 2px solid #8a2be2;
+  border: 1px solid black;
   background-color: #9570DB;
   color: whitesmoke;
   font-size: 15px;
@@ -210,7 +210,7 @@ h3 {
 }
 .about_content {
   background-color: #fefefe;
-  margin: 8% auto;
+  margin: 7% auto;
   border: 2px solid #888;
   padding: 1% 1% 1% 1%;
   width: 70%;

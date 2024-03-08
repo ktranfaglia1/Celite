@@ -116,8 +116,8 @@ let canvas = document.getElementById("latticeRegion");
 let ctx = canvas.getContext("2d"); // gets the lattice display region
 let outputIteration = document.getElementById("iterationOutput")
 
-canvas.width = 1400;
-canvas.height = 350;
+canvas.width = 1800;
+canvas.height = 400;
 
 let errorBox = document.getElementById("logRegion");
 let errorContext = errorBox.getContext("2d"); // gets the lattice display region
