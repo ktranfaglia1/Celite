@@ -1,4 +1,6 @@
-class cell {
+import {ctx, latSize} from './displayLattice.js';
+
+export class cell {
 
 	constructor(height, width, XLocation, YLocation, color)
 	{
@@ -72,5 +74,4 @@ class cell {
 	{
 		return this.color;
 	}
-
 }

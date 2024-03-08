@@ -1,25 +1,35 @@
+import {currentLattice, rule, canvas, size, latSize, ruleNum, boundaryCon} from './displayLattice.js';
+import {cell} from './cellClass.js';
+import {alterRule, alterRuleNum} from './displayLattice.js';
+//let imports = require("displayLattice.js");
+//console.log(imports);
+
 //Generates rule array based on input rule number.
-function ruleNumToRule(ruleNum) {
-  rule = new Array();
+export function ruleNumToRule(ruleNum) {
   //Converts rule number to binary represented as an array of 0s and 1s.
+  //console.log(ruleNum)
+  let neoRule = new Array();
+  let ruleNumCopy = ruleNum;
   for(let i = 0; i < 8; i++)
   {
-    rule[i] = ruleNum % 2;
-    ruleNum = Math.floor(ruleNum / 2);
+    neoRule[i] = ruleNumCopy % 2;
+    ruleNumCopy = Math.floor(ruleNumCopy / 2);
   }
+  alterRule(neoRule);
+  console.log(rule)
   return rule
 }
 
 //Generates the next lattice based on the current one, the rule, and the boundary condition.
-function generateLattice(currentLattice, rule, boundaryCon, rowIndex, size) {
-  	newLattice = new Array();
+export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, size) {
+  	let newLattice = new Array();
   	let startDif = (latSize * size) / 2;
   	let center = canvas.width / 2;
   	let startX = center - startDif;
 	//If boundary condition is periodic:
     if (boundaryCon == 1) {
 		//Iterate over length of new lattice
-		for(i = 0; i < currentLattice.length; i++) {
+		for(let i = 0; i < currentLattice.length; i++) {
 			newLattice.push(new cell (size, size, startX + i * size, rowIndex * size, 0))
 			//If this is the first cell, access the last cell from previous timestep
 			//If this is the last cell, access the first cell from previous timestep
