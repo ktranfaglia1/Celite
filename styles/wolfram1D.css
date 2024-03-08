@@ -1,15 +1,32 @@
 /* Wolfram's Nearest Neighbor 1D Simulation styles page */
 /* Display canvas formatting */
-canvas {
+.lattice_region {
   background-color: lightgrey;
   border: 3px solid black;
   padding: 1% 1% 1% 1%;
   max-width: 90%;
   margin-top: 12px;
 }
+/* Log box formatting */
+.log_box {
+  width: 160px;
+  height: 25px;
+  background-color: lightgrey;
+  border: 3px solid black;
+  padding: 1% 1% 1% 1%;
+  margin-left: 2%;
+}
+ul {
+  margin: 0 2.25%;
+  font-family: Times;
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: left;
+  color: black;
+}
 /* Iteration count formatting */
 .iteration_output {
-  font-size: 16px;
+  font-size: 17px;
   line-height: 0;
   margin: 0;
   margin-left: 8%;
@@ -35,8 +52,8 @@ canvas {
   transition: transform 0.4s ease;
 }
 .toggle_label {
-  margin: 4px 7px;
-  font-size: 16px;
+  margin: 3px 7px;
+  font-size: 17px;
 }
 /* Checkbox container and formatting */
 .checkbox_container {

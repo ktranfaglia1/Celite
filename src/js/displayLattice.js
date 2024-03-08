@@ -13,6 +13,9 @@ export function alterLatticeArray(neoLatticeArray) {
   latticeArray = neoLatticeArray;
 }
 
+/*var logBox = document.getElementById("logRegion");
+var logContext = logBox.getContext("2d"); // Gets the lattice display region*/
+
 //Mutator for currentLattice
 export function alterCurrentLattice(neoCurrentLattice) {
   currentLattice = neoCurrentLattice;
@@ -116,7 +119,7 @@ let outputIteration = document.getElementById("iterationOutput")
 canvas.width = 1400;
 canvas.height = 350;
 
-let errorBox = document.getElementById("errorRegion");
+let errorBox = document.getElementById("logRegion");
 let errorContext = errorBox.getContext("2d"); // gets the lattice display region
 
 let size = 45;
