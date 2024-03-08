@@ -32,7 +32,7 @@ let finiteCheckBox = document.getElementById('checkbox2');
 
 let toggleBar = document.getElementById('toggle_bar1')
 
-var outputIteration = document.getElementById("iterationOutput");
+//var outputIteration = document.getElementById("iterationOutput");
 
 
 let toggleButton = document.querySelector('.toggle_button');
@@ -110,10 +110,10 @@ latticeSizeSubmit.addEventListener("click", function()
 
 function updateLatticeSize()
 {
-	latSize = setCellNum(latSize); //updates latSize to no latSize
+	alterLatSize(setCellNum(latSize)); //updates latSize to no latSize
 	
 	//Sets cells to maximize usage of the canvas
-	size = canvas.width / latSize;
+	alterSize(canvas.width / latSize);
 
 	//Cells should have a maximum size of 45 :: This Caps cell size to 45
 	if (size > 45){
@@ -224,21 +224,7 @@ function setLatticeSize()
 		console.log("Not a number")
 		outputError("Not a number")
 	}
-	return LatSize;
-}
-
-function setLatticeSize()
-{
-	let newValue = parseInt(iterationInputBox.value);
-	Run = 0;
-	if(!isNaN(newValue) && newValue > 0 && newValue <= 10000)
-	{
-		addIterations = newValue;		
-	}
-	else
-	{
-		console.log("Not a number");
-	}
+	return addIterations;
 }
 
 //gets rid of all arays except the first and sets it to all to dead

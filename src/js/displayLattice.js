@@ -119,9 +119,6 @@ canvas.height = 350;
 let errorBox = document.getElementById("errorRegion");
 let errorContext = errorBox.getContext("2d"); // gets the lattice display region
 
-let numOfIterations = 1;
-let currentIteration = 1;
-
 let size = 45;
 
 /*
@@ -133,6 +130,8 @@ timestep.
 */
 let inf = false;
 let latSize = 10;
+let numOfIterations = 1;
+let currentIteration = 1;
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
