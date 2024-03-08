@@ -1,6 +1,4 @@
-
 class cell {
-
 
 	constructor(height, width, XLocation, YLocation, color)
 	{
@@ -14,7 +12,7 @@ class cell {
 	drawCell(ctx)
 	{
 
-		if(LatSize <= 200)
+		if(latSize <= 200)
 		{
 		if(this.color == 1)
 		{
@@ -37,7 +35,7 @@ class cell {
 		ctx.fillStyle = "black"
 		}
 		
-		if(LatSize <= 200)
+		if(latSize <= 200)
 		ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.height - 2, this.width - 2);
 		else
 		ctx.fillRect(this.XLocation, this.YLocation, this.height, this.width);
