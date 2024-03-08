@@ -1,3 +1,4 @@
+//import * from cors
 import {currentLattice, rule, canvas, size, latSize, ruleNum, boundaryCon} from './displayLattice.js';
 import {cell} from './cellClass.js';
 import {alterRule, alterRuleNum} from './displayLattice.js';
