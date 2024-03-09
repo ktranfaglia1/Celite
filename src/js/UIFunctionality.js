@@ -3,6 +3,24 @@ UIFunctionality.js
 Authors: Kyle Tranfaglia, Timmy McKirgan, Dustin O'Brien
 Functions:
 
+Event Listeners for:
+
+Toggle bar
+iterate Button
+clear Button
+iteration Submit
+rule Submit
+start / stop Button
+lattice Size submit Button
+Mouse Clicking
+latticeSize Submit
+
+Functions:
+function() :: Parameters: :: Functionality:
+updateLatticeSize() :: Parameters:  :: Functionality: Updates number of cells in a lattice
+makeTickBox() :: 
+
+
 */
 import {latticeArray, currentLattice, nextLattice, rule, canvas, ctx, outputIteration, alterRuleNum} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, boundaryCon, drawLattice} from './displayLattice.js';
@@ -12,29 +30,32 @@ import {updateLattice} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
 
-let iterationInputBox = document.getElementById("inputBox1");
-let ruleInputBox = document.getElementById("inputBox2");
-let latticeSizeBox = document.getElementById("inputBox3");
+//Pulls in all the Input Boxes as elements
+const iterationInputBox = document.getElementById("inputBox1");
+const ruleInputBox = document.getElementById("inputBox2");
+const latticeSizeBox = document.getElementById("inputBox3");
 
-let iterationSubmit = document.getElementById("submitButton1");
-let ruleSubmit = document.getElementById("submitButton2");
-let latticeSizeSubmit = document.getElementById("submitButton3");
+//Pulls in all the Submit Buttons as elements
+const iterationSubmit = document.getElementById("submitButton1");
+const ruleSubmit = document.getElementById("submitButton2");
+const latticeSizeSubmit = document.getElementById("submitButton3");
 
+//Pulls in buttons as elements
 const startStopButton = document.getElementById("bigButton1");
-let iterateButton = document.getElementById("bigButton2");
-let clearButton = document.getElementById("bigButton3");
-let downloadButton = document.getElementById("bigButton4");
-let aboutButton = document.getElementById("bigButton5");
+const iterateButton = document.getElementById("bigButton2");
+const clearButton = document.getElementById("bigButton3");
+const downloadButton = document.getElementById("bigButton4");
+const aboutButton = document.getElementById("bigButton5");
 
-let infiniteCheckBox = document.getElementById('checkbox1');
-let finiteCheckBox = document.getElementById('checkbox2');
+//Sets up checkboxes for Infinite and Finite
+const infiniteCheckBox = document.getElementById('checkbox1');
+const finiteCheckBox = document.getElementById('checkbox2');
 
-let toggleBar = document.getElementById('toggle_bar1')
+//Brings in Kyles Toggle Bar
+const toggleBar = document.getElementById('toggle_bar1')
 
-//var outputIteration = document.getElementById("iterationOutput");
-
-
-let toggleButton = document.querySelector('.toggle_button');
+// Brings the button aspect of kyles toggle bar
+const toggleButton = document.querySelector('.toggle_button');
 
 let addIterations = 1; // Defaults iterations to add to 1
 let Run = 0; // Defaults to not keep running
@@ -57,10 +78,11 @@ let Run = 0; // Defaults to not keep running
  * These Lines of code are all connecting some UI Functionality to a prebuilt function
  * */
 
+ruleSubmit.addEventListener("click", function()
+{setRule(rule);})
+
 toggleBar.addEventListener("click", function()
-{
-	toggleCheckbox();
-});
+{toggleCheckbox();});
 
 iterateButton.addEventListener("click", function()
 {iterate(currentIteration, addIterations);});
@@ -74,9 +96,22 @@ iterationSubmit.addEventListener("click", function()
 ruleSubmit.addEventListener("click", function()
 {setRule(rule);})
 
+//Sets the number of cells in a lattice
+latticeSizeSubmit.addEventListener("click", function() 
+{updateLatticeSize();})
 
 //Continously Checks where the mouse is on the Canvas too allow tick box to next to it
 canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
+
+// Runs program to flips squares if Clicked
+canvas.addEventListener('click', function(event)
+{
+	let mouseX, mouseY;
+	[mouseX, mouseY] = getMouseLocation(event); //Calculates Proper location of mouse click for usage in setCells
+	setCells(latticeArray, mouseX, mouseY);	//Flips the cell if it was clicked on
+});
+
+
 
 startStopButton.addEventListener("click", function()
 {
@@ -89,44 +124,25 @@ startStopButton.addEventListener("click", function()
 		Run = 0;
 	}
 })
-
-
-// Runs program to flips squares if Clicked
-canvas.addEventListener('click', function(event)
-{
-	let mouseX, mouseY;
-	[mouseX, mouseY] = getMouseLocation(event); //Calculates Proper location of mouse click for usage in setCells
-	setCells(latticeArray, mouseX, mouseY);	//Flips the cell if it was clicked on
-});
-
-
-//Sets the number of cells in a lattice
-latticeSizeSubmit.addEventListener("click", function() 
-{updateLatticeSize();})
-
-
-function updateLatticeSize()
-{
-	alterLatSize(setCellNum(latSize)); //updates latSize to no latSize
-	
-	//Sets cells to maximize usage of the canvas
-	alterSize(canvas.width / latSize);
-
-	//Cells should have a maximum size of 45 :: This Caps cell size to 45
-	if (size > 45){
-		size = 45; 
-	}
-
-	clear(latticeArray); //emptys out canvas and redraws
-}
-
-ruleSubmit.addEventListener("click", function()
-	{setRule(rule);})
-
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
 	//latSize = setCellNum(latSize);
+	alterSize(canvas.width / latSize);
+	//Cells should have a maximum size of 45
+	if (size > 45){
+		alterSize(45);
+	}
+	
+	clear(latticeArray);
+})
+
+
+
+// Updates the number of cells in a lattice and resizes cells to coorespond with new size
+function updateLatticeSize()
+{
 	let newCellNum = parseInt(latticeSizeBox.value);
+	
 	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
 	{
 		alterLatSize(newCellNum);
@@ -135,14 +151,19 @@ latticeSizeSubmit.addEventListener("click", function() {
 	{
 		console.log("Not a number")
 	}
-	alterSize(canvas.width / latSize);
-	//Cells should have a maximum size of 45
+	
+	let size = canvas.width / latSize;
+
+	//Cells should have a maximum size of 45 :: This Caps cell size to 45
 	if (size > 45){
-		alterSize(45);
+		size = 45; 
 	}
 	
-	clear(latticeArray);
-	})
+	alterSize(size);
+
+	clear(latticeArray); //emptys out canvas and redraws
+}
+
 
 
 
@@ -262,7 +283,7 @@ function setCells(latticeArray, mouseX, mouseY)
 
 }
 
-
+//Gets Mouse Location for events
 function getMouseLocation(event)
 {
 	//Gets the posistion of the edges of canvas

@@ -1,3 +1,23 @@
+/*
+UIFunctionality.js
+Authors: Timmy McKirgan, Dustin O'Brien
+Functions:
+
+alter functions for:
+
+latSize :: Number of Cells in a lattice
+size : Cell Size
+latticeArray : 2D Cell Aray that is Displayed
+currentLattice : Lattice Array at the Bottom of the canvas
+nextLattice : Lattice the Next Index will be set too
+rule : This is the Rule number for generating how it will work
+numOfIterations : Holds number of Iterations to Create
+currentIteration : array that holds the bottom of the array
+inf : 
+
+*/
+
+
 //Mutator for latSize
 export function alterLatSize(neoLatSize) {
   latSize = neoLatSize;
@@ -107,21 +127,31 @@ export function updateLattice(latticeArray, currentLattice, nextLattice, numOfIt
 import {cell} from "./cellClass.js"
 import {ruleNumToRule, generateLattice} from "./generateLattice.js";
 
+//This Variable is used to store the full set of all the lattices
 let latticeArray = new Array ( new Array);
+//this holds the lattice on the bottom of the array
 let currentLattice = new Array()
+// Temporary storage holds the next lattice
 let nextLattice = new Array()
+// :IDK TIMMY FILL THIS IN:
 let rule = new Array()
 
+// Gets data on the canvas for displaying purposes
 let canvas = document.getElementById("latticeRegion");
 let ctx = canvas.getContext("2d"); // gets the lattice display region
+//Shows user what iteration we are currently on
 let outputIteration = document.getElementById("iterationOutput")
 
+//Sets default Canvas Size
 canvas.width = 1400;
 canvas.height = 350;
 
-let errorBox = document.getElementById("logRegion");
+let errorBox = document.getElementById("logRegion"); //Box for Displaying Errors
 let errorContext = errorBox.getContext("2d"); // gets the lattice display region
 
+//console.log(errorContext);
+
+//Sets default Lattice Size
 let size = 45;
 
 /*
@@ -146,12 +176,15 @@ latice.
 let ruleNum = 90;
 let boundaryCon = 1;
 
+//Sends Variables to needed location
 export {ruleNum, boundaryCon, latSize, inf, size, currentIteration};
 export {errorContext, errorBox, outputIteration, ctx, canvas, rule, nextLattice};
 export {latticeArray, numOfIterations, currentLattice};
 
+//Sets starting lattice to all dead
 latticeArray[0] = currentLattice;
 
+//Displays Default Lattice state
 LatticeDisplay()
-rule = ruleNumToRule(ruleNum);
-updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, rule, boundaryCon);
+rule = ruleNumToRule(ruleNum); //sets default ruleset
+
