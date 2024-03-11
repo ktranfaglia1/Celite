@@ -1,8 +1,10 @@
 /*
-UIFunctionality.js
-Authors: Kyle Tranfaglia, Timmy McKirgan, Dustin O'Brien
-Functions:
-
+* UIFunctionality.js
+* Authors: Kyle Tranfaglia, Timmy McKirgan, Dustin O'Brien
+* This file handles all user interface Functionality. It is the bulk of the program and handles all button clicks,
+information inputs, mouse actions, lattice changes, cell changes, iterations, and updates/calculates information
+for simulation modifications and communicates it with utility files
+* Last Updated: 03/11/24
 */
 import {latticeArray, currentLattice, nextLattice, rule, canvas, ctx, outputIteration, alterRuleNum} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, boundaryCon, drawLattice} from './displayLattice.js';
@@ -12,68 +14,57 @@ import {updateLattice} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
 
-let iterationInputBox = document.getElementById("inputBox1");
-let ruleInputBox = document.getElementById("inputBox2");
-let latticeSizeBox = document.getElementById("inputBox3");
+/* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
+const iterationInputBox = document.getElementById("inputBox1");
+const ruleInputBox = document.getElementById("inputBox2");
+const latticeSizeBox = document.getElementById("inputBox3");
 
-let iterationSubmit = document.getElementById("submitButton1");
-let ruleSubmit = document.getElementById("submitButton2");
-let latticeSizeSubmit = document.getElementById("submitButton3");
+const iterationSubmit = document.getElementById("submitButton1");
+const ruleSubmit = document.getElementById("submitButton2");
+const latticeSizeSubmit = document.getElementById("submitButton3");
 
 const startStopButton = document.getElementById("bigButton1");
-let iterateButton = document.getElementById("bigButton2");
-let clearButton = document.getElementById("bigButton3");
-let downloadButton = document.getElementById("bigButton4");
-let aboutButton = document.getElementById("bigButton5");
+const iterateButton = document.getElementById("bigButton2");
+const clearButton = document.getElementById("bigButton3");
+const downloadButton = document.getElementById("bigButton4");
+const aboutButton = document.getElementById("bigButton5");
 
-let infiniteCheckBox = document.getElementById('checkbox1');
-let finiteCheckBox = document.getElementById('checkbox2');
+const infiniteCheckBox = document.getElementById('checkbox1');
+const finiteCheckBox = document.getElementById('checkbox2');
 
-let toggleBar = document.getElementById('toggle_bar1')
+const toggleBar = document.getElementById('toggle_bar1')
 
-//var outputIteration = document.getElementById("iterationOutput");
+const aboutWindow = document.getElementById("aboutContainer");
 
+/* Global constants connecting HTML/CSS features to JS by class name to impliment functionality */
+const toggleButton = document.querySelector('.toggle_button');
+const checkboxes = document.querySelectorAll('.checkbox_select');
+const closeWindow = document.querySelector(".close");
 
-let toggleButton = document.querySelector('.toggle_button');
-
+// Global variables for iteration
 let addIterations = 1; // Defaults iterations to add to 1
 let Run = 0; // Defaults to not keep running
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- * These Lines of code are all connecting some UI Functionality to a prebuilt function
- * */
-
-toggleBar.addEventListener("click", function()
-{
+// Connect UI Functionality to a prebuilt function
+toggleBar.addEventListener("click", function() {
 	toggleCheckbox();
 });
 
-iterateButton.addEventListener("click", function()
-{iterate(currentIteration, addIterations);});
+iterateButton.addEventListener("click", function() {
+	iterate(currentIteration, addIterations);
+});
 
-clearButton.addEventListener("click", function()
-{clear(latticeArray);});
+clearButton.addEventListener("click", function() {
+	clear(latticeArray);
+});
 
-iterationSubmit.addEventListener("click", function()
-{setLatticeSize();});
+iterationSubmit.addEventListener("click", function() {
+	setLatticeSize();
+});
 
-ruleSubmit.addEventListener("click", function()
-{setRule(rule);})
-
+ruleSubmit.addEventListener("click", function() {
+	setRule(rule);
+})
 
 //Continously Checks where the mouse is on the Canvas too allow tick box to next to it
 canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
@@ -90,7 +81,6 @@ startStopButton.addEventListener("click", function()
 	}
 })
 
-
 // Runs program to flips squares if Clicked
 canvas.addEventListener('click', function(event)
 {
@@ -99,14 +89,11 @@ canvas.addEventListener('click', function(event)
 	setCells(latticeArray, mouseX, mouseY);	//Flips the cell if it was clicked on
 });
 
-
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() 
 {updateLatticeSize();})
 
-
-function updateLatticeSize()
-{
+function updateLatticeSize() {
 	alterLatSize(setCellNum(latSize)); //updates latSize to no latSize
 	
 	//Sets cells to maximize usage of the canvas
@@ -142,13 +129,10 @@ latticeSizeSubmit.addEventListener("click", function() {
 	}
 	
 	clear(latticeArray);
-	})
-
-
+})
 
 //generates the tick box in its proper location
-function makeTickBox(event, ctx)
-{
+function makeTickBox(event, ctx) {
 
 	var [mouseX, mouseY] = getMouseLocation(event); //Gets the mouse Location
 	
@@ -165,7 +149,6 @@ function makeTickBox(event, ctx)
 	ctx.fillText(lineNumber, mouseX + 4, mouseY) //Puts the text in place
 }
 
-
 //repeatly iterates while run is true
 function continouslyIterate()
 {
@@ -178,9 +161,7 @@ function continouslyIterate()
 	}
 }
 
-
-function setRule()
-{
+function setRule() {
 	let newRule = parseInt(ruleInputBox.value); //Turns input in rule input box into a number
 	Run = 0; //Tells continous to not run
 	if(!isNaN(newRule) && newRule >= 0 && newRule <= 255) //Checks if integer was a real integer and if its in the required range of the function
@@ -196,8 +177,7 @@ function setRule()
 }
 
 //Sets new number of cells in a lattice
-function setCellNum(latSize)
-{
+function setCellNum(latSize) {
 	let newCellNum = parseInt(latticeSizeBox.value); //Turns Input box input into a number
 	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) //Tests if input was truly an integer and then makes sure it was in the range of 1 and 1000 to make sure not too big
 	{latSize = newCellNum;} //updates the new cell number
@@ -208,8 +188,7 @@ function setCellNum(latSize)
 }
 
 //sets Number of Lattice arrays to have
-function setLatticeSize() 
-{
+function setLatticeSize() {
 	let newValue = parseInt(iterationInputBox.value); //Turns the iteration input to an integer
 	Run = 0; //sets run to stop
 	if(!isNaN(newValue) && newValue > 0 && newValue <= 10000) //Input Validates for iteration box
@@ -225,8 +204,7 @@ function setLatticeSize()
 }
 
 //gets rid of all arays except the first and sets it to all to dead
-function clear(latticeArray)
-{
+function clear(latticeArray) {
 	alterNumOfIterations(1);
 	alterCurrentIteration(1);
 	let clearedLattice = new Array ( new Array);
@@ -247,8 +225,7 @@ function clear(latticeArray)
 }
 
 //Takes Coordinates of mouseClick and calculates properly where it is in relation to the canvas
-function setCells(latticeArray, mouseX, mouseY)
-{
+function setCells(latticeArray, mouseX, mouseY) {
 	let neoLatticeArray = latticeArray;
 	for (let i = 0 ; i < latticeArray[0].length; i++)
 	{
@@ -262,9 +239,7 @@ function setCells(latticeArray, mouseX, mouseY)
 
 }
 
-
-function getMouseLocation(event)
-{
+function getMouseLocation(event) {
 	//Gets the posistion of the edges of canvas
 	let bounds = canvas.getBoundingClientRect();
 
@@ -286,9 +261,7 @@ function getMouseLocation(event)
 	return [mouseX, mouseY];
 }
 
-
-function iterate(currentIteration, newIterations)
-{
+function iterate(currentIteration, newIterations) {
 	if(numOfIterations + newIterations > addIterations)
 	{
 		alterNumOfIterations(addIterations);
@@ -312,7 +285,6 @@ function iterate(currentIteration, newIterations)
 // Handle when toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
 export function toggleCheckbox() {
 	// Set the first checkbox (not second checkbox) to be checked upon toggle button activation
-	let checkboxes = document.querySelectorAll('.checkbox_select');
     checkboxes[0].checked = true;
 	checkboxes[1].checked = false;
 	// If checkboxes are currently hidden (toggle bar was not active) display the checkboxes and animate toggle button
@@ -329,11 +301,11 @@ export function toggleCheckbox() {
 }
 
 // Ensure one and only one checkbox can be checked at a time upon checkbox click
-document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
+checkboxes.forEach(function(checkbox) {
     checkbox.addEventListener('change', function() {
 		// Box is set to be checked upon change
         if (this.checked) {
-            document.querySelectorAll('.checkbox_select').forEach(function(otherCheckbox) {
+            checkboxes.forEach(function(otherCheckbox) {
 				// If one checkbox is already checked, uncheck the other checkbox
 				if (otherCheckbox != checkbox) {
                     otherCheckbox.checked = false;
@@ -347,8 +319,7 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
     });
 });
 
-function outputError(text)
-{
+function outputError(text) {
 	errorContext.font = "12px Arial";
 	errorContext.fillStyle = "red";
 
@@ -357,11 +328,6 @@ function outputError(text)
 
 	}, 750);
 }
-
-
-
-
-
 
 // Capture canvas as a PDF upon clickling the 'Download" button
 downloadButton.addEventListener('click', function () {
@@ -409,21 +375,22 @@ startStopButton.addEventListener("click", function() {
   	}
 });
 
-// Handle open and closing of About window
-// Open About button is clicked
+/* Handle open and closing of about window */
+// Open About button is clicked, display about window
 aboutButton.addEventListener("click", function() {
-	document.getElementById("aboutContainer").style.display = "block";
+	aboutWindow.style.display = "block";
 });
 
-// Close if x button in top right of the window is cliked
-document.querySelector(".close").addEventListener("click", function() {
-	document.getElementById("aboutContainer").style.display = "none";
+// Close if x (close) button in top right of the window is cliked
+closeWindow.addEventListener("click", function() {
+	aboutWindow.style.display = "none";
 });
 
-// Close if any space outside of the About window is clicked
+// Close if any space outside of the about window is clicked
 window.addEventListener("click", function(event) {
-	if (event.target == document.getElementById("aboutContainer")) {
-		document.getElementById("aboutContainer").style.display = "none";
+	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
+	if (event.target == aboutWindow) {
+		aboutWindow.style.display = "none";
 	}
 });
 
