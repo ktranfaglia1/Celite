@@ -108,6 +108,7 @@ import {ruleNumToRule, generateLattice} from "./generateLattice.js";
 let latticeArray = new Array ( new Array);
 let currentLattice = new Array()
 let nextLattice = new Array()
+//This creates a rule array to set as the desired rule when ruleNumToRule is called.
 let rule = new Array()
 
 let canvas = document.getElementById("latticeRegion");
