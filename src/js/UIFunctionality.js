@@ -14,12 +14,11 @@ let iterationSubmit = document.getElementById("submitButton1");
 let ruleSubmit = document.getElementById("submitButton2");
 let latticeSizeSubmit = document.getElementById("submitButton3");
 
-let startButton = document.getElementById("primaryButton1");
-let stopButton = document.getElementById("primaryButton2");
-let iterateButton = document.getElementById("primaryButton3");
-let clearButton = document.getElementById("primaryButton4");
-let downloadButton = document.getElementById("primaryButton5");
-let aboutButton = document.getElementById("primaryButton6");
+const startStopButton = document.getElementById("bigButton1");
+let iterateButton = document.getElementById("bigButton2");
+let clearButton = document.getElementById("bigButton3");
+let downloadButton = document.getElementById("bigButton4");
+let aboutButton = document.getElementById("bigButton5");
 
 let infiniteCheckBox = document.getElementById('checkbox1');
 let finiteCheckBox = document.getElementById('checkbox2');
@@ -47,15 +46,18 @@ clearButton.addEventListener("click", function()
 iterationSubmit.addEventListener("click", function()
 	{setLatticeSize();});
 
-stopButton.addEventListener("click", function()
-	{Run = 0;});
+// stopButton.addEventListener("click", function()
+// 	{Run = 0;});
 
-startButton.addEventListener("click", function()
+startStopButton.addEventListener("click", function()
 {
 	if (Run != 1)
 	{
 	Run = 1;
 	continouslyIterate();
+	}
+	else {
+		Run = 0;
 	}
 })
 
@@ -284,7 +286,6 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
 
 // Capture canvas as a PDF upon clickling the 'Download" button
 downloadButton.addEventListener('click', function () {
-	let randNum = Math.floor(Math.random() * 99) + 1;  // Get random number for "unique" pdf save names 
 	let imgData = canvas.toDataURL("image/png");  // Get the image data from the canvas
 	let pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);  // Create a new PDF document with the canvas dimensions as page size
 
@@ -314,4 +315,37 @@ downloadButton.addEventListener('click', function () {
 	pdf.save("Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".pdf");  // Save the PDF
 });
 
-outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); // Display (initial) iteration count to HTML page
+// Handle switching GUI for Start/Stop Button upon click
+startStopButton.addEventListener("click", function() {
+	// If the button is in start state, change it to stop state and vice versa
+	if (startStopButton.classList.contains("start_button")) {
+    	startStopButton.innerHTML = "Stop";
+    	startStopButton.classList.remove("start_button");
+    	startStopButton.classList.add("stop_button");
+  	} 
+  	else {
+    	startStopButton.innerHTML = "Start";
+    	startStopButton.classList.remove("stop_button");
+    	startStopButton.classList.add("start_button");
+  	}
+});
+
+// Handle open and closing of About window
+// Open About button is clicked
+aboutButton.addEventListener("click", function() {
+	document.getElementById("aboutContainer").style.display = "block";
+});
+
+// Close if x button in top right of the window is cliked
+document.querySelector(".close").addEventListener("click", function() {
+	document.getElementById("aboutContainer").style.display = "none";
+});
+
+// Close if any space outside of the About window is clicked
+window.addEventListener("click", function(event) {
+	if (event.target == document.getElementById("aboutContainer")) {
+		document.getElementById("aboutContainer").style.display = "none";
+	}
+});
+
+outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
