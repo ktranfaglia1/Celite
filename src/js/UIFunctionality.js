@@ -41,11 +41,13 @@ const toggleButton = document.querySelector('.toggle_button');
 const checkboxes = document.querySelectorAll('.checkbox_select');
 const closeWindow = document.querySelector(".close");
 
-// Global variables for iteration
+/* Global variables for iteration */
 let addIterations = 1; // Defaults iterations to add to 1
 let Run = 0; // Defaults to not keep running
 
-// Connect UI Functionality to a prebuilt function
+// toggleCheckbox(); // Call function to defualt finte (periodic) simulation instead of finite
+
+/* Connect UI Functionality to a prebuilt function */
 toggleBar.addEventListener("click", function() {
 	toggleCheckbox();
 });
@@ -66,7 +68,7 @@ ruleSubmit.addEventListener("click", function() {
 	setRule(rule);
 })
 
-//Continously Checks where the mouse is on the Canvas too allow tick box to next to it
+// Continously Checks where the mouse is on the Canvas too allow tick box to next to it
 canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
 
 startStopButton.addEventListener("click", function()
@@ -85,13 +87,14 @@ startStopButton.addEventListener("click", function()
 canvas.addEventListener('click', function(event)
 {
 	let mouseX, mouseY;
-	[mouseX, mouseY] = getMouseLocation(event); //Calculates Proper location of mouse click for usage in setCells
-	setCells(latticeArray, mouseX, mouseY);	//Flips the cell if it was clicked on
+	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of mouse click for usage in setCells
+	setCells(latticeArray, mouseX, mouseY);	// Flips the cell if it was clicked on
 });
 
-//Sets the number of cells in a lattice
-latticeSizeSubmit.addEventListener("click", function() 
-{updateLatticeSize();})
+// Sets the number of cells in a lattice
+latticeSizeSubmit.addEventListener("click", function() {
+	updateLatticeSize();
+})
 
 function updateLatticeSize() {
 	alterLatSize(setCellNum(latSize)); //updates latSize to no latSize
@@ -393,5 +396,7 @@ window.addEventListener("click", function(event) {
 		aboutWindow.style.display = "none";
 	}
 });
+
+
 
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
