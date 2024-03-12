@@ -15,31 +15,37 @@ import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
-const iterationInputBox = document.getElementById("inputBox1");
-const ruleInputBox = document.getElementById("inputBox2");
-const latticeSizeBox = document.getElementById("inputBox3");
+const iterationInputBox = document.getElementById("iterationInputBox");
+const ruleInputBox = document.getElementById("ruleInputBox");
+const latticeSizeBox = document.getElementById("latticeSizeBox");
 
-const iterationSubmit = document.getElementById("submitButton1");
-const ruleSubmit = document.getElementById("submitButton2");
-const latticeSizeSubmit = document.getElementById("submitButton3");
+const iterationSubmit = document.getElementById("iterationSubmit");
+const ruleSubmit = document.getElementById("ruleSubmit");
+const latticeSizeSubmit = document.getElementById("latticeSizeSubmit");
 
-const startStopButton = document.getElementById("bigButton1");
-const iterateButton = document.getElementById("bigButton2");
-const clearButton = document.getElementById("bigButton3");
-const downloadButton = document.getElementById("bigButton4");
-const aboutButton = document.getElementById("bigButton5");
+const startStopButton = document.getElementById("startStopButton");
+const iterateButton = document.getElementById("iterateButton");
+const clearButton = document.getElementById("clearButton");
+const downloadPDFButton = document.getElementById("downloadPDFButton");
+const downloadPNGButton = document.getElementById("downloadPNGButton");
+const aboutButton = document.getElementById("aboutButton");
+const optionsButton = document.getElementById("optionsButton");
 
-const infiniteCheckBox = document.getElementById('checkbox1');
-const finiteCheckBox = document.getElementById('checkbox2');
+const periodicCheckBox = document.getElementById("periodicCheckBox");
+const nullCheckBox = document.getElementById("nullCheckBox");
 
-const toggleBar = document.getElementById('toggle_bar1')
+const boundToggle = document.getElementById("boundToggle");
+const iterationToggle = document.getElementById("iterationToggle");
+const borderToggle = document.getElementById("borderToggle");
 
 const aboutWindow = document.getElementById("aboutContainer");
+const optionsWindow = document.getElementById("optionsContainer");
 
 /* Global constants connecting HTML/CSS features to JS by class name to impliment functionality */
-const toggleButton = document.querySelector('.toggle_button');
-const checkboxes = document.querySelectorAll('.checkbox_select');
-const closeWindow = document.querySelector(".close");
+const toggleButton = document.querySelector(".toggle_button");
+const checkboxes = document.querySelectorAll(".checkbox_select");
+const closeAbout = document.querySelector("#aboutContent .close");
+const closeOptions = document.querySelector("#optionsContent .close");
 
 /* Global variables for iteration */
 let addIterations = 1; // Defaults iterations to add to 1
@@ -48,7 +54,7 @@ let Run = 0; // Defaults to not keep running
 // toggleCheckbox(); // Call function to defualt finte (periodic) simulation instead of finite
 
 /* Connect UI Functionality to a prebuilt function */
-toggleBar.addEventListener("click", function() {
+boundToggle.addEventListener("click", function() {
 	toggleCheckbox();
 });
 
@@ -206,20 +212,20 @@ function setLatticeSize() {
 	return addIterations;
 }
 
-//gets rid of all arays except the first and sets it to all to dead
+//gets rid of all arays except the first and sets all cells to dead (white)
 function clear(latticeArray) {
+	canvas.height = 400;
 	alterNumOfIterations(1);
 	alterCurrentIteration(1);
-	let clearedLattice = new Array ( new Array);
+	let clearedLattice = new Array (new Array);
 	alterNextLattice(new Array);
 	let StartX = (canvas.width / 2) - (latSize * size / 2)
 	let neoLatticeArray = latticeArray;
-	while (neoLatticeArray.length > 1){
+	while (neoLatticeArray.length > 1) {
 		neoLatticeArray.pop();
 	}
-	for (let i = 0; i < latSize; i++)
-	{
-		clearedLattice[0][i] = (new cell (size, size, StartX + i *size, 0, 0));
+	for (let i = 0; i < latSize; i++) {
+		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0));
 	}
 	neoLatticeArray[0] = clearedLattice[0].slice(0);
 	alterLatticeArray(neoLatticeArray);
@@ -291,14 +297,14 @@ export function toggleCheckbox() {
     checkboxes[0].checked = true;
 	checkboxes[1].checked = false;
 	// If checkboxes are currently hidden (toggle bar was not active) display the checkboxes and animate toggle button
-	if (infiniteCheckBox.style.display == 'none'|| infiniteCheckBox.style.display == '') {
-		infiniteCheckBox.style.display = 'block';
-		finiteCheckBox.style.display = 'block';
+	if (periodicCheckBox.style.display == 'none'|| periodicCheckBox.style.display == '') {
+		periodicCheckBox.style.display = 'block';
+		nullCheckBox.style.display = 'block';
 		toggleButton.style.transform = 'translateX(25px)'; // Move the toggle button to the right
 	// If checkboxes are currently not hidden (toggle bar was active) hide the checkboxes and animate toggle button back
     } else {
-		infiniteCheckBox.style.display = 'none';
-		finiteCheckBox.style.display = 'none';
+		periodicCheckBox.style.display = 'none';
+		nullCheckBox.style.display = 'none';
 		toggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
     }
 }
@@ -332,8 +338,8 @@ function outputError(text) {
 	}, 750);
 }
 
-// Capture canvas as a PDF upon clickling the 'Download" button
-downloadButton.addEventListener('click', function () {
+// Capture canvas as a PDF upon clickling the 'Download PDF" button
+downloadPDFButton.addEventListener('click', function() {
 	let imgData = canvas.toDataURL("image/png");  // Get the image data from the canvas
 	let pdf = new jsPDF('p', 'pt', [canvas.width, canvas.height]);  // Create a new PDF document with the canvas dimensions as page size
 
@@ -363,6 +369,15 @@ downloadButton.addEventListener('click', function () {
 	pdf.save("Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".pdf");  // Save the PDF
 });
 
+// Capture canvas as a PNG upon clickling the 'Download PNG" button
+downloadPNGButton.addEventListener('click', function() {
+    let image = canvas.toDataURL();  // Get the image data from the canvas. Default is png
+    let link = document.createElement('a');  // Create a new anchor element to create a downloadable link
+    link.href = image;  // Set the href attribute of the anchor element to the data URL of the image
+    link.download = "Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".png";  // Set the filename
+	link.click();  // Trigger a click on the anchor element to prompt the browser to download the image
+});
+
 // Handle switching GUI for Start/Stop Button upon click
 startStopButton.addEventListener("click", function() {
 	// If the button is in start state, change it to stop state and vice versa
@@ -379,13 +394,13 @@ startStopButton.addEventListener("click", function() {
 });
 
 /* Handle open and closing of about window */
-// Open About button is clicked, display about window
+// About button is clicked, display about window
 aboutButton.addEventListener("click", function() {
 	aboutWindow.style.display = "block";
 });
 
-// Close if x (close) button in top right of the window is cliked
-closeWindow.addEventListener("click", function() {
+// Close if x (close) button in top right of the window is clicked
+closeAbout.addEventListener("click", function() {
 	aboutWindow.style.display = "none";
 });
 
@@ -397,6 +412,15 @@ window.addEventListener("click", function(event) {
 	}
 });
 
+/* Handle open and closing of options window */
+// Options button is clicked, display options window
+optionsButton.addEventListener("click", function() {
+	optionsWindow.style.display = "block";
+});
 
+// Close if x (close) button in top right of the window is clicked
+closeOptions.addEventListener("click", function() {
+	optionsWindow.style.display = "none";
+});
 
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
