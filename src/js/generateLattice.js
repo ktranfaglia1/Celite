@@ -49,7 +49,7 @@ export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, siz
 	//If boundary condition is null:
 	else {
 		//Iterate over length of new lattice
-		for(i = 0; i < currentLattice.length; i++) {
+		for(let i = 0; i < currentLattice.length; i++) {
 			newLattice.push(new cell (size, size, startX + i * size, rowIndex * size, 0));
 			//If this is the first cell, value of cell to the left is considered 0
 			//If this is the last cell, value of cell to the right is considered 0

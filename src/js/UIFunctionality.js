@@ -1,7 +1,7 @@
 import {latticeArray, currentLattice, nextLattice, rule, canvas, ctx, outputIteration, alterRuleNum} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, boundaryCon, drawLattice} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice} from './displayLattice.js';
-import {alterRule, alterNumOfIterations, alterCurrentIteration} from './displayLattice.js';
+import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon} from './displayLattice.js';
 import {updateLattice} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
@@ -276,6 +276,15 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
                     otherCheckbox.checked = false;
                 }
             });
+			let checkboxes = document.querySelectorAll('.checkbox_select');
+			if (checkboxes[0].checked) {
+				alterBoundaryCon(1)
+			}
+			else {
+				alterBoundaryCon(0)
+			}
+			//console.log(boundaryCon);
+			iterate(currentIteration, addIterations);
         }
 		// Box is set to be unchecked: Don't allow ... one box must be checked at all times
 		else {

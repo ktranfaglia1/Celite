@@ -90,6 +90,7 @@ export function drawLattice(latticeArray) {
 //Creates next timestep lattice then sets the new timestep as the current one.
 export function updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, rule, boundaryCon){
 
+  console.log(boundaryCon);
   //Iterates over each new iteration that needs to be added to the lattice array.
   for(; currentIteration < numOfIterations; currentIteration++)
   {
@@ -116,7 +117,8 @@ let outputIteration = document.getElementById("iterationOutput")
 canvas.width = 1400;
 canvas.height = 350;
 
-let errorBox = document.getElementById("errorRegion");
+//let errorBox = document.getElementById("errorRegion");
+let errorBox = document.getElementById("logRegion")
 let errorContext = errorBox.getContext("2d"); // gets the lattice display region
 
 let numOfIterations = 1;
