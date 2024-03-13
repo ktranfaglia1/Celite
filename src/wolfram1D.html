@@ -83,14 +83,30 @@
     <!-- Options window to provide advanced options for simulator -->
     <div id="optionsContainer" class="options_container">
       <div id="optionsContent" class="options_content">
-        <span class="close">&times;</span>
+        <span class="close"> &times; </span>
         <h4> Options </h4> <hr>
         <button id="downloadPDFButton" class="options_button"> Download PDF </button>
         <button id="downloadPNGButton" class="options_button"> Download PNG </button>
         <hr>
-        <button id="CellColorButton" class="options_button"> Cell Color </button>
         <button id="CellColorButton" class="options_button"> Fill Lattice </button>
+        <button id="CellColorButton" class="options_button"> Cell Color </button>
         <hr>
+        <p1> Iteration Tick Box </p1>
+        <div class="input_container">
+          <label class="toggle_label"> Off </label>
+          <div class="options_toggle_bar" id="iterationToggle">
+            <div class="options_toggle_button"> </div>
+          </div>
+          <label class="toggle_label"> On </label>
+        </div>
+        <p1> Cell Borders </p1>
+        <div class="input_container">
+          <label class="toggle_label"> Off </label>
+          <div class="options_toggle_bar" id="borderToggle">
+            <div class="options_toggle_button"> </div>
+          </div>
+          <label class="toggle_label"> On </label>
+        </div>
       </div>
     </div>
     <!-- About window to provide information on Wolfram's Nearest Neighbor -->

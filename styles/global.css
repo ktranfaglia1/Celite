@@ -20,6 +20,13 @@ p {
   text-align: left;
   color: black;
 }
+p1 {
+  margin: 0;
+  font-family: Times;
+  font-size: 17px;
+  text-align: center;
+  color: black;
+}
 h1 {
   margin: 0;
   padding: 20px;
@@ -180,6 +187,7 @@ h4 {
 } 
 /* Container for store multiple elements on the same row: used for primary tool bar */
 .input_container {
+  justify-content: center;
   display: flex;
   margin-left: .75%;
   margin-right: .75%;
@@ -250,6 +258,8 @@ h4 {
 }
 .options_content {
   padding: 20px;
+  align-items: center;
+  text-align: center;
 }
 .options_button {
   display: block;

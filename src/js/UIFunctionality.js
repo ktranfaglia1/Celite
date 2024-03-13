@@ -42,8 +42,10 @@ const aboutWindow = document.getElementById("aboutContainer");
 const optionsWindow = document.getElementById("optionsContainer");
 
 /* Global constants connecting HTML/CSS features to JS by class name to impliment functionality */
-const toggleButton = document.querySelector(".toggle_button");
+const boundToggleButton = document.querySelector(".toggle_button");
 const checkboxes = document.querySelectorAll(".checkbox_select");
+const iterationToggleButton = document.querySelector("#iterationToggle .options_toggle_button");
+const borderToggleButton = document.querySelector("#borderToggle .options_toggle_button");
 const closeAbout = document.querySelector("#aboutContent .close");
 const closeOptions = document.querySelector("#optionsContent .close");
 
@@ -56,6 +58,14 @@ let Run = 0; // Defaults to not keep running
 /* Connect UI Functionality to a prebuilt function */
 boundToggle.addEventListener("click", function() {
 	toggleCheckbox();
+});
+
+iterationToggle.addEventListener("click", function() {
+	iterationToggleOption();
+});
+
+borderToggle.addEventListener("click", function() {
+	borderToggleOption();
 });
 
 iterateButton.addEventListener("click", function() {
@@ -291,7 +301,7 @@ function iterate(currentIteration, newIterations) {
 	return currentIteration;
 }
 
-// Handle when toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
+// Handle when bound toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
 export function toggleCheckbox() {
 	// Set the first checkbox (not second checkbox) to be checked upon toggle button activation
     checkboxes[0].checked = true;
@@ -300,13 +310,35 @@ export function toggleCheckbox() {
 	if (periodicCheckBox.style.display == 'none'|| periodicCheckBox.style.display == '') {
 		periodicCheckBox.style.display = 'block';
 		nullCheckBox.style.display = 'block';
-		toggleButton.style.transform = 'translateX(25px)'; // Move the toggle button to the right
+		boundToggleButton.style.transform = 'translateX(25px)'; // Move the toggle button to the right
 	// If checkboxes are currently not hidden (toggle bar was active) hide the checkboxes and animate toggle button back
     } else {
 		periodicCheckBox.style.display = 'none';
 		nullCheckBox.style.display = 'none';
-		toggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
+		boundToggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
     }
+}
+
+// Handle when iteration toggle button is activated
+function iterationToggleOption() {
+	// Toggle the position of the button
+	if (iterationToggleButton.style.transform === "translateX(0px)") {
+		iterationToggleButton.style.transform = "translateX(25px)";
+	} 
+	else {
+		iterationToggleButton.style.transform = "translateX(0px)";
+	}
+}
+
+// Handle when border toggle button is activated
+function borderToggleOption() {
+	// Toggle the position of the button
+	if (borderToggleButton.style.transform === "translateX(0px)") {
+		borderToggleButton.style.transform = "translateX(25px)";
+	} 
+	else {
+		borderToggleButton.style.transform = "translateX(0px)";
+	}
 }
 
 // Ensure one and only one checkbox can be checked at a time upon checkbox click
