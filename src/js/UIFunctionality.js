@@ -108,10 +108,10 @@ latticeSizeSubmit.addEventListener("click", function()
 {updateLatticeSize();})
 
 //Continously Checks where the mouse is on the Canvas too allow tick box to next to it
-canvas.addEventListener("mousemove", function(event) {makeTickBox(event, tctx)});
+tickCanvas.addEventListener("mousemove", function(event) {makeTickBox(event, tctx)});
 
 // Runs program to flips squares if Clicked
-canvas.addEventListener('click', function(event)
+tickCanvas.addEventListener('click', function(event)
 {
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); //Calculates Proper location of mouse click for usage in setCells

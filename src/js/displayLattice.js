@@ -77,7 +77,7 @@ export function alterBoundaryCon(neoBoundaryCon) {
 This function pushes the initial timestep lattice of cells such that the user can select what cells they want
 on or off
 */
-function LatticeDisplay() {
+function LatticeDisplay(latticeArray) {
 	let startDif = (latSize * size) / 2;
 	let center = canvas.width / 2;
 	let startX = center - startDif;
@@ -86,6 +86,8 @@ function LatticeDisplay() {
 	for (let i = 0; i < latSize; i++) {
 		currentLattice.push(new cell (size, size, startX + i * size, 0, 0))
 	}
+  latticeArray.push(currentLattice);
+  drawLattice(latticeArray);
 }
 
 //Draws lattices to the canvas
@@ -182,6 +184,6 @@ export {latticeArray, numOfIterations, currentLattice};
 latticeArray[0] = currentLattice;
 
 //Displays Default Lattice state
-LatticeDisplay()
+LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum); //sets default ruleset
 
