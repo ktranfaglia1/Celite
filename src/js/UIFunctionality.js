@@ -62,7 +62,7 @@ const toggleButton = document.querySelector('.toggle_button');
 
 let addIterations = 1; // Defaults iterations to add to 1
 let Run = 0; // Defaults to not keep running
-
+let iterationTime = 750; //Time to wait before iterating again
 
 
 
@@ -116,12 +116,13 @@ tickCanvas.addEventListener('click', function(event)
 
 
 
-startStopButton.addEventListener("click", function()
+startStopButton.addEventListener("click", function(event)
 {
 	if (Run != 1)
 	{
-	Run = 1;
-	continouslyIterate();
+		Run = 1;
+		console.log(iterationTime);
+		continouslyIterate(iterationTime);
 	}
 	else {
 		Run = 0;
@@ -193,14 +194,15 @@ function makeTickBox(event, ctx)
 
 
 //repeatly iterates while run is true
-function continouslyIterate()
+function continouslyIterate(iterationTime)
 {
 	if(Run) //Checks if Run is activate
 	{
 		setTimeout(function(){ // puts a wait before iterating again
+		console.log(iterationTime);
 		iterate(currentIteration, 1); //iterates the number of lattices
-		continouslyIterate(); // allows it to coninously run by calling it again
-		}, 750);
+		continouslyIterate(iterationTime); // allows it to coninously run by calling it again
+		}, iterationTime);
 	}
 }
 
