@@ -22,7 +22,7 @@ makeTickBox() ::
 
 
 */
-import {latticeArray, currentLattice, nextLattice, rule, canvas, ctx, outputIteration, alterRuleNum} from './displayLattice.js';
+import {latticeArray, currentLattice, nextLattice, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, boundaryCon, drawLattice} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice} from './displayLattice.js';
 import {alterRule, alterNumOfIterations, alterCurrentIteration} from './displayLattice.js';
@@ -58,11 +58,7 @@ const toggleBar = document.getElementById('toggle_bar1')
 const toggleButton = document.querySelector('.toggle_button');
 
 // gets top layer of canvas used for ticks
-const tickCanvas = document.getElementById("tickmarkRegion");
-const tctx = tickCanvas.getContext("2d"); // gets the lattice display region
 
-tickCanvas.height = canvas.height;
-tickCanvas.width = canvas.width;
 
 let addIterations = 1; // Defaults iterations to add to 1
 let Run = 0; // Defaults to not keep running

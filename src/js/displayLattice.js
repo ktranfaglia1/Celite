@@ -95,6 +95,7 @@ export function drawLattice(latticeArray) {
   //Increases canvas size such that lattice can fit.
   if ((latticeArray.length * size) > canvas.height) {
     canvas.height = (latticeArray.length * size);
+    tickCanvas.height = canvas.height;
     //canvas.style.height = (latticeArray.length * size) + 'px';
   }
 
@@ -145,6 +146,13 @@ let outputIteration = document.getElementById("iterationOutput")
 canvas.width = 1400;
 canvas.height = 350;
 
+// pulls in Canvas used to display the ticker
+const tickCanvas = document.getElementById("tickmarkRegion");
+const tctx = tickCanvas.getContext("2d"); // gets the lattice display region
+
+tickCanvas.height = canvas.height;
+tickCanvas.width = canvas.width;
+
 let errorBox = document.getElementById("logRegion"); //Box for Displaying Errors
 let errorContext = errorBox.getContext("2d"); // gets the lattice display region
 
@@ -177,7 +185,7 @@ let boundaryCon = 1;
 
 //Sends Variables to needed location
 export {ruleNum, boundaryCon, latSize, inf, size, currentIteration};
-export {errorContext, errorBox, outputIteration, ctx, canvas, rule, nextLattice};
+export {errorContext, errorBox, outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice};
 export {latticeArray, numOfIterations, currentLattice};
 
 //Sets starting lattice to all dead
