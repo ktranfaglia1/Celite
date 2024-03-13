@@ -41,11 +41,14 @@ const borderToggle = document.getElementById("borderToggle");
 const aboutWindow = document.getElementById("aboutContainer");
 const optionsWindow = document.getElementById("optionsContainer");
 
+const iterationSpeedSlider = document.getElementById("iterationSpeedSlider");
+const iterationSpeedValue = document.getElementById("iterationSpeedValue");
+
 /* Global constants connecting HTML/CSS features to JS by class name to impliment functionality */
-const boundToggleButton = document.querySelector(".toggle_button");
 const checkboxes = document.querySelectorAll(".checkbox_select");
-const iterationToggleButton = document.querySelector("#iterationToggle .options_toggle_button");
-const borderToggleButton = document.querySelector("#borderToggle .options_toggle_button");
+const boundToggleButton = document.querySelector("#boundToggleButton .toggle_button");
+const iterationToggleButton = document.querySelector("#iterationToggle .toggle_button");
+const borderToggleButton = document.querySelector("#borderToggle .toggle_button");
 const closeAbout = document.querySelector("#aboutContent .close");
 const closeOptions = document.querySelector("#optionsContent .close");
 
@@ -454,5 +457,12 @@ optionsButton.addEventListener("click", function() {
 closeOptions.addEventListener("click", function() {
 	optionsWindow.style.display = "none";
 });
+
+iterationSpeedValue.innerHTML = 750;  // Sets displayed default iteration speed value
+
+// Update the current iteration speed slider value upon drag
+iterationSpeedSlider.oninput = function() {
+	iterationSpeedValue.innerHTML = this.value;
+  };
 
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page

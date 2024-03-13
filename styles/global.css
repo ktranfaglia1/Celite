@@ -24,6 +24,7 @@ p1 {
   margin: 0;
   font-family: Times;
   font-size: 17px;
+  line-height: 1.7;
   text-align: center;
   color: black;
 }
@@ -247,32 +248,31 @@ h4 {
 .options_container {
   display: none;
   position: fixed;
-  z-index: 1000;
   right: 0;
-  top: 0;
-  width: 275px;
-  height: 100%;
-  background-color: #fff;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-  overflow-y: auto;
+  top: 138px;
+  width: 250px;
+  height: 52%;
+  background-color: #fefefe;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.4);
 }
 .options_content {
   padding: 20px;
   align-items: center;
   text-align: center;
+  justify-content: center;
 }
 .options_button {
   display: block;
-  width: 100%;
-  margin-bottom: 10px;
+  width: 80%;
+  margin: 0 0 10px 10%;
   padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  background-color: #ddd;
-  color: #333;
+  font-size: 17px;
+  border: 1px solid black;
+  border-radius: 10px; 
+  background-color: #548eff;
+  color: black;
   cursor: pointer;
 }
 .options_button:hover {
-  background-color: #ccc;
+  background-color: #4078d1;
 }

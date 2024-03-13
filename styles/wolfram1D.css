@@ -62,16 +62,7 @@ ul {
   border-radius: 12.5px;
   position: relative;
   cursor: pointer;
-}
-.options_toggle_button {
-  width: 25px;
-  height: 25px;
-  background-color: #777;
-  border-radius: 50%; 
-  position: absolute;
-  top: 0; 
-  left: 0;
-  transition: transform 0.4s ease;
+  margin: 0 0 12px 0;
 }
 /* Checkbox container and formatting */
 .checkbox_container {
@@ -86,4 +77,21 @@ ul {
 }
 .checkbox_label {
   font-size: 14px;
+}
+.slider_container {
+  width: 55%;
+  margin: 7px auto;
+  text-align: center;
+}
+.slider {
+  width: 100%;
+  height: 20px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.8;
+  transition: opacity .2s;
+}
+.slider:hover {
+  opacity: 1;
 }

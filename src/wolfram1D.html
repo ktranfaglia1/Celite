@@ -91,11 +91,11 @@
         <button id="CellColorButton" class="options_button"> Fill Lattice </button>
         <button id="CellColorButton" class="options_button"> Cell Color </button>
         <hr>
-        <p1> Iteration Tick Box </p1>
+        <p1> Iteration Box </p1>
         <div class="input_container">
           <label class="toggle_label"> Off </label>
           <div class="options_toggle_bar" id="iterationToggle">
-            <div class="options_toggle_button"> </div>
+            <div class="toggle_button"> </div>
           </div>
           <label class="toggle_label"> On </label>
         </div>
@@ -103,9 +103,14 @@
         <div class="input_container">
           <label class="toggle_label"> Off </label>
           <div class="options_toggle_bar" id="borderToggle">
-            <div class="options_toggle_button"> </div>
+            <div class="toggle_button"> </div>
           </div>
           <label class="toggle_label"> On </label>
+        </div>
+        <hr>
+        <div class="slider_container">
+          <p1> Speed: <span id="iterationSpeedValue"> </span> ms </p1>
+          <input type="range" min="0" max="2000" value="750" class="slider" id="iterationSpeedSlider">
         </div>
       </div>
     </div>
