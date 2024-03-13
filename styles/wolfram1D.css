@@ -1,8 +1,18 @@
 /* Wolfram's Nearest Neighbor 1D Simulation styles page */
 /* Display canvas formatting */
 .lattice_region {
+  position: absolute;
   background-color: lightgrey;
   border: 3px solid black;
+  padding: 1% 1% 1% 1%;
+  max-width: 90%;
+  margin-top: 12px;
+}
+.tickmark_region{
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 1;
   padding: 1% 1% 1% 1%;
   max-width: 90%;
   margin-top: 12px;

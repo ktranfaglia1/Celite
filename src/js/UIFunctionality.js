@@ -57,6 +57,13 @@ const toggleBar = document.getElementById('toggle_bar1')
 // Brings the button aspect of kyles toggle bar
 const toggleButton = document.querySelector('.toggle_button');
 
+// gets top layer of canvas used for ticks
+const tickCanvas = document.getElementById("tickmarkRegion");
+const tctx = tickCanvas.getContext("2d"); // gets the lattice display region
+
+tickCanvas.height = canvas.height;
+tickCanvas.width = canvas.width;
+
 let addIterations = 1; // Defaults iterations to add to 1
 let Run = 0; // Defaults to not keep running
 
@@ -101,7 +108,7 @@ latticeSizeSubmit.addEventListener("click", function()
 {updateLatticeSize();})
 
 //Continously Checks where the mouse is on the Canvas too allow tick box to next to it
-canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
+canvas.addEventListener("mousemove", function(event) {makeTickBox(event, tctx)});
 
 // Runs program to flips squares if Clicked
 canvas.addEventListener('click', function(event)
@@ -173,17 +180,19 @@ function makeTickBox(event, ctx)
 
 	var [mouseX, mouseY] = getMouseLocation(event); //Gets the mouse Location
 	
-	drawLattice(latticeArray);
-    ctx.fillStyle = "grey";
-	ctx.fillRect(mouseX + 3, mouseY - 12, 33, 15); //Draws the Tick Box square
+  	tctx.clearRect(0,0, tickCanvas.width, tickCanvas.height);
+
+	//drawLattice(latticeArray);
+	tctx.fillStyle = "grey";
+	tctx.fillRect(mouseX + 3, mouseY - 12, 33, 15); //Draws the Tick Box square
 
 	//Sets text specifications
-	ctx.font = "13px Arial";
-	ctx.fillStyle = "black";
+	tctx.font = "13px Arial";
+	tctx.fillStyle = "black";
 
 	let lineNumber = Math.floor(mouseY / size); //calculates what line your on
 
-	ctx.fillText(lineNumber, mouseX + 4, mouseY) //Puts the text in place
+	tctx.fillText(lineNumber, mouseX + 4, mouseY) //Puts the text in place
 }
 
 
