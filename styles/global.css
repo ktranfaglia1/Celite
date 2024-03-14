@@ -269,10 +269,10 @@ h4 {
   font-size: 17px;
   border: 1px solid black;
   border-radius: 10px; 
-  background-color: #548eff;
+  background-color: rgb(105, 187, 255);
   color: black;
   cursor: pointer;
 }
 .options_button:hover {
-  background-color: #4078d1;
+  background-color: rgb(90, 167, 235);
 }
