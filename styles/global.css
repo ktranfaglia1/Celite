@@ -204,6 +204,7 @@ h5 {
   display: flex;
   margin-left: .75%;
   margin-right: .75%;
+  max-width: 95%;
 }
 /* input (submit) button, input box, and input label formatting */
 .input_label {

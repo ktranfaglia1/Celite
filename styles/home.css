@@ -14,23 +14,23 @@ hr {
 .image_container {
   display: flex;
   justify-content: center;
-  margin: 3% 0 1% 0;
+  margin: 2% 0 1% 0;
 }
 /* Large button formatting */
 .navigate_button {
-  background-color: #943ef8;
-  color: white;
-  padding: 16px 32px;
+  background-color: black;
+  color: blueviolet;
+  padding: 96px 48px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 17px;
+  font-size: 28px;
+  font-weight: bold;
   border: 1px solid black;
   border-radius: 20px;
-  margin-left: 1.75%;
-  margin-right: 1.75%;
+  margin: 6% 3% 0 3%;
 }
 .navigate_button:hover {
   cursor: pointer;
-  background-color: #6e24cb;
+  background-color: rgb(32, 32, 32);
 }
