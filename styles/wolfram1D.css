@@ -9,7 +9,8 @@
   margin-top: 12px;
   z-index: 0;
 }
-.tickmark_region{
+
+.tickmark_region {
   position: relative;
   top: 0;
   left: 0;
@@ -18,15 +19,18 @@
   max-width: 90%;
   margin-top: 12px;
 }
+
 /* Log box formatting */
 .log_box {
   width: 160px;
-  height: 25px;
+  height: 43px;
   background-color: lightgrey;
   border: 3px solid black;
+  /*font-size: 25px;*/
   /*padding: 1% 1% 1% 1%;*/
   /*margin-left: 2%;*/
 }
+
 ul {
   margin: 0 2.25%;
   font-family: Times;
@@ -35,6 +39,7 @@ ul {
   text-align: left;
   color: black;
 }
+
 /* Iteration count formatting */
 .iteration_output {
   font-size: 17px;
@@ -43,6 +48,7 @@ ul {
   margin-left: 8%;
   margin-top: 20px;
 }
+
 /* Toggle bar formatting */
 .toggle_bar {
   width: 50px;
@@ -52,6 +58,7 @@ ul {
   position: relative;
   cursor: pointer;
 }
+
 .toggle_button {
   width: 25px;
   height: 25px;
@@ -62,21 +69,25 @@ ul {
   left: 0;
   transition: transform 0.4s ease;
 }
+
 .toggle_label {
   margin: 3px 7px;
   font-size: 17px;
 }
+
 /* Checkbox container and formatting */
 .checkbox_container {
   display: none;
   margin-top: 10px;
 }
+
 .checkbox_select {
   margin-left: 8px;
   width: 18px;
   height: 18px;
   vertical-align: middle;
 }
+
 .checkbox_label {
   font-size: 14px;
 }

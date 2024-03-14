@@ -153,9 +153,11 @@ const tctx = tickCanvas.getContext("2d"); // gets the lattice display region
 tickCanvas.height = canvas.height;
 tickCanvas.width = canvas.width;
 
-let errorBox = document.getElementById("logRegion"); //Box for Displaying Errors
-let errorContext = errorBox.getContext("2d"); // gets the lattice display region
+let logCanvas = document.getElementById("logRegion"); //Box for Displaying Errors
+let lctx = logCanvas.getContext("2d"); // gets the lattice display region
 
+logCanvas.width = 160;
+logCanvas.height = 43;
 //console.log(errorContext);
 
 //Sets default Lattice Size
@@ -185,7 +187,7 @@ let boundaryCon = 1;
 
 //Sends Variables to needed location
 export {ruleNum, boundaryCon, latSize, inf, size, currentIteration};
-export {errorContext, errorBox, outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice};
+export {outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx};
 export {latticeArray, numOfIterations, currentLattice};
 
 //Sets starting lattice to all dead

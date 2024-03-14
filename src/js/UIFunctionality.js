@@ -22,7 +22,7 @@ makeTickBox() ::
 
 
 */
-import {latticeArray, currentLattice, nextLattice, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas} from './displayLattice.js';
+import {latticeArray, currentLattice, nextLattice, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, lctx} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, boundaryCon, drawLattice} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice} from './displayLattice.js';
 import {alterRule, alterNumOfIterations, alterCurrentIteration} from './displayLattice.js';
@@ -31,9 +31,6 @@ import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
 import {logMessage} from './logClass.js';
 
-//Pulls in canvas used for message log
-const logCanvas = document.getElementById("logRegion");
-const lctx = logCanvas.getContext("2d");
 
 //Pulls in all the Input Boxes as elements
 const iterationInputBox = document.getElementById("inputBox1");
@@ -391,7 +388,7 @@ makeError("Error3:", 2, logCanvas, lctx);
 makeError("Error4:", 3, logCanvas, lctx);
 makeError("Error5:", 4, logCanvas, lctx);
 
-function makeError(errorMessage, index, logCanvas, lctx)
+function makeError(errorMessage, index, logCanvas, lctx, messageQueue)
 {
 	let tempLog = new logMessage(errorMessage, 'red', index, logCanvas, lctx)
 	tempLog.displayMessage();
