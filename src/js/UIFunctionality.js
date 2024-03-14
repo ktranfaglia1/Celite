@@ -6,26 +6,26 @@ import {updateLattice} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
 
-let iterationInputBox = document.getElementById("inputBox1");
-let ruleInputBox = document.getElementById("inputBox2");
-let latticeSizeBox = document.getElementById("inputBox3");
+const iterationInputBox = document.getElementById("inputBox1");
+const ruleInputBox = document.getElementById("inputBox2");
+const latticeSizeBox = document.getElementById("inputBox3");
 
-let iterationSubmit = document.getElementById("submitButton1");
-let ruleSubmit = document.getElementById("submitButton2");
-let latticeSizeSubmit = document.getElementById("submitButton3");
+const iterationSubmit = document.getElementById("submitButton1");
+const ruleSubmit = document.getElementById("submitButton2");
+const latticeSizeSubmit = document.getElementById("submitButton3");
 
 const startStopButton = document.getElementById("bigButton1");
-let iterateButton = document.getElementById("bigButton2");
-let clearButton = document.getElementById("bigButton3");
-let downloadButton = document.getElementById("bigButton4");
-let aboutButton = document.getElementById("bigButton5");
+const iterateButton = document.getElementById("bigButton2");
+const clearButton = document.getElementById("bigButton3");
+const downloadButton = document.getElementById("bigButton4");
+const aboutButton = document.getElementById("bigButton5");
 
-let infiniteCheckBox = document.getElementById('checkbox1');
-let finiteCheckBox = document.getElementById('checkbox2');
+const infiniteCheckBox = document.getElementById('checkbox1');
+const finiteCheckBox = document.getElementById('checkbox2');
 
-let toggleBar = document.getElementById('toggle_bar1')
+const toggleBar = document.getElementById('toggle_bar1')
 
-let toggleButton = document.querySelector('.toggle_button');
+const toggleButton = document.querySelector('.toggle_button');
 
 let addIterations = 1; // Defaults iterations to add to 1
 let Run = 0; // Defaults to not keep running
@@ -277,6 +277,8 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
                 }
             });
 			let checkboxes = document.querySelectorAll('.checkbox_select');
+			//If the first checkbox is selected, set the boundaryCon variable to 1 representing Periodic
+			//boundary condition. Otherwise set boundaryCon to 0 representing Null.
 			if (checkboxes[0].checked) {
 				alterBoundaryCon(1)
 			}
