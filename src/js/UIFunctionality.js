@@ -322,10 +322,14 @@ export function toggleCheckbox() {
     }
 }
 
+/* Initialize toggle buttons to x position 0px to enable x translation in functions */
+iterationToggleButton.style.transform = "translateX(0px)";
+borderToggleButton.style.transform = "translateX(0px)";
+
 // Handle when iteration toggle button is activated
 function iterationToggleOption() {
 	// Toggle the position of the button
-	if (iterationToggleButton.style.transform === "translateX(0px)") {
+	if (iterationToggleButton.style.transform == "translateX(0px)") {
 		iterationToggleButton.style.transform = "translateX(25px)";
 	} 
 	else {

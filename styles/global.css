@@ -63,10 +63,12 @@ h4 {
 }
 /* Navigation formatting */
 .navbar {
+  display: flex;
   background-color: black;
   overflow: hidden;
+  height: 60px;
 }
-.navbar a {
+.navbar a:not(.logo) {
   font-size: 16px;  
   float: left;
   display: block;
@@ -75,7 +77,7 @@ h4 {
   padding: 20px 24px;
   text-decoration: none;
 }
-.navbar a:hover {
+.navbar a:not(.logo):hover {
   background-color: lightgray;
   color: black;
 }
@@ -275,4 +277,8 @@ h4 {
 }
 .options_button:hover {
   background-color: rgb(90, 167, 235);
+}
+.logo {
+  height: 100%;
+  width: auto;
 }
