@@ -20,7 +20,7 @@ hr {
 .navigate_button {
   background-color: black;
   color: blueviolet;
-  padding: 96px 48px;
+  padding: 72px 36px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -28,7 +28,7 @@ hr {
   font-weight: bold;
   border: 1px solid black;
   border-radius: 20px;
-  margin: 6% 3% 0 3%;
+  margin: 2% 3% 0 3%;
 }
 .navigate_button:hover {
   cursor: pointer;
