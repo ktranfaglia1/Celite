@@ -1,0 +1,10 @@
+body {
+    background-color: whitesmoke;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.image_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+}

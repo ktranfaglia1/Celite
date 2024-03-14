@@ -1,5 +1,10 @@
 /* Wolfram's Nearest Neighbor 1D Simulation styles page */
 /* Display canvas formatting */
+body {
+  background-color: #add8e6;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
 .lattice_region {
   background-color: lightgrey;
   border: 3px solid black;
