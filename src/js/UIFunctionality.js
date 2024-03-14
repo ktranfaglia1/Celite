@@ -29,6 +29,11 @@ import {alterRule, alterNumOfIterations, alterCurrentIteration} from './displayL
 import {updateLattice} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
+import {logMessage} from './logClass.js';
+
+//Pulls in canvas used for message log
+const logCanvas = document.getElementById("logRegion");
+const lctx = logCanvas.getContext("2d");
 
 //Pulls in all the Input Boxes as elements
 const iterationInputBox = document.getElementById("inputBox1");
@@ -380,20 +385,17 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
     });
 });
 
-function outputError(text)
+makeError("Error1:", 0, logCanvas, lctx);
+makeError("Error2:", 1, logCanvas, lctx);
+makeError("Error3:", 2, logCanvas, lctx);
+makeError("Error4:", 3, logCanvas, lctx);
+makeError("Error5:", 4, logCanvas, lctx);
+
+function makeError(errorMessage, index, logCanvas, lctx)
 {
-	errorContext.font = "12px Arial";
-	errorContext.fillStyle = "red";
-
-	errorContext.fillText(text, 5, 25)
-		setTimeout(function(){
-
-	}, 750);
+	let tempLog = new logMessage(errorMessage, 'red', index, logCanvas, lctx)
+	tempLog.displayMessage();
 }
-
-
-
-
 
 
 // Capture canvas as a PDF upon clickling the 'Download" button
