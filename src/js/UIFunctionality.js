@@ -46,7 +46,7 @@ const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 
 /* Global constants connecting HTML/CSS features to JS by class name to impliment functionality */
 const checkboxes = document.querySelectorAll(".checkbox_select");
-const boundToggleButton = document.querySelector("#boundToggleButton .toggle_button");
+const boundToggleButton = document.querySelector("#boundToggle .toggle_button");
 const iterationToggleButton = document.querySelector("#iterationToggle .toggle_button");
 const borderToggleButton = document.querySelector("#borderToggle .toggle_button");
 const closeAbout = document.querySelector("#aboutContent .close");

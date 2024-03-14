@@ -1,10 +1,36 @@
+/* Home styles page */
+/* General formatting */
 body {
-    background-color: whitesmoke;
-    margin: 0;
-    font-family: Arial, sans-serif;
+  background-color: whitesmoke;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
+hr {
+  margin: 5px 0 10px 0;
+  border: none;
+  border-top: 6px dashed black;
+}
+/* Image formatting */
 .image_container {
-    display: flex;
-    justify-content: center;
-    margin-top: 5%;
+  display: flex;
+  justify-content: center;
+  margin: 3% 0 1% 0;
+}
+/* Large button formatting */
+.navigate_button {
+  background-color: #943ef8;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 17px;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-left: 1.75%;
+  margin-right: 1.75%;
+}
+.navigate_button:hover {
+  cursor: pointer;
+  background-color: #6e24cb;
 }
