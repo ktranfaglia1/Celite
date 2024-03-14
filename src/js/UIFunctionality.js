@@ -63,7 +63,7 @@ const toggleButton = document.querySelector('.toggle_button');
 let addIterations = 1; // Defaults iterations to add to 1
 let Run = 0; // Defaults to not keep running
 let iterationTime = 750; //Time to wait before iterating again
-
+let tickerToggle = 1; //Ticker toggle decides if row ticker will be on defaults to on
 
 
 
@@ -91,7 +91,7 @@ iterateButton.addEventListener("click", function()
 {iterate(currentIteration, addIterations);});
 
 clearButton.addEventListener("click", function()
-{clear(latticeArray);});
+{clear(latticeArray, canvas);});
 
 iterationSubmit.addEventListener("click", function()
 {setLatticeSize();});
@@ -174,7 +174,8 @@ function updateLatticeSize()
 //generates the tick box in its proper location
 function makeTickBox(event, ctx)
 {
-
+	if(tickerToggle == 1)
+	{
 	var [mouseX, mouseY] = getMouseLocation(event); //Gets the mouse Location
 	
   	tctx.clearRect(0,0, tickCanvas.width, tickCanvas.height);
@@ -190,6 +191,7 @@ function makeTickBox(event, ctx)
 	let lineNumber = Math.floor(mouseY / size); //calculates what line your on
 
 	tctx.fillText(lineNumber, mouseX + 4, mouseY) //Puts the text in place
+	}
 }
 
 
@@ -253,8 +255,10 @@ function setLatticeSize()
 }
 
 //gets rid of all arays except the first and sets it to all to dead
-function clear(latticeArray)
+function clear(latticeArray, canvas)
 {
+	canvas.width = 1400;
+	canvas.height = 350;
 	alterNumOfIterations(1);
 	alterCurrentIteration(1);
 	let clearedLattice = new Array ( new Array);
@@ -272,6 +276,7 @@ function clear(latticeArray)
 	alterLatticeArray(neoLatticeArray);
 	alterCurrentLattice(latticeArray[0]);
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
+
 }
 
 //Takes Coordinates of mouseClick and calculates properly where it is in relation to the canvas
