@@ -1,3 +1,14 @@
+/*
+displayLattice.js
+Authors: Kyle Tranfaglia, Timmy McKirgan, Dustin O'Brien
+Functions: Mutators for latSize, size, latticeArray, currentLattice, nextLattice, rule, numOfIterations,
+currentIteration, inf, ruleNum, boundaryCon. Each takes in one parameter of what the variable's value
+should be changed for. 
+latticeDisplay function to load the latticeArray with cells.
+drawLattice that draws the latticeArray to the canvas. Takes in the latticeArray as a parameter.
+updateLattice to generate new timesteps in the lattice.
+*/
+
 //Mutator for latSize
 export function alterLatSize(neoLatSize) {
   latSize = neoLatSize;
@@ -88,7 +99,7 @@ export function drawLattice(latticeArray) {
 }
 
 //Creates next timestep lattice then sets the new timestep as the current one.
-export function updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, rule, boundaryCon){
+export function updateLattice(){
 
   console.log(boundaryCon);
   //Iterates over each new iteration that needs to be added to the lattice array.
@@ -155,4 +166,4 @@ latticeArray[0] = currentLattice;
 
 LatticeDisplay()
 rule = ruleNumToRule(ruleNum);
-updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, rule, boundaryCon);
+updateLattice();

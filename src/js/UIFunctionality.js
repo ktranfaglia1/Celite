@@ -205,7 +205,7 @@ function clear(latticeArray)
 	neoLatticeArray[0] = clearedLattice[0].slice(0);
 	alterLatticeArray(neoLatticeArray);
 	alterCurrentLattice(latticeArray[0]);
-	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
+	updateLattice();
 }
 
 function setCells(latticeArray, mouseX, mouseY)
@@ -242,7 +242,7 @@ function iterate(currentIteration, newIterations)
 	}
 
 	alterLatticeArray(neoLatticeArray);
-	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, rule, boundaryCon);
+	updateLattice();
 	return currentIteration;
 }
 

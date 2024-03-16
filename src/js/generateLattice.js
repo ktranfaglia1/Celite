@@ -1,9 +1,17 @@
-//import * from cors
-import {currentLattice, rule, canvas, size, latSize, ruleNum, boundaryCon} from './displayLattice.js';
+/*
+cellClass.js
+Authors: Timothy McKirgan and Dustin O'Brien
+Class: cell
+Functions: ruleNumToRule which takes in the ruleNum to generate a rule array to determine how new
+timesteps are generated.
+generateLattice which uses the rule array to determine the next timestep. This function takes as parameters
+the current timestep, the current rule array, the boundary condition, 1 for periodic and 0 for null, the
+current timestep number (rowIndex), and the size individual cells.
+*/
+
+import {rule, canvas, latSize} from './displayLattice.js';
 import {cell} from './cellClass.js';
-import {alterRule, alterRuleNum} from './displayLattice.js';
-//let imports = require("displayLattice.js");
-//console.log(imports);
+import {alterRule} from './displayLattice.js';
 
 //Generates rule array based on input rule number.
 export function ruleNumToRule(ruleNum) {
