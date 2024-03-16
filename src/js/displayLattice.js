@@ -101,14 +101,17 @@ export function drawLattice(latticeArray) {
 //Creates next timestep lattice then sets the new timestep as the current one.
 export function updateLattice(){
 
-  console.log(boundaryCon);
   //Iterates over each new iteration that needs to be added to the lattice array.
   for(; currentIteration < numOfIterations; currentIteration++)
   {
+    //Generate the next timestep using the current one, the existing rule, the boundary condition
+    //the current iteration so that the cells are created in the right spot, and the size of each
+    //individual cell to be created in the next timestep.
     nextLattice = generateLattice(currentLattice, rule, boundaryCon, currentIteration, size);
     latticeArray[currentIteration] = nextLattice;
     currentLattice = nextLattice;
   }
+  //Update lattice in canvas
 	drawLattice(latticeArray);
 	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();  // Display iteration count to HTML page upon update
 }
