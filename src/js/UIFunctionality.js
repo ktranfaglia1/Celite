@@ -62,13 +62,15 @@ const toggleButton = document.querySelector('.toggle_button');
 // gets top layer of canvas used for ticks
 
 
+const popTime = 750; //Time Log messages stay on the screen
+
 let addIterations = 1; // Defaults iterations to add to 1
 let Run = 0; // Defaults to not keep running
-let iterationTime = 750; //Time to wait before iterating again
+let iterationTime = 1400; //Time to wait before iterating again
 let tickerToggle = 1; //Ticker toggle decides if row ticker will be on defaults to on
 
 
-
+let messageQueue = []
 
 
 
@@ -382,18 +384,44 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
     });
 });
 
-makeError("Error1:", 0, logCanvas, lctx);
-makeError("Error2:", 1, logCanvas, lctx);
-makeError("Error3:", 2, logCanvas, lctx);
-makeError("Error4:", 3, logCanvas, lctx);
-makeError("Error5:", 4, logCanvas, lctx);
 
-function makeError(errorMessage, index, logCanvas, lctx, messageQueue)
+// Adds an error to message log
+function makeError(errorMessage, logCanvas, messageQueue)
 {
-	let tempLog = new logMessage(errorMessage, 'red', index, logCanvas, lctx)
-	tempLog.displayMessage();
+	let tempLog = new logMessage(errorMessage, 'red', logCanvas);
+	messageQueue.push(tempLog);
+	displayLog(messageQueue, logCanvas);
+	setPopLogTimer(messageQueue, logCanvas)
 }
 
+// Adds an log to message log
+function makeLog(errorMessage, logCanvas, messageQueue)
+{
+	let tempLog = new logMessage(errorMessage, 'black', logCanvas);
+	messageQueue.push(tempLog);
+	displayLog(messageQueue, logCanvas);
+	setPopLogTimer(messageQueue, logCanvas)
+}
+
+//outputs correct elements of the message log
+function displayLog(messageQueue, logCanvas)
+{
+	let dummyMessage = new logMessage("God Bless Ronald Reagan", 'red', logCanvas); //Message used to just clear canvas
+	dummyMessage.clearCanvas();
+	for (let i = 0; i < messageQueue.length; i++)
+	{
+		messageQueue[i].displayMessage(i);
+	}
+}
+
+//
+function setPopLogTimer(messageQueue, logCanvas)
+{
+	setTimeout(function(){ // puts a wait before iterating again
+			messageQueue.shift();
+			displayLog(messageQueue, logCanvas);
+		}, popTime);
+}
 
 // Capture canvas as a PDF upon clickling the 'Download" button
 downloadButton.addEventListener('click', function () {
