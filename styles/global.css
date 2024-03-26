@@ -25,6 +25,14 @@ p2 {
   line-height: 2.0;
   color: black;
 }
+p3 {
+  margin: 0 6%;
+  font-family: Times;
+  text-align: left;
+  font-size: 24px;
+  line-height: 1.5;
+  color: black;
+}
 h1 {
   margin: 0;
   padding: 20px;
@@ -64,6 +72,13 @@ h5 {
   font-size: 42px;
   font-weight: bold;
   text-align: center;
+  color: black;
+}
+h6 {
+  margin: 12px 0 12px 4%;
+  font-family: Times;
+  font-size: 32px;
+  text-align: left;
   color: black;
 }
 /* Navigation formatting */

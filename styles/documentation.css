@@ -1,14 +1,49 @@
 /* Documentation styles page */
 /* General formatting */
 body {
-    background-color: whitesmoke;
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
-  hr {
-    margin: 0;
-    border: none;
-    background-color: black;
-    height: 2px;
-    margin-bottom: 10px;
-  }
+  background-color: whitesmoke;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+hr {
+  margin: 0;
+  border: none;
+  background-color: black;
+  height: 2px;
+  margin-bottom: 10px;
+}
+.sidebar {
+  position: fixed;
+  top: 140px;
+  left: 0;
+  width: 200px;
+  height: 100%;
+  background-color: #add8e6;
+  padding: 20px;
+  overflow-y: auto;
+  border-right: 3px solid #444444;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar ul li {
+  margin-bottom: 10px; /* Adjust spacing between list items */
+}
+.sidebar a {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  color: #333; /* Link color */
+  border: 1px solid #444444; /* Add border around the buttons */
+}
+.sidebar a:hover {
+  background-color: #ddd; /* Background color on hover */
+}
+.doc_content {
+  margin-left: 220px;
+  padding: 20px;
+}

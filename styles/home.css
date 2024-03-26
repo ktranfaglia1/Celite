@@ -29,8 +29,8 @@ hr {
   border: 1px solid black;
   border-radius: 20px;
   margin: 2% 3% 0 3%;
+  cursor: pointer;
 }
 .navigate_button:hover {
-  cursor: pointer;
   background-color: rgb(32, 32, 32);
 }
