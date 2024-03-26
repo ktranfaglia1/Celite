@@ -62,7 +62,7 @@ const toggleButton = document.querySelector('.toggle_button');
 // gets top layer of canvas used for ticks
 
 
-const popTime = 750; //Time Log messages stay on the screen
+const popTime = 3000; //Time Log messages stay on the screen
 
 let addIterations = 1; // Defaults iterations to add to 1
 let Run = 0; // Defaults to not keep running
@@ -92,7 +92,8 @@ toggleBar.addEventListener("click", function()
 {toggleCheckbox();});
 
 iterateButton.addEventListener("click", function()
-{iterate(currentIteration, addIterations);});
+{makeLog("Iterated to " + numOfIterations, logCanvas, messageQueue);
+	iterate(currentIteration, addIterations);});
 
 clearButton.addEventListener("click", function()
 {clear(latticeArray, canvas);});
@@ -100,12 +101,12 @@ clearButton.addEventListener("click", function()
 iterationSubmit.addEventListener("click", function()
 {setLatticeSize();});
 
-ruleSubmit.addEventListener("click", function()
-{setRule(rule);})
+/*ruleSubmit.addEventListener("click", function()
+{setRule(rule);})*/
 
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() 
-{updateLatticeSize();})
+{updateLatticeSize(canvas);})
 
 //Continously Checks where the mouse is on the Canvas too allow tick box to next to it
 tickCanvas.addEventListener("mousemove", function(event) {makeTickBox(event, tctx)});
@@ -126,10 +127,12 @@ startStopButton.addEventListener("click", function(event)
 	{
 		Run = 1;
 		console.log(iterationTime);
+		makeLog("Starting Iterations", logCanvas, messageQueue);
 		continouslyIterate(iterationTime);
 	}
 	else {
 		Run = 0;
+		makeLog("Stopping Iterations", logCanvas, messageQueue);
 	}
 })
 //Sets the number of cells in a lattice
@@ -147,17 +150,18 @@ latticeSizeSubmit.addEventListener("click", function() {
 
 
 // Updates the number of cells in a lattice and resizes cells to coorespond with new size
-function updateLatticeSize()
+function updateLatticeSize(canvas)
 {
 	let newCellNum = parseInt(latticeSizeBox.value);
 	
 	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000)
 	{
 		alterLatSize(newCellNum);
+		makeLog("Lattice Size Set to: " + newCellNum, logCanvas, messageQueue)
 	}
 	else
 	{
-		console.log("Not a number")
+		makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
 	}
 	
 	let size = canvas.width / latSize;
@@ -168,8 +172,8 @@ function updateLatticeSize()
 	}
 	
 	alterSize(size);
-
-	clear(latticeArray); //emptys out canvas and redraws
+	//console.log(canvas)
+	clear(latticeArray, canvas); //emptys out canvas and redraws
 }
 
 
@@ -205,7 +209,7 @@ function continouslyIterate(iterationTime)
 	if(Run) //Checks if Run is activate
 	{
 		setTimeout(function(){ // puts a wait before iterating again
-		console.log(iterationTime);
+		//console.log(iterationTime);
 		iterate(currentIteration, 1); //iterates the number of lattices
 		continouslyIterate(iterationTime); // allows it to coninously run by calling it again
 		}, iterationTime);
@@ -221,25 +225,29 @@ function setRule()
 	{
 		alterRuleNum(newRule);
 		alterRule(ruleNumToRule(newRule));
+		makeLog("Rule Set to: " + newRule, logCanvas, messageQueue);
 	}
 	else
 	{
-		console.log("Not a number");
-		outputError("Not a number")
+		makeError("Invalid Lattice Size: " + ruleInputBox.value, logCanvas, messageQueue);
 	}
 }
 
 //Sets new number of cells in a lattice
-function setCellNum(latSize)
+/*function setCellNum(latSize)
 {
 	let newCellNum = parseInt(latticeSizeBox.value); //Turns Input box input into a number
 	if(!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) //Tests if input was truly an integer and then makes sure it was in the range of 1 and 1000 to make sure not too big
-	{latSize = newCellNum;} //updates the new cell number
+	{
+		latSize = newCellNum;
+	} //updates the new cell number
 	else
-	{console.log("Not a number")} //outputs the error to console currently
+	{
+		console.log("Not a number")
+	} //outputs the error to console currently
 
 	return latSize; //returns the new lattice Size
-}
+}*/
 
 //sets Number of Lattice arrays to have
 function setLatticeSize() 
@@ -249,11 +257,12 @@ function setLatticeSize()
 	if(!isNaN(newValue) && newValue > 0 && newValue <= 10000) //Input Validates for iteration box
 	{
 		addIterations = newValue;//updates the number of iterations
+		makeLog("Set Lattice Size to " + newValue, logCanvas, messageQueue);
 	}
 	else
 	{
 		console.log("Not a number")
-		outputError("Not a number")
+		makeError("Invalid Lattice Size: " + iterationInputBox.value, logCanvas, messageQueue);
 	}
 	return addIterations;
 }
@@ -261,6 +270,8 @@ function setLatticeSize()
 //gets rid of all arays except the first and sets it to all to dead
 function clear(latticeArray, canvas)
 {
+	console.log(canvas)
+
 	canvas.width = 1400;
 	canvas.height = 350;
 	alterNumOfIterations(1);
@@ -280,6 +291,7 @@ function clear(latticeArray, canvas)
 	alterLatticeArray(neoLatticeArray);
 	alterCurrentLattice(latticeArray[0]);
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
+	makeLog("Cleared Lattice ", logCanvas, messageQueue);
 
 }
 
@@ -389,7 +401,7 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
 function makeError(errorMessage, logCanvas, messageQueue)
 {
 	let tempLog = new logMessage(errorMessage, 'red', logCanvas);
-	messageQueue.push(tempLog);
+	messageQueue.unshift(tempLog);
 	displayLog(messageQueue, logCanvas);
 	setPopLogTimer(messageQueue, logCanvas)
 }
@@ -398,7 +410,7 @@ function makeError(errorMessage, logCanvas, messageQueue)
 function makeLog(errorMessage, logCanvas, messageQueue)
 {
 	let tempLog = new logMessage(errorMessage, 'black', logCanvas);
-	messageQueue.push(tempLog);
+	messageQueue.unshift(tempLog);
 	displayLog(messageQueue, logCanvas);
 	setPopLogTimer(messageQueue, logCanvas)
 }
@@ -418,7 +430,7 @@ function displayLog(messageQueue, logCanvas)
 function setPopLogTimer(messageQueue, logCanvas)
 {
 	setTimeout(function(){ // puts a wait before iterating again
-			messageQueue.shift();
+			messageQueue.pop();
 			displayLog(messageQueue, logCanvas);
 		}, popTime);
 }
@@ -452,6 +464,7 @@ downloadButton.addEventListener('click', function () {
 	pdf.addImage(imgData, 'PNG', offsetX, offsetY, imgWidth, imgHeight);
 
 	pdf.save("Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".pdf");  // Save the PDF
+	makeLog("Downloaded Lattice Array", logCanvas, messageQueue);
 });
 
 // Handle switching GUI for Start/Stop Button upon click
