@@ -134,7 +134,7 @@ timestep.
 let inf = false;
 let latSize = 10;
 let numOfIterations = 1;
-let currentIteration = 1;
+let currentIteration = 0;
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells

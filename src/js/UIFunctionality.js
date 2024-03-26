@@ -53,7 +53,7 @@ const closeAbout = document.querySelector("#aboutContent .close");
 const closeOptions = document.querySelector("#optionsContent .close");
 
 /* Global variables for iteration */
-let addIterations = 1; // Defaults iterations to add to 1
+let addIterations = 0; // Defaults iterations
 let Run = 0; // Defaults to not keep running
 
 // toggleCheckbox(); // Call function to defualt finte (periodic) simulation instead of finite
@@ -85,17 +85,19 @@ iterationSubmit.addEventListener("click", function() {
 
 ruleSubmit.addEventListener("click", function() {
 	setRule(rule);
-})
+});
+
+startStopButton.addEventListener("click", function() {
+	startStopToggle();
+});
 
 // Continously Checks where the mouse is on the Canvas too allow tick box to next to it
 canvas.addEventListener("mousemove", function(event) {makeTickBox(event, ctx)});
 
-startStopButton.addEventListener("click", function()
-{
-	if (Run != 1)
-	{
-	Run = 1;
-	continouslyIterate();
+startStopButton.addEventListener("click", function() {
+	if (Run != 1) {
+		Run = 1;
+		continouslyIterate();
 	}
 	else {
 		Run = 0;
@@ -174,12 +176,15 @@ function makeTickBox(event, ctx) {
 //repeatly iterates while run is true
 function continouslyIterate()
 {
-	if(Run) //Checks if Run is activate
+	if (Run) //Checks if Run is activate
 	{
 		setTimeout(function(){ // puts a wait before iterating again
 		iterate(currentIteration, 1); //iterates the number of lattices
 		continouslyIterate(); // allows it to coninously run by calling it again
 		}, 750);
+	}
+	else {
+		startStopToggle(currentIteration);
 	}
 }
 
@@ -284,9 +289,9 @@ function getMouseLocation(event) {
 }
 
 function iterate(currentIteration, newIterations) {
-	if(numOfIterations + newIterations > addIterations)
+	if (numOfIterations + newIterations > addIterations)
 	{
-		alterNumOfIterations(addIterations);
+		alterNumOfIterations(addIterations + 1);
 		Run = 0;
 	}
 	else
@@ -348,6 +353,31 @@ function borderToggleOption() {
 	}
 }
 
+function outputError(text) {
+	errorContext.font = "12px Arial";
+	errorContext.fillStyle = "red";
+
+	errorContext.fillText(text, 5, 25)
+		setTimeout(function(){
+
+	}, 750);
+}
+
+// Handle switching GUI for Start/Stop Button upon click
+function startStopToggle() {
+	// If the button is in start state, change it to stop state and vice versa
+	if (startStopButton.classList.contains("start_button")) {
+    	startStopButton.innerHTML = "Stop";
+    	startStopButton.classList.remove("start_button");
+    	startStopButton.classList.add("stop_button");
+  	} 
+  	else {
+    	startStopButton.innerHTML = "Start";
+    	startStopButton.classList.remove("stop_button");
+    	startStopButton.classList.add("start_button");
+  	}
+}
+
 // Ensure one and only one checkbox can be checked at a time upon checkbox click
 checkboxes.forEach(function(checkbox) {
     checkbox.addEventListener('change', function() {
@@ -366,16 +396,6 @@ checkboxes.forEach(function(checkbox) {
 		}
     });
 });
-
-function outputError(text) {
-	errorContext.font = "12px Arial";
-	errorContext.fillStyle = "red";
-
-	errorContext.fillText(text, 5, 25)
-		setTimeout(function(){
-
-	}, 750);
-}
 
 // Capture canvas as a PDF upon clickling the 'Download PDF" button
 downloadPDFButton.addEventListener('click', function() {
@@ -415,21 +435,6 @@ downloadPNGButton.addEventListener('click', function() {
     link.href = image;  // Set the href attribute of the anchor element to the data URL of the image
     link.download = "Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".png";  // Set the filename
 	link.click();  // Trigger a click on the anchor element to prompt the browser to download the image
-});
-
-// Handle switching GUI for Start/Stop Button upon click
-startStopButton.addEventListener("click", function() {
-	// If the button is in start state, change it to stop state and vice versa
-	if (startStopButton.classList.contains("start_button")) {
-    	startStopButton.innerHTML = "Stop";
-    	startStopButton.classList.remove("start_button");
-    	startStopButton.classList.add("stop_button");
-  	} 
-  	else {
-    	startStopButton.innerHTML = "Start";
-    	startStopButton.classList.remove("stop_button");
-    	startStopButton.classList.add("start_button");
-  	}
 });
 
 /* Handle open and closing of about window */
