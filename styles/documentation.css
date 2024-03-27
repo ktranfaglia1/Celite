@@ -65,7 +65,6 @@ hr {
 }
 /* Documentation text formatting */
 .doc_content {
-  margin-left: 230px;
+  margin-left: 200px;
   padding: 20px;
-  display: inline-block;
 }

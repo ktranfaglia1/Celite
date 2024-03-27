@@ -8,7 +8,7 @@ p {
   line-height: 1.5;
   color: black;
 }
-p1 {
+.p1 {
   margin: 0;
   font-family: Times;
   text-align: center;
@@ -16,7 +16,7 @@ p1 {
   line-height: 1.7;
   color: black;
 }
-p2 {
+.p2 {
   margin: 0;
   display: block;
   font-family: Times;
@@ -25,7 +25,7 @@ p2 {
   line-height: 2.0;
   color: black;
 }
-p3 {
+.p3 {
   margin: 0 6%;
   font-family: Times;
   text-align: left;
