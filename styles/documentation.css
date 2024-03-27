@@ -12,9 +12,10 @@ hr {
   height: 2px;
   margin-bottom: 10px;
 }
+/* Sidebar formatting */
 .sidebar {
   position: fixed;
-  top: 140px;
+  top: 139px;
   left: 0;
   width: 200px;
   height: 100%;
@@ -24,25 +25,42 @@ hr {
   border-right: 3px solid #444444;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
-.sidebar ul {
+.main_menu {
   list-style-type: none;
   padding: 0;
-  margin: 0;
 }
-.sidebar ul li {
-  margin-bottom: 10px; /* Adjust spacing between list items */
+.menu_item {
+  margin-bottom: 10px;
 }
-.sidebar a {
+.menu_title {
+  font-size: 18px;
+  line-height: 1.8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.menu_title::before {
+  content: "\25B6";
+  margin-right: 5px;
+  transition: transform 0.3s ease;
+}
+.menu_title.active::before {
+  transform: rotate(90deg);
+}
+.submenu {
+  display: none;
+  list-style-type: none;
+}
+.submenu.active {
   display: block;
-  text-align: center;
-  padding: 10px;
+}
+.subtitle {
+  font-size: 17px;
+  line-height: 1.6;
   text-decoration: none;
-  color: #333; /* Link color */
-  border: 1px solid #444444; /* Add border around the buttons */
+  color: black;
 }
-.sidebar a:hover {
-  background-color: #ddd; /* Background color on hover */
-}
+/* Documentation text formatting */
 .doc_content {
   margin-left: 220px;
   padding: 20px;

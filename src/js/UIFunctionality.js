@@ -472,6 +472,6 @@ iterationSpeedValue.innerHTML = 750;  // Sets displayed default iteration speed 
 // Update the current iteration speed slider value upon drag
 iterationSpeedSlider.oninput = function() {
 	iterationSpeedValue.innerHTML = this.value;
-  };
+};
 
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page

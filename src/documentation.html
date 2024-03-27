@@ -34,19 +34,45 @@
     </header>
     <h1> Learn The Program! </h1> <hr>
     <div class="sidebar">
-      <ul>
-        <li><a href="#learn" class="sidebar_button">Learn</a></li>
-        <li><a href="#something" class="sidebar_button">Something</a></li>
-        <!-- Add more links here -->
+      <ul class="main_menu">
+        <li class="menu_item">
+          <span class="menu_title"> 1D Nearest Neighbor </span>
+          <ul class="submenu">
+            <li> <a href="#learn" class="subtitle"> Learn </a> </li>
+            <li> <a href="#something" class="subtitle"> Something </a> </li>
+          </ul>
+        </li>
+        <li class="menu_item">
+          <span class="menu_title"> 2D Nearest Neighbor </span>
+          <ul class="submenu">
+            <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li> <!-- Subcategory 1 -->
+            <li> <a href="#subcategory2" class="subtitle"> Subcategory 2 </a> </li>
+          </ul>
+        </li>
+        <li class="menu_item">
+          <span class="menu_title"> Game of Life </span>
+          <ul class="submenu">
+            <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li> <!-- Subcategory 1 -->
+            <li> <a href="#subcategory2" class="subtitle"> Subcategory 2 </a> </li>
+          </ul>
+        </li>
       </ul>
     </div>
     <div class="doc_content">
       <h6 id="learn">Learn</h6>
       <p3>This is the section about how to use the program.</p3>
-    
       <h6 id="something">Something</h6>
       <p3>This is the section about something</p3>
-      <!-- Add more sections here -->
     </div>
   </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
+<script>
+  // Uses jQuery online library to collapse the  list structure in the documentation sidebar and reveal subcategories
+  $(document).ready(function() {
+    $('.menu_title').click(function() {
+      $(this).toggleClass('active');  // Toggle active class on main menu title
+      $(this).siblings('.submenu').toggleClass('active');  // Toggle active class on submenu
+    });
+  });
+</script>
