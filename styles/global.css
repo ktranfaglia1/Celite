@@ -29,8 +29,9 @@ p3 {
   margin: 0 6%;
   font-family: Times;
   text-align: left;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 1.5;
+  display: inline-block;
   color: black;
 }
 h1 {

@@ -14,7 +14,7 @@ hr {
 }
 /* Sidebar formatting */
 .sidebar {
-  position: fixed;
+  position: absolute;
   top: 139px;
   left: 0;
   width: 200px;
@@ -60,8 +60,12 @@ hr {
   text-decoration: none;
   color: black;
 }
+.subtitle:hover {
+  color: #666666;
+}
 /* Documentation text formatting */
 .doc_content {
-  margin-left: 220px;
+  margin-left: 230px;
   padding: 20px;
+  display: inline-block;
 }
