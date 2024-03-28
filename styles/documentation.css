@@ -6,7 +6,6 @@ body {
   font-family: Arial, sans-serif;
 }
 hr {
-  position: relative;
   margin: 0;
   border: none;
   background-color: black;
@@ -16,15 +15,16 @@ hr {
 /* Sidebar formatting */
 .sidebar {
   position: fixed;
-  top: 140px;
+  top: 0;
   left: 0;
+  padding: 139px 20px 0 20px;
   width: 200px;
   height: 100%;
   background-color: #add8e6;
-  padding: 20px;
   overflow-y: auto;
   border-right: 3px solid #444444;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 .main_menu {
   list-style-type: none;
@@ -68,4 +68,8 @@ hr {
 .doc_content {
   margin-left: 215px;
   padding: 20px;
+}
+.doc_container {
+  display: flex;
+  flex-direction: row;
 }

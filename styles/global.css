@@ -1,5 +1,11 @@
 /* Global styles page linked to entire website */
 /* General formatting */
+header {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
 p {
   margin: 0 4%;
   font-family: Times;
@@ -99,7 +105,7 @@ h6 {
   height: 60px;
 }
 .navbar a:not(.logo) {
-  font-size: 16px;  
+  font-size: 17px;  
   text-align: center;
   float: left;
   display: block;
@@ -120,7 +126,7 @@ h6 {
 .navbar .dropdown {
   float: left;
   overflow: hidden;
-  z-index: 3;
+  z-index: 4;
 }
 .navbar .drop_button {
   margin: 0;
@@ -129,8 +135,7 @@ h6 {
   color: whitesmoke;
   padding: 22px 24px;
   background-color: inherit;
-  font-size: inherit;
-  font-family: inherit;
+  font-size: 17px;
 }
 .navbar .dropdown_item {
   display: none;
