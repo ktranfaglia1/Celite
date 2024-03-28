@@ -65,44 +65,56 @@
     <div class="doc_content">
       <h6 id="primaryToolbar"> Primary Toolbar </h6>
       <div class="p3">
-         <u>Iteration Input Box</u>: 
+         <u>Iteration Input Box</u>: Enter the number of iterations to complete. Manipulating the iteration amount will change emerging patterns by limiting or expanding the application of a rule. The iteration amount is inclusive such that it goes the entered number of iterations beyond the starting iteration (starting state, index = 0). Using the "Start" or "Iterate" buttons will simulate up to the entered iteration amount.
       </div> 
+      <div class="p4"> 
+        <b> Input Restrictions: </b> Non-negative real numbers in range [0, 10000]. Decimal values will be truncated.
+      </div>
       <div class="p3">
-        <u>Rule Input Box</u>:
+        <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, rule numbers are converted into binary, then three bit increments (octal increments) are used to determine the next state of a cell depending on the current cell state, and its left and right neighbor. Try using Rule 90 (01011010) to simulate Pascal's Triangle!
       </div> 
+      <div class="p4"> 
+        <b> Input Restrictions: </b> Non-negative real numbers in range [0, 255]. Decimal values will be truncated.
+      </div>
       <div class="p3">
-        <u>Lattice Input Box</u>:
+        <u>Lattice Input Box</u>: Enter the lattice size set the number of cells in the lattice (row of cells). Manipulating the lattice size will impact the complexity of the system as it will change the interactions and possibilities for emergent patterns and may impact the affects of the boundary condition. The size of the individual cells will decrease as the lattice size increases to fit the lattice in the canvas region.
       </div> 
+      <div class="p4"> 
+        <b> Input Restrictions: </b> Non-negative real numbers in range [1, 1000]. Decimal values will be truncated.
+      </div>
+      <div class = p3>
+        Must click the "Submit" button to the right of each input box to apply the input.
+      </div>
       <h6 id="boundaryConditions"> Boundary Conditions </h6>
       <div class="p3"> 
-        This is sjh js jshh jsh js js sj sj sjh jfsfjhs j shj sjj hfsjh sjhf jshs s jsfnh jshn fjsh jsh jsfh jsh jsh jhj fbnhksdfbhfasjhkbafbhjafjh fjsh jhs js hsj jsfh jsh fjsh jf smething 
+        Test
       </div>
       <h6 id="secondaryToolbar"> Secondary Toolbar </h6>
       <div class="p3"> 
-        This is sjh js jshh jsh js js sj sj sjh jfsfjhs j shj sjj hfsjh sjhf jshs s jsfnh jshn fjsh jsh jsfh jsh jsh jhj fbnhksdfbhfasjhkbafbhjafjh fjsh jhs js hsj jsfh jsh fjsh jf smething 
+        Test      
       </div>
       <h6 id="options"> Options </h6>
       <div class="p3"> 
-        This is sjh js jshh jsh js js sj sj sjh jfsfjhs j shj sjj hfsjh sjhf jshs s jsfnh jshn fjsh jsh jsfh jsh jsh jhj fbnhksdfbhfasjhkbafbhjafjh fjsh jhs js hsj jsfh jsh fjsh jf smething 
+        Test
       </div>
       <h6 id="logBox"> Log Box </h6>
       <div class="p3"> 
-        This is sjh js jshh jsh js js sj sj sjh jfsfjhs j shj sjj hfsjh sjhf jshs s jsfnh jshn fjsh jsh jsfh jsh jsh jhj fbnhksdfbhfasjhkbafbhjafjh fjsh jhs js hsj jsfh jsh fjsh jf smething 
+        Test      
       </div>
       <h6 id="canvas"> Canvas </h6>
       <div class="p3"> 
-        This is sjh js jshh jsh js js sj sj sjh jfsfjhs j shj sjj hfsjh sjhf jshs s jsfnh jshn fjsh jsh jsfh jsh jsh jhj fbnhksdfbhfasjhkbafbhjafjh fjsh jhs js hsj jsfh jsh fjsh jf smething 
+        Test
       </div>
     </div>
   </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
 <script>
-  // Uses jQuery online library to collapse the  list structure in the documentation sidebar and reveal subcategories
   $(document).ready(function() {
+    // Toggle active class on main menu title and submenu
     $('.menu_title').click(function() {
-      $(this).toggleClass('active');  // Toggle active class on main menu title
-      $(this).siblings('.submenu').toggleClass('active');  // Toggle active class on submenu
+      $(this).toggleClass('active');
+      $(this).siblings('.submenu').toggleClass('active');
     });
   });
 </script>
