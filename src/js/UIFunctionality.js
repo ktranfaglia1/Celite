@@ -25,7 +25,7 @@ makeTickBox() ::
 import {latticeArray, currentLattice, nextLattice, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, lctx} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, boundaryCon, drawLattice} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice} from './displayLattice.js';
-import {alterRule, alterNumOfIterations, alterCurrentIteration} from './displayLattice.js';
+import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon} from './displayLattice.js';
 import {updateLattice} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
@@ -229,6 +229,7 @@ function setRule()
 		alterRuleNum(newRule);
 		alterRule(ruleNumToRule(newRule));
 		makeLog("Rule Set to: " + newRule, logCanvas, messageQueue);
+		clear(latticeArray, canvas);
 	}
 	else
 	{
@@ -293,9 +294,7 @@ function clear(latticeArray, canvas)
 	neoLatticeArray[0] = clearedLattice[0].slice(0);
 	alterLatticeArray(neoLatticeArray);
 	alterCurrentLattice(latticeArray[0]);
-	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
-	
-
+	updateLattice();
 }
 
 //Takes Coordinates of mouseClick and calculates properly where it is in relation to the canvas
@@ -357,7 +356,7 @@ function iterate(currentIteration, newIterations)
 	}
 
 	alterLatticeArray(neoLatticeArray);
-	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, rule, boundaryCon);
+	updateLattice();
 	return currentIteration;
 }
 
@@ -391,6 +390,16 @@ document.querySelectorAll('.checkbox_select').forEach(function(checkbox) {
                     otherCheckbox.checked = false;
                 }
             });
+			let checkboxes = document.querySelectorAll('.checkbox_select');
+			//If the first checkbox is selected, set the boundaryCon variable to 1 representing Periodic
+			//boundary condition. Otherwise set boundaryCon to 0 representing Null.
+			if (checkboxes[0].checked) {
+				alterBoundaryCon(1)
+			}
+			else {
+				alterBoundaryCon(0)
+			}
+			//console.log(boundaryCon
         }
 		// Box is set to be unchecked: Don't allow ... one box must be checked at all times
 		else {

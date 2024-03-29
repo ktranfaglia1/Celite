@@ -77,7 +77,7 @@ export function alterBoundaryCon(neoBoundaryCon) {
 This function pushes the initial timestep lattice of cells such that the user can select what cells they want
 on or off
 */
-function LatticeDisplay(latticeArray) {
+function LatticeDisplay() {
 	let startDif = (latSize * size) / 2;
 	let center = canvas.width / 2;
 	let startX = center - startDif;
@@ -111,15 +111,19 @@ export function drawLattice(latticeArray) {
 }
 
 //Creates next timestep lattice then sets the new timestep as the current one.
-export function updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration, rule, boundaryCon){
+export function updateLattice(){
 
   //Iterates over each new iteration that needs to be added to the lattice array.
   for(; currentIteration < numOfIterations; currentIteration++)
   {
+    //Generate the next timestep using the current one, the existing rule, the boundary condition
+    //the current iteration so that the cells are created in the right spot, and the size of each
+    //individual cell to be created in the next timestep.
     nextLattice = generateLattice(currentLattice, rule, boundaryCon, currentIteration, size);
     latticeArray[currentIteration] = nextLattice;
     currentLattice = nextLattice;
   }
+  //Update lattice in canvas
 	drawLattice(latticeArray);
 	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();  // Display iteration count to HTML page upon update
 }
@@ -133,7 +137,7 @@ let latticeArray = new Array ( new Array);
 let currentLattice = new Array()
 // Temporary storage holds the next lattice
 let nextLattice = new Array()
-// :IDK TIMMY FILL THIS IN:
+//This creates a rule array to set as the desired rule when ruleNumToRule is called.
 let rule = new Array()
 
 // Gets data on the canvas for displaying purposes
@@ -149,6 +153,9 @@ canvas.height = 350;
 // pulls in Canvas used to display the ticker
 const tickCanvas = document.getElementById("tickmarkRegion");
 const tctx = tickCanvas.getContext("2d"); // gets the lattice display region
+//let errorBox = document.getElementById("errorRegion");
+let errorBox = document.getElementById("logRegion")
+let errorContext = errorBox.getContext("2d"); // gets the lattice display region
 
 tickCanvas.height = canvas.height;
 tickCanvas.width = canvas.width;
@@ -193,7 +200,6 @@ export {latticeArray, numOfIterations, currentLattice};
 //Sets starting lattice to all dead
 latticeArray[0] = currentLattice;
 
-//Displays Default Lattice state
-LatticeDisplay(latticeArray);
-rule = ruleNumToRule(ruleNum); //sets default ruleset
-
+LatticeDisplay()
+rule = ruleNumToRule(ruleNum);
+updateLattice();

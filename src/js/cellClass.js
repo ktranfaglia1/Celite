@@ -1,4 +1,16 @@
-import {ctx, latSize} from './displayLattice.js';
+/*
+cellClass.js
+Authors: Dustin O'Brien
+Class: cell
+Functions: Constructor that takes in height, width, X Location and Y Location of top corner, and color.
+drawCell which draws in individual cell to the canvas and takes ctx as parameter.
+insideCell which takes in mouse position to determine if the mouse in inside of a cell.
+setColor which sets a new color for the cell that takes new color as parameter.
+flipColor swaps a cell visually from dead to alive and vice versa
+getColor is an accessor for cell color.
+*/
+
+import {latSize} from './displayLattice.js';
 
 export class cell {
 

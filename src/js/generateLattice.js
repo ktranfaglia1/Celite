@@ -1,9 +1,17 @@
-//import * from cors
-import {currentLattice, rule, canvas, size, latSize, ruleNum, boundaryCon} from './displayLattice.js';
+/*
+cellClass.js
+Authors: Timothy McKirgan and Dustin O'Brien
+Class: cell
+Functions: ruleNumToRule which takes in the ruleNum to generate a rule array to determine how new
+timesteps are generated.
+generateLattice which uses the rule array to determine the next timestep. This function takes as parameters
+the current timestep, the current rule array, the boundary condition, 1 for periodic and 0 for null, the
+current timestep number (rowIndex), and the size individual cells.
+*/
+
+import {rule, canvas, latSize} from './displayLattice.js';
 import {cell} from './cellClass.js';
-import {alterRule, alterRuleNum} from './displayLattice.js';
-//let imports = require("displayLattice.js");
-//console.log(imports);
+import {alterRule} from './displayLattice.js';
 
 //Generates rule array based on input rule number.
 export function ruleNumToRule(ruleNum) {
@@ -49,7 +57,7 @@ export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, siz
 	//If boundary condition is null:
 	else {
 		//Iterate over length of new lattice
-		for(i = 0; i < currentLattice.length; i++) {
+		for(let i = 0; i < currentLattice.length; i++) {
 			newLattice.push(new cell (size, size, startX + i * size, rowIndex * size, 0));
 			//If this is the first cell, value of cell to the left is considered 0
 			//If this is the last cell, value of cell to the right is considered 0
