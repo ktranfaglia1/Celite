@@ -366,7 +366,7 @@ function outputError(text) {
 // Handle switching GUI for Start/Stop Button upon click
 function startStopToggle() {
 	// If the button is in start state, change it to stop state and vice versa
-	if (startStopButton.classList.contains("start_button")) {
+	if (startStopButton.classList.contains("start_button") && !Run) {
     	startStopButton.innerHTML = "Stop";
     	startStopButton.classList.remove("start_button");
     	startStopButton.classList.add("stop_button");
