@@ -6,12 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Define the viewport for responsive design -->
     <title> Discrete Mathematical Systems </title>
     <link rel="stylesheet" type="text/css" href="../styles/global.css">  <!-- Link to global CSS styles -->
-    <link rel="stylesheet" type="text/css" href="../styles/home.css">  <!-- Link to home specific CSS styles -->
+    <link rel="stylesheet" type="text/css" href="../styles/documentation.css">  <!-- Link to home specific CSS styles -->
+    <link rel="icon" href="../images/cellular_automata_logo.png">  <!-- Link page icon -->
   </head>
   <body>
     <!-- Navigation Bar-->
     <header>
       <div class="navbar">
+        <a href="../src/index.html" class="logo">
+          <img src="../images/cellular_automata_logo.png" alt="Logo" width="70" height="70">
+        </a>
         <a href="../src/index.html"> Home </a>  <!-- Link to the home page -->
         <!-- Dropdown menu for simulators -->
         <div class="dropdown">
@@ -24,9 +28,124 @@
           </div>
         </div>
         <a href="../src/documentation.html"> Documentation </a>  <!-- Link to the documentation page -->
-        <a href="../src/index.html"> Source </a>  <!-- Link to the source code page -->
+        <a href="https://github.com/ktranfaglia1/COSC425" target="_blank"> Source </a>  <!-- Link to the source code page -->
         <a href="../src/about.html"> About </a>  <!-- Link to the about page -->
       </div>
+      <h1> Learn The Program! </h1> <hr>
     </header>
+    <div class="doc_container">
+      <div class="sidebar">
+        <ul class="main_menu">
+          <li class="menu_item">
+            <span class="menu_title"> 1D Nearest Neighbor </span>
+            <ul class="submenu">
+              <li> <a href="#primaryToolbar" class="subtitle"> Primary Toolbar </a> </li>
+              <li> <a href="#boundaryConditions" class="subtitle"> Boundary Conditions </a> </li>
+              <li> <a href="#secondaryToolbar" class="subtitle"> Secondary Toolbar </a> </li>
+              <li> <a href="#options" class="subtitle"> Options </a> </li>
+              <li> <a href="#logBox" class="subtitle"> Log Box </a> </li>
+              <li> <a href="#canvas" class="subtitle"> Canvas </a> </li>
+            </ul>
+          </li>
+          <li class="menu_item">
+            <span class="menu_title"> 2D Nearest Neighbor </span>
+            <ul class="submenu">
+              <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li> <!-- Subcategory 1 -->
+              <li> <a href="#subcategory2" class="subtitle"> Subcategory 2 </a> </li>
+            </ul>
+          </li>
+          <li class="menu_item">
+            <span class="menu_title"> Game of Life </span>
+            <ul class="submenu">
+              <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li> <!-- Subcategory 1 -->
+              <li> <a href="#subcategory2" class="subtitle"> Subcategory 2 </a> </li>
+            </ul>
+          </li>
+          <li class="menu_item">
+            <span class="menu_title"> Insights </span>
+            <ul class="submenu">
+              <li> <a href="#subcategory1" class="subtitle"> Rule Application </a> </li> <!-- Subcategory 1 -->
+              <li> <a href="#subcategory2" class="subtitle"> Subcategory 2 </a> </li>
+            </ul>
+          </li>
+          <li class="menu_item">
+            <span class="menu_title"> FAQ </span>
+            <ul class="submenu">
+              <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li> <!-- Subcategory 1 -->
+              <li> <a href="#subcategory2" class="subtitle"> Subcategory 2 </a> </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="doc_content">
+        <h6 id="primaryToolbar"> Primary Toolbar </h6>
+        <div class="p3">
+          <u>Iteration Input Box</u>: Enter the number of iterations to complete. Manipulating the iteration amount will change emerging patterns by limiting or expanding the application of a rule. The iteration amount is inclusive such that it goes the entered number of iterations beyond the starting iteration (starting state, index = 0). Using the "Start" or "Iterate" buttons will simulate up to the entered iteration amount.
+        </div> 
+        <div class="p4"> 
+          <i> Input Restrictions: </i> Non-negative real numbers in range [0, 10000]. Decimal values will be truncated.
+        </div>
+        <div class="p3">
+          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current timestep, the cell and its direct neighbors are taken in as a binary representation (Dead - 0, Alive - 1). These three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary rule number. The value of the index is the new state of the cell.
+        </div> 
+        <div class="p4"> 
+          <i> Input Restrictions: </i> Non-negative real numbers in range [0, 255]. Decimal values will be truncated.
+        </div>
+        <div class="p3">
+          <u>Lattice Input Box</u>: Enter the lattice size set the number of cells in the lattice (row of cells). Manipulating the lattice size will impact the complexity of the system as it will change the interactions and possibilities for emergent patterns and may impact the affects of the boundary condition. The size of the individual cells will decrease as the lattice size increases to fit the lattice in the canvas region.
+        </div> 
+        <div class="p4"> 
+          <i> Input Restrictions: </i> Non-negative real numbers in range [1, 1000]. Decimal values will be truncated.
+        </div>
+        <div class = p3>
+          Must click the "Submit" button to the right of each input box to apply the input.
+        </div>
+        <h6 id="boundaryConditions"> Boundary Conditions </h6>
+        <div class="p3"> 
+          Test
+        </div>
+        <h6 id="secondaryToolbar"> Secondary Toolbar </h6>
+        <div class="p3"> 
+          Test      
+        </div>
+        <h6 id="options"> Options </h6>
+        <div class="p3"> 
+          Test
+        </div>
+        <h6 id="logBox"> Log Box </h6>
+        <div class="p3"> 
+          Test      
+        </div>
+        <h6 id="canvas"> Canvas </h6>
+        <div class="p3"> 
+          Test <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
+<script>
+  $(document).ready(function() {
+    // Toggle active class on main menu title and submenu
+    $('.menu_title').click(function() {
+      $(this).toggleClass('active');
+      $(this).siblings('.submenu').toggleClass('active');
+    });
+
+    // Get sidebar element and the initial top padding of the sidebar
+    let sidebar = $(".sidebar");
+    let initialPadding = parseInt(sidebar.css("padding-top"));
+
+    // Adjust top padding upon window scroll
+    $(window).on("scroll", function() {
+      let scrollPos = $(this).scrollTop();  // Get current scroll position
+
+      // Calculate new padding based on scroll position and ensure padding is not negative
+      let newPadding = initialPadding - scrollPos;
+      newPadding = Math.max(newPadding, 0);
+
+      sidebar.css("padding-top", newPadding + "px");  // Apply new padding to sidebar
+    });
+  });
+</script>

@@ -77,7 +77,7 @@ export function alterBoundaryCon(neoBoundaryCon) {
 This function pushes the initial timestep lattice of cells such that the user can select what cells they want
 on or off
 */
-function LatticeDisplay() {
+function LatticeDisplay(latticeArray) {
 	let startDif = (latSize * size) / 2;
 	let center = canvas.width / 2;
 	let startX = center - startDif;
@@ -146,9 +146,8 @@ let ctx = canvas.getContext("2d"); // gets the lattice display region
 //Shows user what iteration we are currently on
 let outputIteration = document.getElementById("iterationOutput")
 
-//Sets default Canvas Size
-canvas.width = 1400;
-canvas.height = 350;
+canvas.width = 1800;
+canvas.height = 400;
 
 // pulls in Canvas used to display the ticker
 const tickCanvas = document.getElementById("tickmarkRegion");
@@ -164,7 +163,7 @@ let logCanvas = document.getElementById("logRegion"); //Box for Displaying Error
 let lctx = logCanvas.getContext("2d"); // gets the lattice display region
 
 logCanvas.width = 160;
-logCanvas.height = 43;
+logCanvas.height = 45;
 //console.log(errorContext);
 
 //Sets default Lattice Size
@@ -180,7 +179,7 @@ timestep.
 let inf = false;
 let latSize = 10;
 let numOfIterations = 1;
-let currentIteration = 1;
+let currentIteration = 0;
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
@@ -200,6 +199,6 @@ export {latticeArray, numOfIterations, currentLattice};
 //Sets starting lattice to all dead
 latticeArray[0] = currentLattice;
 
-LatticeDisplay()
+LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum);
 updateLattice();
