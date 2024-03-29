@@ -9,7 +9,7 @@ hr {
   margin: 0;
   border: none;
   background-color: black;
-  height: 2px;
+  height: 3px;
   margin-bottom: 10px;
 }
 /* Sidebar formatting */
@@ -66,7 +66,7 @@ hr {
 }
 /* Documentation text formatting */
 .doc_content {
-  margin-left: 215px;
+  margin-left: 200px;
   padding: 20px;
 }
 .doc_container {
