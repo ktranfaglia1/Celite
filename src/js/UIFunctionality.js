@@ -96,7 +96,10 @@ iterateButton.addEventListener("click", function()
 	iterate(currentIteration, addIterations);});
 
 clearButton.addEventListener("click", function()
-{clear(latticeArray, canvas);});
+{
+	clear(latticeArray, canvas);
+	makeLog("Cleared Lattice ", logCanvas, messageQueue);}
+	);
 
 iterationSubmit.addEventListener("click", function()
 {setLatticeSize();});
@@ -144,7 +147,7 @@ latticeSizeSubmit.addEventListener("click", function() {
 		alterSize(45);
 	}
 	
-	clear(latticeArray);
+	clear(latticeArray, canvas);
 })
 
 
@@ -291,7 +294,7 @@ function clear(latticeArray, canvas)
 	alterLatticeArray(neoLatticeArray);
 	alterCurrentLattice(latticeArray[0]);
 	updateLattice(latticeArray, currentLattice, nextLattice, numOfIterations, currentIteration);
-	makeLog("Cleared Lattice ", logCanvas, messageQueue);
+	
 
 }
 
