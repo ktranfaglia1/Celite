@@ -25,14 +25,14 @@ export function ruleNumToRule(ruleNum) {
     ruleNumCopy = Math.floor(ruleNumCopy / 2);
   }
   alterRule(neoRule);
-  console.log(rule)
+  //console.log(rule)
   return rule
 }
 
 //Generates the next lattice based on the current one, the rule, and the boundary condition.
 export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, size) {
   	let newLattice = new Array();
-  	let startDif = (latSize * size) / 2;
+  	let startDif = (latSize[0] * size) / 2;
   	let center = canvas.width / 2;
   	let startX = center - startDif;
 	//If boundary condition is periodic:

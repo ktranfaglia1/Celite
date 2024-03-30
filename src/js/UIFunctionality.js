@@ -6,10 +6,10 @@
   for simulation modifications and communicates it with utility files
 * Last Updated: 03/11/24
 */
-import {latticeArray, currentLattice, nextLattice, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, lctx} from './displayLattice.js';
-import {numOfIterations, currentIteration, size, latSize, ruleNum, boundaryCon, drawLattice} from './displayLattice.js';
+import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas} from './displayLattice.js';
+import {numOfIterations, currentIteration, size, latSize, ruleNum, inf} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice} from './displayLattice.js';
-import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon} from './displayLattice.js';
+import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf} from './displayLattice.js';
 import {updateLattice} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
@@ -75,11 +75,13 @@ toggleBar.addEventListener("click", function() {
 */
 
 iterateButton.addEventListener("click", function() {
+	alterInf(inf[0], true)
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
 	iterate(currentIteration, addIterations);
 });
 
 clearButton.addEventListener("click", function() {
+	alterInf(inf[0], false)
 	clear(latticeArray, canvas);
 	makeLog("Cleared Lattice ", logCanvas, messageQueue);}
 );
@@ -109,6 +111,11 @@ startStopButton.addEventListener("click", function() {
 	if (Run != 1) {
 		Run = 1;
 		makeLog("Starting Iterations", logCanvas, messageQueue);
+		/*
+		if (inf[1]) {
+
+		}
+		*/
 		continouslyIterate(iterationTime);
 	}
 	else {
@@ -153,7 +160,7 @@ function updateLatticeSize(canvas) {
 		makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
 	}
 	
-	let size = canvas.width / latSize;
+	let size = canvas.width / latSize[0];
 
 	//Cells should have a maximum size of 45 :: This Caps cell size to 45
 	if (size > 45) {
@@ -162,6 +169,7 @@ function updateLatticeSize(canvas) {
 	
 	alterSize(size);
 	//console.log(canvas)
+	alterInf(inf[0], false)
 	clear(latticeArray, canvas); //emptys out canvas and redraws
 }
 
@@ -209,6 +217,7 @@ function setRule() {
 		alterRuleNum(newRule);
 		alterRule(ruleNumToRule(newRule));
 		makeLog("Rule Set to: " + newRule, logCanvas, messageQueue);
+		alterInf(inf[0], false)
 		clear(latticeArray, canvas);
 	}
 	else {
@@ -235,6 +244,8 @@ function setRule() {
 function setLatticeSize() {
 	let newValue = parseInt(iterationInputBox.value); //Turns the iteration input to an integerpopTime
 	if (!isNaN(newValue) && newValue >= 0 && newValue <= 1000) {
+		alterInf(inf[0], false, newValue);
+		clear(latticeArray, canvas);
 		addIterations = newValue;//updates the number of iterations
 		makeLog("Set Iterations to: " + newValue, logCanvas, messageQueue);
 	}
@@ -252,12 +263,12 @@ function clear(latticeArray) {
 	alterCurrentIteration(1);
 	let clearedLattice = new Array (new Array);
 	alterNextLattice(new Array);
-	let StartX = (canvas.width / 2) - (latSize * size / 2)
+	let StartX = (canvas.width / 2) - (latSize[0] * size / 2)
 	let neoLatticeArray = latticeArray;
 	while (neoLatticeArray.length > 1) {
 		neoLatticeArray.pop();
 	}
-	for (let i = 0; i < latSize; i++) {
+	for (let i = 0; i < latSize[0]; i++) {
 		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0));
 	}
 	neoLatticeArray[0] = clearedLattice[0].slice(0);
@@ -320,19 +331,24 @@ function iterate(currentIteration, newIterations) {
 
 // Handle when bound toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
 export function toggleCheckbox() {
+	//console.log("Is this inf toggle?")
 	// Set the first checkbox (not second checkbox) to be checked upon toggle button activation
-    checkboxes[0].checked = true;
+  checkboxes[0].checked = true;
 	checkboxes[1].checked = false;
 	// If checkboxes are currently hidden (toggle bar was not active) display the checkboxes and animate toggle button
 	if (periodicCheckBox.style.display == 'none'|| periodicCheckBox.style.display == '') {
+		alterInf(false)
+		clear(latticeArray, canvas);
 		periodicCheckBox.style.display = 'block';
 		nullCheckBox.style.display = 'block';
 		boundToggleButton.style.transform = 'translateX(25px)'; // Move the toggle button to the right
 	// If checkboxes are currently not hidden (toggle bar was active) hide the checkboxes and animate toggle button back
     } else {
-		periodicCheckBox.style.display = 'none';
-		nullCheckBox.style.display = 'none';
-		boundToggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
+			alterInf(true)
+			clear(latticeArray, canvas);
+			periodicCheckBox.style.display = 'none';
+			nullCheckBox.style.display = 'none';
+			boundToggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
     }
 }
 
@@ -379,6 +395,7 @@ function startStopToggle() {
     	startStopButton.innerHTML = "Stop";
     	startStopButton.classList.remove("start_button");
     	startStopButton.classList.add("stop_button");
+			alterInf(inf[0], true)
   	} 
   	else {
     	startStopButton.innerHTML = "Start";
@@ -402,9 +419,11 @@ checkboxes.forEach(function(checkbox) {
 			//boundary condition. Otherwise set boundaryCon to 0 representing Null.
 			if (checkboxes[0].checked) {
 				alterBoundaryCon(1)
+				clear(latticeArray, canvas);
 			}
 			else {
 				alterBoundaryCon(0)
+				clear(latticeArray, canvas);
 			}
 			//console.log(boundaryCon
         }
@@ -477,7 +496,7 @@ downloadPDFButton.addEventListener('click', function() {
 	let offsetY = (pdfHeight - imgHeight) / 2;
 	pdf.addImage(imgData, 'PNG', offsetX, offsetY, imgWidth, imgHeight);
 
-	pdf.save("Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".pdf");  // Save the PDF
+	pdf.save("Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize[0] + ".pdf");  // Save the PDF
 	makeLog("Downloaded Lattice Array", logCanvas, messageQueue);
 });
 
@@ -486,7 +505,7 @@ downloadPNGButton.addEventListener('click', function() {
     let image = canvas.toDataURL();  // Get the image data from the canvas. Default is png
     let link = document.createElement('a');  // Create a new anchor element to create a downloadable link
     link.href = image;  // Set the href attribute of the anchor element to the data URL of the image
-    link.download = "Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".png";  // Set the filename
+    link.download = "Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize[0] + ".png";  // Set the filename
 	link.click();  // Trigger a click on the anchor element to prompt the browser to download the image
 });
 
