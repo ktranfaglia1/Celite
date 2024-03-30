@@ -73,6 +73,10 @@ export function alterBoundaryCon(neoBoundaryCon) {
   boundaryCon = neoBoundaryCon;
 }
 
+export function alterBorder(neoBorder){
+  border = neoBorder;
+}
+
 /*
 This function pushes the initial timestep lattice of cells such that the user can select what cells they want
 on or off
@@ -84,7 +88,7 @@ function LatticeDisplay(latticeArray) {
 	
   //Iterates over lattice size adding a new cell in top row.
 	for (let i = 0; i < latSize; i++) {
-		currentLattice.push(new cell (size, size, startX + i * size, 0, 0))
+		currentLattice.push(new cell (size, size, startX + i * size, 0, 0, border))
 	}
   latticeArray.push(currentLattice);
   drawLattice(latticeArray);
@@ -100,6 +104,12 @@ export function drawLattice(latticeArray) {
   }
 
   //console.log(latticeArray);
+
+  //This sets the top row to always have borders on so its easy to be able to click
+  for (let i = 0 ; i < latticeArray[0].length; i++)
+  {
+    latticeArray[0][i].setBorder(true);
+  }
 
   ctx.clearRect(0,0, canvas.width, canvas.height);
   //Iterates over each cell in each lattice in each timestep drawing them to the canvas.
@@ -180,6 +190,8 @@ let inf = false;
 let latSize = 10;
 let numOfIterations = 1;
 let currentIteration = 0;
+
+let border = true; //Border = true by default
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
