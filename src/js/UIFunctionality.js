@@ -6,7 +6,7 @@
   for simulation modifications and communicates it with utility files
 * Last Updated: 03/11/24
 */
-import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas} from './displayLattice.js';
+import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, currentLattice, drawLattice} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, inf} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice} from './displayLattice.js';
 import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf} from './displayLattice.js';
@@ -77,11 +77,55 @@ toggleBar.addEventListener("click", function() {
 iterateButton.addEventListener("click", function() {
 	alterInf(inf[0], true)
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
+	if (latticeArray.length == 1) {
+		let bufferArr = new Array()
+		let latPlusBufferArr = new Array()
+		for (let i = 0; i < latSize[0]; i++) {
+			latPlusBufferArr.push(latticeArray[0][i].getColor())
+		}
+		for (let i = 0; i < latSize[1]; i++) {
+			bufferArr.push(0)
+		}
+		latPlusBufferArr = bufferArr.concat(latPlusBufferArr.concat(bufferArr));
+		let newCellNum = (latSize[0] + (2 * latSize[1]))
+		if (!isNaN(newCellNum) && newCellNum >= 1) {
+			alterLatSize(newCellNum);
+		}
+		let size = canvas.width / latSize[0];
+		//Cells should have a maximum size of 45 :: This Caps cell size to 45
+		if (size > 45) {
+			size = 45; 
+		}
+		alterSize(size);
+		clear(latticeArray, canvas);
+		let neoLatticeArray = latticeArray;
+		for (let i = 0 ; i < latticeArray[0].length; i++) {
+			if (latPlusBufferArr[i] == 1) {
+				console.log(i)
+				neoLatticeArray[0][i].flipColor();
+			}
+			(neoLatticeArray[0][i]).drawCell(ctx);
+			alterLatticeArray(neoLatticeArray);
+		}
+	}
 	iterate(currentIteration, addIterations);
 });
 
 clearButton.addEventListener("click", function() {
-	alterInf(inf[0], false)
+
+	let newCellNum = (latSize[0] - (2 * latSize[1]));
+	if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
+		alterLatSize(newCellNum);
+	}
+	else {
+		makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
+	}
+	let size = canvas.width / latSize[0];
+	//Cells should have a maximum size of 45 :: This Caps cell size to 45
+	if (size > 45) {
+		size = 45; 
+	}
+	alterSize(size);
 	clear(latticeArray, canvas);
 	makeLog("Cleared Lattice ", logCanvas, messageQueue);}
 );
@@ -111,11 +155,40 @@ startStopButton.addEventListener("click", function() {
 	if (Run != 1) {
 		Run = 1;
 		makeLog("Starting Iterations", logCanvas, messageQueue);
-		/*
-		if (inf[1]) {
-
+		
+		if (latticeArray.length == 1) {
+			let bufferArr = new Array()
+			let latPlusBufferArr = new Array()
+			for (let i = 0; i < latSize[0]; i++) {
+				latPlusBufferArr.push(latticeArray[0][i].getColor())
+			}
+			for (let i = 0; i < latSize[1]; i++) {
+				bufferArr.push(0)
+			}
+			latPlusBufferArr = bufferArr.concat(latPlusBufferArr.concat(bufferArr));
+			console.log(latPlusBufferArr);
+			let newCellNum = (latSize[0] + (2 * latSize[1]))
+			if (!isNaN(newCellNum) && newCellNum >= 1) {
+				alterLatSize(newCellNum);
+			}
+			let size = canvas.width / latSize[0];
+			//Cells should have a maximum size of 45 :: This Caps cell size to 45
+			if (size > 45) {
+				size = 45; 
+			}
+			alterSize(size);
+			clear(latticeArray, canvas);
+			let neoLatticeArray = latticeArray;
+			for (let i = 0 ; i < latticeArray[0].length; i++) {
+				if (latPlusBufferArr[i] == 1) {
+					console.log(i)
+					neoLatticeArray[0][i].flipColor();
+				}
+				(neoLatticeArray[0][i]).drawCell(ctx);
+				alterLatticeArray(neoLatticeArray);
+			}
 		}
-		*/
+		
 		continouslyIterate(iterationTime);
 	}
 	else {
@@ -170,6 +243,7 @@ function updateLatticeSize(canvas) {
 	alterSize(size);
 	//console.log(canvas)
 	alterInf(inf[0], false)
+	
 	clear(latticeArray, canvas); //emptys out canvas and redraws
 }
 
@@ -217,6 +291,21 @@ function setRule() {
 		alterRuleNum(newRule);
 		alterRule(ruleNumToRule(newRule));
 		makeLog("Rule Set to: " + newRule, logCanvas, messageQueue);
+
+		let newCellNum = (latSize[0] - (2 * latSize[1]));
+		if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
+			alterLatSize(newCellNum);
+		}
+		else {
+			makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
+		}
+		let size = canvas.width / latSize[0];
+		//Cells should have a maximum size of 45 :: This Caps cell size to 45
+		if (size > 45) {
+			size = 45; 
+		}
+		alterSize(size);
+
 		alterInf(inf[0], false)
 		clear(latticeArray, canvas);
 	}
@@ -244,6 +333,21 @@ function setRule() {
 function setLatticeSize() {
 	let newValue = parseInt(iterationInputBox.value); //Turns the iteration input to an integerpopTime
 	if (!isNaN(newValue) && newValue >= 0 && newValue <= 1000) {
+
+		let newCellNum = (latSize[0] - (2 * latSize[1]));
+		if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
+			alterLatSize(newCellNum);
+		}
+		else {
+			makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
+		}
+		let size = canvas.width / latSize[0];
+		//Cells should have a maximum size of 45 :: This Caps cell size to 45
+		if (size > 45) {
+			size = 45; 
+		}
+		alterSize(size);
+		
 		alterInf(inf[0], false, newValue);
 		clear(latticeArray, canvas);
 		addIterations = newValue;//updates the number of iterations
@@ -258,6 +362,7 @@ function setLatticeSize() {
 
 //gets rid of all arays except the first and sets all cells to dead (white)
 function clear(latticeArray) {
+	console.log(latSize[0])
 	canvas.height = 400;
 	alterNumOfIterations(1);
 	alterCurrentIteration(1);
@@ -280,12 +385,14 @@ function clear(latticeArray) {
 //Takes Coordinates of mouseClick and calculates properly where it is in relation to the canvas
 function setCells(latticeArray, mouseX, mouseY) {
 	let neoLatticeArray = latticeArray;
-	for (let i = 0 ; i < latticeArray[0].length; i++) {
-		if (latticeArray[0][i].insideCell(mouseX, mouseY)) {
-			neoLatticeArray[0][i].flipColor();
+	if (latticeArray.length == 1) {
+		for (let i = 0 ; i < latticeArray[0].length; i++) {
+			if (latticeArray[0][i].insideCell(mouseX, mouseY)) {
+				neoLatticeArray[0][i].flipColor();
+			}
+			(neoLatticeArray[0][i]).drawCell(ctx);
+			alterLatticeArray(neoLatticeArray);
 		}
-		(neoLatticeArray[0][i]).drawCell(ctx);
-		alterLatticeArray(neoLatticeArray);
 	}
 }
 
@@ -337,6 +444,21 @@ export function toggleCheckbox() {
 	checkboxes[1].checked = false;
 	// If checkboxes are currently hidden (toggle bar was not active) display the checkboxes and animate toggle button
 	if (periodicCheckBox.style.display == 'none'|| periodicCheckBox.style.display == '') {
+
+		let newCellNum = (latSize[0] - (2 * latSize[1]));
+		if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
+			alterLatSize(newCellNum);
+		}
+		else {
+			makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
+		}
+		let size = canvas.width / latSize[0];
+		//Cells should have a maximum size of 45 :: This Caps cell size to 45
+		if (size > 45) {
+			size = 45; 
+		}
+		alterSize(size);
+
 		alterInf(false)
 		clear(latticeArray, canvas);
 		periodicCheckBox.style.display = 'block';
@@ -344,6 +466,21 @@ export function toggleCheckbox() {
 		boundToggleButton.style.transform = 'translateX(25px)'; // Move the toggle button to the right
 	// If checkboxes are currently not hidden (toggle bar was active) hide the checkboxes and animate toggle button back
     } else {
+
+			let newCellNum = (latSize[0] - (2 * latSize[1]));
+			if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
+				alterLatSize(newCellNum);
+			}
+			else {
+				makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
+			}
+			let size = canvas.width / latSize[0];
+			//Cells should have a maximum size of 45 :: This Caps cell size to 45
+			if (size > 45) {
+				size = 45; 
+			}
+			alterSize(size);
+
 			alterInf(true)
 			clear(latticeArray, canvas);
 			periodicCheckBox.style.display = 'none';
@@ -418,11 +555,41 @@ checkboxes.forEach(function(checkbox) {
 			//If the first checkbox is selected, set the boundaryCon variable to 1 representing Periodic
 			//boundary condition. Otherwise set boundaryCon to 0 representing Null.
 			if (checkboxes[0].checked) {
-				alterBoundaryCon(1)
+				alterBoundaryCon(1);
+
+				let newCellNum = (latSize[0] - (2 * latSize[1]));
+				if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
+					alterLatSize(newCellNum);
+				}
+				else {
+					makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
+				}
+				let size = canvas.width / latSize[0];
+				//Cells should have a maximum size of 45 :: This Caps cell size to 45
+				if (size > 45) {
+					size = 45; 
+				}
+				alterSize(size);
+
 				clear(latticeArray, canvas);
 			}
 			else {
-				alterBoundaryCon(0)
+				alterBoundaryCon(0);
+
+				let newCellNum = (latSize[0] - (2 * latSize[1]));
+				if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
+					alterLatSize(newCellNum);
+				}
+				else {
+					makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
+				}
+				let size = canvas.width / latSize[0];
+				//Cells should have a maximum size of 45 :: This Caps cell size to 45
+				if (size > 45) {
+					size = 45; 
+				}
+				alterSize(size);
+
 				clear(latticeArray, canvas);
 			}
 			//console.log(boundaryCon

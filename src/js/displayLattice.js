@@ -231,8 +231,8 @@ export {outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCa
 export {latticeArray, numOfIterations, currentLattice};
 
 //Sets starting lattice to all dead
-latticeArray[0] = currentLattice;
-
+//latticeArray[0] = currentLattice;
+latticeArray = [];
 LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum);
 updateLattice();
