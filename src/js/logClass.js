@@ -16,7 +16,6 @@ export class logMessage {
 		this.color = color;
 		//this.index = index;
 		this.canvas = canvas;
-		//console.log(canvas)
 		this.context = canvas.getContext("2d");
 
 	}

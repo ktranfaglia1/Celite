@@ -66,6 +66,10 @@ let tickerToggle = 1; //Ticker toggle decides if row ticker will be on defaults 
 let messageQueue = []
 
 ruleSubmit.addEventListener("click", function() {
+	if (Run == 1) {
+		Run = 0;
+		makeLog("Stopping Iterations", logCanvas, messageQueue);
+	}
 	setRule(rule);
 })
 /*
@@ -75,6 +79,10 @@ toggleBar.addEventListener("click", function() {
 */
 
 iterateButton.addEventListener("click", function() {
+	if (Run == 1) {
+		Run = 0;
+		makeLog("Stopping Iterations", logCanvas, messageQueue);
+	}
 	alterInf(inf[0], true)
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
 	if (latticeArray.length == 1) {
@@ -101,7 +109,6 @@ iterateButton.addEventListener("click", function() {
 		let neoLatticeArray = latticeArray;
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
 			if (latPlusBufferArr[i] == 1) {
-				console.log(i)
 				neoLatticeArray[0][i].flipColor();
 			}
 			(neoLatticeArray[0][i]).drawCell(ctx);
@@ -112,6 +119,10 @@ iterateButton.addEventListener("click", function() {
 });
 
 clearButton.addEventListener("click", function() {
+	if (Run == 1) {
+		Run = 0;
+		makeLog("Stopping Iterations", logCanvas, messageQueue);
+	}
 
 	let newCellNum = (latSize[0] - (2 * latSize[1]));
 	if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
@@ -127,10 +138,15 @@ clearButton.addEventListener("click", function() {
 	}
 	alterSize(size);
 	clear(latticeArray, canvas);
-	makeLog("Cleared Lattice ", logCanvas, messageQueue);}
+	makeLog("Cleared Lattice ", logCanvas, messageQueue);
+	alterInf(inf[0], false);}
 );
 /* Connect UI Functionality to a prebuilt function */
 boundToggle.addEventListener("click", function() {
+	if (Run == 1) {
+		Run = 0;
+		makeLog("Stopping Iterations", logCanvas, messageQueue);
+	}
 	toggleCheckbox();
 });
 
@@ -143,10 +159,18 @@ borderToggle.addEventListener("click", function() {
 });
 
 iterationSubmit.addEventListener("click", function() {
+	if (Run == 1) {
+		Run = 0;
+		makeLog("Stopping Iterations", logCanvas, messageQueue);
+	}
 	setLatticeSize();
 });
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
+	if (Run == 1) {
+		Run = 0;
+		makeLog("Stopping Iterations", logCanvas, messageQueue);
+	}
 	updateLatticeSize(canvas);
 });
 
@@ -166,7 +190,6 @@ startStopButton.addEventListener("click", function() {
 				bufferArr.push(0)
 			}
 			latPlusBufferArr = bufferArr.concat(latPlusBufferArr.concat(bufferArr));
-			console.log(latPlusBufferArr);
 			let newCellNum = (latSize[0] + (2 * latSize[1]))
 			if (!isNaN(newCellNum) && newCellNum >= 1) {
 				alterLatSize(newCellNum);
@@ -181,7 +204,6 @@ startStopButton.addEventListener("click", function() {
 			let neoLatticeArray = latticeArray;
 			for (let i = 0 ; i < latticeArray[0].length; i++) {
 				if (latPlusBufferArr[i] == 1) {
-					console.log(i)
 					neoLatticeArray[0][i].flipColor();
 				}
 				(neoLatticeArray[0][i]).drawCell(ctx);
@@ -241,7 +263,6 @@ function updateLatticeSize(canvas) {
 	}
 	
 	alterSize(size);
-	//console.log(canvas)
 	alterInf(inf[0], false)
 	
 	clear(latticeArray, canvas); //emptys out canvas and redraws
@@ -273,8 +294,9 @@ function continouslyIterate(iterationTime) {
 	//Checks if Run is activate
 	if (Run) {
 		setTimeout(function(){ // puts a wait before iterating again
-			//console.log(iterationTime);
-			iterate(currentIteration, 1); //iterates the number of lattices
+			if (Run) {
+				iterate(currentIteration, 1); //iterates the number of lattices
+			}
 			continouslyIterate(iterationTime); // allows it to coninously run by calling it again
 		}, iterationTime);
 	}
@@ -323,7 +345,6 @@ function setRule() {
 	} //updates the new cell number
 	else
 	{
-		console.log("Not a number")
 	} //outputs the error to console currently
 
 	return latSize; //returns the new lattice Size
@@ -362,7 +383,6 @@ function setLatticeSize() {
 
 //gets rid of all arays except the first and sets all cells to dead (white)
 function clear(latticeArray) {
-	console.log(latSize[0])
 	canvas.height = 400;
 	alterNumOfIterations(1);
 	alterCurrentIteration(1);
@@ -438,7 +458,6 @@ function iterate(currentIteration, newIterations) {
 
 // Handle when bound toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
 export function toggleCheckbox() {
-	//console.log("Is this inf toggle?")
 	// Set the first checkbox (not second checkbox) to be checked upon toggle button activation
   checkboxes[0].checked = true;
 	checkboxes[1].checked = false;
@@ -460,6 +479,7 @@ export function toggleCheckbox() {
 		alterSize(size);
 
 		alterInf(false)
+		makeLog("Setting to Finite", logCanvas, messageQueue);
 		clear(latticeArray, canvas);
 		periodicCheckBox.style.display = 'block';
 		nullCheckBox.style.display = 'block';
@@ -482,6 +502,7 @@ export function toggleCheckbox() {
 			alterSize(size);
 
 			alterInf(true)
+			makeLog("Setting to Infinite", logCanvas, messageQueue);
 			clear(latticeArray, canvas);
 			periodicCheckBox.style.display = 'none';
 			nullCheckBox.style.display = 'none';
@@ -544,6 +565,10 @@ function startStopToggle() {
 // Ensure one and only one checkbox can be checked at a time upon checkbox click
 checkboxes.forEach(function(checkbox) {
     checkbox.addEventListener('change', function() {
+			if (Run == 1) {
+				Run = 0;
+				makeLog("Stopping Iterations", logCanvas, messageQueue);
+			}
 		// Box is set to be checked upon change
         if (this.checked) {
             checkboxes.forEach(function(otherCheckbox) {
@@ -556,6 +581,7 @@ checkboxes.forEach(function(checkbox) {
 			//boundary condition. Otherwise set boundaryCon to 0 representing Null.
 			if (checkboxes[0].checked) {
 				alterBoundaryCon(1);
+				makeLog("Setting to Periodic", logCanvas, messageQueue);
 
 				let newCellNum = (latSize[0] - (2 * latSize[1]));
 				if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
@@ -575,6 +601,7 @@ checkboxes.forEach(function(checkbox) {
 			}
 			else {
 				alterBoundaryCon(0);
+				makeLog("Setting to Null", logCanvas, messageQueue);
 
 				let newCellNum = (latSize[0] - (2 * latSize[1]));
 				if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
@@ -592,7 +619,6 @@ checkboxes.forEach(function(checkbox) {
 
 				clear(latticeArray, canvas);
 			}
-			//console.log(boundaryCon
         }
 		// Box is set to be unchecked: Don't allow ... one box must be checked at all times
 		else {

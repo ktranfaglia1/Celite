@@ -16,7 +16,6 @@ import {alterRule} from './displayLattice.js';
 //Generates rule array based on input rule number.
 export function ruleNumToRule(ruleNum) {
   //Converts rule number to binary represented as an array of 0s and 1s.
-  //console.log(ruleNum)
   let neoRule = new Array();
   let ruleNumCopy = ruleNum;
   for(let i = 0; i < 8; i++)
@@ -25,7 +24,6 @@ export function ruleNumToRule(ruleNum) {
     ruleNumCopy = Math.floor(ruleNumCopy / 2);
   }
   alterRule(neoRule);
-  //console.log(rule)
   return rule
 }
 

@@ -71,37 +71,27 @@ export function alterBoundaryCon(neoBoundaryCon) {
 export function alterInf(neoInf = inf[0], bufferToggle = inf[1], bufferSize = inf[2]) {
   if (inf[2] != bufferSize) {
     inf[2] = bufferSize;
-    console.log("Buffer size changed to " + inf[2])
   }
 
   if (!inf[0] && neoInf) {
     inf[0] = neoInf;
-    console.log("Toggle on Infinite")
-    console.log(inf)
   }
   else if (inf[0] && !neoInf) {
     inf[0] = neoInf;
-    console.log("Toggling on Finite")
     if (inf[1]) {
       inf[1] = false;
       latSize[1] = 0;
-      console.log("Removing buffers of size " + latSize[1] + " on both sides");
     }
-    console.log(inf)
   }
 
   if (inf[0]) {
     if (!inf[1] && bufferToggle) {
       inf[1] = bufferToggle;
       latSize[1] = inf[2]
-      console.log("Adding Buffers of size " + latSize[1]);
-      console.log(inf)
     }
     else if (inf[1] && !bufferToggle) {
       inf[1] = bufferToggle;
       latSize[1] = 0;
-      console.log("Removing buffers of size " + latSize[1] + " on both sides");
-      console.log(inf)
     }
   }
 }
@@ -131,8 +121,6 @@ export function drawLattice(latticeArray) {
     tickCanvas.height = canvas.height;
     //canvas.style.height = (latticeArray.length * size) + 'px';
   }
-
-  //console.log(latticeArray);
 
   ctx.clearRect(0,0, canvas.width, canvas.height);
   //Iterates over each cell in each lattice in each timestep drawing them to the canvas.
@@ -197,7 +185,6 @@ let lctx = logCanvas.getContext("2d"); // gets the lattice display region
 
 logCanvas.width = 160;
 logCanvas.height = 45;
-//console.log(errorContext);
 
 //Sets default Lattice Size
 let size = 45;

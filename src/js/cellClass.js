@@ -73,7 +73,6 @@ export class cell {
 	//Tests if given a mouses X and Y location if that is inside of the cell
 	insideCell(MouseX, MouseY)
 	{
-		//console.log("Location X:", this.XLocation, "Location Y:", this.YLocation);
 		// Tests if location is inside if cell
 		if ((MouseX >= this.XLocation && MouseX <= this.XLocation + this.width) && (MouseY >= this.YLocation && MouseY <= this.YLocation + this.height))
 		{
