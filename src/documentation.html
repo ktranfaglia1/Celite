@@ -50,28 +50,28 @@
           <li class="menu_item">
             <span class="menu_title"> 2D Nearest Neighbor </span>
             <ul class="submenu">
-              <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li> <!-- Subcategory 1 -->
+              <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li>
               <li> <a href="#subcategory2" class="subtitle"> Subcategory 2 </a> </li>
             </ul>
           </li>
           <li class="menu_item">
             <span class="menu_title"> Game of Life </span>
             <ul class="submenu">
-              <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li> <!-- Subcategory 1 -->
+              <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li> 
               <li> <a href="#subcategory2" class="subtitle"> Subcategory 2 </a> </li>
             </ul>
           </li>
           <li class="menu_item">
             <span class="menu_title"> Insights </span>
             <ul class="submenu">
-              <li> <a href="#subcategory1" class="subtitle"> Rule Application </a> </li> <!-- Subcategory 1 -->
-              <li> <a href="#subcategory2" class="subtitle"> Subcategory 2 </a> </li>
+              <li> <a href="#KeyboardShortcuts" class="subtitle"> Keyboard Shortcuts </a> </li> 
+              <li> <a href="#subcategory2" class="subtitle"> Rule Application </a> </li>
             </ul>
           </li>
           <li class="menu_item">
             <span class="menu_title"> FAQ </span>
             <ul class="submenu">
-              <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li> <!-- Subcategory 1 -->
+              <li> <a href="#subcategory1" class="subtitle"> Subcategory 1 </a> </li>
               <li> <a href="#subcategory2" class="subtitle"> Subcategory 2 </a> </li>
             </ul>
           </li>
@@ -83,26 +83,40 @@
           <u>Iteration Input Box</u>: Enter the number of iterations to complete. Manipulating the iteration amount will change emerging patterns by limiting or expanding the application of a rule. The iteration amount is inclusive such that it goes the entered number of iterations beyond the starting iteration (starting state, index = 0). Using the "Start" or "Iterate" buttons will simulate up to the entered iteration amount.
         </div> 
         <div class="p4"> 
-          <i> Input Restrictions: </i> Non-negative real numbers in range [0, 10000]. Decimal values will be truncated.
+          <i> Input Restrictions: </i> Non-negative real numbers in range [0, 10000]. Decimal values will be truncated. <br>
+          <i> Keyboard Shortcut: </i> ALT + J
         </div>
         <div class="p3">
           <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current timestep, the cell and its direct neighbors are taken in as a binary representation (Dead - 0, Alive - 1). These three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary rule number. The value of the index is the new state of the cell.
         </div> 
         <div class="p4"> 
-          <i> Input Restrictions: </i> Non-negative real numbers in range [0, 255]. Decimal values will be truncated.
+          <i> Input Restrictions: </i> Non-negative real numbers in range [0, 255]. Decimal values will be truncated. <br>
+          <i> Keyboard Shortcut: </i> ALT + K
         </div>
         <div class="p3">
           <u>Lattice Input Box</u>: Enter the lattice size set the number of cells in the lattice (row of cells). Manipulating the lattice size will impact the complexity of the system as it will change the interactions and possibilities for emergent patterns and may impact the affects of the boundary condition. The size of the individual cells will decrease as the lattice size increases to fit the lattice in the canvas region.
         </div> 
         <div class="p4"> 
-          <i> Input Restrictions: </i> Non-negative real numbers in range [1, 1000]. Decimal values will be truncated.
+          <i> Input Restrictions: </i> Non-negative real numbers in range [1, 1000]. Decimal values will be truncated. <br>
+          <i> Keyboard Shortcut: </i> ALT + L
         </div>
         <div class = p3>
-          Must click the "Submit" button to the right of each input box to apply the input.
+          Must click the "Submit" button to the right of each input box to apply the input. <br>
+          <i> Keyboard Shortcut: </i> ENTER (submit selected) or ALT + ENTER (submit all)
         </div>
         <h6 id="boundaryConditions"> Boundary Conditions </h6>
         <div class="p3"> 
-          Test
+          <u>Infinite</u>: The lattice is conceptually, and in this simulation, visibly extended infinitely in horizontal direction. Upon iteration, the lattice expands to the left and right side in order to simulate an infinitely sized lattice, as in, a lattice with infinite dead cells (0). Since a cells state depends on its left and right neighbor, the infinite simulation expands on the edges per iteration so that the edge cells always have a left and right neighbor.
+        </div>
+        <div class="p4"> 
+          <i> Recommendations: </i> Large lattice sizes and iteration amounts may result in performance issues, so consider limiting the values to reduce wait times.
+        </div>
+        <div class="p3"> 
+          <u>Finite</u>: The lattice has a fixed size such that the cells at the edges of the lattice do not have neighbors beyond the boundaries. Therefore, there must be a method to handle the edge cells such as a periodic or null boundary conditions. 
+        </div>
+        <div class="p4"> 
+          <i> Periodic: </i> The lattice is treated as if it were wrapped around, forming a torus-like shape. When a cell reaches the edge of the lattice, its neighbors on the opposite side of the lattice are considered as its direct neighbors. This creates a seamless continuity in the behavior as if the lattice repeats itself indefinitely in all directions. <br>
+          <i> Null: </i> Imposes a fixed value zero for cells beyond the edges of the lattice. Thus, every edge cell with an out of bounds neighbor considers the neighbor to be dead (0) and will use it in the next cell state calculation. This effectively creates a "wall" at the edges of the lattice.
         </div>
         <h6 id="secondaryToolbar"> Secondary Toolbar </h6>
         <div class="p3"> 
@@ -119,6 +133,28 @@
         <h6 id="canvas"> Canvas </h6>
         <div class="p3"> 
           Test <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+        <h6 id="KeyboardShortcuts"> Keyboard Shortcuts </h6>
+        <div class="p3"> 
+          <i> Submit Selected: ENTER </i> <br>
+          <i> Submit All: ALT + ENTER </i> <br>
+          <i> Start/Stop Button: ALT + S </i> <br>
+          <i> Iterate Button: ALT + I </i> <br>
+          <i> Clear Button: ALT + C </i> <br>
+          <i> Options Button: ALT + O </i> <br>
+          <i> About Button: ALT + A </i> <br>
+          <i> Options Button: ALT + O </i> <br>
+          <i> Download PDF Button: ALT + D </i> <br>
+          <i> Download PNG Button: ALT + P </i> <br>
+          <i> Lattice Fill Button: ALT + F </i> <br>
+          <i> Random Fill Button: ALT + R </i> <br>
+          <i> Cell Color Button: ALT + Q </i> <br>
+          <i> Bound Toggle: ALT + B </i> <br>
+          <i> Iteration Toggle: ALT + T </i> <br>
+          <i> Border Toggle: ALT + X </i> <br>
+          <i> Iteration Input Box: ALT + J </i> <br>
+          <i> Rule Input Box: ALT + K </i> <br>
+          <i> Lattice Input Box: ALT + L </i> <br>
         </div>
       </div>
     </div>

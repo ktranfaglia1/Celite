@@ -32,13 +32,16 @@ const downloadPDFButton = document.getElementById("downloadPDFButton");
 const downloadPNGButton = document.getElementById("downloadPNGButton");
 const aboutButton = document.getElementById("aboutButton");
 const optionsButton = document.getElementById("optionsButton");
+const latticeFillButton = document.getElementById("latticeFillButton");
+const randomFillButton = document.getElementById("randomFillButton");
+const cellColorButton = document.getElementById("cellColorButton");
 
 const periodicCheckBox = document.getElementById("periodicCheckBox");
 const nullCheckBox = document.getElementById("nullCheckBox");
 
-const boundToggle = document.getElementById("boundToggle");
-const iterationToggle = document.getElementById("iterationToggle");
-const borderToggle = document.getElementById("borderToggle");
+const boundToggleButton = document.getElementById("boundToggle");
+const iterationToggleButton = document.getElementById("iterationToggle");
+const borderToggleButton = document.getElementById("borderToggle");
 
 const aboutWindow = document.getElementById("aboutContainer");
 const optionsWindow = document.getElementById("optionsContainer");
@@ -48,9 +51,9 @@ const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 
 /* Global constants connecting HTML/CSS features to JS by class name to impliment functionality */
 const checkboxes = document.querySelectorAll(".checkbox_select");
-const boundToggleButton = document.querySelector("#boundToggle .toggle_button");
-const iterationToggleButton = document.querySelector("#iterationToggle .toggle_button");
-const borderToggleButton = document.querySelector("#borderToggle .toggle_button");
+const boundToggle = document.querySelector("#boundToggle .toggle_button");
+const iterationToggle = document.querySelector("#iterationToggle .toggle_button");
+const borderToggle = document.querySelector("#borderToggle .toggle_button");
 const closeAbout = document.querySelector("#aboutContent .close");
 const closeOptions = document.querySelector("#optionsContent .close");
 
@@ -84,15 +87,15 @@ clearButton.addEventListener("click", function() {
 	makeLog("Cleared Lattice ", logCanvas, messageQueue);}
 );
 /* Connect UI Functionality to a prebuilt function */
-boundToggle.addEventListener("click", function() {
+boundToggleButton.addEventListener("click", function() {
 	toggleCheckbox();
 });
 
-iterationToggle.addEventListener("click", function() {
+iterationToggleButton.addEventListener("click", function() {
 	iterationToggleOption();
 });
 
-borderToggle.addEventListener("click", function() {
+borderToggleButton.addEventListener("click", function() {
 	borderToggleOption();
 });
 
@@ -118,14 +121,69 @@ startStopButton.addEventListener("click", function() {
 	}
 });
 
-//Continously Checks where the mouse is on the Canvas too allow tick box to next to it
-tickCanvas.addEventListener("mousemove", function(event) {makeTickBox(event, tctx)});
-
 // Runs program to flips squares if Clicked
 tickCanvas.addEventListener('click', function(event) {
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of mouse click for usage in setCells
 	setCells(latticeArray, mouseX, mouseY);	// Flips the cell if it was clicked on
+});
+
+// Continously Checks where the mouse is on the Canvas too allow tick box to next to it
+tickCanvas.addEventListener("mousemove", function(event) {
+	makeTickBox(event, tctx);
+});
+
+// Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
+document.addEventListener('keydown', function(event) {
+    // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
+    if (event.altKey) {
+        if (event.key == 'Enter') {
+			iterationSubmit.click();
+			ruleSubmit.click()
+			latticeSizeSubmit.click()
+        } else if (event.key == 's') {
+            startStopButton.click();
+        } else if (event.key == 'i') {
+            iterateButton.click();
+        } else if (event.key == 'c') {
+            clearButton.click();
+        } else if (event.key == 'o') {
+            optionsButton.click();
+        } else if (event.key == 'a') {
+            aboutButton.click();
+        } else if (event.key == 'd') {
+            downloadPDFButton.click();
+        } else if (event.key == 'p') {
+            downloadPNGButton.click();
+        } else if (event.key == 'f') {
+            latticeFillButton.click();
+        } else if (event.key == 'r') {
+            randomFillButton.click();
+        } else if (event.key == 'q') {
+            cellColorButton.click();
+        } else if (event.key == 'b') {
+            boundToggleButton.click();
+        } else if (event.key == 't') {
+            iterationToggleButton.click();
+        } else if (event.key == 'x') {
+            borderToggleButton.click();
+		} else if (event.key == 'j') {
+            iterationInputBox.focus();
+        } else if (event.key == 'k') {
+            ruleInputBox.focus();
+        } else if (event.key == 'l') {
+            latticeSizeBox.focus();
+		}
+	// Enter key clicked, check if an inputbox is active and click submit for that box
+    } else if (event.key == 'Enter') {
+		if (document.activeElement == iterationInputBox) {
+			iterationSubmit.click();
+		} else if (document.activeElement == ruleInputBox) {
+			ruleSubmit.click()
+		} else if (document.activeElement == latticeSizeBox) {
+			latticeSizeSubmit.click()
+		}
+	}
 });
 
 // function updateLatticeSize() {
@@ -327,38 +385,38 @@ export function toggleCheckbox() {
 	if (periodicCheckBox.style.display == 'none'|| periodicCheckBox.style.display == '') {
 		periodicCheckBox.style.display = 'block';
 		nullCheckBox.style.display = 'block';
-		boundToggleButton.style.transform = 'translateX(25px)'; // Move the toggle button to the right
+		boundToggle.style.transform = 'translateX(25px)'; // Move the toggle button to the right
 	// If checkboxes are currently not hidden (toggle bar was active) hide the checkboxes and animate toggle button back
     } else {
 		periodicCheckBox.style.display = 'none';
 		nullCheckBox.style.display = 'none';
-		boundToggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
+		boundToggle.style.transform = 'translateX(0)'; // Move the toggle button back to the left
     }
 }
 
 /* Initialize toggle buttons to x position 0px to enable x translation in functions */
-iterationToggleButton.style.transform = "translateX(0px)";
-borderToggleButton.style.transform = "translateX(0px)";
+iterationToggle.style.transform = "translateX(0px)";
+borderToggle.style.transform = "translateX(0px)";
 
 // Handle when iteration toggle button is activated
 function iterationToggleOption() {
 	// Toggle the position of the button
-	if (iterationToggleButton.style.transform == "translateX(0px)") {
-		iterationToggleButton.style.transform = "translateX(25px)";
+	if (iterationToggle.style.transform == "translateX(0px)") {
+		iterationToggle.style.transform = "translateX(25px)";
 	} 
 	else {
-		iterationToggleButton.style.transform = "translateX(0px)";
+		iterationToggle.style.transform = "translateX(0px)";
 	}
 }
 
 // Handle when border toggle button is activated
 function borderToggleOption() {
 	// Toggle the position of the button
-	if (borderToggleButton.style.transform === "translateX(0px)") {
-		borderToggleButton.style.transform = "translateX(25px)";
+	if (borderToggle.style.transform === "translateX(0px)") {
+		borderToggle.style.transform = "translateX(25px)";
 	} 
 	else {
-		borderToggleButton.style.transform = "translateX(0px)";
+		borderToggle.style.transform = "translateX(0px)";
 	}
 }
 
@@ -512,7 +570,13 @@ window.addEventListener("click", function(event) {
 /* Handle open and closing of options window */
 // Options button is clicked, display options window
 optionsButton.addEventListener("click", function() {
-	optionsWindow.style.display = "block";
+	// Check if hidden, if so make visible, otherwise make hidden (button toggle visibilty)
+	if (optionsWindow.style.display == "none") {
+		optionsWindow.style.display = "block";
+	} 
+	else {
+		optionsWindow.style.display = "none";
+	}
 });
 
 // Close if x (close) button in top right of the window is clicked
