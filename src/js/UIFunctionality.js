@@ -570,7 +570,13 @@ window.addEventListener("click", function(event) {
 /* Handle open and closing of options window */
 // Options button is clicked, display options window
 optionsButton.addEventListener("click", function() {
-	optionsWindow.style.display = "block";
+	// Check if hidden, if so make visible, otherwise make hidden (button toggle visibilty)
+	if (optionsWindow.style.display == "none") {
+		optionsWindow.style.display = "block";
+	} 
+	else {
+		optionsWindow.style.display = "none";
+	}
 });
 
 // Close if x (close) button in top right of the window is clicked
