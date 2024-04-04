@@ -137,51 +137,74 @@ tickCanvas.addEventListener("mousemove", function(event) {
 document.addEventListener('keydown', function(event) {
     // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
     if (event.altKey) {
-        if (event.key == 'Enter') {
-			iterationSubmit.click();
-			ruleSubmit.click()
-			latticeSizeSubmit.click()
-        } else if (event.key == 's') {
-            startStopButton.click();
-        } else if (event.key == 'i') {
-            iterateButton.click();
-        } else if (event.key == 'c') {
-            clearButton.click();
-        } else if (event.key == 'o') {
-            optionsButton.click();
-        } else if (event.key == 'a') {
-            aboutButton.click();
-        } else if (event.key == 'd') {
-            downloadPDFButton.click();
-        } else if (event.key == 'p') {
-            downloadPNGButton.click();
-        } else if (event.key == 'f') {
-            latticeFillButton.click();
-        } else if (event.key == 'r') {
-            randomFillButton.click();
-        } else if (event.key == 'q') {
-            cellColorButton.click();
-        } else if (event.key == 'b') {
-            boundToggleButton.click();
-        } else if (event.key == 'z') {
-            iterationToggleButton.click();
-        } else if (event.key == 'x') {
-            borderToggleButton.click();
-		} else if (event.key == 'j') {
-            iterationInputBox.focus();
-        } else if (event.key == 'k') {
-            ruleInputBox.focus();
-        } else if (event.key == 'l') {
-            latticeSizeBox.focus();
+		switch (true) {
+			case (event.key == 'Enter'):
+				iterationSubmit.click();
+				ruleSubmit.click();
+				latticeSizeSubmit.click();
+				break;
+			case (event.key == 's'):
+				startStopButton.click();
+				break;
+			case (event.key == 'i'):
+				iterateButton.click();
+				break;
+			case (event.key == 'c'):
+				clearButton.click();
+				break;
+			case (event.key == 'o'):
+				optionsButton.click();
+				break;
+			case (event.key == 'a'):
+				aboutButton.click();
+				break;
+			case (event.key == 'd'):
+				downloadPDFButton.click();
+				break;
+			case (event.key == 'p'):
+				downloadPNGButton.click();
+				break;
+			case (event.key == 'f'):
+				latticeFillButton.click();
+				break;
+			case (event.key == 'r'):
+				randomFillButton.click();
+				break;
+			case (event.key == 'q'):
+				cellColorButton.click();
+				break;
+			case (event.key == 'b'):
+				boundToggleButton.click();
+				break;
+			case (event.key == 'v'):
+				iterationToggleButton.click();
+				break;
+			case (event.key == 'x'):
+				borderToggleButton.click();
+				break;
+			case (event.key == 'j'):
+				iterationInputBox.focus();
+				break;
+			case (event.key == 'k'):
+				ruleInputBox.focus();
+				break;
+			case (event.key == 'l'):
+				latticeSizeBox.focus();
+				break;
+			case (event.key == 'y'):
+				iterationSpeedSlider.focus();
+				break;
+			default:
+				break;
 		}
 	// Enter key clicked, check if an inputbox is active and click submit for that box
-    } else if (event.key == 'Enter') {
+	} else if (event.key == 'Enter') {
 		if (document.activeElement == iterationInputBox) {
 			iterationSubmit.click();
 		} else if (document.activeElement == ruleInputBox) {
-			ruleSubmit.click()
+			ruleSubmit.click();
 		} else if (document.activeElement == latticeSizeBox) {
-			latticeSizeSubmit.click()
+			latticeSizeSubmit.click();
 		}
 	}
 });

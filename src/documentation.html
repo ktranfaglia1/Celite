@@ -87,7 +87,7 @@
           <i> Keyboard Shortcut: </i> ALT + J
         </div>
         <div class="p3">
-          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current timestep, the cell and its direct neighbors are taken in as a binary representation (Dead - 0, Alive - 1). These three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary rule number. The value of the index is the new state of the cell.
+          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current timestep, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). These three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary rule number. The value of the index is the new state of the cell.
         </div> 
         <div class="p4"> 
           <i> Input Restrictions: </i> Non-negative real numbers in range [0, 255]. Decimal values will be truncated. <br>
@@ -106,7 +106,7 @@
         </div>
         <h6 id="boundaryConditions"> Boundary Conditions </h6>
         <div class="p3"> 
-          <u>Infinite</u>: The lattice is conceptually, and in this simulation, visibly extended infinitely in horizontal direction. Upon iteration, the lattice expands to the left and right side in order to simulate an infinitely sized lattice, as in, a lattice with infinite dead cells (0). Since a cells state depends on its left and right neighbor, the infinite simulation expands on the edges per iteration so that the edge cells always have a left and right neighbor.
+          <u>Infinite</u>: The lattice is conceptually, and in this simulation, visibly extended infinitely in horizontal direction. Upon iteration, the lattice expands to the left and right side in order to simulate an infinitely sized lattice, as in, a lattice with infinite dead cells (white, 0). Since a cells state depends on its left and right neighbor, the infinite simulation expands on the edges per iteration so that the edge cells always have a left and right neighbor.
         </div>
         <div class="p4"> 
           <i> Recommendations: </i> Large lattice sizes and iteration amounts may result in performance issues, so consider limiting the values to reduce wait times.
@@ -116,7 +116,7 @@
         </div>
         <div class="p4"> 
           <i> Periodic: </i> The lattice is treated as if it were wrapped around, forming a torus-like shape. When a cell reaches the edge of the lattice, its neighbors on the opposite side of the lattice are considered as its direct neighbors. This creates a seamless continuity in the behavior as if the lattice repeats itself indefinitely in all directions. <br>
-          <i> Null: </i> Imposes a fixed value zero for cells beyond the edges of the lattice. Thus, every edge cell with an out of bounds neighbor considers the neighbor to be dead (0) and will use it in the next cell state calculation. This effectively creates a "wall" at the edges of the lattice.
+          <i> Null: </i> Imposes a fixed value zero for cells beyond the edges of the lattice. Thus, every edge cell with an out of bounds neighbor considers the neighbor to be dead (white, 0) and will use it in the next cell state calculation. This effectively creates a "wall" at the edges of the lattice.
         </div>
         <div class = p3>
           Boundary conditions may be toggled on the right side of the primary toolbar. Finite condition checkboxes appear upon toggle. <br>
@@ -124,26 +124,80 @@
         </div>
         <h6 id="secondaryToolbar"> Secondary Toolbar </h6>
         <div class="p3">
-          <u>Start/Stop Button</u>: Click "Start" to iterate up to the iteration amount (x iterations beyond starting lattice, index = 0). The iterations will complete at the delay rate, defaulted to 750 ms. 
+          <u>Start/Stop Button</u>: Click "Start" to incrementally iterate up to the total iteration amount (x iterations beyond starting lattice, index = 0). The iterations will complete at the delay rate, defaulted to 750 ms. Upon green "Start" button click, the button will convert to a red "Stop" button. Clicking the "Stop" button will pause the simulation such that the iterations will stop. The button will then convert back to a "Start" button and, if clicked, will resume iterating until the total iteration amount. Upon completion of the total iteration amount, the button will be set back to a "Start" button.
         </div> 
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + S
         </div>
         <div class="p3">
-          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current timestep, the cell and its direct neighbors are taken in as a binary representation (Dead - 0, Alive - 1). These three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary rule number. The value of the index is the new state of the cell.
+          <u>Iterate Button</u>: Click "Iterate" to immediately (in time of process completion) iterate up to the total iteration amount (x iterations beyond starting lattice, index = 0). The delay rate will not impact the iteration speed upon click of the "iterate" button.
         </div> 
         <div class="p4"> 
-          <i> Keyboard Shortcut: </i> ALT + K
+          <i> Recommendations: </i> With consideration of lattice size, the time of process completion may be long for large total iteration amounts. Consider limiting the total iteration amount or adjusting lattice size as needed. <br>
+          <i> Keyboard Shortcut: </i> ALT + I
         </div>
         <div class="p3">
-          <u>Lattice Input Box</u>: Enter the lattice size set the number of cells in the lattice (row of cells). Manipulating the lattice size will impact the complexity of the system as it will change the interactions and possibilities for emergent patterns and may impact the affects of the boundary condition. The size of the individual cells will decrease as the lattice size increases to fit the lattice in the canvas region.
+          <u>Clear Button</u>: Click "Clear" to reset the canvas, as in, remove the results of the simulation. All iterations beyond the starting iteration (index = 0) will be deleted and the starting iteration will be set to all dead cells (white, 0). The currently stored values for Iterations, Rule, and Lattice will remain, as they are not impacted by the clear event. 
         </div> 
         <div class="p4"> 
-          <i> Keyboard Shortcut: </i> ALT + L
+          <i> Keyboard Shortcut: </i> ALT + C
+        </div>
+        <div class="p3">
+          <u>About Button</u>: Click "About" to open an overlaying window to describe the simulator. The window contains information about the background of Wolfram's Nearest Neighbor 1D, the purpose of its use and study, and a summary of its application. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + A
         </div>
         <h6 id="options"> Options </h6>
-        <div class="p3"> 
-          Test
+        <div class="p3">
+          <u>Download PDF Button</u>: Click "Download PDF" to download a PDF file containing an extraction of the canvas. Even if the canvas, after a simulation, is very large, the pdf will contain the entire canvas in one scaled PDf page. The PDF file will be placed in the downloads folder on the local device.
+        </div> 
+        <div class="p4"> 
+          <i> File Name: </i> "Wolfram1DCanvas" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".pdf"
+          <i> Keyboard Shortcut: </i> ALT + D
+        </div>
+        <div class="p3">
+          <u>Download PNG Button</u>: Click "Download PNG" to download a PNG file containing an extraction of the canvas. Even if the canvas, after a simulation, is very large, the PNG will contain the entire canvas in one scaled PNG image. The PNG file will be placed in the downloads folder on the local device.
+        </div> 
+        <div class="p4"> 
+          <i> File Name: </i> "Wolfram1DCanvas" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".png"
+          <i> Keyboard Shortcut: </i> ALT + P
+        </div>
+        <div class="p3">
+          <u>Lattice Fill Button</u>: Click "Lattice Fill" to completely fill the starting lattice with alive cells (black, 1). Every cell in the starting lattice will be set to alive, despite the lattice size. Essentially, this acts as an inverse default starting position and may work well with some rules that benefit from more alive cells. 
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + F
+        </div>
+        <div class="p3">
+          <u>Random Fill Button</u>: Click "Random Fill" to randomly fill the starting lattice with alive cells (black, 1). Each cell in the starting lattice will have a 50% chance to be set to alive. In theory, as the lattice size increases, about half of the cells will be dead and about half will be alive.
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + R
+        </div>
+        <div class="p3">
+          <u>Cell Color Button</u>: Click "Cell Color" to open a color picker window. In the window, the cell color for dead and alive cells can be customized. The color picker uses a RGB based GUI from an online library to allow for precise color selection, then applies the color to the specified cell (dead or alive).
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + Q
+        </div>
+        <div class="p3">
+          <u>Iteration Box Toggle</u>:
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + V
+        </div>
+        <div class="p3">
+          <u>Cell Border Toggle</u>:
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + X
+        </div>
+        <div class="p3">
+          <u>Delay Slider</u>:
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: ALT + Y </i>
         </div>
         <h6 id="logBox"> Log Box </h6>
         <div class="p3"> 
@@ -151,7 +205,7 @@
         </div>
         <h6 id="canvas"> Canvas </h6>
         <div class="p3"> 
-          Test <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          Test <br>
         </div>
         <h6 id="KeyboardShortcuts"> Keyboard Shortcuts </h6>
         <div class="p3"> 
