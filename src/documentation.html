@@ -118,9 +118,28 @@
           <i> Periodic: </i> The lattice is treated as if it were wrapped around, forming a torus-like shape. When a cell reaches the edge of the lattice, its neighbors on the opposite side of the lattice are considered as its direct neighbors. This creates a seamless continuity in the behavior as if the lattice repeats itself indefinitely in all directions. <br>
           <i> Null: </i> Imposes a fixed value zero for cells beyond the edges of the lattice. Thus, every edge cell with an out of bounds neighbor considers the neighbor to be dead (0) and will use it in the next cell state calculation. This effectively creates a "wall" at the edges of the lattice.
         </div>
+        <div class = p3>
+          Boundary conditions may be toggled on the right side of the primary toolbar. Finite condition checkboxes appear upon toggle. <br>
+          <i> Keyboard Shortcut: </i> ALT + B
+        </div>
         <h6 id="secondaryToolbar"> Secondary Toolbar </h6>
-        <div class="p3"> 
-          Test      
+        <div class="p3">
+          <u>Start/Stop Button</u>: Click "Start" to iterate up to the iteration amount (x iterations beyond starting lattice, index = 0). The iterations will complete at the delay rate, defaulted to 750 ms. 
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + S
+        </div>
+        <div class="p3">
+          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current timestep, the cell and its direct neighbors are taken in as a binary representation (Dead - 0, Alive - 1). These three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary rule number. The value of the index is the new state of the cell.
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + K
+        </div>
+        <div class="p3">
+          <u>Lattice Input Box</u>: Enter the lattice size set the number of cells in the lattice (row of cells). Manipulating the lattice size will impact the complexity of the system as it will change the interactions and possibilities for emergent patterns and may impact the affects of the boundary condition. The size of the individual cells will decrease as the lattice size increases to fit the lattice in the canvas region.
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + L
         </div>
         <h6 id="options"> Options </h6>
         <div class="p3"> 

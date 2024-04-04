@@ -163,7 +163,7 @@ document.addEventListener('keydown', function(event) {
             cellColorButton.click();
         } else if (event.key == 'b') {
             boundToggleButton.click();
-        } else if (event.key == 't') {
+        } else if (event.key == 'z') {
             iterationToggleButton.click();
         } else if (event.key == 'x') {
             borderToggleButton.click();
@@ -571,11 +571,11 @@ window.addEventListener("click", function(event) {
 // Options button is clicked, display options window
 optionsButton.addEventListener("click", function() {
 	// Check if hidden, if so make visible, otherwise make hidden (button toggle visibilty)
-	if (optionsWindow.style.display == "none") {
-		optionsWindow.style.display = "block";
+	if (optionsWindow.style.display == "block") {
+		optionsWindow.style.display = "none";
 	} 
 	else {
-		optionsWindow.style.display = "none";
+		optionsWindow.style.display = "block";
 	}
 });
 
