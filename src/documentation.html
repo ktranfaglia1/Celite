@@ -153,14 +153,14 @@
           <u>Download PDF Button</u>: Click "Download PDF" to download a PDF file containing an extraction of the canvas. Even if the canvas, after a simulation, is very large, the pdf will contain the entire canvas in one scaled PDf page. The PDF file will be placed in the downloads folder on the local device.
         </div> 
         <div class="p4"> 
-          <i> File Name: </i> "Wolfram1DCanvas" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".pdf"
+          <i> File Name: </i> "Wolfram1DCanvas" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".pdf" <br>
           <i> Keyboard Shortcut: </i> ALT + D
         </div>
         <div class="p3">
           <u>Download PNG Button</u>: Click "Download PNG" to download a PNG file containing an extraction of the canvas. Even if the canvas, after a simulation, is very large, the PNG will contain the entire canvas in one scaled PNG image. The PNG file will be placed in the downloads folder on the local device.
         </div> 
         <div class="p4"> 
-          <i> File Name: </i> "Wolfram1DCanvas" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".png"
+          <i> File Name: </i> "Wolfram1DCanvas" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".png" <br>
           <i> Keyboard Shortcut: </i> ALT + P
         </div>
         <div class="p3">
@@ -182,35 +182,57 @@
           <i> Keyboard Shortcut: </i> ALT + Q
         </div>
         <div class="p3">
-          <u>Iteration Box Toggle</u>:
+          <u>Iteration Box Toggle</u>: Click the toggle bar labeled "Iteration Box" to toggle the hovering iteration box on and off. The iteration box is a hovering iteration calculator that follows the mouse. Anytime the mouse is on the canvas, the box will update with the lattice iteration that is being hovered, or if there is no lattice present, it calculates the iteration that would be there instead (given the current cell sized determined by the lattice size).
         </div> 
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + V
         </div>
         <div class="p3">
-          <u>Cell Border Toggle</u>:
+          <u>Cell Border Toggle</u>: Click the toggle bar labeled "Cell Border" to toggle the black borders that enclose a cell. The border will only be toggled for cells in iterations beyond the starting state such that the starting state cells (index = 0) are not impacted by the toggle. This may be useful in improving the appearance of an image generated with a larger lattice size on the canvas and may help with pattern recognition and analysis.
         </div> 
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + X
         </div>
         <div class="p3">
-          <u>Delay Slider</u>:
+          <u>Delay Slider</u>: Click and hold the slider labeled "Delay" to alter the delay time (ms) between iterations when using the "Start" button. Alternatively, click the slider and use the left and right arrow keys to change the delay value. Larger delays may be useful in analysing the transitions between iterations. Smaller delays, even a delay value of 0 ms, will not be immediate like the "Iterate" button, although it will generate very fast. 
         </div> 
         <div class="p4"> 
-          <i> Keyboard Shortcut: ALT + Y </i>
+          <i> Keyboard Shortcut: </i> ALT + Y <br>
+          <i> Input Restrictions: Values are in milliseconds in range [0, 2000] </i>
         </div>
         <h6 id="logBox"> Log Box </h6>
-        <div class="p3"> 
-          Test      
+        <div class="p3">
+          <u>Loaded Information</u>: For all input boxes, including "Iterations," "Rule," and "Lattice," the log box will display the value stored once the submit button is clicked. An error messgae will be displayed if the input is not valid. The loaded information logs are designed to inform of input errors and document the input submissions. Users should utilize the log box to ensure the program is functioning properly and that correct information has been entered.   
+        </div> 
+        <div class="p3">
+          <u>Successful Actions</u>: All button clicks and toggles will display a log message upon success. This includes "Start," "Iterate," "Clear," "Download PDF," "Download PNG," "Lattice Fill," "Random Fill," "Cell Color," and all toggle bars. The log will include a specific message regarding the success of the action and what was completed. The success log may be useful in debugging simulation errors and tracking previous operations. 
+        </div>
+        <div class="p3">
+          <u>Errors</u>: All error messages will be printed in red. Error messages are only produced during invalid input events for the "Iterations," "Rule," and "Lattice," input boxes. Thus, any input that is not a number or outside of the range for the input box will produce an error message with the provided invalid input.
+        </div>
+        <div class="p3">
+          Only three log box messages will be displayed at a time and the most recent message is displayed at the top of the log box. Once the log box is full, a new message will push out the oldest message such that the new message will appear at the top, the bottom message will be deleted, and the rest will slide down. All successful logs including loaded information logs will be printed in black text, while error logs will be printed in red text.
         </div>
         <h6 id="canvas"> Canvas </h6>
         <div class="p3"> 
-          Test <br>
+          <u>General Description</u>: The canvas is the gray region enclosed by a black border below the primary and secondary toolbars. It has a fixed width and a dynamic height. Changing the lattice size will not impact the width of the canvas. Rather, cells will be added until they reach the edge of the canvas, then the cells will be evenly resized to fit the fixed canvas width. As for the height, the canvas will dynamically extend downard as space is needed (as iterations occur). Upon using the "Iterate" button, the canvas will seemingly expand and simulate in the same instance, but using the "Start" will show a slower expansion prioir to the simulation. 
+        </div>
+        <div class="p3"> 
+          <u>Cell State Toggle</u>: Inside the canvas, clicking cells will toggle them between dead (white, 0) and alive (balck, 1) states to set a starting position (index = 0) for the simulation. Only the starting state cells can be toggled. Cells can be toggled even if a simulation has already completed; clicking "Start" or "Iterate" will overwrite the canvas. Cell borders will automatically be removed on the starting lattice for lattice sizes over 200.
+        </div>
+        <div class="p3"> 
+          <u> Starting Lattice Zoom</u>:
+        </div>
+        <div class="p3"> 
+          An iteration counter that displays the current iteration index can be found above the top left border of the canvas.
         </div>
         <h6 id="KeyboardShortcuts"> Keyboard Shortcuts </h6>
         <div class="p3"> 
           <i> Submit Selected: ENTER </i> <br>
           <i> Submit All: ALT + ENTER </i> <br>
+          <i> Iteration Input Box: ALT + J </i> <br>
+          <i> Rule Input Box: ALT + K </i> <br>
+          <i> Lattice Input Box: ALT + L </i> <br>
           <i> Start/Stop Button: ALT + S </i> <br>
           <i> Iterate Button: ALT + I </i> <br>
           <i> Clear Button: ALT + C </i> <br>
@@ -223,11 +245,9 @@
           <i> Random Fill Button: ALT + R </i> <br>
           <i> Cell Color Button: ALT + Q </i> <br>
           <i> Bound Toggle: ALT + B </i> <br>
-          <i> Iteration Toggle: ALT + T </i> <br>
+          <i> Iteration Toggle: ALT + V </i> <br>
           <i> Border Toggle: ALT + X </i> <br>
-          <i> Iteration Input Box: ALT + J </i> <br>
-          <i> Rule Input Box: ALT + K </i> <br>
-          <i> Lattice Input Box: ALT + L </i> <br>
+          <i> Delay Slider: ALT + Y </i> <br>
         </div>
       </div>
     </div>

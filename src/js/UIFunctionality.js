@@ -293,7 +293,7 @@ function setRule() {
 		clear(latticeArray, canvas);
 	}
 	else {
-		makeError("Invalid Lattice Size: " + ruleInputBox.value, logCanvas, messageQueue);
+		makeError("Invalid Rule Number: " + ruleInputBox.value, logCanvas, messageQueue);
 	}
 }
 
@@ -321,7 +321,7 @@ function setLatticeSize() {
 	}
 	else
 	{
-		makeError("Invalid Lattice Size: " + iterationInputBox.value, logCanvas, messageQueue);
+		makeError("Invalid Iteration Amount: " + iterationInputBox.value, logCanvas, messageQueue);
 	}
 	return addIterations;
 }
