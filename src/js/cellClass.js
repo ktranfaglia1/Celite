@@ -32,7 +32,7 @@ export class cell {
 	{
 
 		//Draws the Box Outline as long as Cells arent too small
-		if(latSize <= 200)
+		if(latSize[0] <= 200)
 		{
 			//Sets outline to be inverse of color of cell so you can see it
 			if(this.color == 1)
@@ -59,7 +59,7 @@ export class cell {
 		}
 		
 		//Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
-		if(latSize <= 200)
+		if(latSize[0] <= 200)
 		{
 		ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.height - 2, this.width - 2);
 		}
@@ -73,7 +73,6 @@ export class cell {
 	//Tests if given a mouses X and Y location if that is inside of the cell
 	insideCell(MouseX, MouseY)
 	{
-		//console.log("Location X:", this.XLocation, "Location Y:", this.YLocation);
 		// Tests if location is inside if cell
 		if ((MouseX >= this.XLocation && MouseX <= this.XLocation + this.width) && (MouseY >= this.YLocation && MouseY <= this.YLocation + this.height))
 		{
