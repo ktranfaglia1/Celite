@@ -61,9 +61,62 @@ let Run = 0; // Defaults to not keep running
 let iterationTime = 750; //Time to wait before iterating again
 let tickerToggle = 1; //Ticker toggle decides if row ticker will be on defaults to on
 
-// toggleCheckbox(); // Call function to defualt finte (periodic) simulation instead of finite
+let scale = 1;
+const maxScale = 5; // Maximum scale
+const minScale = 0.5; // Minimum scale
 
 let messageQueue = []
+
+function alterCell(mouseX, mouseY, cell, scale) {
+	let corner0X = cell.getXLoc();
+	let corner0Y = cell.getYLoc();
+	let corner1X = cell.getXLoc() + cell.getWidth();
+	let corner2Y = cell.getYLoc() + cell.getHeight();
+
+	let deltaCorner0X = corner0X - mouseX;
+	let deltaCorner0Y = corner0Y - mouseY;
+	let deltaCorner1X = corner1X - mouseX;
+	let deltaCorner2Y = corner2Y - mouseY;
+
+	let newCell0X = mouseX + (deltaCorner0X * scale);
+	let newCell0Y = mouseY + (deltaCorner0Y * scale);
+	let newCell1X = mouseX + (deltaCorner1X * scale);
+	let newCell2Y = mouseY + (deltaCorner2Y * scale);
+
+	let newCellWidth = newCell1X - newCell0X;
+	let newCellHeight = newCell2Y - newCell0Y;
+
+	cell.setHeight(newCellHeight);
+	cell.setWidth(newCellWidth);
+	cell.setXLoc(newCell0X);
+	cell.setYLoc(newCell0Y);
+}
+
+tickCanvas.addEventListener('wheel', function(event) {
+	if (latticeArray.length == 1) {
+		let mouseX, mouseY;
+		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
+		let delta = event.deltaY;
+		if (delta > 0) {
+			//scale /= scaleFactor;
+			scale = 1.1
+		}
+		else {
+			//scale *= scaleFactor;
+			scale = 0.9
+		}
+		scale = Math.min(maxScale, Math.max(scale, minScale));
+
+		for (let i = 0; i < latticeArray.length; i++) {
+			for (let f = 0; f < latticeArray[i].length; f++) {
+				alterCell(mouseX, mouseY, latticeArray[i][f], scale);
+			}
+		}
+
+		drawLattice(latticeArray);
+		event.preventDefault();
+	}
+}, false)
 
 ruleSubmit.addEventListener("click", function() {
 	if (Run == 1) {

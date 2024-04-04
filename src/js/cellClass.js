@@ -45,14 +45,14 @@ export class cell {
 			}
 
 			// Draws the main section outside of the square
-			ctx.fillRect(this.XLocation, this.YLocation , this.height, this.width);
+			ctx.fillRect(this.XLocation, this.YLocation , this.width, this.height);
 		}
 
 		//Sets color for the main part of the cell
-      		if(this.color == 0)
-      		{
-      		ctx.fillStyle = "white";
-      		}
+		if(this.color == 0)
+		{
+		ctx.fillStyle = "white";
+		}
 		else
 		{
 		ctx.fillStyle = "black"
@@ -61,11 +61,11 @@ export class cell {
 		//Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
 		if(latSize[0] <= 200)
 		{
-		ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.height - 2, this.width - 2);
+		ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
 		}
 		else
 		{
-		ctx.fillRect(this.XLocation, this.YLocation, this.height, this.width);
+		ctx.fillRect(this.XLocation, this.YLocation, this.width, this.height);
 		}
 		
 	}
@@ -103,5 +103,37 @@ export class cell {
 	getColor()
 	{
 		return this.color;
+	}
+
+	getHeight() {
+		return this.height;
+	}
+
+	setHeight(Val) {
+		this.height = Val;
+	}
+
+	getWidth() {
+		return this.width;
+	}
+
+	setWidth(Val) {
+		this.width = Val;
+	}
+
+	getXLoc() {
+		return this.XLocation;
+	}
+
+	setXLoc(Val) {
+		this.XLocation = Val;
+	}
+
+	getYLoc() {
+		return this.YLocation;
+	}
+
+	setYLoc(Val) {
+		this.YLocation = Val;
 	}
 }
