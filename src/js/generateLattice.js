@@ -16,7 +16,6 @@ import {alterRule} from './displayLattice.js';
 //Generates rule array based on input rule number.
 export function ruleNumToRule(ruleNum) {
   //Converts rule number to binary represented as an array of 0s and 1s.
-  //console.log(ruleNum)
   let neoRule = new Array();
   let ruleNumCopy = ruleNum;
   for(let i = 0; i < 8; i++)
@@ -25,14 +24,13 @@ export function ruleNumToRule(ruleNum) {
     ruleNumCopy = Math.floor(ruleNumCopy / 2);
   }
   alterRule(neoRule);
-  console.log(rule)
   return rule
 }
 
 //Generates the next lattice based on the current one, the rule, and the boundary condition.
 export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, size) {
   	let newLattice = new Array();
-  	let startDif = (latSize * size) / 2;
+  	let startDif = (latSize[0] * size) / 2;
   	let center = canvas.width / 2;
   	let startX = center - startDif;
 	//If boundary condition is periodic:

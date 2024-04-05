@@ -17,14 +17,13 @@ inf :
 
 */
 
-
 //Mutator for latSize
-export function alterLatSize(neoLatSize) {
-  latSize = neoLatSize;
+export function alterLatSize(neoLatSize = latSize[0]) {
+  latSize[0] = neoLatSize;
 }
 
 //Mutator for size
-export function alterSize(neoSize) {
+export function alterSize(neoSize = size) {
   size = neoSize;
 }
 
@@ -58,11 +57,6 @@ export function alterCurrentIteration(neoCurrentIteration) {
   currentIteration = neoCurrentIteration;
 }
 
-//Mutator for inf
-export function alterInf(neoInf) {
-  inf = neoInf;
-}
-
 //Mutator for ruleNum
 export function alterRuleNum(neoRuleNum) {
   ruleNum = neoRuleNum;
@@ -73,13 +67,33 @@ export function alterBoundaryCon(neoBoundaryCon) {
   boundaryCon = neoBoundaryCon;
 }
 
-export function alterBorder(neoBorder) {
-  border = neoBorder;
-  console.log(border)
-}
+//Mutator for inf
+export function alterInf(neoInf = inf[0], bufferToggle = inf[1], bufferSize = inf[2]) {
+  if (inf[2] != bufferSize) {
+    inf[2] = bufferSize;
+  }
 
-export function getBorder() {
-  return border;
+  if (!inf[0] && neoInf) {
+    inf[0] = neoInf;
+  }
+  else if (inf[0] && !neoInf) {
+    inf[0] = neoInf;
+    if (inf[1]) {
+      inf[1] = false;
+      latSize[1] = 0;
+    }
+  }
+
+  if (inf[0]) {
+    if (!inf[1] && bufferToggle) {
+      inf[1] = bufferToggle;
+      latSize[1] = inf[2]
+    }
+    else if (inf[1] && !bufferToggle) {
+      inf[1] = bufferToggle;
+      latSize[1] = 0;
+    }
+  }
 }
 
 /*
@@ -87,17 +101,13 @@ This function pushes the initial timestep lattice of cells such that the user ca
 on or off
 */
 function LatticeDisplay(latticeArray) {
-	let startDif = (latSize * size) / 2;
+	let startDif = (latSize[0] * size) / 2;
 	let center = canvas.width / 2;
 	let startX = center - startDif;
 	
   //Iterates over lattice size adding a new cell in top row.
-
-	for (let i = 0; i < latSize; i++) {
-    if(i != 0)
-		currentLattice.push(new cell (size, size, startX + i * size, 0, 0, border))
-    else
-    currentLattice.push(new cell (size, size, startX + i * size, 0, 0, true))
+	for (let i = 0; i < latSize[0]; i++) {
+		currentLattice.push(new cell (size, size, startX + i * size, 0, 0))
 	}
   latticeArray.push(currentLattice);
   drawLattice(latticeArray);
@@ -110,22 +120,6 @@ export function drawLattice(latticeArray) {
     canvas.height = (latticeArray.length * size);
     tickCanvas.height = canvas.height;
     //canvas.style.height = (latticeArray.length * size) + 'px';
-  }
-
-  //console.log(latticeArray);
-
-  for (let i = 1; i < latticeArray.length; i++)
-  {
-    for (let j = 0; j < latticeArray[0].length; j++)
-    {
-      latticeArray[i][j].setBorder(border);
-    }
-  }
-
-  //This sets the top row to always have borders on so its easy to be able to click
-  for (let i = 0 ; i < latticeArray[0].length; i++)
-  {
-    latticeArray[0][i].setBorder(true);
   }
 
   ctx.clearRect(0,0, canvas.width, canvas.height);
@@ -191,7 +185,6 @@ let lctx = logCanvas.getContext("2d"); // gets the lattice display region
 
 logCanvas.width = 160;
 logCanvas.height = 45;
-//console.log(errorContext);
 
 //Sets default Lattice Size
 let size = 45;
@@ -203,12 +196,11 @@ LatSize determines the number of adjustable cells in the timestep 0 lattice (The
 can figure out how to toggle them). numOfIterations determines the number of timesteps including the starting
 timestep.
 */
-let inf = false;
-let latSize = 10;
+
+let latSize = new Array(10, 0);
 let numOfIterations = 1;
 let currentIteration = 0;
-
-let border = false; //Border = false by default
+let inf = new Array(true, false, 0);
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
@@ -226,9 +218,8 @@ export {outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCa
 export {latticeArray, numOfIterations, currentLattice};
 
 //Sets starting lattice to all dead
-latticeArray[0] = currentLattice;
-
+//latticeArray[0] = currentLattice;
+latticeArray = [];
+LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum);
 updateLattice();
-LatticeDisplay(latticeArray);
-
