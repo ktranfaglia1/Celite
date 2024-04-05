@@ -76,6 +76,7 @@ export class cell {
 		this.border = newBorder;
 	}
 
+	//This is used to get if the border is on or not
 	getBorder()
 	{
 		return this.border;

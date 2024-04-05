@@ -84,6 +84,14 @@ latticeFillButton.addEventListener("click", function(){
 	drawLattice(latticeArray);
 })
 
+randomFillButton.addEventListener("click", function(){
+	for (let i = 0; i  < latticeArray[0].length; i++) {
+		latticeArray[0][i].setColor(Math.floor(Math.random() * 2));
+	}
+	drawLattice(latticeArray);
+	console.log("WHATS UP");
+})
+
 iterateButton.addEventListener("click", function() {
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
 	iterate(currentIteration, addIterations);
