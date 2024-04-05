@@ -76,6 +76,11 @@ export class cell {
 		this.border = newBorder;
 	}
 
+	getBorder()
+	{
+		return this.border;
+	}
+
 	//Tests if given a mouses X and Y location if that is inside of the cell
 	insideCell(MouseX, MouseY)
 	{

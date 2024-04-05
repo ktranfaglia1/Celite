@@ -6,7 +6,7 @@
   for simulation modifications and communicates it with utility files
 * Last Updated: 03/11/24
 */
-import {latticeArray, currentLattice, nextLattice, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, lctx} from './displayLattice.js';
+import {latticeArray, currentLattice, nextLattice, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, lctx, alterBorder, getBorder} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, boundaryCon, drawLattice} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice} from './displayLattice.js';
 import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon} from './displayLattice.js';
@@ -62,7 +62,7 @@ const closeOptions = document.querySelector("#optionsContent .close");
 let addIterations = 0; // Defaults iterations
 let Run = 0; // Defaults to not keep running
 let iterationTime = 750; //Time to wait before iterating again
-let tickerToggle = 1; //Ticker toggle decides if row ticker will be on defaults to on
+let tickerToggle = 0; //Ticker toggle decides if row ticker will be on defaults to on
 
 // toggleCheckbox(); // Call function to defualt finte (periodic) simulation instead of finite
 
@@ -93,9 +93,12 @@ boundToggleButton.addEventListener("click", function() {
 
 iterationToggleButton.addEventListener("click", function() {
 	iterationToggleOption();
+	tickerToggle = !(tickerToggle);
+	tctx.clearRect(0,0, tickCanvas.width, tickCanvas.height);
 });
 
 borderToggleButton.addEventListener("click", function() {
+	alterBorder(!getBorder());
 	borderToggleOption();
 });
 
@@ -244,6 +247,11 @@ function makeTickBox(event) {
 	}
 }
 
+//This function is designed to set the delay until generating next lattice when running
+function setDelay(newDelay) {
+	iterationTime = newDelay;
+}
+
 //repeatly iterates while run is true
 function continouslyIterate(iterationTime) {
 	//Checks if Run is activate
@@ -252,6 +260,7 @@ function continouslyIterate(iterationTime) {
 			//console.log(iterationTime);
 			iterate(currentIteration, 1); //iterates the number of lattices
 			continouslyIterate(iterationTime); // allows it to coninously run by calling it again
+			//console.log(iterationTime);
 		}, iterationTime);
 	}
 	else {
@@ -316,7 +325,7 @@ function clear(latticeArray) {
 		neoLatticeArray.pop();
 	}
 	for (let i = 0; i < latSize; i++) {
-		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0));
+		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0, true));
 	}
 	neoLatticeArray[0] = clearedLattice[0].slice(0);
 	alterLatticeArray(neoLatticeArray);
@@ -589,6 +598,7 @@ iterationSpeedValue.innerHTML = 750;  // Sets displayed default iteration speed 
 // Update the current iteration speed slider value upon drag
 iterationSpeedSlider.oninput = function() {
 	iterationSpeedValue.innerHTML = this.value;
+	setDelay(this.value);
 };
 
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page

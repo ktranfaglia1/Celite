@@ -73,8 +73,13 @@ export function alterBoundaryCon(neoBoundaryCon) {
   boundaryCon = neoBoundaryCon;
 }
 
-export function alterBorder(neoBorder){
+export function alterBorder(neoBorder) {
   border = neoBorder;
+  console.log(border)
+}
+
+export function getBorder() {
+  return border;
 }
 
 /*
@@ -87,8 +92,12 @@ function LatticeDisplay(latticeArray) {
 	let startX = center - startDif;
 	
   //Iterates over lattice size adding a new cell in top row.
+
 	for (let i = 0; i < latSize; i++) {
+    if(i != 0)
 		currentLattice.push(new cell (size, size, startX + i * size, 0, 0, border))
+    else
+    currentLattice.push(new cell (size, size, startX + i * size, 0, 0, true))
 	}
   latticeArray.push(currentLattice);
   drawLattice(latticeArray);
@@ -104,6 +113,14 @@ export function drawLattice(latticeArray) {
   }
 
   //console.log(latticeArray);
+
+  for (let i = 1; i < latticeArray.length; i++)
+  {
+    for (let j = 0; j < latticeArray[0].length; j++)
+    {
+      latticeArray[i][j].setBorder(border);
+    }
+  }
 
   //This sets the top row to always have borders on so its easy to be able to click
   for (let i = 0 ; i < latticeArray[0].length; i++)
@@ -191,7 +208,7 @@ let latSize = 10;
 let numOfIterations = 1;
 let currentIteration = 0;
 
-let border = true; //Border = true by default
+let border = false; //Border = false by default
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
@@ -211,6 +228,7 @@ export {latticeArray, numOfIterations, currentLattice};
 //Sets starting lattice to all dead
 latticeArray[0] = currentLattice;
 
-LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum);
 updateLattice();
+LatticeDisplay(latticeArray);
+
