@@ -15,6 +15,12 @@ import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
 import {logMessage} from './logClass.js';
 
+/*
+Hotkeys for zoom in/out
+change cell label when only one row
+Reset Perspective Button
+*/
+
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 const iterationInputBox = document.getElementById("iterationInputBox");
@@ -62,6 +68,7 @@ let iterationTime = 750; //Time to wait before iterating again
 let tickerToggle = 1; //Ticker toggle decides if row ticker will be on defaults to on
 
 let scale = 1;
+let totalDelta = 0;
 const maxScale = 5; // Maximum scale
 const minScale = 0.5; // Minimum scale
 
@@ -97,23 +104,26 @@ tickCanvas.addEventListener('wheel', function(event) {
 		let mouseX, mouseY;
 		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
 		let delta = event.deltaY;
-		if (delta > 0) {
-			//scale /= scaleFactor;
-			scale = 1.1
-		}
-		else {
-			//scale *= scaleFactor;
+		if (delta > 0 && totalDelta > 0) {
 			scale = 0.9
 		}
-		scale = Math.min(maxScale, Math.max(scale, minScale));
-
-		for (let i = 0; i < latticeArray.length; i++) {
-			for (let f = 0; f < latticeArray[i].length; f++) {
-				alterCell(mouseX, mouseY, latticeArray[i][f], scale);
-			}
+		else if (delta < 0) {
+			scale = 1.1
 		}
-
-		drawLattice(latticeArray);
+		totalDelta -= delta;
+		if (totalDelta <= 0) {
+			totalDelta = 0;
+			clear(latticeArray, true);
+		}
+		else {
+			scale = Math.min(maxScale, Math.max(scale, minScale));
+			for (let i = 0; i < latticeArray.length; i++) {
+				for (let f = 0; f < latticeArray[i].length; f++) {
+					alterCell(mouseX, mouseY, latticeArray[i][f], scale);
+				}
+			}
+			drawLattice(latticeArray);
+		}
 		event.preventDefault();
 	}
 }, false)
@@ -158,7 +168,7 @@ iterateButton.addEventListener("click", function() {
 			size = 45; 
 		}
 		alterSize(size);
-		clear(latticeArray, canvas);
+		clear(latticeArray);
 		let neoLatticeArray = latticeArray;
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
 			if (latPlusBufferArr[i] == 1) {
@@ -190,7 +200,7 @@ clearButton.addEventListener("click", function() {
 		size = 45; 
 	}
 	alterSize(size);
-	clear(latticeArray, canvas);
+	clear(latticeArray);
 	makeLog("Cleared Lattice ", logCanvas, messageQueue);
 	alterInf(inf[0], false);}
 );
@@ -253,7 +263,7 @@ startStopButton.addEventListener("click", function() {
 				size = 45; 
 			}
 			alterSize(size);
-			clear(latticeArray, canvas);
+			clear(latticeArray);
 			let neoLatticeArray = latticeArray;
 			for (let i = 0 ; i < latticeArray[0].length; i++) {
 				if (latPlusBufferArr[i] == 1) {
@@ -318,7 +328,7 @@ function updateLatticeSize(canvas) {
 	alterSize(size);
 	alterInf(inf[0], false)
 	
-	clear(latticeArray, canvas); //emptys out canvas and redraws
+	clear(latticeArray); //emptys out canvas and redraws
 }
 
 //generates the tick box in its proper location
@@ -381,8 +391,8 @@ function setRule() {
 		}
 		alterSize(size);
 
-		alterInf(inf[0], false)
-		clear(latticeArray, canvas);
+		alterInf(inf[0], false);
+		clear(latticeArray, true);
 	}
 	else {
 		makeError("Invalid Lattice Size: " + ruleInputBox.value, logCanvas, messageQueue);
@@ -423,7 +433,7 @@ function setLatticeSize() {
 		alterSize(size);
 		
 		alterInf(inf[0], false, newValue);
-		clear(latticeArray, canvas);
+		clear(latticeArray, true);
 		addIterations = newValue;//updates the number of iterations
 		makeLog("Set Iterations to: " + newValue, logCanvas, messageQueue);
 	}
@@ -435,7 +445,7 @@ function setLatticeSize() {
 }
 
 //gets rid of all arays except the first and sets all cells to dead (white)
-function clear(latticeArray) {
+function clear(latticeArray, keepInit = false) {
 	canvas.height = 400;
 	alterNumOfIterations(1);
 	alterCurrentIteration(1);
@@ -449,7 +459,24 @@ function clear(latticeArray) {
 	for (let i = 0; i < latSize[0]; i++) {
 		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0));
 	}
+
+	let latPlusBufferArr = new Array()
+	if (keepInit) {
+		let bufferNum = (neoLatticeArray[0].length - clearedLattice[0].slice(0).length) / 2;
+		for (let i = bufferNum; i < (latSize[0] + bufferNum); i++) {
+			latPlusBufferArr.push(latticeArray[0][i].getColor())
+		}
+	}
+
 	neoLatticeArray[0] = clearedLattice[0].slice(0);
+	if (keepInit) {
+		for (let i = 0 ; i < latticeArray[0].length; i++) {
+			if (latPlusBufferArr[i] == 1) {
+				neoLatticeArray[0][i].flipColor();
+			}
+			(neoLatticeArray[0][i]).drawCell(ctx);
+		}
+	}
 	alterLatticeArray(neoLatticeArray);
 	alterCurrentLattice(latticeArray[0]);
 	updateLattice();
@@ -533,7 +560,7 @@ export function toggleCheckbox() {
 
 		alterInf(false)
 		makeLog("Setting to Finite", logCanvas, messageQueue);
-		clear(latticeArray, canvas);
+		clear(latticeArray, true);
 		periodicCheckBox.style.display = 'block';
 		nullCheckBox.style.display = 'block';
 		boundToggleButton.style.transform = 'translateX(25px)'; // Move the toggle button to the right
@@ -556,7 +583,7 @@ export function toggleCheckbox() {
 
 			alterInf(true)
 			makeLog("Setting to Infinite", logCanvas, messageQueue);
-			clear(latticeArray, canvas);
+			clear(latticeArray, true);
 			periodicCheckBox.style.display = 'none';
 			nullCheckBox.style.display = 'none';
 			boundToggleButton.style.transform = 'translateX(0)'; // Move the toggle button back to the left
@@ -650,7 +677,7 @@ checkboxes.forEach(function(checkbox) {
 				}
 				alterSize(size);
 
-				clear(latticeArray, canvas);
+				clear(latticeArray, true);
 			}
 			else {
 				alterBoundaryCon(0);
@@ -670,7 +697,7 @@ checkboxes.forEach(function(checkbox) {
 				}
 				alterSize(size);
 
-				clear(latticeArray, canvas);
+				clear(latticeArray, true);
 			}
         }
 		// Box is set to be unchecked: Don't allow ... one box must be checked at all times
