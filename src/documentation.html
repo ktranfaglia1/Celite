@@ -137,7 +137,7 @@
           <i> Keyboard Shortcut: </i> ALT + I
         </div>
         <div class="p3">
-          <u>Clear Button</u>: Click "Clear" to reset the canvas, as in, remove the results of the simulation. All iterations beyond the starting iteration (index = 0) will be deleted and the starting iteration will be set to all dead cells (white, 0). The currently stored values for Iterations, Rule, and Lattice will remain, as they are not impacted by the clear event. 
+          <u>Clear Button</u>: Click "Clear" to reset the canvas, as in, remove the results of the simulation and default the starting state. All iterations beyond the starting iteration (index = 0) will be deleted and the starting iteration will be set to all dead cells (white, 0). The currently stored values for "Iterations," "Rule," and "Lattice" will remain, as they are not impacted by the clear event. 
         </div> 
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + C
@@ -251,6 +251,7 @@
         </div>
       </div>
     </div>
+    <a href="#" class="hovering_button"> Back to Top </a>
   </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script>
@@ -276,5 +277,29 @@
 
       sidebar.css("padding-top", newPadding + "px");  // Apply new padding to sidebar
     });
+  });
+
+  // Listens for scroll events on the window
+  window.onscroll = function() {
+      scrollFunction();  // Call the scrollFunction when the user scrolls
+  };
+
+  // Handle the scroll event
+  function scrollFunction() {
+      // Check if the scroll position is greater than 20 pixels from the top
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          document.querySelector(".hovering_button").classList.add("show");  // Add the "show" class to the hovering button
+      } else {
+          document.querySelector(".hovering_button").classList.remove("show");  // Remove the "show" class from the hovering button
+      }
+  }
+
+  // Listens for a click event on the hovering button
+  document.querySelector('.hovering_button').addEventListener('click', function() {
+      // When the hovering button is clicked, smoothly scroll the page back to the top
+      window.scrollTo({
+          top: 0, 
+          behavior: 'smooth'
+      });
   });
 </script>

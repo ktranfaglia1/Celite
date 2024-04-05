@@ -73,3 +73,24 @@ hr {
   display: flex;
   flex-direction: row;
 }
+/* Back to top hover button formatting */ 
+.hovering_button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: none;
+  transition: opacity 0.3s ease;
+}
+
+.hovering_button:hover {
+  background-color: #0056b3;
+}
+
+.hovering_button.show {
+  display: inline-block;
+}
