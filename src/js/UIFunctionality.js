@@ -77,6 +77,13 @@ toggleBar.addEventListener("click", function() {
 });
 */
 
+latticeFillButton.addEventListener("click", function(){
+	for (let i = 0; i  < latticeArray[0].length; i++) {
+		latticeArray[0][i].setColor(1);
+	}
+	drawLattice(latticeArray);
+})
+
 iterateButton.addEventListener("click", function() {
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
 	iterate(currentIteration, addIterations);
