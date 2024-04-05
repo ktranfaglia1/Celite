@@ -73,6 +73,15 @@ export function alterBoundaryCon(neoBoundaryCon) {
   boundaryCon = neoBoundaryCon;
 }
 
+export function alterBorder(neoBorder) {
+  border = neoBorder;
+  console.log(border)
+}
+
+export function getBorder() {
+  return border;
+}
+
 /*
 This function pushes the initial timestep lattice of cells such that the user can select what cells they want
 on or off
@@ -83,8 +92,12 @@ function LatticeDisplay(latticeArray) {
 	let startX = center - startDif;
 	
   //Iterates over lattice size adding a new cell in top row.
+
 	for (let i = 0; i < latSize; i++) {
-		currentLattice.push(new cell (size, size, startX + i * size, 0, 0))
+    if(i != 0)
+		currentLattice.push(new cell (size, size, startX + i * size, 0, 0, border))
+    else
+    currentLattice.push(new cell (size, size, startX + i * size, 0, 0, true))
 	}
   latticeArray.push(currentLattice);
   drawLattice(latticeArray);
@@ -100,6 +113,20 @@ export function drawLattice(latticeArray) {
   }
 
   //console.log(latticeArray);
+
+  for (let i = 1; i < latticeArray.length; i++)
+  {
+    for (let j = 0; j < latticeArray[0].length; j++)
+    {
+      latticeArray[i][j].setBorder(border);
+    }
+  }
+
+  //This sets the top row to always have borders on so its easy to be able to click
+  for (let i = 0 ; i < latticeArray[0].length; i++)
+  {
+    latticeArray[0][i].setBorder(true);
+  }
 
   ctx.clearRect(0,0, canvas.width, canvas.height);
   //Iterates over each cell in each lattice in each timestep drawing them to the canvas.
@@ -181,6 +208,8 @@ let latSize = 10;
 let numOfIterations = 1;
 let currentIteration = 0;
 
+let border = false; //Border = false by default
+
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
 become/stay dead or alive. The boundary condition determines what happens when the rule accessed a value
@@ -199,6 +228,7 @@ export {latticeArray, numOfIterations, currentLattice};
 //Sets starting lattice to all dead
 latticeArray[0] = currentLattice;
 
-LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum);
 updateLattice();
+LatticeDisplay(latticeArray);
+
