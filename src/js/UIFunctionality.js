@@ -195,8 +195,13 @@ document.addEventListener('keydown', function(event) {
 				iterationSpeedSlider.focus();
 				break;
 			case (event.key == '='):
-				document.querySelector(".Dustin").style.display = "block";
-				console.log("hehehhehe")
+				let dustin = document.querySelector(".Dustin");
+				if (dustin.style.display == "none") {
+					dustin.style.display = "block"
+				}
+				else {
+					dustin.style.display = "none"
+				}
 				break;
 			default:
 				break;
