@@ -67,6 +67,15 @@ export function alterBoundaryCon(neoBoundaryCon) {
   boundaryCon = neoBoundaryCon;
 }
 
+export function alterBorder(neoBorder) {
+  border = neoBorder;
+  console.log(border)
+}
+
+export function getBorder() {
+  return border;
+}
+
 //Mutator for inf
 export function alterInf(neoInf = inf[0], bufferToggle = inf[1], bufferSize = inf[2]) {
   if (inf[2] != bufferSize) {
@@ -122,6 +131,22 @@ export function drawLattice(latticeArray) {
     //canvas.style.height = (latticeArray.length * size) + 'px';
   }
 
+    //console.log(latticeArray);
+
+    for (let i = 1; i < latticeArray.length; i++)
+    {
+      for (let j = 0; j < latticeArray[0].length; j++)
+      {
+        latticeArray[i][j].setBorder(border);
+      }
+    }
+  
+    //This sets the top row to always have borders on so its easy to be able to click
+    for (let i = 0 ; i < latticeArray[0].length; i++)
+    {
+      latticeArray[0][i].setBorder(true);
+    }
+
   ctx.clearRect(0,0, canvas.width, canvas.height);
   //Iterates over each cell in each lattice in each timestep drawing them to the canvas.
   for (let j = 0; j < latticeArray.length; j++) {
@@ -174,8 +199,6 @@ canvas.height = 400;
 const tickCanvas = document.getElementById("tickmarkRegion");
 const tctx = tickCanvas.getContext("2d"); // gets the lattice display region
 //let errorBox = document.getElementById("errorRegion");
-let errorBox = document.getElementById("logRegion")
-let errorContext = errorBox.getContext("2d"); // gets the lattice display region
 
 tickCanvas.height = canvas.height;
 tickCanvas.width = canvas.width;
@@ -201,6 +224,8 @@ let latSize = new Array(10, 0);
 let numOfIterations = 1;
 let currentIteration = 0;
 let inf = new Array(true, false, 0);
+
+let border = false; //Border = false by default
 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells

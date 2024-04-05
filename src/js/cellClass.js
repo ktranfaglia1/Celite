@@ -15,7 +15,7 @@ import {latSize} from './displayLattice.js';
 export class cell {
 
 	//Basic Constructor for the each cell
-	constructor(height, width, XLocation, YLocation, color)
+	constructor(height, width, XLocation, YLocation, color, border)
 	{
 		//holds the height and width of the cell this should be the same but can allow for rectangles if needed
 		this.height = height;
@@ -25,6 +25,7 @@ export class cell {
 		this.YLocation = YLocation;
 		//Sets the color of the cell to black or white
 		this.color = color;
+		this.border = border;
 	}
 
 	// Function used to draw the cell in its proper location
@@ -32,7 +33,7 @@ export class cell {
 	{
 
 		//Draws the Box Outline as long as Cells arent too small
-		if(latSize[0] <= 200)
+		if(latSize[0] <= 200 && this.border)
 		{
 			//Sets outline to be inverse of color of cell so you can see it
 			if(this.color == 1)
@@ -59,7 +60,7 @@ export class cell {
 		}
 		
 		//Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
-		if(latSize[0] <= 200)
+		if(latSize[0] <= 200 && this.border)
 		{
 		ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
 		}
@@ -68,6 +69,17 @@ export class cell {
 		ctx.fillRect(this.XLocation, this.YLocation, this.width, this.height);
 		}
 		
+	}
+
+	setBorder(newBorder)
+	{
+		this.border = newBorder;
+	}
+
+	//This is used to get if the border is on or not
+	getBorder()
+	{
+		return this.border;
 	}
 
 	//Tests if given a mouses X and Y location if that is inside of the cell

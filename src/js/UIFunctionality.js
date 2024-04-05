@@ -6,10 +6,10 @@
   for simulation modifications and communicates it with utility files
 * Last Updated: 03/11/24
 */
-import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, currentLattice, drawLattice} from './displayLattice.js';
+import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, inf} from './displayLattice.js';
-import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice} from './displayLattice.js';
-import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf} from './displayLattice.js';
+import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder} from './displayLattice.js';
+import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder} from './displayLattice.js';
 import {updateLattice} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
@@ -38,6 +38,9 @@ const downloadPDFButton = document.getElementById("downloadPDFButton");
 const downloadPNGButton = document.getElementById("downloadPNGButton");
 const aboutButton = document.getElementById("aboutButton");
 const optionsButton = document.getElementById("optionsButton");
+const latticeFillButton = document.getElementById("latticeFillButton");
+const randomFillButton = document.getElementById("randomFillButton");
+const cellColorButton = document.getElementById("cellColorButton");
 
 const periodicCheckBox = document.getElementById("periodicCheckBox");
 const nullCheckBox = document.getElementById("nullCheckBox");
@@ -65,7 +68,7 @@ const closeOptions = document.querySelector("#optionsContent .close");
 let addIterations = 0; // Defaults iterations
 let Run = 0; // Defaults to not keep running
 let iterationTime = 750; //Time to wait before iterating again
-let tickerToggle = 1; //Ticker toggle decides if row ticker will be on defaults to on
+let tickerToggle = 0; //Ticker toggle decides if row ticker will be on defaults to on
 
 let scale = 1;
 let totalDelta = 0;
@@ -74,7 +77,7 @@ const minScale = 0.5; // Minimum scale
 
 let messageQueue = []
 
-function alterCell(mouseX, mouseY, cell, scale) {
+function alterCell(mouseX, cell, scale, mouseY = 0) {
 	let corner0X = cell.getXLoc();
 	let corner0Y = cell.getYLoc();
 	let corner1X = cell.getXLoc() + cell.getWidth();
@@ -119,7 +122,7 @@ tickCanvas.addEventListener('wheel', function(event) {
 			scale = Math.min(maxScale, Math.max(scale, minScale));
 			for (let i = 0; i < latticeArray.length; i++) {
 				for (let f = 0; f < latticeArray[i].length; f++) {
-					alterCell(mouseX, mouseY, latticeArray[i][f], scale);
+					alterCell(mouseX, latticeArray[i][f], scale);
 				}
 			}
 			drawLattice(latticeArray);
@@ -140,6 +143,21 @@ toggleBar.addEventListener("click", function() {
 	toggleCheckbox();
 });
 */
+
+latticeFillButton.addEventListener("click", function(){
+	for (let i = 0; i  < latticeArray[0].length; i++) {
+		latticeArray[0][i].setColor(1);
+	}
+	drawLattice(latticeArray);
+})
+
+randomFillButton.addEventListener("click", function(){
+	for (let i = 0; i  < latticeArray[0].length; i++) {
+		latticeArray[0][i].setColor(Math.floor(Math.random() * 2));
+	}
+	drawLattice(latticeArray);
+	console.log("WHATS UP");
+})
 
 iterateButton.addEventListener("click", function() {
 	if (Run == 1) {
@@ -214,10 +232,13 @@ boundToggleButton.addEventListener("click", function() {
 });
 
 iterationToggleButton.addEventListener("click", function() {
+	tickerToggle = !(tickerToggle);
+	tctx.clearRect(0,0, tickCanvas.width, tickCanvas.height);
 	iterationToggleOption();
 });
 
 borderToggleButton.addEventListener("click", function() {
+	alterBorder(!getBorder());
 	borderToggleOption();
 });
 
@@ -435,6 +456,11 @@ function makeTickBox(event) {
 
 		tctx.fillText(lineNumber, mouseX + 4, mouseY) //Puts the text in place
 	}
+}
+
+// Set the delay until generating next lattice when running
+function setDelay(newDelay) {
+	iterationTime = newDelay;
 }
 
 //repeatly iterates while run is true
@@ -902,6 +928,7 @@ iterationSpeedValue.innerHTML = 750;  // Sets displayed default iteration speed 
 // Update the current iteration speed slider value upon drag
 iterationSpeedSlider.oninput = function() {
 	iterationSpeedValue.innerHTML = this.value;
+	setDelay(this.value);
 };
 
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
