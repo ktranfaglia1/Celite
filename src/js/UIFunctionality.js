@@ -194,6 +194,10 @@ document.addEventListener('keydown', function(event) {
 			case (event.key == 'y'):
 				iterationSpeedSlider.focus();
 				break;
+			case (event.key == '='):
+				document.querySelector(".Dustin").style.display = "block";
+				console.log("hehehhehe")
+				break;
 			default:
 				break;
 		}
