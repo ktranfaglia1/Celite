@@ -308,6 +308,32 @@ h6 {
   text-align: center;
   justify-content: center;
 }
+
+/* Color Picking Window Formatting */
+.color_picker {
+  display: block;
+  position: fixed;
+  right: 0%;
+  top: 735px;
+  width: 250px;
+  height: 150px;
+  background-color: #fefefe;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+  z-index: 3;
+}
+
+.color_content{
+  /*float: left;*/
+  display: inline-flex;
+  margin-left: 3%;
+  margin-top: 13px;
+  /*padding: -50%;*/
+  gap: 30px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
 .options_button {
   display: block;
   width: 80%;
