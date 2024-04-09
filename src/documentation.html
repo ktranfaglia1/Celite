@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8">  <!-- Set the character encoding to UTF-8 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Define the viewport for responsive design -->
-    <title> Discrete Mathematical Systems </title>
+    <title> Cellular Automata Simulators </title>
     <link rel="stylesheet" type="text/css" href="../styles/global.css">  <!-- Link to global CSS styles -->
     <link rel="stylesheet" type="text/css" href="../styles/documentation.css">  <!-- Link to home specific CSS styles -->
     <link rel="icon" href="../images/cellular_automata_logo.png">  <!-- Link page icon -->
@@ -28,8 +28,8 @@
           </div>
         </div>
         <a href="../src/documentation.html"> Documentation </a>  <!-- Link to the documentation page -->
+        <a href="../src/about.html"> Collaborators </a>  <!-- Link to the about page -->
         <a href="https://github.com/ktranfaglia1/COSC425" target="_blank"> Source </a>  <!-- Link to the source code page -->
-        <a href="../src/about.html"> About </a>  <!-- Link to the about page -->
       </div>
       <h1> Learn The Program! </h1> <hr>
     </header>
@@ -87,7 +87,7 @@
           <i> Keyboard Shortcut: </i> ALT + J
         </div>
         <div class="p3">
-          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current timestep, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). These three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary rule number. The value of the index is the new state of the cell.
+          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, the rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current timestep, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). The three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary number. The value at the given index is the new state of the cell.
         </div> 
         <div class="p4"> 
           <i> Input Restrictions: </i> Non-negative real numbers in range [0, 255]. Decimal values will be truncated. <br>
@@ -221,7 +221,7 @@
           <u>Cell State Toggle</u>: Inside the canvas, clicking cells will toggle them between dead (white, 0) and alive (balck, 1) states to set a starting position (index = 0) for the simulation. Only the starting state cells can be toggled. Cells can be toggled even if a simulation has already completed; clicking "Start" or "Iterate" will overwrite the canvas. Cell borders will automatically be removed on the starting lattice for lattice sizes over 200.
         </div>
         <div class="p3"> 
-          <u> Starting Lattice Zoom</u>: Test test tsteststtststststststst
+          <u>Starting Lattice Zoom</u>: Inside the canvas, using the scroll wheel on a mouse will zoom with a focus on the starting lattice. The zoom location is determined by the location of the mouse. The x-axis mouse location determines the horizontal zoom focus and the y-axis mouse location has no impact on zoom focus location; the vertical zoom focus will always be on the starting lattice in the canvas. The zoom feature is disabled if there are any iterations beyond the starting lattice generated on the canvas, as in, the zoom feature may only be used on an isolated starting lattice (index = 0). Scroll up to zoom in and scroll down to zoom out. The maximum outward zoom is set to the defaulted (standard - 100%) zoom factor for the canvas.  
         </div>
         <div class="p3"> 
           An iteration counter that displays the current iteration index can be found above the top left border of the canvas.
