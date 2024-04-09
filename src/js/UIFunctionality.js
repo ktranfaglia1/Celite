@@ -319,11 +319,6 @@ document.addEventListener('keydown', function(event) {
     // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
     if (event.altKey) {
 		switch (true) {
-			case (event.key == 'Enter'):
-				iterationSubmit.click();
-				ruleSubmit.click();
-				latticeSizeSubmit.click();
-				break;
 			case (event.key == 's'):
 				startStopButton.click();
 				break;
@@ -339,16 +334,16 @@ document.addEventListener('keydown', function(event) {
 			case (event.key == 'a'):
 				aboutButton.click();
 				break;
-			case (event.key == 'd'):
+			case (event.key == 'n'):
 				downloadPDFButton.click();
 				break;
 			case (event.key == 'p'):
 				downloadPNGButton.click();
 				break;
-			case (event.key == 'f'):
+			case (event.key == '1'):
 				latticeFillButton.click();
 				break;
-			case (event.key == 'r'):
+			case (event.key == '2'):
 				randomFillButton.click();
 				break;
 			case (event.key == 'q'):
@@ -394,6 +389,11 @@ document.addEventListener('keydown', function(event) {
 		} else if (document.activeElement == ruleInputBox) {
 			ruleSubmit.click();
 		} else if (document.activeElement == latticeSizeBox) {
+			latticeSizeSubmit.click();
+		}
+		else {
+			iterationSubmit.click();
+			ruleSubmit.click();
 			latticeSizeSubmit.click();
 		}
 	}
