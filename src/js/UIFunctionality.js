@@ -419,7 +419,7 @@ function updateLatticeSize(canvas) {
 	
 	if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
 		alterLatSize(newCellNum);
-		makeLog("Lattice Size Set to: " + newCellNum, logCanvas, messageQueue)
+		makeLog("Lattice Size Set to " + newCellNum, logCanvas, messageQueue)
 	}
 	else {
 		makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
@@ -487,7 +487,7 @@ function setRule() {
 	if (!isNaN(newRule) && newRule >= 0 && newRule <= 255) {
 		alterRuleNum(newRule);
 		alterRule(ruleNumToRule(newRule));
-		makeLog("Rule Set to: " + newRule, logCanvas, messageQueue);
+		makeLog("Rule Set to " + newRule, logCanvas, messageQueue);
 
 		let newCellNum = (latSize[0] - (2 * latSize[1]));
 		if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
@@ -547,7 +547,7 @@ function setLatticeSize() {
 		alterInf(inf[0], false, newValue);
 		clear(latticeArray, true);
 		addIterations = newValue;//updates the number of iterations
-		makeLog("Set Iterations to: " + newValue, logCanvas, messageQueue);
+		makeLog("Iterations Set to " + newValue, logCanvas, messageQueue);
 	}
 	else
 	{
@@ -711,9 +711,11 @@ function iterationToggleOption() {
 	// Toggle the position of the button
 	if (iterationToggle.style.transform == "translateX(0px)") {
 		iterationToggle.style.transform = "translateX(25px)";
+		makeLog("Iteration Box: On", logCanvas, messageQueue);
 	} 
 	else {
 		iterationToggle.style.transform = "translateX(0px)";
+		makeLog("Iteration Box: Off", logCanvas, messageQueue);
 	}
 }
 
@@ -722,9 +724,11 @@ function borderToggleOption() {
 	// Toggle the position of the button
 	if (borderToggle.style.transform === "translateX(0px)") {
 		borderToggle.style.transform = "translateX(25px)";
+		makeLog("Cell Border: On", logCanvas, messageQueue);
 	} 
 	else {
 		borderToggle.style.transform = "translateX(0px)";
+		makeLog("Cell Border: Off", logCanvas, messageQueue);
 	}
 }
 
@@ -754,7 +758,7 @@ function startStopToggle() {
   	}
 }
 
-// Ensure one and only one checkbox can be checked at a time upon checkbox click
+// Set boundary condition and ensure one and only one checkbox can be checked at a time upon checkbox click
 checkboxes.forEach(function(checkbox) {
     checkbox.addEventListener('change', function() {
 			if (Run == 1) {
