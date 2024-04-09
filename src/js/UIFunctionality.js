@@ -149,6 +149,7 @@ latticeFillButton.addEventListener("click", function(){
 		latticeArray[0][i].setColor(1);
 	}
 	drawLattice(latticeArray);
+	makeLog("Filled Lattice", logCanvas, messageQueue);
 })
 
 randomFillButton.addEventListener("click", function(){
@@ -156,7 +157,7 @@ randomFillButton.addEventListener("click", function(){
 		latticeArray[0][i].setColor(Math.floor(Math.random() * 2));
 	}
 	drawLattice(latticeArray);
-	console.log("WHATS UP");
+	makeLog("Randomized Lattice", logCanvas, messageQueue);
 })
 
 iterateButton.addEventListener("click", function() {
@@ -881,7 +882,7 @@ downloadPDFButton.addEventListener('click', function() {
 	pdf.addImage(imgData, 'PNG', offsetX, offsetY, imgWidth, imgHeight);
 
 	pdf.save("Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize[0] + ".pdf");  // Save the PDF
-	makeLog("Downloaded Lattice Array", logCanvas, messageQueue);
+	makeLog("Downloaded Canvas", logCanvas, messageQueue);
 });
 
 // Capture canvas as a PNG upon clickling the 'Download PNG" button
@@ -891,6 +892,7 @@ downloadPNGButton.addEventListener('click', function() {
     link.href = image;  // Set the href attribute of the anchor element to the data URL of the image
     link.download = "Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize[0] + ".png";  // Set the filename
 	link.click();  // Trigger a click on the anchor element to prompt the browser to download the image
+	makeLog("Downloaded Canvas", logCanvas, messageQueue);
 });
 
 /* Handle open and closing of about window */
