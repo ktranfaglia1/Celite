@@ -144,7 +144,7 @@ export function drawLattice(latticeArray) {
     //This sets the top row to always have borders on so its easy to be able to click
     for (let i = 0 ; i < latticeArray[0].length; i++)
     {
-      latticeArray[0][i].setBorder(true);
+      (latticeArray[0][i]).setBorder(true);
     }
 
   ctx.clearRect(0,0, canvas.width, canvas.height);

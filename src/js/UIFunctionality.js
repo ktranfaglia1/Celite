@@ -63,6 +63,12 @@ const borderToggle = document.querySelector("#borderToggle .toggle_button");
 const closeAbout = document.querySelector("#aboutContent .close");
 const closeOptions = document.querySelector("#optionsContent .close");
 
+//This is the various document stuff for selecting color
+const deadColorSel = document.getElementById("deadCell");
+const aliveColorSel = document.getElementById("aliveCell");
+const deadBorderSel = document.getElementById("deadBorder");
+const aliveBorderSel = document.getElementById("aliveBorder");
+
 /* Global variables for iteration */
 //const popTime = 750; //Time Log messages stay on the screen
 let addIterations = 0; // Defaults iterations
@@ -101,6 +107,71 @@ function alterCell(mouseX, cell, scale, mouseY = 0) {
 	cell.setXLoc(newCell0X);
 	cell.setYLoc(newCell0Y);
 }
+
+deadColorSel.addEventListener('input', function(){
+	console.log(latticeArray[0][0])
+	for (let i = 0; i < latticeArray.length; i++)
+	{
+		for (let j = 0; j < latticeArray[0].length; j++)
+		{
+			(latticeArray[i][j]).setDeadColor(deadColorSel.value);
+			//console.log(latticeArray[i][j]);
+			//console.log(latticeArray[i][j])
+		}
+	}
+	//console.log(deadColorSel.value);
+	//console.log(latticeArray);
+	drawLattice(latticeArray);
+})
+
+aliveColorSel.addEventListener('input', function(){
+	console.log(latticeArray[0][0])
+	for (let i = 0; i < latticeArray.length; i++)
+	{
+		for (let j = 0; j < latticeArray[0].length; j++)
+		{
+			(latticeArray[i][j]).setAliveColor(aliveColorSel.value);
+			//console.log(latticeArray[i][j]);
+			//console.log(latticeArray[i][j])
+		}
+	}
+	//console.log(deadColorSel.value);
+	//console.log(latticeArray);
+	drawLattice(latticeArray);
+})
+
+deadBorderSel.addEventListener('input', function(){
+	console.log(latticeArray[0][0])
+	for (let i = 0; i < latticeArray.length; i++)
+	{
+		for (let j = 0; j < latticeArray[0].length; j++)
+		{
+			(latticeArray[i][j]).setDeadBorder(deadColorSel.value);
+			//console.log(latticeArray[i][j]);
+			//console.log(latticeArray[i][j])
+		}
+	}
+	//console.log(deadColorSel.value);
+	//console.log(latticeArray);
+	drawLattice(latticeArray);
+})
+
+aliveBorderSel.addEventListener('input', function(){
+	console.log(latticeArray[0][0])
+	for (let i = 0; i < latticeArray.length; i++)
+	{
+		for (let j = 0; j < latticeArray[0].length; j++)
+		{
+			(latticeArray[i][j]).setAliveBorder(aliveBorderSel.value);
+			//console.log(latticeArray[i][j]);
+			//console.log(latticeArray[i][j])
+		}
+	}
+	//console.log(deadColorSel.value);
+	//console.log(latticeArray);
+	drawLattice(latticeArray);
+})
+
 
 tickCanvas.addEventListener('wheel', function(event) {
 	if (latticeArray.length == 1) {
