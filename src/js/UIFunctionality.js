@@ -921,7 +921,13 @@ window.addEventListener("click", function(event) {
 /* Handle open and closing of options window */
 // Options button is clicked, display options window
 optionsButton.addEventListener("click", function() {
-	optionsWindow.style.display = "block";
+	// If options window is displayed, hide it; if hidden, display it
+	if (optionsWindow.style.display == "block") {
+		optionsWindow.style.display = "none";
+	}
+	else {
+		optionsWindow.style.display = "block";
+	}
 });
 
 // Close if x (close) button in top right of the window is clicked
