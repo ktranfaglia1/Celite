@@ -115,12 +115,8 @@ deadColorSel.addEventListener('input', function(){
 		for (let j = 0; j < latticeArray[0].length; j++)
 		{
 			(latticeArray[i][j]).setDeadColor(deadColorSel.value);
-			//console.log(latticeArray[i][j]);
-			//console.log(latticeArray[i][j])
 		}
 	}
-	//console.log(deadColorSel.value);
-	//console.log(latticeArray);
 	drawLattice(latticeArray);
 })
 
@@ -131,12 +127,8 @@ aliveColorSel.addEventListener('input', function(){
 		for (let j = 0; j < latticeArray[0].length; j++)
 		{
 			(latticeArray[i][j]).setAliveColor(aliveColorSel.value);
-			//console.log(latticeArray[i][j]);
-			//console.log(latticeArray[i][j])
 		}
 	}
-	//console.log(deadColorSel.value);
-	//console.log(latticeArray);
 	drawLattice(latticeArray);
 })
 
@@ -147,14 +139,11 @@ deadBorderSel.addEventListener('input', function(){
 		for (let j = 0; j < latticeArray[0].length; j++)
 		{
 			(latticeArray[i][j]).setDeadBorder(deadColorSel.value);
-			//console.log(latticeArray[i][j]);
-			//console.log(latticeArray[i][j])
 		}
 	}
-	//console.log(deadColorSel.value);
-	//console.log(latticeArray);
 	drawLattice(latticeArray);
 })
+
 
 aliveBorderSel.addEventListener('input', function(){
 	console.log(latticeArray[0][0])
@@ -163,12 +152,8 @@ aliveBorderSel.addEventListener('input', function(){
 		for (let j = 0; j < latticeArray[0].length; j++)
 		{
 			(latticeArray[i][j]).setAliveBorder(aliveBorderSel.value);
-			//console.log(latticeArray[i][j]);
-			//console.log(latticeArray[i][j])
 		}
 	}
-	//console.log(deadColorSel.value);
-	//console.log(latticeArray);
 	drawLattice(latticeArray);
 })
 

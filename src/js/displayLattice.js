@@ -133,7 +133,7 @@ export function drawLattice(latticeArray) {
 
     //console.log(latticeArray);
 
-    for (let i = 1; i < latticeArray.length; i++)
+    for (let i = 0; i < latticeArray.length; i++)
     {
       for (let j = 0; j < latticeArray[0].length; j++)
       {
@@ -142,10 +142,11 @@ export function drawLattice(latticeArray) {
     }
   
     //This sets the top row to always have borders on so its easy to be able to click
-    for (let i = 0 ; i < latticeArray[0].length; i++)
-    {
-      (latticeArray[0][i]).setBorder(true);
-    }
+    if(latticeArray.length <= 1)
+      for (let i = 0 ; i < latticeArray[0].length; i++)
+      {
+        (latticeArray[0][i]).setBorder(true);
+      }
 
   ctx.clearRect(0,0, canvas.width, canvas.height);
   //Iterates over each cell in each lattice in each timestep drawing them to the canvas.
