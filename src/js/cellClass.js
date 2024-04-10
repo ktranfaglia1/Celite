@@ -73,7 +73,7 @@ export class cell {
 		}
 		else
 		{
-		ctx.fillRect(this.XLocation, this.YLocation, this.width, this.height);
+		ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
 		}
 		
 	}
@@ -156,8 +156,7 @@ export class cell {
 		this.YLocation = Val;
 	}
 
-	setDeadColor(color)
-	{
+	setDeadColor(color) {
 		this.deadCell = color;
 	}
 
