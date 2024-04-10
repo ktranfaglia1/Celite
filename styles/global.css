@@ -323,3 +323,18 @@ h6 {
 .options_button:hover {
   background-color: rgb(90, 167, 235);
 }
+/* Container for border and cell color picker */
+.color_container {
+  display: inline-block;
+  margin-left: 15px; /* Adjust the margin as needed */
+  text-align: center; /* Center align the label and input */
+}
+.color_label {
+  display: block;
+  margin-bottom: 5px; /* Add space between label and input */
+}
+.color_wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px; /* Add space between the two rows */
+}
