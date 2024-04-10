@@ -297,7 +297,7 @@ h6 {
   right: 0;
   top: 140px;
   width: 250px;
-  height: 575px;
+  height: 650px;
   background-color: #fefefe;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.4);
   z-index: 2;
@@ -326,15 +326,19 @@ h6 {
 /* Container for border and cell color picker */
 .color_container {
   display: inline-block;
-  margin-left: 15px; /* Adjust the margin as needed */
-  text-align: center; /* Center align the label and input */
+  margin-left: 8px;
+  margin-right: 8px;
+  text-align: center;
 }
 .color_label {
   display: block;
-  margin-bottom: 5px; /* Add space between label and input */
+  margin-bottom: 4px;
+  font-size: 17px;
+  font-family: times;
 }
 .color_wrapper {
+  justify-content: center;
   display: flex;
   flex-direction: row;
-  margin-bottom: 10px; /* Add space between the two rows */
+  margin-bottom: 8px;
 }

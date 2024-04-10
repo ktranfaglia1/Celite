@@ -83,6 +83,7 @@
       <canvas id="logRegion" class="log_box"> </canvas> <!-- Display region for the logs -->
     </div>
     <div id="iterationOutput" class="iteration_output"> </div> <!-- Output region for iteration count -->
+    <!-- Canvas region for lattice display and overlapping canvas for iteration tickmark -->
     <center>
       <canvas id="latticeRegion" class="lattice_region"> </canvas>
       <canvas id="tickmarkRegion" class="tickmark_region"> </canvas>
@@ -92,6 +93,7 @@
       <div id="optionsContent" class="options_content">
         <span class="close"> &times; </span>
         <h4> Options </h4>
+         <!-- Buttons -->
         <hr>
         <button id="downloadPDFButton" class="options_button"> Download PDF </button>
         <button id="downloadPNGButton" class="options_button"> Download PNG </button>
@@ -99,28 +101,7 @@
         <button id="latticeFillButton" class="options_button"> Lattice Fill </button>
         <button id="randomFillButton" class="options_button"> Random Fill </button>
         <hr>
-        <!--Color Picker Window-->
-        <div class="color_wrapper">
-          <div class="color_container">
-            <label class="color_label"> Dead Cell </label>
-            <input type="color" id="dead_color" name="dead_color" value="#ffffff">
-          </div>
-          <div class="color_container">
-            <label class="color_label"> Dead Border </label>
-            <input type="color" id="alive_color" name="alive_color" value="#000000">
-          </div>
-        </div>
-        <div class="color_wrapper">
-          <div class="color_container">
-            <label class="color_label"> Alive Cell </label>
-            <input type="color" id="dead_border" name="dead_border" value="#000000">
-          </div>
-          <div class="color_container">
-            <label class="color_label"> &nbsp;&nbsp; Alive Border </label>
-            <input type="color" id="alive_border" name="alive_border" value="#777777">
-          </div>
-        </div>
-        <hr>
+        <!-- Toggles -->
         <div class="p1"> Iteration Box </div>
         <div class="input_container">
           <label class="toggle_label"> Off </label>
@@ -138,9 +119,32 @@
           <label class="toggle_label"> On </label>
         </div>
         <hr>
+        <!-- Speed Slider -->
         <div class="slider_container">
           <div class="p1"> Delay: <span id="iterationSpeedValue"> </span> ms </div>
           <input type="range" min="0" max="2000" value="750" class="slider" id="iterationSpeedSlider">
+        </div>
+        <hr>
+        <!-- Color Picker -->
+        <div class="color_wrapper">
+          <div class="color_container">
+            <label class="color_label"> Dead Cell </label>
+            <input type="color" id="deadCell" name="deadCell" value="#ffffff">
+          </div>
+          <div class="color_container">
+            <label class="color_label"> Alive Border </label>
+            <input type="color" id="aliveBorder" name="aliveBorder" value="#000000">
+          </div>
+        </div>
+        <div class="color_wrapper">
+          <div class="color_container">
+            <label class="color_label"> Alive Cell </label>
+            <input type="color" id="aliveCell" name="aliveCell" value="#000000">
+          </div>
+          <div class="color_container">
+            <label class="color_label"> Dead Border </label>
+            <input type="color" id="deadBorder" name="deadBorder" value="#777777">
+          </div>
         </div>
       </div>
     </div>
@@ -295,12 +299,11 @@
       </div>
     </div>
     <div class="Dustin"></div>
-    <!-- Connect online Javascript library to capture canvas as a PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script> <!-- Connect online Javascript library to capture canvas as a PDF -->
     <script type="module" src="../src/js/generateLattice.js" crossorigin="anonymous"> </script> <!-- Connect Javascript for lattice calculation -->
     <script type="module" src="../src/js/cellClass.js"> </script> <!-- Connect Javascript for cell creation -->
     <script type="module" src="../src/js/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->
     <script type="module" src="../src/js/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->
-    <script type="module" src="../src/js/logClass.js"> </script>
+    <script type="module" src="../src/js/logClass.js"> </script>  <!-- Connect Javascript for logbox functionality -->
   </body>
 </html>
