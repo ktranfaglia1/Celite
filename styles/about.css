@@ -15,7 +15,7 @@ hr {
   height: 3px;
   margin-bottom: 10px;
 }
-.dotted_line {
+.line {
   margin: 0;
   border: none;
   background-color: black;
@@ -51,7 +51,7 @@ hr {
   display: flex;
 }
 .social_icons a {
-  margin-right: 10px;
+ margin: 6px 12px;
 }
 .github {
   width: 30px;
