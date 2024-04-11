@@ -83,32 +83,85 @@ let Run = 0; // Defaults to not keep running
 let iterationTime = 750; //Time to wait before iterating again
 let tickerToggle = 0; //Ticker toggle decides if row ticker will be on defaults to on
 
+//Stores current scrolling values to keep track of scrolling in or out and preventing user from scrolling too far out
 let scale = 1;
 let totalDelta = 0;
-const maxScale = 5; // Maximum scale
-const minScale = 0.5; // Minimum scale
 
 let messageQueue = []
 
+//Redraws the entire lattice array on the canvas
+function redrawLattice() {
+	ctx.clearRect(0,0, canvas.width, canvas.height);
+	for (let i = 0; i < latticeArray.length; i++) {
+		for (let f = 0; f < latticeArray[i].length; f++) {
+			latticeArray[i][f].drawCell(ctx)
+		}
+	}
+}
+
+//Determins if the mouse cursor is currently within the lattice. Returns true if cursor is in lattice, false otherwise.
+function inLattice(mouseX, oneRow = true, mouseY = 0,) {
+	let inLat = false;
+	//If the X position of the mouse is greater then the starting X of the first cell, continue.
+	if (mouseX >= latticeArray[0][0].getXLoc()) {
+		//If the X position of the mouse is less then the starting X of the last cell plus cell size.
+		if (mouseX <= (latticeArray[0][latticeArray[0].length - 1].getXLoc() + latticeArray[0][latticeArray[0].length - 1].getWidth())) {
+			//If there is only one row, return true for inLattice. Otherwise continue to checking Y position of mouse.
+			if (oneRow) {
+				inLat = true;
+			}
+			else{
+				//If the Y position of the mouse is greater than 0 in the canvas, continue.
+				if (mouseY >= 0) {
+					//If the Y position of the mouse is less then the Y position of the last timestep plus cell size, set inLat to true and return.
+					if (mouseY <= (latticeArray[latticeArray.length - 1][0].getYLoc() + latticeArray[latticeArray.length - 1][0].getHeight())) {
+						inLat = true;
+					}
+				}
+			}
+		}
+	}
+	return inLat;
+}
+
+//Returns the cell data to it's unscrolled form.
+function revertCells() {
+	let startX = (canvas.width / 2) - (latSize[0] * size / 2);
+	for (let i = 0; i < latticeArray.length; i++) {
+		for (let f = 0; f < latticeArray[i].length; f++) {
+			latticeArray[i][f].setHeight(size);
+			latticeArray[i][f].setWidth(size);
+			latticeArray[i][f].setXLoc(startX + f * size);
+			latticeArray[i][f].setYLoc(i * size);
+		}
+	}
+}
+
 function alterCell(mouseX, cell, scale, mouseY = 0) {
+	//Get the X and Y position of corner 0 of the cell, the X position of the corner 1 (to the right of corner 0)
+	//and the Y position of corner 2 (below corner 0)
 	let corner0X = cell.getXLoc();
 	let corner0Y = cell.getYLoc();
 	let corner1X = cell.getXLoc() + cell.getWidth();
 	let corner2Y = cell.getYLoc() + cell.getHeight();
 
+	//Find the corresponding X or Y distance between the current mouse location and the corners.
 	let deltaCorner0X = corner0X - mouseX;
 	let deltaCorner0Y = corner0Y - mouseY;
 	let deltaCorner1X = corner1X - mouseX;
 	let deltaCorner2Y = corner2Y - mouseY;
 
+	//Alter the positions by multiplying the ditance between the cursor and the corners by the scale factor
 	let newCell0X = mouseX + (deltaCorner0X * scale);
 	let newCell0Y = mouseY + (deltaCorner0Y * scale);
 	let newCell1X = mouseX + (deltaCorner1X * scale);
 	let newCell2Y = mouseY + (deltaCorner2Y * scale);
 
+	//Create the new cell width and height
 	let newCellWidth = newCell1X - newCell0X;
 	let newCellHeight = newCell2Y - newCell0Y;
 
+	//Set new values to the cell.
 	cell.setHeight(newCellHeight);
 	cell.setWidth(newCellWidth);
 	cell.setXLoc(newCell0X);
@@ -171,36 +224,67 @@ aliveBorderSel.addEventListener('input', function(){
 
 
 tickCanvas.addEventListener('wheel', function(event) {
-	if (latticeArray.length == 1) {
-		let mouseX, mouseY;
-		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
-		let delta = event.deltaY;
+	let mouseX, mouseY;
+	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
+	//If there is only one row in the lattice and the mouse X position is within the bounds of the lattice (ignoring Y position), continue.
+	if (latticeArray.length == 1 && inLattice(mouseX)) {
+		let delta = event.deltaY; //Get delta from mouse scroll.
+		//If delta and totalDelta are greater than 0, set scale to 0.9 to zoom out
 		if (delta > 0 && totalDelta > 0) {
 			scale = 0.9
 		}
+		//If delta is less than 0, set scale to 1.1 to zoom in.
 		else if (delta < 0) {
 			scale = 1.1
 		}
-		totalDelta -= delta;
-		if (totalDelta <= 0) {
+		totalDelta -= delta; //Subtract delta from totalDelta. This allows us to keep track of how far out the user is zoomed.
+		//If totalDelta is less than 0, revert cells to original unzoomed position and set totalDelta to 0.
+		if (totalDelta < 0) {
+			revertCells();
 			totalDelta = 0;
-			clear(latticeArray, true);
 		}
+		//Otherwise, alter all of the cells to prepare to draw the zoomed cells.
 		else {
-			scale = Math.min(maxScale, Math.max(scale, minScale));
 			for (let i = 0; i < latticeArray.length; i++) {
 				for (let f = 0; f < latticeArray[i].length; f++) {
 					alterCell(mouseX, latticeArray[i][f], scale);
 				}
 			}
-			drawLattice(latticeArray);
 		}
-		event.preventDefault();
+		redrawLattice();
 	}
+	else if (latticeArray.length > 1 && inLattice(mouseX, false, mouseY)){
+		let delta = event.deltaY; //Get delta from mouse scroll.
+		//If delta and totalDelta are greater than 0, set scale to 0.75 to zoom out. (Zooms more per scroll for effeciency)
+		if (delta > 0 && totalDelta > 0) {
+			scale = 0.75
+		}
+		//If delta is less than 0, set scale to 1.25 to zoom in. (Zooms more per scroll for effeciency)
+		else if (delta < 0) {
+			scale = 1.25
+		}
+		totalDelta -= delta; //Subtract delta from totalDelta. This allows us to keep track of how far out the user is zoomed.
+		//If totalDelta is less than 0, revert cells to original unzoomed position and set totalDelta to 0.
+		if (totalDelta < 0) {
+			revertCells();
+			totalDelta = 0;
+		}
+		//Otherwise, alter all of the cells to prepare to draw the zoomed cells.
+		else {
+			for (let i = 0; i < latticeArray.length; i++) {
+				for (let f = 0; f < latticeArray[i].length; f++) {
+					alterCell(mouseX, latticeArray[i][f], scale, mouseY);
+				}
+			}
+		}
+		redrawLattice();
+	}
+	event.preventDefault();
 }, false)
 
 //Changes rule set
 ruleSubmit.addEventListener("click", function() {
+	//Stops the iteration before changing a rule.
 	if (Run == 1) {
 		Run = 0;
 		makeLog("Stopping Iterations", logCanvas, messageQueue);
@@ -221,7 +305,7 @@ latticeFillButton.addEventListener("click", function(){
 	}
 	drawLattice(latticeArray);
 	makeLog("Filled Lattice", logCanvas, messageQueue);
-})
+});
 
 randomFillButton.addEventListener("click", function(){
 	clear(latticeArray)
@@ -230,37 +314,45 @@ randomFillButton.addEventListener("click", function(){
 	}
 	drawLattice(latticeArray);
 	makeLog("Randomized Lattice", logCanvas, messageQueue);
-})
+});
 
 iterateButton.addEventListener("click", function() {
+	//Stops the iteration before changing a rule.
 	if (Run == 1) {
 		Run = 0;
 		makeLog("Stopping Iterations", logCanvas, messageQueue);
 	}
+	//Keep infinite the same and add the buffers
 	alterInf(inf[0], true)
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
 	if (latticeArray.length == 1) {
 		let bufferArr = new Array()
 		let latPlusBufferArr = new Array()
+		//Store current cell states
 		for (let i = 0; i < latSize[0]; i++) {
 			latPlusBufferArr.push(latticeArray[0][i].getColor())
 		}
+		//Add buffer cells on either one for the mock array.
 		for (let i = 0; i < latSize[1]; i++) {
 			bufferArr.push(0)
 		}
 		latPlusBufferArr = bufferArr.concat(latPlusBufferArr.concat(bufferArr));
+		//Change the lattice size to include the buffers.
 		let newCellNum = (latSize[0] + (2 * latSize[1]))
 		if (!isNaN(newCellNum) && newCellNum >= 1) {
 			alterLatSize(newCellNum);
 		}
+		//Change size to accomodate new lattice size.
 		let size = canvas.width / latSize[0];
 		//Cells should have a maximum size of 45 :: This Caps cell size to 45
 		if (size > 45) {
 			size = 45; 
 		}
 		alterSize(size);
+		//Clear lattice array to generate new lattice of appropriate size.
 		clear(latticeArray);
 		let neoLatticeArray = latticeArray;
+		//Iterate through lattice array and use mock array to change colors appropriately.
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
 			if (latPlusBufferArr[i] == 1) {
 				neoLatticeArray[0][i].flipColor();
@@ -273,11 +365,13 @@ iterateButton.addEventListener("click", function() {
 });
 
 clearButton.addEventListener("click", function() {
+	//Stops the iteration before changing a rule.
 	if (Run == 1) {
 		Run = 0;
 		makeLog("Stopping Iterations", logCanvas, messageQueue);
 	}
 
+	//Removes buffers if they existed.
 	let newCellNum = (latSize[0] - (2 * latSize[1]));
 	if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
 		alterLatSize(newCellNum);
@@ -285,6 +379,7 @@ clearButton.addEventListener("click", function() {
 	else {
 		makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
 	}
+	//Alters size of cells to accomodate for removed cells.
 	let size = canvas.width / latSize[0];
 	//Cells should have a maximum size of 45 :: This Caps cell size to 45
 	if (size > 45) {
@@ -297,6 +392,7 @@ clearButton.addEventListener("click", function() {
 );
 /* Connect UI Functionality to a prebuilt function */
 boundToggleButton.addEventListener("click", function() {
+	//Stops the iteration before changing a rule.
 	if (Run == 1) {
 		Run = 0;
 		makeLog("Stopping Iterations", logCanvas, messageQueue);
@@ -316,6 +412,7 @@ borderToggleButton.addEventListener("click", function() {
 });
 
 iterationSubmit.addEventListener("click", function() {
+	//Stops the iteration before changing a rule.
 	if (Run == 1) {
 		Run = 0;
 		makeLog("Stopping Iterations", logCanvas, messageQueue);
@@ -324,6 +421,7 @@ iterationSubmit.addEventListener("click", function() {
 });
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
+	//Stops the iteration before changing a rule.
 	if (Run == 1) {
 		Run = 0;
 		makeLog("Stopping Iterations", logCanvas, messageQueue);
@@ -340,25 +438,31 @@ startStopButton.addEventListener("click", function() {
 		if (latticeArray.length == 1) {
 			let bufferArr = new Array()
 			let latPlusBufferArr = new Array()
+			//Store current cell states
 			for (let i = 0; i < latSize[0]; i++) {
 				latPlusBufferArr.push(latticeArray[0][i].getColor())
 			}
+			//Add buffer cells on either one for the mock array.
 			for (let i = 0; i < latSize[1]; i++) {
 				bufferArr.push(0)
 			}
 			latPlusBufferArr = bufferArr.concat(latPlusBufferArr.concat(bufferArr));
+			//Change the lattice size to include the buffers.
 			let newCellNum = (latSize[0] + (2 * latSize[1]))
 			if (!isNaN(newCellNum) && newCellNum >= 1) {
 				alterLatSize(newCellNum);
 			}
+			//Change size to accomodate new lattice size.
 			let size = canvas.width / latSize[0];
 			//Cells should have a maximum size of 45 :: This Caps cell size to 45
 			if (size > 45) {
 				size = 45; 
 			}
 			alterSize(size);
+			//Clear lattice array to generate new lattice of appropriate size.
 			clear(latticeArray);
 			let neoLatticeArray = latticeArray;
+			//Iterate through lattice array and use mock array to change colors appropriately.
 			for (let i = 0 ; i < latticeArray[0].length; i++) {
 				if (latPlusBufferArr[i] == 1) {
 					neoLatticeArray[0][i].flipColor();
@@ -595,6 +699,7 @@ function setRule() {
 		alterRule(ruleNumToRule(newRule));
 		makeLog("Rule Set to " + newRule, logCanvas, messageQueue);
 
+		//Removing buffers if they existed
 		let newCellNum = (latSize[0] - (2 * latSize[1]));
 		if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
 			alterLatSize(newCellNum);
@@ -602,13 +707,14 @@ function setRule() {
 		else {
 			makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
 		}
+		//Changing size of cells fo accomodate for removed buffers.
 		let size = canvas.width / latSize[0];
 		//Cells should have a maximum size of 45 :: This Caps cell size to 45
 		if (size > 45) {
 			size = 45; 
 		}
 		alterSize(size);
-
+		//Alter the infinite array to keep the Infinite setting as is but remove buffers.
 		alterInf(inf[0], false);
 		clear(latticeArray, true);
 	}
@@ -636,6 +742,7 @@ function setLatticeSize() {
 	let newValue = parseInt(iterationInputBox.value); //Turns the iteration input to an integerpopTime
 	if (!isNaN(newValue) && newValue >= 0 && newValue <= 1000) {
 
+		//Remove buffers if they existed.
 		let newCellNum = (latSize[0] - (2 * latSize[1]));
 		if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
 			alterLatSize(newCellNum);
@@ -643,6 +750,7 @@ function setLatticeSize() {
 		else {
 			makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
 		}
+		//Alter cell size to accomodate for removed buffers
 		let size = canvas.width / latSize[0];
 		//Cells should have a maximum size of 45 :: This Caps cell size to 45
 		if (size > 45) {
@@ -650,6 +758,7 @@ function setLatticeSize() {
 		}
 		alterSize(size);
 		
+		//Get rid of existing buffers but also change buffer size for when they are re-added.
 		alterInf(inf[0], false, newValue);
 		clear(latticeArray, true);
 		addIterations = newValue;//updates the number of iterations
@@ -664,6 +773,7 @@ function setLatticeSize() {
 
 //gets rid of all arays except the first and sets all cells to dead (white)
 function clear(latticeArray, keepInit = false) {
+	totalDelta = 0;
 	canvas.height = 400;
 	alterNumOfIterations(1);
 	alterCurrentIteration(1);
@@ -679,6 +789,7 @@ function clear(latticeArray, keepInit = false) {
 	}
 
 	let latPlusBufferArr = new Array()
+	//If the clear is keeping the initial timesteps' cell states, push the color onto a mock array to save cell states.
 	if (keepInit) {
 		let bufferNum = (neoLatticeArray[0].length - clearedLattice[0].slice(0).length) / 2;
 		for (let i = bufferNum; i < (latSize[0] + bufferNum); i++) {
@@ -687,6 +798,7 @@ function clear(latticeArray, keepInit = false) {
 	}
 
 	neoLatticeArray[0] = clearedLattice[0].slice(0);
+	//If the clear is keeping the initial timesteps, flip the cell states according to the colors in the mock array.
 	if (keepInit) {
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
 			if (latPlusBufferArr[i] == 1) {
@@ -761,7 +873,7 @@ export function toggleCheckbox() {
 	checkboxes[1].checked = false;
 	// If checkboxes are currently hidden (toggle bar was not active) display the checkboxes and animate toggle button
 	if (periodicCheckBox.style.display == 'none'|| periodicCheckBox.style.display == '') {
-
+		//Remove buffers if they exist.
 		let newCellNum = (latSize[0] - (2 * latSize[1]));
 		if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
 			alterLatSize(newCellNum);
@@ -769,13 +881,13 @@ export function toggleCheckbox() {
 		else {
 			makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
 		}
+		//Alter cell size to accomodate removed buffers
 		let size = canvas.width / latSize[0];
 		//Cells should have a maximum size of 45 :: This Caps cell size to 45
 		if (size > 45) {
 			size = 45; 
 		}
 		alterSize(size);
-
 		alterInf(false)
 		makeLog("Setting to Finite", logCanvas, messageQueue);
 		clear(latticeArray, true);
@@ -784,7 +896,7 @@ export function toggleCheckbox() {
 		boundToggle.style.transform = 'translateX(25px)'; // Move the toggle button to the right
 	// If checkboxes are currently not hidden (toggle bar was active) hide the checkboxes and animate toggle button back
     } else {
-
+			//Remove buffers if they exist.
 			let newCellNum = (latSize[0] - (2 * latSize[1]));
 			if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
 				alterLatSize(newCellNum);
@@ -792,13 +904,14 @@ export function toggleCheckbox() {
 			else {
 				makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
 			}
+			//Alter cell size to accomodate removed buffers
 			let size = canvas.width / latSize[0];
 			//Cells should have a maximum size of 45 :: This Caps cell size to 45
 			if (size > 45) {
 				size = 45; 
 			}
 			alterSize(size);
-
+			//Settings changed to Infinite.
 			alterInf(true)
 			makeLog("Setting to Infinite", logCanvas, messageQueue);
 			clear(latticeArray, true);
@@ -855,7 +968,8 @@ function startStopToggle() {
     	startStopButton.innerHTML = "Stop";
     	startStopButton.classList.remove("start_button");
     	startStopButton.classList.add("stop_button");
-			alterInf(inf[0], true)
+		//Add buffers.
+		alterInf(inf[0], true)
   	} 
   	else {
     	startStopButton.innerHTML = "Start";
@@ -884,7 +998,7 @@ checkboxes.forEach(function(checkbox) {
 			if (checkboxes[0].checked) {
 				alterBoundaryCon(1);
 				makeLog("Setting to Periodic", logCanvas, messageQueue);
-
+				//Remove buffers if they exist.
 				let newCellNum = (latSize[0] - (2 * latSize[1]));
 				if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
 					alterLatSize(newCellNum);
@@ -892,6 +1006,7 @@ checkboxes.forEach(function(checkbox) {
 				else {
 					makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
 				}
+				//Alter size to accomodate removed buffers.
 				let size = canvas.width / latSize[0];
 				//Cells should have a maximum size of 45 :: This Caps cell size to 45
 				if (size > 45) {
@@ -904,7 +1019,7 @@ checkboxes.forEach(function(checkbox) {
 			else {
 				alterBoundaryCon(0);
 				makeLog("Setting to Null", logCanvas, messageQueue);
-
+				//Remove buffers if they exist.
 				let newCellNum = (latSize[0] - (2 * latSize[1]));
 				if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
 					alterLatSize(newCellNum);
@@ -912,6 +1027,7 @@ checkboxes.forEach(function(checkbox) {
 				else {
 					makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
 				}
+				//Alter size to accomodate removed buffers.
 				let size = canvas.width / latSize[0];
 				//Cells should have a maximum size of 45 :: This Caps cell size to 45
 				if (size > 45) {
