@@ -87,6 +87,13 @@ let tickerToggle = 0; //Ticker toggle decides if row ticker will be on defaults 
 let scale = 1;
 let totalDelta = 0;
 
+//Sets deault colors
+deadBorderSel.value = "#000000";
+aliveBorderSel.value = "#808080";
+
+deadColorSel.value =  "#ffffff";
+aliveColorSel.value = "#000000";
+
 let messageQueue = []
 
 //Redraws the entire lattice array on the canvas

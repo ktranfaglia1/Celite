@@ -213,6 +213,9 @@ logCanvas.height = 45;
 //Sets default Lattice Size
 let size = 45;
 
+//Sets colors by default
+
+
 /*
 These variables effect the creation of the starting lattice. Inf determines whether the lattice should
 autofit such that given the number of iterations, the simulation never needs to trigger a boundary condition.
