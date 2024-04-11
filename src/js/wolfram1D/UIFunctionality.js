@@ -23,14 +23,18 @@ Reset Perspective Button
 
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
+
+//Input Box Constants
 const iterationInputBox = document.getElementById("iterationInputBox");
 const ruleInputBox = document.getElementById("ruleInputBox");
 const latticeSizeBox = document.getElementById("latticeSizeBox");
 
+//Submit Button Constants
 const iterationSubmit = document.getElementById("iterationSubmit");
 const ruleSubmit = document.getElementById("ruleSubmit");
 const latticeSizeSubmit = document.getElementById("latticeSizeSubmit");
 
+//Main Buttons Constants
 const startStopButton = document.getElementById("startStopButton");
 const iterateButton = document.getElementById("iterateButton");
 const clearButton = document.getElementById("clearButton");
@@ -42,16 +46,20 @@ const latticeFillButton = document.getElementById("latticeFillButton");
 const randomFillButton = document.getElementById("randomFillButton");
 const cellColorButton = document.getElementById("cellColorButton");
 
+//Perodic and Null Checkbox Constants
 const periodicCheckBox = document.getElementById("periodicCheckBox");
 const nullCheckBox = document.getElementById("nullCheckBox");
 
+//Toggle Switches Constants
 const boundToggleButton = document.getElementById("boundToggle");
 const iterationToggleButton = document.getElementById("iterationToggle");
 const borderToggleButton = document.getElementById("borderToggle");
 
+//Side Windows Constants
 const aboutWindow = document.getElementById("aboutContainer");
 const optionsWindow = document.getElementById("optionsContainer");
 
+//iteration Slider Constants
 const iterationSpeedSlider = document.getElementById("iterationSpeedSlider");
 const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 
@@ -63,8 +71,13 @@ const borderToggle = document.querySelector("#borderToggle .toggle_button");
 const closeAbout = document.querySelector("#aboutContent .close");
 const closeOptions = document.querySelector("#optionsContent .close");
 
+//This is the various document stuff for selecting color
+const deadColorSel = document.getElementById("deadCell");
+const aliveColorSel = document.getElementById("aliveCell");
+const deadBorderSel = document.getElementById("deadBorder");
+const aliveBorderSel = document.getElementById("aliveBorder");
+
 /* Global variables for iteration */
-//const popTime = 750; //Time Log messages stay on the screen
 let addIterations = 0; // Defaults iterations
 let Run = 0; // Defaults to not keep running
 let iterationTime = 750; //Time to wait before iterating again
@@ -102,6 +115,61 @@ function alterCell(mouseX, cell, scale, mouseY = 0) {
 	cell.setYLoc(newCell0Y);
 }
 
+/* THIS SECTION IS USED FOR COLOR PICKING */
+
+//Selects color for dead color
+deadColorSel.addEventListener('input', function(){
+	console.log(latticeArray[0][0])
+	for (let i = 0; i < latticeArray.length; i++)
+	{
+		for (let j = 0; j < latticeArray[0].length; j++)
+		{
+			(latticeArray[i][j]).setDeadColor(deadColorSel.value);
+		}
+	}
+	drawLattice(latticeArray);
+})
+
+//Selects color for alive
+aliveColorSel.addEventListener('input', function(){
+	console.log(latticeArray[0][0])
+	for (let i = 0; i < latticeArray.length; i++)
+	{
+		for (let j = 0; j < latticeArray[0].length; j++)
+		{
+			(latticeArray[i][j]).setAliveColor(aliveColorSel.value);
+		}
+	}
+	drawLattice(latticeArray);
+})
+
+//Selects color for dead cells border
+deadBorderSel.addEventListener('input', function(){
+	console.log(latticeArray[0][0])
+	for (let i = 0; i < latticeArray.length; i++)
+	{
+		for (let j = 0; j < latticeArray[0].length; j++)
+		{
+			(latticeArray[i][j]).setDeadBorder(deadColorSel.value);
+		}
+	}
+	drawLattice(latticeArray);
+})
+
+//select cells for alive cells border
+aliveBorderSel.addEventListener('input', function(){
+	console.log(latticeArray[0][0])
+	for (let i = 0; i < latticeArray.length; i++)
+	{
+		for (let j = 0; j < latticeArray[0].length; j++)
+		{
+			(latticeArray[i][j]).setAliveBorder(aliveBorderSel.value);
+		}
+	}
+	drawLattice(latticeArray);
+})
+
+
 tickCanvas.addEventListener('wheel', function(event) {
 	if (latticeArray.length == 1) {
 		let mouseX, mouseY;
@@ -131,6 +199,7 @@ tickCanvas.addEventListener('wheel', function(event) {
 	}
 }, false)
 
+//Changes rule set
 ruleSubmit.addEventListener("click", function() {
 	if (Run == 1) {
 		Run = 0;
@@ -144,7 +213,9 @@ toggleBar.addEventListener("click", function() {
 });
 */
 
+//Sets all top lattices to black
 latticeFillButton.addEventListener("click", function(){
+	clear(latticeArray);
 	for (let i = 0; i  < latticeArray[0].length; i++) {
 		latticeArray[0][i].setColor(1);
 	}
@@ -153,6 +224,7 @@ latticeFillButton.addEventListener("click", function(){
 })
 
 randomFillButton.addEventListener("click", function(){
+	clear(latticeArray)
 	for (let i = 0; i  < latticeArray[0].length; i++) {
 		latticeArray[0][i].setColor(Math.floor(Math.random() * 2));
 	}
@@ -441,21 +513,55 @@ function updateLatticeSize(canvas) {
 //generates the tick box in its proper location
 function makeTickBox(event) {
 	if (tickerToggle == 1) {
-		var [mouseX, mouseY] = getMouseLocation(event); //Gets the mouse Location
+		let [mouseX, mouseY] = getMouseLocation(event); //Gets the mouse Location
 		
+		let firstCell = latticeArray[0][0];
+
 		tctx.clearRect(0,0, tickCanvas.width, tickCanvas.height);
 
+
+
+		let lineNumber = Math.floor(mouseY / firstCell.getHeight()); //calculates what line your on
+		let colNumber = Math.floor((mouseX - firstCell.getXLoc()) / firstCell.getWidth());
+
+		let insideBox = true;
+		
+		if(colNumber < 0)
+		{insideBox = false;}
+
+		if(colNumber > latticeArray[0].length - 1)
+		{insideBox = false}
+
+		if(lineNumber > latticeArray.length - 1)
+		{insideBox = false;}
+
+		if(lineNumber < 0)
+		{insideBox = false;}
+
+		//console.log(colNumber);
 		//drawLattice(latticeArray);
-		tctx.fillStyle = "grey";
-		tctx.fillRect(mouseX + 3, mouseY - 12, 33, 15); //Draws the Tick Box square
+		if(insideBox)
+		{
+			let tickNum = (lineNumber.toString() + " : " + colNumber.toString())
 
-		//Sets text specifications
-		tctx.font = "13px Arial";
-		tctx.fillStyle = "black";
+			let textSize = tctx.measureText(tickNum).width;
 
-		let lineNumber = Math.floor(mouseY / size); //calculates what line your on
+			if(textSize < 30)
+			{
+				textSize = 30
+			}
 
-		tctx.fillText(lineNumber, mouseX + 4, mouseY) //Puts the text in place
+			console.log(textSize);
+
+			tctx.fillStyle = "grey";
+			tctx.fillRect(mouseX + 3, mouseY - 12, textSize + 3, 15); //Draws the Tick Box square
+
+			//Sets text specifications
+			tctx.font = "13px Arial";
+			tctx.fillStyle = "black";
+
+			tctx.fillText(tickNum, mouseX + 4, mouseY) //Puts the text in place
+		}
 	}
 }
 

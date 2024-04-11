@@ -26,6 +26,13 @@ export class cell {
 		//Sets the color of the cell to black or white
 		this.color = color;
 		this.border = border;
+
+		this.deadCell = '#FFFFFF';
+		this.deadBord = '#000000';
+
+		this.aliveCell = '#000000';
+		this.aliveBord = '#808080';
+
 	}
 
 	// Function used to draw the cell in its proper location
@@ -38,11 +45,11 @@ export class cell {
 			//Sets outline to be inverse of color of cell so you can see it
 			if(this.color == 1)
 			{
-      			ctx.fillStyle = "grey";
+      			ctx.fillStyle = this.aliveBord;
 			}
 			else
 			{
-      			ctx.fillStyle = "black";
+      			ctx.fillStyle = this.deadBord;
 			}
 
 			// Draws the main section outside of the square
@@ -50,13 +57,13 @@ export class cell {
 		}
 
 		//Sets color for the main part of the cell
-		if(this.color == 0)
+		if(this.color == 1)
 		{
-		ctx.fillStyle = "white";
+		ctx.fillStyle = this.aliveCell;
 		}
 		else
 		{
-		ctx.fillStyle = "black"
+		ctx.fillStyle = this.deadCell;
 		}
 		
 		//Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
@@ -66,7 +73,7 @@ export class cell {
 		}
 		else
 		{
-		ctx.fillRect(this.XLocation, this.YLocation, this.width, this.height);
+		ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
 		}
 		
 	}
@@ -147,5 +154,21 @@ export class cell {
 
 	setYLoc(Val) {
 		this.YLocation = Val;
+	}
+
+	setDeadColor(color) {
+		this.deadCell = color;
+	}
+
+	setDeadBorder(color) {
+		this.deadBord = color;
+	}
+
+	setAliveColor(color) {
+		this.aliveCell = color;
+	}
+
+	setAliveBorder(color) {
+		this.aliveBord = color;
 	}
 }
