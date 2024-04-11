@@ -87,11 +87,9 @@ hr {
   display: none;
   transition: opacity 0.3s ease;
 }
-
 .hovering_button:hover {
   background-color: #0056b3;
 }
-
 .hovering_button.show {
   display: inline-block;
 }
