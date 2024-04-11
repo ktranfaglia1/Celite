@@ -121,13 +121,13 @@
           <u>Infinite</u>: The lattice is conceptually, and in this simulation, visibly extended infinitely in horizontal direction. Upon iteration, the lattice expands to the left and right side in order to simulate an infinitely sized lattice, as in, a lattice with infinite dead cells (white, 0). Since a cells state depends on its left and right neighbor, the infinite simulation expands on the edges per iteration so that the edge cells always have a left and right neighbor.
         </div>
         <div class="p4"> 
-          <i> Recommendations: </i> Large lattice sizes and iteration amounts may result in performance issues, so consider limiting the values to reduce wait times.
+          <i> Warning: </i> Large lattice sizes and iteration amounts may result in performance issues (simulation delay) upon iteration.
         </div>
         <div class="p3"> 
           <u>Finite</u>: The lattice has a fixed size such that the cells at the edges of the lattice do not have neighbors beyond the boundaries. Therefore, there must be a method to handle the edge cells such as a periodic or null boundary conditions. 
         </div>
         <div class="p4"> 
-          <i> Periodic: </i> The lattice is treated as if it were wrapped around, forming a torus-like shape. When a cell reaches the edge of the lattice, its neighbors on the opposite side of the lattice are considered as its direct neighbors. This creates a seamless continuity in the behavior as if the lattice repeats itself indefinitely in all directions. <br>
+          <i> Periodic: </i> The lattice is treated as if it were wrapped around, forming a torus-like shape. When a cell reaches the edge of the lattice, its neighbors on the opposite side of the lattice are considered as its direct neighbors. This creates a seamless continuity in the behavior as if the lattice repeats itself indefinitely. <br>
           <i> Null: </i> Imposes a fixed value zero for cells beyond the edges of the lattice. Thus, every edge cell with an out of bounds neighbor considers the neighbor to be dead (white, 0) and will use it in the next cell state calculation. This effectively creates a "wall" at the edges of the lattice.
         </div>
         <div class = p3>
@@ -210,8 +210,8 @@
           <u>Delay Slider</u>: Click and hold the slider labeled "Delay" to alter the delay time (ms) between iterations when using the "Start" button. Alternatively, click the slider and use the left and right arrow keys to change the delay value. Larger delays may be useful in analysing the transitions between iterations. Smaller delays, even a delay value of 0 ms, will not be immediate like the "Iterate" button, although it will generate very fast. 
         </div> 
         <div class="p4"> 
-          <i> Keyboard Shortcut: </i> ALT + Y, then Left Arrow to decrease and Right Arrow to increase the value <br>
-          <i> Input Restrictions: Values are in milliseconds in range [0, 2000] </i>
+          <i> Input Restrictions: </i> Values are in milliseconds in range [0, 2000]. <br>
+          <i> Keyboard Shortcut: </i> ALT + Y, then Left Arrow to decrease and Right Arrow to increase the value.
         </div>
         <h6 id="logBox"> Log Box </h6>
         <div class="p3">
@@ -234,7 +234,10 @@
           <u>Cell State Toggle</u>: Inside the canvas, clicking cells will toggle them between dead (white, 0) and alive (balck, 1) states to set a starting position (index = 0) for the simulation. Only the starting state cells can be toggled. Cells can be toggled even if a simulation has already completed; clicking "Start" or "Iterate" will overwrite the canvas. Cell borders will automatically be removed on the starting lattice for lattice sizes over 200.
         </div>
         <div class="p3"> 
-          <u>Starting Lattice Zoom</u>: Inside the canvas, using the scroll wheel on a mouse will zoom with a focus on the starting lattice. The zoom location is determined by the location of the mouse. The x-axis mouse location determines the horizontal zoom focus and the y-axis mouse location has no impact on zoom focus location; the vertical zoom focus will always be on the starting lattice in the canvas. The zoom feature is disabled if there are any iterations beyond the starting lattice generated on the canvas, as in, the zoom feature may only be used on an isolated starting lattice (index = 0). Scroll up to zoom in and scroll down to zoom out. The maximum outward zoom is set to the defaulted (standard - 100%) zoom factor for the canvas.  
+          <u>Starting Lattice Zoom</u>: Inside the canvas, using the scroll wheel on a mouse will zoom on a specified location. The x-axis mouse location determines the horizontal zoom focus and the y-axis mouse location determines the vertical zoom focus. When only the starting iteration is present on the canvas (index = 0), the y-axis mouse location has no impact on the zoom focus location; the vertical zoom focus, in this case, will always be on the starting lattice in the canvas. Scroll up to zoom in and scroll down to zoom out. The maximum outward zoom is set to the defaulted (standard - 100%) zoom factor for the canvas.  
+        </div>
+        <div class="p4"> 
+          <i> Warning: </i> The zoom feature encounters performance issues with large lattice sizes and iteration amounts. 
         </div>
         <div class="p3"> 
           An iteration counter that displays the current iteration index can be found above the top left border of the canvas.

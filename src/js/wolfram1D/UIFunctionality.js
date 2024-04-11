@@ -623,8 +623,6 @@ function makeTickBox(event) {
 
 		tctx.clearRect(0,0, tickCanvas.width, tickCanvas.height);
 
-
-
 		let lineNumber = Math.floor(mouseY / firstCell.getHeight()); //calculates what line your on
 		let colNumber = Math.floor((mouseX - firstCell.getXLoc()) / firstCell.getWidth());
 
@@ -705,7 +703,7 @@ function setRule() {
 			alterLatSize(newCellNum);
 		}
 		else {
-			makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
+			makeError("Invalid Rule Number: " + latticeSizeBox.value, logCanvas, messageQueue)
 		}
 		//Changing size of cells fo accomodate for removed buffers.
 		let size = canvas.width / latSize[0];
@@ -719,7 +717,7 @@ function setRule() {
 		clear(latticeArray, true);
 	}
 	else {
-		makeError("Invalid Lattice Size: " + ruleInputBox.value, logCanvas, messageQueue);
+		makeError("Invalid Rule Number: " + ruleInputBox.value, logCanvas, messageQueue);
 	}
 }
 
@@ -740,7 +738,7 @@ function setRule() {
 //sets Number of Lattice arrays to have
 function setLatticeSize() {
 	let newValue = parseInt(iterationInputBox.value); //Turns the iteration input to an integerpopTime
-	if (!isNaN(newValue) && newValue >= 0 && newValue <= 1000) {
+	if (!isNaN(newValue) && newValue >= 0 && newValue <= 10000) {
 
 		//Remove buffers if they existed.
 		let newCellNum = (latSize[0] - (2 * latSize[1]));
@@ -766,7 +764,7 @@ function setLatticeSize() {
 	}
 	else
 	{
-		makeError("Invalid Lattice Size: " + iterationInputBox.value, logCanvas, messageQueue);
+		makeError("Invalid Iteration Size: " + iterationInputBox.value, logCanvas, messageQueue);
 	}
 	return addIterations;
 }
