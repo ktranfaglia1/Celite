@@ -28,7 +28,7 @@ p {
   font-family: Times;
   text-align: center;
   font-size: 22px;
-  line-height: 2.0;
+  line-height: 1.8;
   color: black;
 }
 .p3 {
@@ -295,7 +295,7 @@ h6 {
   display: none;
   position: fixed;
   right: 0;
-  top: 140px;
+  top: 60px;
   width: 250px;
   height: 650px;
   background-color: #fefefe;
@@ -326,13 +326,13 @@ h6 {
 /* Container for border and cell color picker */
 .color_container {
   display: inline-block;
-  margin-left: 8px;
-  margin-right: 8px;
+  margin-left: 6px;
+  margin-right: 6px;
   text-align: center;
 }
 .color_label {
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   font-size: 17px;
   font-family: times;
 }
@@ -340,5 +340,9 @@ h6 {
   justify-content: center;
   display: flex;
   flex-direction: row;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+}
+.color_picker {
+  width: 50px;
+  height: 25px;
 }
