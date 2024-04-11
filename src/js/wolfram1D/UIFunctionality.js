@@ -502,17 +502,49 @@ function makeTickBox(event) {
 
 		tctx.clearRect(0,0, tickCanvas.width, tickCanvas.height);
 
-		//drawLattice(latticeArray);
-		tctx.fillStyle = "grey";
-		tctx.fillRect(mouseX + 3, mouseY - 12, 33, 15); //Draws the Tick Box square
 
-		//Sets text specifications
-		tctx.font = "13px Arial";
-		tctx.fillStyle = "black";
 
 		let lineNumber = Math.floor(mouseY / firstCell.getHeight()); //calculates what line your on
+		let colNumber = Math.floor((mouseX - firstCell.getXLoc()) / firstCell.getWidth());
 
-		tctx.fillText(lineNumber, mouseX + 4, mouseY) //Puts the text in place
+		let insideBox = true;
+		
+		if(colNumber < 0)
+		{insideBox = false;}
+
+		if(colNumber > latticeArray[0].length - 1)
+		{insideBox = false}
+
+		if(lineNumber > latticeArray.length - 1)
+		{insideBox = false;}
+
+		if(lineNumber < 0)
+		{insideBox = false;}
+
+		//console.log(colNumber);
+		//drawLattice(latticeArray);
+		if(insideBox)
+		{
+			let tickNum = (lineNumber.toString() + " : " + colNumber.toString())
+
+			let textSize = tctx.measureText(tickNum).width;
+
+			if(textSize < 30)
+			{
+				textSize = 30
+			}
+
+			console.log(textSize);
+
+			tctx.fillStyle = "grey";
+			tctx.fillRect(mouseX + 3, mouseY - 12, textSize + 3, 15); //Draws the Tick Box square
+
+			//Sets text specifications
+			tctx.font = "13px Arial";
+			tctx.fillStyle = "black";
+
+			tctx.fillText(tickNum, mouseX + 4, mouseY) //Puts the text in place
+		}
 	}
 }
 
