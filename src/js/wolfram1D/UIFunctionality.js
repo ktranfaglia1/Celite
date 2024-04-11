@@ -207,11 +207,7 @@ ruleSubmit.addEventListener("click", function() {
 	}
 	setRule(rule);
 })
-/*
-toggleBar.addEventListener("click", function() {
-	toggleCheckbox();
-});
-*/
+
 
 //Sets all top lattices to black
 latticeFillButton.addEventListener("click", function(){
@@ -222,14 +218,16 @@ latticeFillButton.addEventListener("click", function(){
 	drawLattice(latticeArray);
 })
 
+//Sets all lattices to a random value
 randomFillButton.addEventListener("click", function(){
-	clear(latticeArray)
+	clear(latticeArray);
 	for (let i = 0; i  < latticeArray[0].length; i++) {
 		latticeArray[0][i].setColor(Math.floor(Math.random() * 2));
 	}
 	drawLattice(latticeArray);
 })
 
+//Iterates the iterations inputted
 iterateButton.addEventListener("click", function() {
 	if (Run == 1) {
 		Run = 0;
@@ -270,6 +268,7 @@ iterateButton.addEventListener("click", function() {
 	iterate(currentIteration, addIterations);
 });
 
+//Sets all cells to white and removes all lattices past the first one
 clearButton.addEventListener("click", function() {
 	if (Run == 1) {
 		Run = 0;
@@ -293,7 +292,10 @@ clearButton.addEventListener("click", function() {
 	makeLog("Cleared Lattice ", logCanvas, messageQueue);
 	alterInf(inf[0], false);}
 );
+
 /* Connect UI Functionality to a prebuilt function */
+
+//Toggles 
 boundToggleButton.addEventListener("click", function() {
 	if (Run == 1) {
 		Run = 0;
@@ -674,6 +676,10 @@ function clear(latticeArray, keepInit = false) {
 	}
 	for (let i = 0; i < latSize[0]; i++) {
 		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0));
+		clearedLattice[0][i].setAliveColor(aliveColorSel.value)
+		clearedLattice[0][i].setDeadColor(deadColorSel.value)
+		clearedLattice[0][i].setAliveBorder(aliveBorderSel.value)
+		clearedLattice[0][i].setDeadBorder(deadBorderSel.value)
 	}
 
 	let latPlusBufferArr = new Array()
