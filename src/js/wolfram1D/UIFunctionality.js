@@ -23,14 +23,18 @@ Reset Perspective Button
 
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
+
+//Input Box Constants
 const iterationInputBox = document.getElementById("iterationInputBox");
 const ruleInputBox = document.getElementById("ruleInputBox");
 const latticeSizeBox = document.getElementById("latticeSizeBox");
 
+//Submit Button Constants
 const iterationSubmit = document.getElementById("iterationSubmit");
 const ruleSubmit = document.getElementById("ruleSubmit");
 const latticeSizeSubmit = document.getElementById("latticeSizeSubmit");
 
+//Main Buttons Constants
 const startStopButton = document.getElementById("startStopButton");
 const iterateButton = document.getElementById("iterateButton");
 const clearButton = document.getElementById("clearButton");
@@ -42,16 +46,20 @@ const latticeFillButton = document.getElementById("latticeFillButton");
 const randomFillButton = document.getElementById("randomFillButton");
 const cellColorButton = document.getElementById("cellColorButton");
 
+//Perodic and Null Checkbox Constants
 const periodicCheckBox = document.getElementById("periodicCheckBox");
 const nullCheckBox = document.getElementById("nullCheckBox");
 
+//Toggle Switches Constants
 const boundToggleButton = document.getElementById("boundToggle");
 const iterationToggleButton = document.getElementById("iterationToggle");
 const borderToggleButton = document.getElementById("borderToggle");
 
+//Side Windows Constants
 const aboutWindow = document.getElementById("aboutContainer");
 const optionsWindow = document.getElementById("optionsContainer");
 
+//iteration Slider Constants
 const iterationSpeedSlider = document.getElementById("iterationSpeedSlider");
 const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 
@@ -70,7 +78,6 @@ const deadBorderSel = document.getElementById("deadBorder");
 const aliveBorderSel = document.getElementById("aliveBorder");
 
 /* Global variables for iteration */
-//const popTime = 750; //Time Log messages stay on the screen
 let addIterations = 0; // Defaults iterations
 let Run = 0; // Defaults to not keep running
 let iterationTime = 750; //Time to wait before iterating again
@@ -108,6 +115,9 @@ function alterCell(mouseX, cell, scale, mouseY = 0) {
 	cell.setYLoc(newCell0Y);
 }
 
+/* THIS SECTION IS USED FOR COLOR PICKING */
+
+//Selects color for dead color
 deadColorSel.addEventListener('input', function(){
 	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
@@ -120,6 +130,7 @@ deadColorSel.addEventListener('input', function(){
 	drawLattice(latticeArray);
 })
 
+//Selects color for alive
 aliveColorSel.addEventListener('input', function(){
 	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
@@ -132,6 +143,7 @@ aliveColorSel.addEventListener('input', function(){
 	drawLattice(latticeArray);
 })
 
+//Selects color for dead cells border
 deadBorderSel.addEventListener('input', function(){
 	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
@@ -144,7 +156,7 @@ deadBorderSel.addEventListener('input', function(){
 	drawLattice(latticeArray);
 })
 
-
+//select cells for alive cells border
 aliveBorderSel.addEventListener('input', function(){
 	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
@@ -187,6 +199,7 @@ tickCanvas.addEventListener('wheel', function(event) {
 	}
 }, false)
 
+//Changes rule set
 ruleSubmit.addEventListener("click", function() {
 	if (Run == 1) {
 		Run = 0;
@@ -200,7 +213,9 @@ toggleBar.addEventListener("click", function() {
 });
 */
 
+//Sets all top lattices to black
 latticeFillButton.addEventListener("click", function(){
+	clear(latticeArray);
 	for (let i = 0; i  < latticeArray[0].length; i++) {
 		latticeArray[0][i].setColor(1);
 	}
@@ -208,11 +223,11 @@ latticeFillButton.addEventListener("click", function(){
 })
 
 randomFillButton.addEventListener("click", function(){
+	clear(latticeArray)
 	for (let i = 0; i  < latticeArray[0].length; i++) {
 		latticeArray[0][i].setColor(Math.floor(Math.random() * 2));
 	}
 	drawLattice(latticeArray);
-	console.log("WHATS UP");
 })
 
 iterateButton.addEventListener("click", function() {
