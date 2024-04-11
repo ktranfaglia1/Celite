@@ -496,8 +496,10 @@ function updateLatticeSize(canvas) {
 //generates the tick box in its proper location
 function makeTickBox(event) {
 	if (tickerToggle == 1) {
-		var [mouseX, mouseY] = getMouseLocation(event); //Gets the mouse Location
+		let [mouseX, mouseY] = getMouseLocation(event); //Gets the mouse Location
 		
+		let firstCell = latticeArray[0][0];
+
 		tctx.clearRect(0,0, tickCanvas.width, tickCanvas.height);
 
 		//drawLattice(latticeArray);
@@ -508,7 +510,7 @@ function makeTickBox(event) {
 		tctx.font = "13px Arial";
 		tctx.fillStyle = "black";
 
-		let lineNumber = Math.floor(mouseY / size); //calculates what line your on
+		let lineNumber = Math.floor(mouseY / firstCell.getHeight()); //calculates what line your on
 
 		tctx.fillText(lineNumber, mouseX + 4, mouseY) //Puts the text in place
 	}
