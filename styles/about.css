@@ -47,3 +47,17 @@ hr {
   border-radius: 50%;
   display: wrap;
 }
+.social_icons {
+  display: flex;
+}
+.social_icons a {
+  margin-right: 10px;
+}
+.github {
+  width: 30px;
+  height: auto;
+}
+.linkedin {
+  width: 60px;
+  height: auto;
+}
