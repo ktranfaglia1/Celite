@@ -11,6 +11,7 @@ import {numOfIterations, currentIteration, size, latSize, ruleNum, inf} from './
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder} from './displayLattice.js';
 import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder} from './displayLattice.js';
 import {updateLattice} from './displayLattice.js';
+import {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
 import {logMessage} from './logClass.js';
@@ -71,12 +72,6 @@ const borderToggle = document.querySelector("#borderToggle .toggle_button");
 const closeAbout = document.querySelector("#aboutContent .close");
 const closeOptions = document.querySelector("#optionsContent .close");
 
-//This is the various document stuff for selecting color
-const deadColorSel = document.getElementById("deadCell");
-const aliveColorSel = document.getElementById("aliveCell");
-const deadBorderSel = document.getElementById("deadBorder");
-const aliveBorderSel = document.getElementById("aliveBorder");
-
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
 let Run = 0; // Defaults to not keep running
@@ -87,7 +82,7 @@ let tickerToggle = 0; //Ticker toggle decides if row ticker will be on defaults 
 let scale = 1;
 let totalDelta = 0;
 
-//Sets deault colors
+//Sets default colors
 deadBorderSel.value = "#000000";
 aliveBorderSel.value = "#808080";
 
@@ -187,7 +182,7 @@ deadColorSel.addEventListener('input', function(){
 			(latticeArray[i][j]).setDeadColor(deadColorSel.value);
 		}
 	}
-	drawLattice(latticeArray);
+	redrawLattice(latticeArray);
 })
 
 //Selects color for alive
@@ -200,7 +195,7 @@ aliveColorSel.addEventListener('input', function(){
 			(latticeArray[i][j]).setAliveColor(aliveColorSel.value);
 		}
 	}
-	drawLattice(latticeArray);
+	redrawLattice(latticeArray);
 })
 
 //Selects color for dead cells border
@@ -213,7 +208,7 @@ deadBorderSel.addEventListener('input', function(){
 			(latticeArray[i][j]).setDeadBorder(deadColorSel.value);
 		}
 	}
-	drawLattice(latticeArray);
+	redrawLattice(latticeArray);
 })
 
 //select cells for alive cells border
@@ -226,7 +221,7 @@ aliveBorderSel.addEventListener('input', function(){
 			(latticeArray[i][j]).setAliveBorder(aliveBorderSel.value);
 		}
 	}
-	drawLattice(latticeArray);
+	redrawLattice(latticeArray);
 })
 
 
@@ -862,21 +857,24 @@ function getMouseLocation(event) {
 }
 
 function iterate(currentIteration, newIterations) {
-	if (numOfIterations + newIterations > addIterations) {
-		alterNumOfIterations(addIterations + 1);
-		Run = 0;
-	}
-	else {
-		alterNumOfIterations(numOfIterations + newIterations);
-	}
-	let neoLatticeArray = latticeArray;
-	while(neoLatticeArray.length > numOfIterations) {
-		neoLatticeArray.pop();
-	}
+	
+	setTimeout(function(){
+		if (numOfIterations + newIterations > addIterations) {
+			alterNumOfIterations(addIterations + 1);
+			Run = 0;
+		}
+		else {
+			alterNumOfIterations(numOfIterations + newIterations);
+		}
+		let neoLatticeArray = latticeArray;
+		while(neoLatticeArray.length > numOfIterations) {
+			neoLatticeArray.pop();
+		}
 
-	alterLatticeArray(neoLatticeArray);
-	updateLattice();
-	return currentIteration;
+		alterLatticeArray(neoLatticeArray);
+		updateLattice();
+		return currentIteration;
+	}, 5)
 }
 
 // Handle when bound toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
@@ -1179,3 +1177,4 @@ iterationSpeedSlider.oninput = function() {
 };
 
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
+

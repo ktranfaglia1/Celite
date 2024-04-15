@@ -17,6 +17,12 @@ inf :
 
 */
 
+//This is the various document stuff for selecting color
+const deadColorSel = document.getElementById("deadCell");
+const aliveColorSel = document.getElementById("aliveCell");
+const deadBorderSel = document.getElementById("deadBorder");
+const aliveBorderSel = document.getElementById("aliveBorder");
+
 //Mutator for latSize
 export function alterLatSize(neoLatSize = latSize[0]) {
   latSize[0] = neoLatSize;
@@ -245,6 +251,7 @@ let boundaryCon = 1;
 export {ruleNum, boundaryCon, latSize, inf, size, currentIteration};
 export {outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx};
 export {latticeArray, numOfIterations, currentLattice};
+export {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel};
 
 //Sets starting lattice to all dead
 //latticeArray[0] = currentLattice;

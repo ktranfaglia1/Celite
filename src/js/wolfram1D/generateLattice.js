@@ -12,6 +12,7 @@ current timestep number (rowIndex), and the size individual cells.
 import {rule, canvas, latSize} from './displayLattice.js';
 import {cell} from './cellClass.js';
 import {alterRule} from './displayLattice.js';
+import {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel} from './displayLattice.js';
 
 //Generates rule array based on input rule number.
 export function ruleNumToRule(ruleNum) {
@@ -70,6 +71,14 @@ export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, siz
 				newLattice[i].setColor(rule[(currentLattice[i - 1].color * 4) + (currentLattice[i].color * 2) + currentLattice[i + 1].color]);
 			}
 		}
+	}
+
+	for (let i = 0; i < newLattice.length; i++)
+	{
+		newLattice[i].setDeadColor(deadColorSel.value);
+		newLattice[i].setAliveColor(aliveColorSel.value);
+		newLattice[i].setDeadBorder(deadBorderSel.value);
+		newLattice[i].setAliveBorder(aliveBorderSel.value);
 	}
   return newLattice;
 }
