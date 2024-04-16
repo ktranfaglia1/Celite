@@ -259,3 +259,19 @@ latticeArray = [];
 LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum);
 updateLattice();
+
+deadBorderSel.value = "#000000";
+aliveBorderSel.value = "#808080";
+
+deadColorSel.value =  "#ffffff";
+aliveColorSel.value = "#000000";
+
+
+for (let i = 0; i < latticeArray[0].length; i++)
+{
+	latticeArray[0][i].setDeadColor(deadColorSel.value);
+	latticeArray[0][i].setAliveColor(aliveColorSel.value);
+	latticeArray[0][i].setDeadBorder(deadBorderSel.value);
+	latticeArray[0][i].setAliveBorder(aliveBorderSel.value);
+}
+drawLattice(latticeArray);

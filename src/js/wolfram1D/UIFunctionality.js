@@ -83,11 +83,7 @@ let scale = 1;
 let totalDelta = 0;
 
 //Sets default colors
-deadBorderSel.value = "#000000";
-aliveBorderSel.value = "#808080";
 
-deadColorSel.value =  "#ffffff";
-aliveColorSel.value = "#000000";
 
 let messageQueue = []
 
@@ -187,7 +183,7 @@ deadColorSel.addEventListener('input', function(){
 
 //Selects color for alive
 aliveColorSel.addEventListener('input', function(){
-	console.log(latticeArray[0][0])
+	//console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
@@ -200,12 +196,12 @@ aliveColorSel.addEventListener('input', function(){
 
 //Selects color for dead cells border
 deadBorderSel.addEventListener('input', function(){
-	console.log(latticeArray[0][0])
+	//console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
 		{
-			(latticeArray[i][j]).setDeadBorder(deadColorSel.value);
+			(latticeArray[i][j]).setDeadBorder(deadBorderSel.value);
 		}
 	}
 	redrawLattice(latticeArray);
