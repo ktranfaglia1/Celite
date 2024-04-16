@@ -31,7 +31,7 @@ hr {
 }
 .team_text{
   flex: 1;
-  text-indent: -1.8em;
+  text-indent: -2em;
   margin-left: 3%;
 }
 /* Profile formatting: images and layouts */
@@ -45,6 +45,7 @@ hr {
 }
 .profile {
   margin-top: 15px;
+  margin-left: 20px;
   width: 250px;
   height: 250px;
   border-radius: 50%;

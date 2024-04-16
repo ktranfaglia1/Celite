@@ -496,7 +496,7 @@ document.addEventListener('keydown', function(event) {
     // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
     if (event.altKey) {
 		switch (true) {
-			case (event.key == 's'):
+			case (event.key == 'Enter'):
 				startStopButton.click();
 				break;
 			case (event.key == 'i'):
@@ -517,19 +517,16 @@ document.addEventListener('keydown', function(event) {
 			case (event.key == 'p'):
 				downloadPNGButton.click();
 				break;
-			case (event.key == '1'):
+			case (event.key == 'g'):
 				latticeFillButton.click();
 				break;
-			case (event.key == '2'):
+			case (event.key == 'm'):
 				randomFillButton.click();
 				break;
-			case (event.key == 'q'):
-				cellColorButton.click();
-				break;
-			case (event.key == 'b'):
+			case (event.key == 'u'):
 				boundToggleButton.click();
 				break;
-			case (event.key == 'v'):
+			case (event.key == 'w'):
 				iterationToggleButton.click();
 				break;
 			case (event.key == 'x'):
