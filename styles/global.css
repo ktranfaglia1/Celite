@@ -110,7 +110,7 @@ h6 {
   float: left;
   display: block;
   color: whitesmoke;
-  padding: 22px 24px;
+  padding: 24px 24px;
   text-decoration: none;
 }
 .navbar a:not(.logo):hover {
@@ -130,12 +130,12 @@ h6 {
 }
 .navbar .drop_button {
   margin: 0;
+  font-size: 17px;
   border: none;
   outline: none;
   color: whitesmoke;
-  padding: 22px 24px;
+  padding: 24px 24px;
   background-color: inherit;
-  font-size: 17px;
 }
 .navbar .dropdown_item {
   display: none;
