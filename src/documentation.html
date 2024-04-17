@@ -289,15 +289,10 @@
     });
   });
 
-  // Listens for scroll events on the window
-  window.onscroll = function() {
-      scrollFunction();  // Call the scrollFunction when the user scrolls
-  };
-
-  // Handle the scroll event
-  function scrollFunction() {
-      // Check if the scroll position is greater than 20 pixels from the top
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+  // Listen for and handle the scroll event
+  window.onscroll = function scrollFunction() {
+      // Check if the scroll position is greater than 250 pixels from the top
+      if (document.body.scrollTop > 250 || document.documentElement.scrollTop > 250) {
           document.querySelector(".hovering_button").classList.add("show");  // Add the "show" class to the hovering button
       } else {
           document.querySelector(".hovering_button").classList.remove("show");  // Remove the "show" class from the hovering button
