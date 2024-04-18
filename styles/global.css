@@ -1,0 +1,200 @@
+/* Global styles page linked to entire website */
+/* General formatting */
+header {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+p {
+  margin: 0 4%;
+  font-family: Times;
+  text-align: left;
+  font-size: 20px;
+  line-height: 1.5;
+  color: black;
+}
+.p1 {
+  margin: 0;
+  font-family: Times;
+  text-align: center;
+  font-size: 17px;
+  line-height: 1.7;
+  color: black;
+}
+.p2 {
+  margin: 0;
+  display: block;
+  font-family: Times;
+  text-align: center;
+  font-size: 22px;
+  line-height: 1.8;
+  color: black;
+}
+.p3 {
+  margin: 12px 6% 0 6%;
+  font-family: Times;
+  text-align: left;
+  font-size: 22px;
+  line-height: 1.5;
+  display: inline-block;
+  color: black;
+}
+.p4 {
+  margin: 0 8%;
+  font-family: Times;
+  text-align: left;
+  font-size: 22px;
+  line-height: 1.5;
+  display: inline-block;
+  color: black;
+}
+.p5 {
+  margin: 0;
+  font-family: Times;
+  text-align: center;
+  font-size: 17px;
+  line-height: 1.2;
+  color: black;
+}
+h1 {
+  margin: 0;
+  padding: 20px;
+  background-color: #4682b4;
+  font-family: Times;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  color: whitesmoke;
+}
+h2 {
+  margin: 0;
+  font-family: Times;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+}
+h3 {
+  margin: 12px 0 12px 2%;
+  font-family: Times;
+  font-size: 26px;
+  text-align: left;
+  color: black;
+}
+h4 {
+  margin: 6px 0 12px 0;
+  font-family: Times;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+}
+h5 {
+  margin: 0;
+  font-family: Times;
+  font-size: 42px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+}
+h6 {
+  margin: 8px 0 0 4%;
+  font-family: Times;
+  font-size: 32px;
+  text-align: left;
+  color: black;
+}
+/* Navigation formatting */
+.navbar {
+  display: flex;
+  background-color: black;
+  overflow: hidden;
+  height: 60px;
+}
+.navbar a:not(.logo) {
+  font-size: 18px;  
+  text-align: center;
+  float: left;
+  display: block;
+  color: whitesmoke;
+  padding: 24px 24px;
+  text-decoration: none;
+}
+.navbar a:not(.logo):hover {
+  background-color: lightgray;
+  color: black;
+}
+/* Navbar logo formatting */
+.logo {
+  height: 100%;
+  width: auto;
+}
+/* Simulation dropdown and button formatting in navigation bar */
+.navbar .dropdown {
+  float: left;
+  overflow: hidden;
+  z-index: 4;
+}
+.navbar .drop_button {
+  margin: 0;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  color: whitesmoke;
+  padding: 24px 24px;
+  background-color: inherit;
+}
+.navbar .dropdown_item {
+  display: none;
+  position: absolute;
+  top: 60px;
+  background-color: #f9f9f9;
+  min-width: 125px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.navbar .dropdown_item a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+.navbar .dropdown_item a:hover {
+  background-color: #ddd;
+}
+.navbar .dropdown:hover .dropdown_item {
+  display: block;
+}
+/* About window formatting */ 
+.about_container {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
+  z-index: 3;
+}
+.about_content {
+  background-color: #fefefe;
+  margin: 7% auto;
+  border: 2px solid #888;
+  padding: 1% 1% 1% 1%;
+  width: 70%;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}

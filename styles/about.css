@@ -1,0 +1,64 @@
+/* About styles page */
+/* General formatting */
+body {
+  background-color: whitesmoke;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+hr {
+  margin: 0;
+  border: none;
+  background-color: black;
+  height: 3px;
+  margin-bottom: 10px;
+}
+.line {
+  margin: 0;
+  border: none;
+  background-color: black;
+  height: 2px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+/* Format text for profiles */
+.text_container {
+  text-align: center;
+  max-width: 85%;
+  margin: 0 auto;
+}
+.team_text{
+  flex: 1;
+  text-indent: -2em;
+  margin-left: 3%;
+}
+/* Profile formatting: images and layouts */
+.team_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 95%; 
+  margin: 0 auto; 
+  padding: 1%;
+}
+.profile {
+  margin-top: 15px;
+  margin-left: 20px;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  display: wrap;
+}
+.social_icons {
+  display: flex;
+}
+.social_icons a {
+ margin: 6px 12px;
+}
+.github {
+  width: 33px;
+  height: auto;
+}
+.linkedin {
+  width: 60px;
+  height: auto;
+}
