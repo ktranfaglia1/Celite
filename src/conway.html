@@ -31,7 +31,46 @@
         <a href="../src/about.html"> Collaborators </a>  <!-- Link to the about page -->
         <a href="https://github.com/ktranfaglia1/COSC425" target="_blank"> Source </a>  <!-- Link to the source code page -->
       </div>
-      <h1> Conway's Game of Life </h1> <hr>
+      <h1 class="head"> Conway's Game of Life </h1> <hr>
     </header>
+    <!-- Primary tool bar containing input boxes and options to manipulate the simulation -->
+    <div class="primary_toolbar">
+      <!-- Container for iteration input box -->
+      <div class="input_container">
+        <label for="iterationInputBox" class="input_label"> Iterations:</label>
+        <input type="text" id="iterationInputBox" class="simulation_input" placeholder="Enter # of iterations...">
+        <button id="iterationSubmit" class="submit_button"> Enter </button>
+      </div>
+      <button id="startStopButton" class="start_button"> Start </button>
+      <button id="iterateButton" class="simulation_button"> Iterate </button>
+      <button id="clearResetButton" class="simulation_button"> Clear </button>
+      <button id="libraryButton" class="simulation_button"> Library </button>
+      <button id="aboutButton" class="simulation_button"> About </button>
+      <!-- Speed Slider -->
+      <div class="slider_wrapper">
+        <div class="slider_container">
+          <div class="p5"> Speed: <span id="iterationSpeedValue"> </span> </div>
+          <input type="range" min="1" max="20" value="3" class="slider" id="iterationSpeedSlider">
+        </div>
+      </div>
+    </div>
+     <!--  <canvas id="logRegion" class="log_box"> </canvas> Display region for the logs -->
+    <div id="iterationOutput" class="iteration_output"> </div> <!-- Output region for iteration count -->
+    <!-- Canvas region for lattice display and overlapping canvas for iteration tickmark -->
+    <center>
+      <canvas id="latticeRegion" class="lattice_region"> </canvas>
+    </center> 
+    <div class="Dustin"></div>
   </body>
 </html>
+<script>
+  // Get the slider element
+  let slider = document.getElementById("iterationSpeedSlider");
+
+  // Check if the browser supports slider color change
+  if ('-webkit-slider-thumb' in slider.style || '-moz-range-thumb' in slider.style || '-ms-thumb' in slider.style) {
+    slider.style.backgroundColor = color;
+  } else {
+    console.error("Slider thumb color change not supported in this browser.");
+  }
+</script>
