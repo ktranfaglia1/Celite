@@ -91,7 +91,7 @@
       </div>
        <!-- All documentation content -->
       <div class="doc_content">
-        <h5> <u>1D Nearest Neighbor</u> </h5>
+        <h2> <u>1D Nearest Neighbor</u> </h2>
         <h6 id="primaryToolbar1"> Primary Toolbar </h6>
         <div class="p3">
           <u>Iteration Input Box</u>: Enter the number of iterations to complete. Manipulating the iteration amount will change emerging patterns by limiting or expanding the application of a rule. The iteration amount is inclusive such that it goes the entered number of iterations beyond the starting iteration (starting state, index = 0). Using the "Start" or "Iterate" buttons will simulate up to the entered iteration amount.
@@ -240,10 +240,53 @@
         </div>
         <div class="p3"> 
           An iteration counter that displays the current iteration index can be found above the top left border of the canvas.
-        </div>
+        </div> <br> <br>
+        <h2> <u>Game of Life</u> </h2>
         <h6 id="primaryToolbar2"> Primary Toolbar </h6>
-        <div class="p3"> 
-          <u>TBD ...</u>: <br> 
+        <div class="p3">
+          <u>Iteration Input Box</u>: Enter the number of iterations to complete. Manipulating the iteration amount will change emerging patterns by limiting or expanding the application of a rule. The iteration amount is inclusive such that it goes the entered number of iterations beyond the starting iteration (starting state, index = 0). Using the "Start" or "Iterate" buttons will simulate up to the entered iteration amount.
+        </div> 
+        <div class="p4"> 
+          <i> Input Restrictions: </i> Non-negative real numbers in range [0, 50000]. Decimal values will be truncated. <br>
+          <i> Keyboard Shortcut: </i> ALT + J
+        </div>
+        <div class="p3">
+          <u>Start/Stop Button</u>: Click "Start" to incrementally iterate up to the total iteration amount (x iterations beyond starting lattice, index = 0). The iterations will complete at the delay rate, defaulted to 750 ms. Upon green "Start" button click, the button will convert to a red "Stop" button. Clicking the "Stop" button will pause the simulation such that the iterations will stop. The button will then convert back to a "Start" button and, if clicked, will resume iterating until the total iteration amount. Upon completion of the total iteration amount, the button will be set back to a "Start" button.
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + ENTER
+        </div>
+        <div class="p3">
+          <u>Iterate Button</u>: Click "Iterate" to immediately (in time of process completion) iterate up to the total iteration amount (x iterations beyond starting lattice, index = 0). The delay rate will not impact the iteration speed upon click of the "iterate" button.
+        </div> 
+        <div class="p4"> 
+          <i> Recommendations: </i> With consideration of lattice size, the time of process completion may be long for large total iteration amounts. Consider limiting the total iteration amount or adjusting lattice size as needed. <br>
+          <i> Keyboard Shortcut: </i> ALT + I
+        </div>
+        <div class="p3">
+          <u>Clear/Reset Button</u>: Click "Clear" to reset the canvas, as in, remove the results of the simulation and default the starting state. All iterations beyond the starting iteration (index = 0) will be deleted and the starting iteration will be set to all dead cells (white, 0). The currently stored values for "Iterations," "Rule," and "Lattice" will remain, as they are not impacted by the clear event. 
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + C
+        </div>
+        <div class="p3">
+          <u>Library Button</u>: Click "About" to open an overlaying window to describe the simulator. The window contains information about the background of Wolfram's Nearest Neighbor 1D, the purpose of its use and study, and a summary of its application. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + L
+        </div>
+        <div class="p3">
+          <u>About Button</u>: Click "About" to open an overlaying window to describe the simulator. The window contains information about the background of Wolfram's Nearest Neighbor 1D, the purpose of its use and study, and a summary of its application. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
+        </div> 
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + A
+        </div>
+        <div class="p3">
+          <u>Delay Slider</u>: Click and hold the slider labeled "Delay" to alter the delay time (ms) between iterations when using the "Start" button. Alternatively, click the slider and use the left and right arrow keys to change the delay value. Larger delays may be useful in analysing the transitions between iterations. Smaller delays, even a delay value of 0 ms, will not be immediate like the "Iterate" button, although it will generate very fast. 
+        </div> 
+        <div class="p4"> 
+          <i> Input Restrictions: </i> Values are in milliseconds in range [40, 1000]. <br>
+          <i> Keyboard Shortcut: </i> ALT + Y, then Left Arrow to decrease and Right Arrow to increase the value.
         </div>
         <h6 id="algorithm"> Algorithm Rule </h6>
         <div class="p3"> 
@@ -253,7 +296,6 @@
         <div class="p3"> 
           <u>TBD ...</u>: <br> 
         </div>
-        
         <h6 id="keyboardShortcuts"> Keyboard Shortcuts </h6>
         <div class="shortcut_container">
           <div class="p3" class="shortcut_item"> 

@@ -44,7 +44,6 @@ const aboutButton = document.getElementById("aboutButton");
 const optionsButton = document.getElementById("optionsButton");
 const latticeFillButton = document.getElementById("latticeFillButton");
 const randomFillButton = document.getElementById("randomFillButton");
-const cellColorButton = document.getElementById("cellColorButton");
 
 //Perodic and Null Checkbox Constants
 const periodicCheckBox = document.getElementById("periodicCheckBox");
