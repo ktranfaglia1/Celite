@@ -73,6 +73,13 @@ hr {
   display: flex;
   flex-direction: row;
 }
+.shortcut_container {
+  display: flex;
+}
+.shortcut_item {
+  flex: 1;
+  margin: 0;
+}
 /* Back to top hover button formatting */ 
 .hovering_button {
   position: fixed;
