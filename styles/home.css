@@ -16,6 +16,14 @@ hr {
   justify-content: center;
   margin: 2% 0 1% 0;
 }
+/* Container for store multiple elements on the same row */
+.input_container {
+  justify-content: center;
+  display: flex;
+  margin-left: 1.5%;
+  margin-right: 1.5%;
+  max-width: 95%;
+}
 /* Large button formatting */
 .navigate_button {
   background-color: black;

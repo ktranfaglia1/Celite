@@ -49,13 +49,13 @@
       <!-- Speed Slider -->
       <div class="slider_wrapper">
         <div class="slider_container">
-          <div class="p5"> Speed: <span id="iterationSpeedValue"> </span> </div>
-          <input type="range" min="1" max="20" value="3" class="slider" id="iterationSpeedSlider">
+          <div class="p5"> Delay: <span id="iterationSpeedValue"> </span> Ms </div>
+          <input type="range" min="40" max="1000" value="250" class="slider" id="iterationSpeedSlider">
         </div>
       </div>
     </div>
-     <!--  <canvas id="logRegion" class="log_box"> </canvas> Display region for the logs -->
-    <div id="iterationOutput" class="iteration_output"> </div> <!-- Output region for iteration count -->
+    <!--  <canvas id="logRegion" class="log_box"> </canvas> Display region for the logs -->
+    <div id="iterationOutput" class="iteration_output"> </div>  <!-- Output region for iteration count -->
     <!-- Canvas region for lattice display and overlapping canvas for iteration tickmark -->
     <center>
       <canvas id="latticeRegion" class="lattice_region"> </canvas>
