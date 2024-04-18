@@ -35,6 +35,7 @@
     </header>
     <!-- Primary tool bar containing input boxes and options to manipulate the simulation -->
     <div class="primary_toolbar">
+      <!-- Container for iteration input box -->
       <div class="input_container">
         <label for="iterationInputBox" class="input_label"> Iterations:</label>
         <input type="text" id="iterationInputBox" class="simulation_input" placeholder="Enter # of iterations...">
@@ -74,7 +75,6 @@
     </div>
     <!-- Secondary tool bar containing main buttons and log box for simulation -->
     <div class="secondary_toolbar">
-      <!-- Container for iteration input box -->
       <button id="startStopButton" class="start_button"> Start </button>
       <button id="iterateButton" class="simulation_button"> Iterate </button>
       <button id="clearButton" class="simulation_button"> Clear </button>
@@ -298,14 +298,12 @@
         </p>
       </div>
     </div>
-  </div>
-  <div class="Dustin"></div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"> </script> <!-- Connect online Javascript library to capture canvas as a PDF -->
-  <script type="module" src="../src/js/wolfram1D/generateLattice.js" crossorigin="anonymous"> </script> <!-- Connect Javascript for lattice calculation -->
-  <script type="module" src="../src/js/wolfram1D/cellClass.js"> </script> <!-- Connect Javascript for cell creation -->
-  <script type="module" src="../src/js/wolfram1D/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->
-  <script type="module" src="../src/js/wolfram1D/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->
-  <script type="module" src="../src/js/wolfram1D/logClass.js"> </script> <!-- Connect Javascript for logbox functionality -->
-</body>
-
+    <div class="Dustin"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"> </script> <!-- Connect online Javascript library to capture canvas as a PDF -->
+    <script type="module" src="../src/js/wolfram1D/generateLattice.js" crossorigin="anonymous"> </script> <!-- Connect Javascript for lattice calculation -->
+    <script type="module" src="../src/js/wolfram1D/cellClass.js"> </script> <!-- Connect Javascript for cell creation -->
+    <script type="module" src="../src/js/wolfram1D/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->
+    <script type="module" src="../src/js/wolfram1D/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->
+    <script type="module" src="../src/js/wolfram1D/logClass.js"> </script> <!-- Connect Javascript for logbox functionality -->
+  </body>
 </html>

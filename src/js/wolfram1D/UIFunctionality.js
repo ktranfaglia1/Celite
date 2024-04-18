@@ -45,7 +45,6 @@ const aboutButton = document.getElementById("aboutButton");
 const optionsButton = document.getElementById("optionsButton");
 const latticeFillButton = document.getElementById("latticeFillButton");
 const randomFillButton = document.getElementById("randomFillButton");
-const cellColorButton = document.getElementById("cellColorButton");
 
 //Perodic and Null Checkbox Constants
 const periodicCheckBox = document.getElementById("periodicCheckBox");
@@ -496,7 +495,7 @@ document.addEventListener('keydown', function(event) {
     // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
     if (event.altKey) {
 		switch (true) {
-			case (event.key == 's'):
+			case (event.key == 'Enter'):
 				startStopButton.click();
 				break;
 			case (event.key == 'i'):
@@ -517,19 +516,16 @@ document.addEventListener('keydown', function(event) {
 			case (event.key == 'p'):
 				downloadPNGButton.click();
 				break;
-			case (event.key == '1'):
+			case (event.key == 'g'):
 				latticeFillButton.click();
 				break;
-			case (event.key == '2'):
+			case (event.key == 'm'):
 				randomFillButton.click();
 				break;
-			case (event.key == 'q'):
-				cellColorButton.click();
-				break;
-			case (event.key == 'b'):
+			case (event.key == 'u'):
 				boundToggleButton.click();
 				break;
-			case (event.key == 'v'):
+			case (event.key == 'w'):
 				iterationToggleButton.click();
 				break;
 			case (event.key == 'x'):
@@ -623,8 +619,6 @@ function makeTickBox(event) {
 
 		tctx.clearRect(0,0, tickCanvas.width, tickCanvas.height);
 
-
-
 		let lineNumber = Math.floor(mouseY / firstCell.getHeight()); //calculates what line your on
 		let colNumber = Math.floor((mouseX - firstCell.getXLoc()) / firstCell.getWidth());
 
@@ -705,7 +699,7 @@ function setRule() {
 			alterLatSize(newCellNum);
 		}
 		else {
-			makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
+			makeError("Invalid Rule Number: " + latticeSizeBox.value, logCanvas, messageQueue)
 		}
 		//Changing size of cells fo accomodate for removed buffers.
 		let size = canvas.width / latSize[0];
@@ -719,7 +713,7 @@ function setRule() {
 		clear(latticeArray, true);
 	}
 	else {
-		makeError("Invalid Lattice Size: " + ruleInputBox.value, logCanvas, messageQueue);
+		makeError("Invalid Rule Number: " + ruleInputBox.value, logCanvas, messageQueue);
 	}
 }
 
@@ -740,7 +734,7 @@ function setRule() {
 //sets Number of Lattice arrays to have
 function setLatticeSize() {
 	let newValue = parseInt(iterationInputBox.value); //Turns the iteration input to an integerpopTime
-	if (!isNaN(newValue) && newValue >= 0 && newValue <= 1000) {
+	if (!isNaN(newValue) && newValue >= 0 && newValue <= 10000) {
 
 		//Remove buffers if they existed.
 		let newCellNum = (latSize[0] - (2 * latSize[1]));
@@ -766,7 +760,7 @@ function setLatticeSize() {
 	}
 	else
 	{
-		makeError("Invalid Lattice Size: " + iterationInputBox.value, logCanvas, messageQueue);
+		makeError("Invalid Iteration Size: " + iterationInputBox.value, logCanvas, messageQueue);
 	}
 	return addIterations;
 }
