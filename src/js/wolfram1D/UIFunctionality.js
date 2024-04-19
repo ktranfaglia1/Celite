@@ -283,11 +283,7 @@ tickCanvas.addEventListener('wheel', function(event) {
 
 //Changes rule set
 ruleSubmit.addEventListener("click", function() {
-	//Stops the iteration before changing a rule.
-	if (Run == 1) {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
-	}
+	stopIterating();  // Stops the iteration before changing the rule number
 	setRule(rule);
 })
 /*
@@ -297,7 +293,8 @@ toggleBar.addEventListener("click", function() {
 */
 
 //Sets all top lattices to black
-latticeFillButton.addEventListener("click", function(){
+latticeFillButton.addEventListener("click", function() {
+	stopIterating();  // Stops the iteration before completely filling the lattice
 	clear(latticeArray);
 	for (let i = 0; i  < latticeArray[0].length; i++) {
 		latticeArray[0][i].setColor(1);
@@ -306,7 +303,8 @@ latticeFillButton.addEventListener("click", function(){
 	makeLog("Filled Lattice", logCanvas, messageQueue);
 });
 
-randomFillButton.addEventListener("click", function(){
+randomFillButton.addEventListener("click", function() {
+	stopIterating();  // Stops the iteration before randomly filling the lattice
 	clear(latticeArray)
 	for (let i = 0; i  < latticeArray[0].length; i++) {
 		latticeArray[0][i].setColor(Math.floor(Math.random() * 2));
@@ -316,11 +314,7 @@ randomFillButton.addEventListener("click", function(){
 });
 
 iterateButton.addEventListener("click", function() {
-	//Stops the iteration before changing a rule.
-	if (Run == 1) {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
-	}
+	stopIterating();  // Stops the iteration doing a complete iteration
 	//Keep infinite the same and add the buffers
 	alterInf(inf[0], true)
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
@@ -364,13 +358,9 @@ iterateButton.addEventListener("click", function() {
 });
 
 clearButton.addEventListener("click", function() {
-	//Stops the iteration before changing a rule.
-	if (Run == 1) {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
-	}
+	stopIterating();  // Stops the iteration before changing clearing the canvas
 
-	//Removes buffers if they existed.
+	// Removes buffers if they existed.
 	let newCellNum = (latSize[0] - (2 * latSize[1]));
 	if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
 		alterLatSize(newCellNum);
@@ -378,9 +368,9 @@ clearButton.addEventListener("click", function() {
 	else {
 		makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
 	}
-	//Alters size of cells to accomodate for removed cells.
+	// Alters size of cells to accomodate for removed cells.
 	let size = canvas.width / latSize[0];
-	//Cells should have a maximum size of 45 :: This Caps cell size to 45
+	// Cells should have a maximum size of 45 :: This Caps cell size to 45
 	if (size > 45) {
 		size = 45; 
 	}
@@ -391,11 +381,7 @@ clearButton.addEventListener("click", function() {
 );
 /* Connect UI Functionality to a prebuilt function */
 boundToggleButton.addEventListener("click", function() {
-	//Stops the iteration before changing a rule.
-	if (Run == 1) {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
-	}
+	stopIterating();  // Stops the iteration before changing the boundary condition
 	toggleCheckbox();
 });
 
@@ -411,29 +397,19 @@ borderToggleButton.addEventListener("click", function() {
 });
 
 iterationSubmit.addEventListener("click", function() {
-	//Stops the iteration before changing a rule.
-	if (Run == 1) {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
-	}
+	stopIterating();  // Stops the iteration before changing the iteration amount
 	setLatticeSize();
 });
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
-	//Stops the iteration before changing a rule.
-	if (Run == 1) {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
-	}
+	stopIterating();  // Stops the iteration before changing the lattice size
 	updateLatticeSize(canvas);
 });
 
 startStopButton.addEventListener("click", function() {
-	startStopToggle();
 	if (Run != 1) {
 		Run = 1;
-		makeLog("Starting Iterations", logCanvas, messageQueue);
-		
+		startStopToggle();
 		if (latticeArray.length == 1) {
 			let bufferArr = new Array()
 			let latPlusBufferArr = new Array()
@@ -475,7 +451,6 @@ startStopButton.addEventListener("click", function() {
 	}
 	else {
 		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
 		startStopToggle();
 	}
 });
@@ -860,6 +835,12 @@ function iterate(currentIteration, newIterations) {
 	return currentIteration;
 }
 
+function stopIterating() {
+	if (Run) {
+		Run = 0;
+	}
+}
+
 // Handle when bound toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
 export function toggleCheckbox() {
 	// Set the first checkbox (not second checkbox) to be checked upon toggle button activation
@@ -958,27 +939,26 @@ function borderToggleOption() {
 // Handle switching GUI for Start/Stop Button upon click
 function startStopToggle() {
 	// If the button is in start state, change it to stop state and vice versa
-	if (startStopButton.classList.contains("start_button") && !Run) {
+	if (startStopButton.classList.contains("start_button") && Run) {
     	startStopButton.innerHTML = "Stop";
     	startStopButton.classList.remove("start_button");
     	startStopButton.classList.add("stop_button");
+		makeLog("Starting Iterations", logCanvas, messageQueue);
 		//Add buffers.
 		alterInf(inf[0], true)
   	} 
-  	else {
+  	else if (startStopButton.classList.contains("stop_button") && !Run) {
     	startStopButton.innerHTML = "Start";
     	startStopButton.classList.remove("stop_button");
     	startStopButton.classList.add("start_button");
+		makeLog("Stopping Iterations", logCanvas, messageQueue);
   	}
 }
 
 // Set boundary condition and ensure one and only one checkbox can be checked at a time upon checkbox click
 checkboxes.forEach(function(checkbox) {
     checkbox.addEventListener('change', function() {
-			if (Run == 1) {
-				Run = 0;
-				makeLog("Stopping Iterations", logCanvas, messageQueue);
-			}
+		stopIterating();  // Stops the iteration before changing the finite boundary condition
 		// Box is set to be checked upon change
         if (this.checked) {
             checkboxes.forEach(function(otherCheckbox) {

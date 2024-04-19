@@ -50,27 +50,24 @@
       <div class="slider_wrapper">
         <div class="slider_container">
           <div class="p5"> Delay: <span id="iterationSpeedValue"> </span> Ms </div>
-          <input type="range" min="40" max="1000" value="250" class="slider" id="iterationSpeedSlider">
+          <input type="range" min="40" max="999" value="250" class="slider" id="iterationSpeedSlider">
         </div>
       </div>
     </div>
     <!--  <canvas id="logRegion" class="log_box"> </canvas> Display region for the logs -->
     <div id="iterationOutput" class="iteration_output"> </div>  <!-- Output region for iteration count -->
     <!-- Canvas region for lattice display and overlapping canvas for iteration tickmark -->
-    <center>
-      <canvas id="latticeRegion" class="lattice_region"> </canvas>
-    </center> 
+    <center> 
+      <canvas id="latticeRegion" class="lattice_region"> </canvas> 
+    </center>
+    <!-- About window to provide information on Wolfram's Nearest Neighbor -->
+    <div id="aboutContainer" class="about_container">
+      <div id="aboutContent" class="about_content">
+        <span class="close">&times; </span>
+        <h2> About Conway's Game of Life Simulator </h2>
+      </div>
+    </div>
     <div class="Dustin"></div>
   </body>
 </html>
-<script>
-  // Get the slider element
-  let slider = document.getElementById("iterationSpeedSlider");
-
-  // Check if the browser supports slider color change
-  if ('-webkit-slider-thumb' in slider.style || '-moz-range-thumb' in slider.style || '-ms-thumb' in slider.style) {
-    slider.style.backgroundColor = color;
-  } else {
-    console.error("Slider thumb color change not supported in this browser.");
-  }
-</script>
+<script type="module" src="../src/js/conway/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->

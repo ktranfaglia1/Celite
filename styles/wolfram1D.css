@@ -233,7 +233,7 @@ ul {
 /* Options window formatting */
 .options_container {
   display: none;
-  position: fixed;
+  position: absolute;
   right: 0;
   top: 60px;
   width: 250px;

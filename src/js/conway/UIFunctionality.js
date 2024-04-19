@@ -39,7 +39,14 @@ iterationSubmit.addEventListener("click", function() {
 });
 
 startStopButton.addEventListener("click", function() {
-
+	if (Run != 1) {
+		startStopToggle();
+		Run = 1;
+	}
+	else {
+		Run = 0;
+		startStopToggle();
+	}
 });
 
 iterateButton.addEventListener("click", function() {
@@ -102,6 +109,21 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
+// Handle switching GUI for Start/Stop Button upon click
+function startStopToggle() {
+	// If the button is in start state, change it to stop state and vice versa
+	if (startStopButton.classList.contains("start_button") && !Run) {
+    	startStopButton.innerHTML = "Stop";
+    	startStopButton.classList.remove("start_button");
+    	startStopButton.classList.add("stop_button");
+  	} 
+  	else {
+    	startStopButton.innerHTML = "Start";
+    	startStopButton.classList.remove("stop_button");
+    	startStopButton.classList.add("start_button");
+  	}
+}
+
 /* Handle open and closing of about window */
 // About button is clicked, display about window
 aboutButton.addEventListener("click", function() {
@@ -121,12 +143,19 @@ window.addEventListener("click", function(event) {
 	}
 });
 
-iterationSpeedValue.innerHTML = 750;  // Sets displayed default iteration speed value
+iterationSpeedValue.innerHTML = 250;  // Sets displayed default iteration speed value
 
 // Update the current iteration speed slider value upon drag
 iterationSpeedSlider.oninput = function() {
 	iterationSpeedValue.innerHTML = this.value;
 	// setDelay(this.value);
 };
+
+// Check if the browser supports slider color change
+if ('-webkit-slider-thumb' in iterationSpeedSlider.style || '-moz-range-thumb' in iterationSpeedSlider.style || '-ms-thumb' in iterationSpeedSlider.style) {
+	iterationSpeedSlider.style.backgroundColor = color;
+} else {
+console.error("Slider thumb color change not supported in this browser.");
+}
 
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
