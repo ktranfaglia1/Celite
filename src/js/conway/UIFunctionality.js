@@ -109,9 +109,11 @@ aboutButton.addEventListener("click", function() {
 });
 
 // Close if x (close) button in top right of the window is clicked
+/* ERROR HERE
 closeAbout.addEventListener("click", function() {
 	aboutWindow.style.display = "none";
 });
+*/
 
 // Close if any space outside of the about window is clicked
 window.addEventListener("click", function(event) {
@@ -129,4 +131,4 @@ iterationSpeedSlider.oninput = function() {
 	// setDelay(this.value);
 };
 
-outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
+//outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page (ERROR HERE)
