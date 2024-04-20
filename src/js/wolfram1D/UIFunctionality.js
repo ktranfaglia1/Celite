@@ -71,6 +71,12 @@ const borderToggle = document.querySelector("#borderToggle .toggle_button");
 const closeAbout = document.querySelector("#aboutContent .close");
 const closeOptions = document.querySelector("#optionsContent .close");
 
+//This is the various document stuff for selecting color
+const deadColorSel = document.getElementById("deadCell");
+const aliveColorSel = document.getElementById("aliveCell");
+const deadBorderSel = document.getElementById("deadBorder");
+const aliveBorderSel = document.getElementById("aliveBorder");
+
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
 let Run = 0; // Defaults to not keep running
@@ -177,12 +183,12 @@ deadColorSel.addEventListener('input', function(){
 			(latticeArray[i][j]).setDeadColor(deadColorSel.value);
 		}
 	}
-	redrawLattice(latticeArray);
+	drawLattice(latticeArray);
 })
 
 //Selects color for alive
 aliveColorSel.addEventListener('input', function(){
-	//console.log(latticeArray[0][0])
+	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
@@ -190,20 +196,20 @@ aliveColorSel.addEventListener('input', function(){
 			(latticeArray[i][j]).setAliveColor(aliveColorSel.value);
 		}
 	}
-	redrawLattice(latticeArray);
+	drawLattice(latticeArray);
 })
 
 //Selects color for dead cells border
 deadBorderSel.addEventListener('input', function(){
-	//console.log(latticeArray[0][0])
+	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
 		{
-			(latticeArray[i][j]).setDeadBorder(deadBorderSel.value);
+			(latticeArray[i][j]).setDeadBorder(deadColorSel.value);
 		}
 	}
-	redrawLattice(latticeArray);
+	drawLattice(latticeArray);
 })
 
 //select cells for alive cells border
@@ -216,7 +222,7 @@ aliveBorderSel.addEventListener('input', function(){
 			(latticeArray[i][j]).setAliveBorder(aliveBorderSel.value);
 		}
 	}
-	redrawLattice(latticeArray);
+	drawLattice(latticeArray);
 })
 
 
@@ -289,7 +295,6 @@ ruleSubmit.addEventListener("click", function() {
 	setRule(rule);
 })
 
-
 //Sets all top lattices to black
 latticeFillButton.addEventListener("click", function(){
 	clear(latticeArray);
@@ -302,7 +307,7 @@ latticeFillButton.addEventListener("click", function(){
 
 //Sets all lattices to a random value
 randomFillButton.addEventListener("click", function(){
-	clear(latticeArray);
+	clear(latticeArray)
 	for (let i = 0; i  < latticeArray[0].length; i++) {
 		latticeArray[0][i].setColor(Math.floor(Math.random() * 2));
 	}

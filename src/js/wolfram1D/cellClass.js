@@ -53,7 +53,7 @@ export class cell {
 			}
 
 			// Draws the main section outside of the square
-			ctx.fillRect(this.XLocation, this.YLocation , this.width + 1, this.height + 1);
+			ctx.fillRect(this.XLocation, this.YLocation , this.width, this.height);
 		}
 
 		//Sets color for the main part of the cell
@@ -73,7 +73,7 @@ export class cell {
 		}
 		else
 		{
-		ctx.fillRect(this.XLocation, this.YLocation, this.width, this.height);
+		ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
 		}
 		
 	}
@@ -162,7 +162,6 @@ export class cell {
 
 	setDeadBorder(color) {
 		this.deadBord = color;
-		console.log(this.deadBord);
 	}
 
 	setAliveColor(color) {

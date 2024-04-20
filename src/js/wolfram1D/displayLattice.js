@@ -17,12 +17,6 @@ inf :
 
 */
 
-//This is the various document stuff for selecting color
-const deadColorSel = document.getElementById("deadCell");
-const aliveColorSel = document.getElementById("aliveCell");
-const deadBorderSel = document.getElementById("deadBorder");
-const aliveBorderSel = document.getElementById("aliveBorder");
-
 //Mutator for latSize
 export function alterLatSize(neoLatSize = latSize[0]) {
   latSize[0] = neoLatSize;
@@ -219,9 +213,6 @@ logCanvas.height = 45;
 //Sets default Lattice Size
 let size = 45;
 
-//Sets colors by default
-
-
 /*
 These variables effect the creation of the starting lattice. Inf determines whether the lattice should
 autofit such that given the number of iterations, the simulation never needs to trigger a boundary condition.
@@ -251,7 +242,6 @@ let boundaryCon = 1;
 export {ruleNum, boundaryCon, latSize, inf, size, currentIteration};
 export {outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx};
 export {latticeArray, numOfIterations, currentLattice};
-export {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel};
 
 //Sets starting lattice to all dead
 //latticeArray[0] = currentLattice;
@@ -259,19 +249,3 @@ latticeArray = [];
 LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum);
 updateLattice();
-
-deadBorderSel.value = "#000000";
-aliveBorderSel.value = "#808080";
-
-deadColorSel.value =  "#ffffff";
-aliveColorSel.value = "#000000";
-
-
-for (let i = 0; i < latticeArray[0].length; i++)
-{
-	latticeArray[0][i].setDeadColor(deadColorSel.value);
-	latticeArray[0][i].setAliveColor(aliveColorSel.value);
-	latticeArray[0][i].setDeadBorder(deadBorderSel.value);
-	latticeArray[0][i].setAliveBorder(aliveBorderSel.value);
-}
-drawLattice(latticeArray);
