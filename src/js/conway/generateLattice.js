@@ -183,6 +183,7 @@ export function iterate() {
         newLat[i] = dummyArr;
     }
     latticeArray = newLat;
+    return latticeArray;
 }
 
 import {cell} from "./cellClass.js"
