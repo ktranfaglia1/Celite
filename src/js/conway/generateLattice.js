@@ -200,7 +200,7 @@ createVis();
 //Draw intial visual of lattice here. Might want everything after this comment to be triggered by a button.
 let currentBoundaryPush = new Array();
 for (let i = 0; i < numIt; i++) {
-    console.log(i)
+    //console.log(i)
     iterate();
     currentBoundaryPush = borderContact();
     for (let f = 0; f < currentBoundaryPush.length; f++) {
@@ -209,3 +209,7 @@ for (let i = 0; i < numIt; i++) {
     createVis();
     //Redraw visual of lattice here
 }
+
+
+
+export {visLatticeArray};
