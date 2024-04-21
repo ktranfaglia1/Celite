@@ -71,11 +71,6 @@ const borderToggle = document.querySelector("#borderToggle .toggle_button");
 const closeAbout = document.querySelector("#aboutContent .close");
 const closeOptions = document.querySelector("#optionsContent .close");
 
-//This is the various document stuff for selecting color
-const deadColorSel = document.getElementById("deadCell");
-const aliveColorSel = document.getElementById("aliveCell");
-const deadBorderSel = document.getElementById("deadBorder");
-const aliveBorderSel = document.getElementById("aliveBorder");
 
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
@@ -206,7 +201,7 @@ deadBorderSel.addEventListener('input', function(){
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
 		{
-			(latticeArray[i][j]).setDeadBorder(deadColorSel.value);
+			(latticeArray[i][j]).setDeadBorder(deadBorderSel.value);
 		}
 	}
 	drawLattice(latticeArray);

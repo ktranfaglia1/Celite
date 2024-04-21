@@ -82,3 +82,4 @@ export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, siz
 	}
   return newLattice;
 }
+
