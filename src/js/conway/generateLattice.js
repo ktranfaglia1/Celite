@@ -18,7 +18,7 @@ export function createVis() {
         let dummyArr = new Array();
         for (let f = visBounds[0]; f < visBounds[2]; f++) {
             let posX = f - visBounds[0]
-            dummyArr.push(new cell(cellSize, cellSize, posX * cellSize, posY * cellSize, latticeArray[i][f], false));
+            dummyArr.push(new cell(cellSize, cellSize, posX * cellSize, posY * cellSize, latticeArray[i][f], true));
         }
         newLat[i] = dummyArr;
     }
@@ -198,7 +198,7 @@ let numIt = 500;
 createInit();
 createVis();
 //Draw intial visual of lattice here. Might want everything after this comment to be triggered by a button.
-let currentBoundaryPush = new Array();
+/*let currentBoundaryPush = new Array();
 for (let i = 0; i < numIt; i++) {
     //console.log(i)
     iterate();
@@ -208,7 +208,7 @@ for (let i = 0; i < numIt; i++) {
     }
     createVis();
     //Redraw visual of lattice here
-}
+}*/
 
 
 

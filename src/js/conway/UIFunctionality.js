@@ -27,6 +27,8 @@ const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 const aboutWindow = document.getElementById("aboutContainer");  // Connect window for about
 const closeAbout = document.querySelector("#aboutContent .close");  // Connect HTML/CSS close feature to JS for the about window
 
+import { canvas, ctx } from "./displayLattice";
+
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
 let Run = 0; // Defaults to not keep running
@@ -57,6 +59,18 @@ libraryButton.addEventListener("click", function() {
 aboutButton.addEventListener("click", function() {
     
 });
+
+canvas.addEventListener("click", function(event){
+	[mouseX, mouseY] = getMouseLocation(event);
+	
+});
+
+//Listener for click on canvas
+/*canvas.addEventListener("click", function(event){
+	let mouseX, mouseY;
+	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of mouse click for usage in setCells
+	setCells(latticeArray, mouseX, mouseY);	// Flips the cell if it was clicked on
+});*/
 
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
 document.addEventListener('keydown', function(event) {
@@ -131,4 +145,26 @@ iterationSpeedSlider.oninput = function() {
 	// setDelay(this.value);
 };
 
+//Mouse location calculator for dunctions such as clicking cells
+function getMouseLocation(event) {
+	//Gets the posistion of the edges of canvas
+	let bounds = canvas.getBoundingClientRect();
+
+	// Calculates Height and Width cooresponding to CSS setting of Canvas
+	let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
+	let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+	
+	//Calculates the width of the thin border that wraps around the canvas allowing for pixel perfect clicking
+	let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+	
+	//Gets the amount of padding which isnt generally considered in the mouse click
+	let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+	let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
+	
+	//calculates mouse X and mouse Y of the Mouse during click and then distorts and move the location to where it needs cooresponding
+	let mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
+	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
+
+	return [mouseX, mouseY];
+}
 //outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page (ERROR HERE)
