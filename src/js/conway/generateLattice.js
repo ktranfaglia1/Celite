@@ -15,7 +15,7 @@ export function createInit() {
 //This function uses the current lattice array and visible boundary to create the current cell lattice to be displayed.
 export function createVis(canvas) {
     let newLat = new Array(new Array());
-    cellSize = (.64 * window.innerHeight) / visBounds[3]; /* Window Calculation / number of cells gives the optimal size to fit screen */
+    //cellSize = (.64 * window.innerHeight) / visBounds[3]; /* Window Calculation / number of cells gives the optimal size to fit screen */
     for (let i = visBounds[1]; i < visBounds[3]; i++) {
         let posY = i - visBounds[1];
         let dummyArr = new Array();
@@ -194,21 +194,31 @@ const canvas = document.getElementById('latticeRegion');
 
 let bounds = new Array(500, 500);
 
-let canvasHeight = window.innerHeight;
-let canvasWidth = window.innerWidth;
+//let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
+//let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
 
-let visLatticeHeight = 12;
-//let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
-let visLatticeWidth = visLatticeHeight * canvas.height - 1;
+intialCanvas();
 
+// Calculates Height and Width cooresponding to CSS setting of Canvas
+let canvasHeight = canvas.height;
+let canvasWidth = canvas.width;
+
+let visLatticeHeight = 25; // canvas.height / visLatticeHeight //Size of a cell
+let visLatticeWidth = canvasWidth * visLatticeHeight / canvasHeight - 1; // canvasWidth / size of a cell = visLatticeHeight * canvasWidth / size of a cell
+
+let cellSize = canvasHeight / visLatticeHeight;
 
 let visBounds = new Array(0, 0, visLatticeWidth, visLatticeHeight);
 let visLatticeArray = new Array(new Array());
 let latticeArray = new Array(new Array());
-let cellSize = 30;
+
+console.log(canvasHeight)
+
+
 let numIt = 500;
 
 import {cell} from "./cellClass.js"
+import { intialCanvas } from "./displayLattice.js";
 //import {canvas} from "./displayLattice.js";
 
 //console.log(canvas)

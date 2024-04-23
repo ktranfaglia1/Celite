@@ -1,14 +1,17 @@
 
 import {visLatticeArray, visBounds, latticeArray, createVis} from "./generateLattice.js";
 
-
-//Grabs Canvas and Context Data of the Canvas
 const canvas = document.getElementById('latticeRegion');
 const ctx = canvas.getContext('2d')
 
-canvas.width = .9 * window.innerWidth;
-
-canvas.height = .85 * window.innerHeight;
+//Grabs Canvas and Context Data of the Canvas
+export function intialCanvas()
+{
+    const canvas = document.getElementById('latticeRegion');
+    const ctx = canvas.getContext('2d')
+    canvas.width = .9 * window.innerWidth;
+    canvas.height = .85 * window.innerHeight;
+}
 
 
 export {canvas, ctx};

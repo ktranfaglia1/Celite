@@ -182,6 +182,8 @@ function getMouseLocation(event) {
 	let mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
 	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
 
+	console.log(mouseY)
+
 	return [mouseX, mouseY];
 }
 //outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page (ERROR HERE)
