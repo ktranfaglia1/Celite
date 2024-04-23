@@ -28,7 +28,7 @@ const aboutWindow = document.getElementById("aboutContainer");  // Connect windo
 const closeAbout = document.querySelector("#aboutContent .close");  // Connect HTML/CSS close feature to JS for the about window
 
 import {canvas, ctx, displayLattice} from "./displayLattice.js";
-import {visLatticeArray, visBounds, latticeArray, iterate} from "./generateLattice.js";
+import {visLatticeArray, visBounds, latticeArray, iterate, createVis} from "./generateLattice.js";
 
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
@@ -51,7 +51,7 @@ iterateButton.addEventListener("click", function() {
 });
 
 clearResetButton.addEventListener("click", function() {
-    
+    clear();
 });
 
 libraryButton.addEventListener("click", function() {
@@ -179,3 +179,17 @@ function getMouseLocation(event) {
 	return [mouseX, mouseY];
 }
 //outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page (ERROR HERE)
+
+function clear()
+{
+	console.log("Test");
+	for (let i = 0; i < visLatticeArray.length; i++)
+	{
+		for (let j = 0; j < visLatticeArray[0].length; j++)
+		{
+			latticeArray[i][j] = 0;
+		}
+	}
+	createVis(canvas);
+	displayLattice(visLatticeArray);
+}
