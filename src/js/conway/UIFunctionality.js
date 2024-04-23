@@ -50,6 +50,7 @@ iterationSubmit.addEventListener("click", function() {
 
 startStopButton.addEventListener("click", function() {
 	run = !run;
+	startStopToggle();
 	if(run)
 	{continouslyIterate();}
 });
@@ -229,4 +230,19 @@ function continouslyIterate()
 			continouslyIterate(); // allows it to coninously run by calling it again
 		}, currentDelay);
 	}
+}
+
+// Handle switching GUI for Start/Stop Button upon click
+function startStopToggle() {
+	// If the button is in start state, change it to stop state and vice versa
+	if (startStopButton.classList.contains("start_button") && !Run) {
+    	startStopButton.innerHTML = "Stop";
+    	startStopButton.classList.remove("start_button");
+    	startStopButton.classList.add("stop_button");
+  	} 
+  	else {
+    	startStopButton.innerHTML = "Start";
+    	startStopButton.classList.remove("stop_button");
+    	startStopButton.classList.add("start_button");
+  	}
 }
