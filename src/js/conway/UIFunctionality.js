@@ -24,6 +24,9 @@ const aboutButton = document.getElementById("aboutButton");
 const iterationSpeedSlider = document.getElementById("iterationSpeedSlider");
 const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 
+//
+
+
 const aboutWindow = document.getElementById("aboutContainer");  // Connect window for about
 const closeAbout = document.querySelector("#aboutContent .close");  // Connect HTML/CSS close feature to JS for the about window
 
@@ -35,6 +38,9 @@ import { borderContact, expandBorder } from "./generateLattice.js";
 let addIterations = 0; // Defaults iterations
 let Run = 0; // Defaults to not keep running
 let iterationTime = 250; // Time to wait before iterating again
+let run = 0; //Start Run Defaults to off
+
+//console.log(iterationSpeedValue);
 
 /* Handle button clicks for all primary toolbar buttons */
 
@@ -43,7 +49,9 @@ iterationSubmit.addEventListener("click", function() {
 });
 
 startStopButton.addEventListener("click", function() {
-	//continouslyIterate();
+	run = !run;
+	if(run)
+	{continouslyIterate();}
 });
 
 iterateButton.addEventListener("click", function() {
@@ -155,12 +163,18 @@ window.addEventListener("click", function(event) {
 });
 
 iterationSpeedValue.innerHTML = 750;  // Sets displayed default iteration speed value
+let currentDelay = 750;
 
 // Update the current iteration speed slider value upon drag
 iterationSpeedSlider.oninput = function() {
 	iterationSpeedValue.innerHTML = this.value;
-	// setDelay(this.value);
+	setDelay(this.value);
 };
+
+function setDelay(newDelay)
+{
+	currentDelay = newDelay;
+}
 
 //Mouse location calculator for dunctions such as clicking cells
 function getMouseLocation(event) {
@@ -182,7 +196,7 @@ function getMouseLocation(event) {
 	let mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
 	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
 
-	console.log(mouseY)
+	//console.log(mouseY)
 
 	return [mouseX, mouseY];
 }
@@ -200,4 +214,19 @@ function clear()
 	}
 	createVis(canvas);
 	displayLattice(visLatticeArray);
+}
+
+function continouslyIterate()
+{
+	console.log(run);
+	if(run)
+	{
+		setTimeout(function(){ // puts a wait before iterating again
+			if (run) {
+				iterate(); //iterates the number of lattices
+				displayLattice(visLatticeArray)
+			}
+			continouslyIterate(); // allows it to coninously run by calling it again
+		}, currentDelay);
+	}
 }
