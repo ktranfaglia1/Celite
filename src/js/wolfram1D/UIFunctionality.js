@@ -385,7 +385,12 @@ clearButton.addEventListener("click", function() {
 		size = 45; 
 	}
 	alterSize(size);
-	clear(latticeArray);
+	if (latticeArray.length == 1) {
+		clear(latticeArray);
+	}
+	else {
+		clear(latticeArray, true);
+	}
 	makeLog("Cleared Lattice ", logCanvas, messageQueue);
 	alterInf(inf[0], false);}
 );
