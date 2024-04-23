@@ -9,10 +9,6 @@
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
-/* Input Box Submit Button Constant for Iterations */
-const iterationInputBox = document.getElementById("iterationInputBox");
-const iterationSubmit = document.getElementById("iterationSubmit");
-
 /* Connect main buttons */
 const startStopButton = document.getElementById("startStopButton");
 const iterateButton = document.getElementById("iterateButton");
@@ -20,9 +16,11 @@ const clearResetButton = document.getElementById("clearResetButton");
 const libraryButton = document.getElementById("libraryButton");
 const aboutButton = document.getElementById("aboutButton");
 
-/* Connect iteration slider */
+/* Connect sliders */
 const iterationSpeedSlider = document.getElementById("iterationSpeedSlider");
 const iterationSpeedValue = document.getElementById("iterationSpeedValue");
+const zoomSlider = document.getElementById("zoomSlider");
+const zoomValue = document.getElementById("zoomValue");
 
 const aboutWindow = document.getElementById("aboutContainer");  // Connect window for about
 const closeAbout = document.querySelector("#aboutContent .close");  // Connect HTML/CSS close feature to JS for the about window
@@ -33,10 +31,6 @@ let Run = 0; // Defaults to not keep running
 let iterationTime = 250; // Time to wait before iterating again
 
 /* Handle button clicks for all primary toolbar buttons */
-
-iterationSubmit.addEventListener("click", function() {
-
-});
 
 startStopButton.addEventListener("click", function() {
 	if (Run != 1) {
@@ -54,7 +48,7 @@ iterateButton.addEventListener("click", function() {
 });
 
 clearResetButton.addEventListener("click", function() {
-    
+    clearResetToggle();
 });
 
 libraryButton.addEventListener("click", function() {
@@ -70,9 +64,6 @@ document.addEventListener('keydown', function(event) {
     // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
     if (event.altKey) {
 		switch (true) {
-            case (event.key == 'j'):
-				iterationInputBox.focus();
-				break;
 			case (event.key == 'Enter'):
 				startStopButton.click();
 				break;
@@ -90,6 +81,9 @@ document.addEventListener('keydown', function(event) {
 				break;
 			case (event.key == 'y'):
 				iterationSpeedSlider.focus();
+				break;
+			case (event.key == 'z'):
+				zoomSlider.focus();
 				break;
 			case (event.key == '='):
 				let dustin = document.querySelector(".Dustin");
@@ -124,6 +118,17 @@ function startStopToggle() {
   	}
 }
 
+// Handle switching GUI for Clear/Reset Button upon click
+function clearResetToggle() {
+	// If the button is in clear state, change it to reset state and vice versa
+	if (clearResetButton.innerHTML.includes("Clear")) {
+    	clearResetButton.innerHTML = "Reset";
+  	} 
+  	else {
+    	clearResetButton.innerHTML = "Clear";
+  	}
+}
+
 /* Handle open and closing of about window */
 // About button is clicked, display about window
 aboutButton.addEventListener("click", function() {
@@ -144,18 +149,16 @@ window.addEventListener("click", function(event) {
 });
 
 iterationSpeedValue.innerHTML = 250;  // Sets displayed default iteration speed value
+zoomValue.innerHTML = 20;  // Sets displayed default iteration speed value
 
 // Update the current iteration speed slider value upon drag
 iterationSpeedSlider.oninput = function() {
 	iterationSpeedValue.innerHTML = this.value;
-	// setDelay(this.value);
 };
 
-// Check if the browser supports slider color change
-if ('-webkit-slider-thumb' in iterationSpeedSlider.style || '-moz-range-thumb' in iterationSpeedSlider.style || '-ms-thumb' in iterationSpeedSlider.style) {
-	iterationSpeedSlider.style.backgroundColor = color;
-} else {
-console.error("Slider thumb color change not supported in this browser.");
-}
+// Update the current zoom slider value upon drag
+zoomSlider.oninput = function() {
+	zoomValue.innerHTML = this.value;
+};
 
-outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
+// outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page

@@ -91,7 +91,7 @@
       </div>
        <!-- All documentation content -->
       <div class="doc_content">
-        <h2> <u>1D Nearest Neighbor</u> </h2>
+        <h2 class="head"> 1D Nearest Neighbor </h2>
         <h6 id="primaryToolbar1"> Primary Toolbar </h6>
         <div class="p3">
           <u>Iteration Input Box</u>: Enter the number of iterations to complete. Manipulating the iteration amount will change emerging patterns by limiting or expanding the application of a rule. The iteration amount is inclusive such that it goes the entered number of iterations beyond the starting iteration (starting state, index = 0). Using the "Start" or "Iterate" buttons will simulate up to the entered iteration amount.
@@ -101,7 +101,7 @@
           <i> Keyboard Shortcut: </i> ALT + J
         </div>
         <div class="p3">
-          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, the rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current timestep, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). The three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary number. The value at the given index is the new state of the cell.
+          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, the rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current timestep, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). The three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary number. The value at the given index is the new state of the cell. The rule is applied as a parallel update, meaning every cell in the lattice is updated simutaneously upon each iteration.
         </div> 
         <div class="p4"> 
           <i> Input Restrictions: </i> Non-negative real numbers in range [0, 255]. Decimal values will be truncated. <br>
@@ -241,15 +241,8 @@
         <div class="p3"> 
           An iteration counter that displays the current iteration index can be found above the top left border of the canvas.
         </div> <br> <br>
-        <h2> <u>Game of Life</u> </h2>
+        <h2 class="head"> Game of Life </h2>
         <h6 id="primaryToolbar2"> Primary Toolbar </h6>
-        <div class="p3">
-          <u>Iteration Input Box</u>: Enter the number of iterations to complete. Manipulating the iteration amount will change emerging patterns by limiting or expanding the application of a rule. The iteration amount is inclusive such that it goes the entered number of iterations beyond the starting iteration (starting state, index = 0). Using the "Start" or "Iterate" buttons will simulate up to the entered iteration amount.
-        </div> 
-        <div class="p4"> 
-          <i> Input Restrictions: </i> Non-negative real numbers in range [0, 50000]. Decimal values will be truncated. <br>
-          <i> Keyboard Shortcut: </i> ALT + J
-        </div>
         <div class="p3">
           <u>Start/Stop Button</u>: Click "Start" to incrementally iterate up to the total iteration amount (x iterations beyond starting lattice, index = 0). The iterations will complete at the delay rate, defaulted to 750 ms. Upon green "Start" button click, the button will convert to a red "Stop" button. Clicking the "Stop" button will pause the simulation such that the iterations will stop. The button will then convert back to a "Start" button and, if clicked, will resume iterating until the total iteration amount. Upon completion of the total iteration amount, the button will be set back to a "Start" button.
         </div> 
@@ -280,6 +273,13 @@
         </div> 
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + A
+        </div>
+        <div class="p3">
+          <u>Zoom Slider</u>: Click and hold the slider labeled "Delay" to alter the delay time (ms) between iterations when using the "Start" button. Alternatively, click the slider and use the left and right arrow keys to change the delay value. Larger delays may be useful in analysing the transitions between iterations. Smaller delays, even a delay value of 0 ms, will not be immediate like the "Iterate" button, although it will generate very fast. 
+        </div> 
+        <div class="p4"> 
+          <i> Input Restrictions: </i> Values are percentages in range [1, 99]. <br>
+          <i> Keyboard Shortcut: </i> ALT + Z, then Left Arrow to decrease and Right Arrow to increase the value.
         </div>
         <div class="p3">
           <u>Delay Slider</u>: Click and hold the slider labeled "Delay" to alter the delay time (ms) between iterations when using the "Start" button. Alternatively, click the slider and use the left and right arrow keys to change the delay value. Larger delays may be useful in analysing the transitions between iterations. Smaller delays, even a delay value of 0 ms, will not be immediate like the "Iterate" button, although it will generate very fast. 
@@ -325,13 +325,13 @@
           <div class="p3" class="shortcut_item"> 
             <u>Game of Life</u> <br>
             <i> Submit: ENTER </i> <br>
-            <i> Iteration Input Box: ALT + J </i> <br>
             <i> Start/Stop Button: ALT + ENTER </i> <br>
             <i> Iterate Button: ALT + I </i> <br>
             <i> Clear/Reset Button: ALT + C </i> <br>
             <i> Library Button: ALT + L </i> <br>
             <i> About Button: ALT + A </i> <br>
             <i> Delay Slider: ALT + Y </i> <br>
+            <i> Zoom Slider: ALT + Z </i> <br>
           </div>
         </div>
       </div>

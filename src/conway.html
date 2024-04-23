@@ -36,16 +36,18 @@
     <!-- Primary tool bar containing input boxes and options to manipulate the simulation -->
     <div class="primary_toolbar">
       <!-- Container for iteration input box -->
-      <div class="input_container">
-        <label for="iterationInputBox" class="input_label"> Iterations:</label>
-        <input type="text" id="iterationInputBox" class="simulation_input" placeholder="Enter # of iterations...">
-        <button id="iterationSubmit" class="submit_button"> Enter </button>
-      </div>
       <button id="startStopButton" class="start_button"> Start </button>
       <button id="iterateButton" class="simulation_button"> Iterate </button>
       <button id="clearResetButton" class="simulation_button"> Clear </button>
       <button id="libraryButton" class="simulation_button"> Library </button>
       <button id="aboutButton" class="simulation_button"> About </button>
+      <!-- Zoom Slider -->
+      <div class="slider_wrapper">
+        <div class="slider_container">
+          <div class="p5"> Zoom: <span id="zoomValue"> </span> % </div>
+          <input type="range" min="1" max="99" value="20" class="slider" id="zoomSlider">
+        </div>
+      </div>
       <!-- Speed Slider -->
       <div class="slider_wrapper">
         <div class="slider_container">
