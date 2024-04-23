@@ -314,7 +314,7 @@ randomFillButton.addEventListener("click", function() {
 });
 
 iterateButton.addEventListener("click", function() {
-	stopIterating();  // Stops the iteration doing a complete iteration
+	stopIterating();  // Stops the iteration before doing a complete iteration
 	//Keep infinite the same and add the buffers
 	alterInf(inf[0], true)
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
@@ -736,8 +736,7 @@ function setLatticeSize() {
 		addIterations = newValue;//updates the number of iterations
 		makeLog("Iterations Set to " + newValue, logCanvas, messageQueue);
 	}
-	else
-	{
+	else {
 		makeError("Invalid Iteration Size: " + iterationInputBox.value, logCanvas, messageQueue);
 	}
 	return addIterations;
@@ -964,7 +963,7 @@ function clearResetToggle() {
     	clearResetButton.innerHTML = "Clear";
 		makeLog("Resetting Canvas", logCanvas, messageQueue);
   	}
-	else {
+	else if (clearResetButton.innerHTML.includes("Clear") && !Run) {
 		makeLog("Clearing Canvas", logCanvas, messageQueue);
 	}
 }

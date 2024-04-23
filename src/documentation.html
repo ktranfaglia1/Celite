@@ -115,7 +115,7 @@
           <i> Keyboard Shortcut: </i> ALT + L
         </div>
         <div class = p3>
-          Must click the "Submit" button to the right of each input box to apply the input. <br>
+          Must click the "Submit" button to the right of each input box to apply the input. The canvas will be reset upon any input box submit. <br>
           <i> Keyboard Shortcut: </i> ENTER (submits input box in focus or submits all if none in focus)
         </div>
         <h6 id="boundaryConditions"> Boundary Conditions </h6>
@@ -133,7 +133,7 @@
           <i> Null: </i> Imposes a fixed value zero for cells beyond the edges of the lattice. Thus, every edge cell with an out of bounds neighbor considers the neighbor to be dead (white, 0) and will use it in the next cell state calculation. This effectively creates a "wall" at the edges of the lattice.
         </div>
         <div class = p3>
-          Boundary conditions may be toggled on the right side of the primary toolbar. Finite condition checkboxes appear upon toggle. <br>
+          Boundary conditions may be toggled on the right side of the primary toolbar. Finite condition checkboxes appear and canvas will be reset upon toggle. <br>
           <i> Keyboard Shortcut: </i> ALT + U
         </div>
         <h6 id="secondaryToolbar"> Secondary Toolbar </h6>
@@ -151,7 +151,7 @@
           <i> Keyboard Shortcut: </i> ALT + I
         </div>
         <div class="p3">
-          <u>Clear Button</u>: Click "Clear" to reset the canvas, as in, remove the results of the simulation and default the starting state. All iterations beyond the starting iteration (index = 0) will be deleted and the starting iteration will be set to all dead cells (white, 0). The currently stored values for "Iterations," "Rule," and "Lattice" will remain, as they are not impacted by the clear event. 
+          <u>Clear/Reset Button</u>: Click "Clear" to reset the canvas, as in, remove the results of the simulation and default the starting state. All iterations beyond the starting iteration (index = 0) will be deleted and the starting iteration will be set to all dead cells (white, 0). The currently stored values for "Iterations," "Rule," and "Lattice" will remain, as they are not impacted by the clear event. Upon Iteration beyond the starting lattice, the "Clear" button is converted to a "Reset" button. Click the "Reset" button to clear all iterations, except for the starting lattice. Thus, the simulation is cleared but the state of the initial starting lattice remains, acting as a simulation reset. Clicking the "Reset" button will convert it back to a "Clear" button.
         </div> 
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + C
@@ -178,13 +178,13 @@
           <i> Keyboard Shortcut: </i> ALT + P
         </div>
         <div class="p3">
-          <u>Lattice Fill Button</u>: Click "Lattice Fill" to completely fill the starting lattice with alive cells (black, 1). Every cell in the starting lattice will be set to alive, despite the lattice size. Essentially, this acts as an inverse default starting position and may work well with some rules that benefit from more alive cells. 
+          <u>Lattice Fill Button</u>: Click "Lattice Fill" to completely fill the starting lattice with alive cells (black, 1). Every cell in the starting lattice will be set to alive, despite the lattice size. Essentially, this acts as an inverse default starting position and may work well with some rules. The Canvas will reset upon click.
         </div> 
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + G
         </div>
         <div class="p3">
-          <u>Random Fill Button</u>: Click "Random Fill" to randomly fill the starting lattice with alive cells (black, 1). Each cell in the starting lattice will have a 50% chance to be set to alive. In theory, as the lattice size increases, about half of the cells will be dead and about half will be alive.
+          <u>Random Fill Button</u>: Click "Random Fill" to randomly fill the starting lattice with alive cells (black, 1). Each cell in the starting lattice will have a 50% chance to be set to alive. In theory, as the lattice size increases, about half of the cells will be dead and about half will be alive. The Canvas will reset upon click.
         </div> 
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + M
@@ -197,7 +197,7 @@
           <i> Keyboard Shortcut: </i> ALT + W
         </div>
         <div class="p3">
-          <u>Cell Border Toggle</u>: Click the toggle bar labeled "Cell Border" to toggle the black borders that enclose a cell. The border will only be toggled for cells in iterations beyond the starting state such that the starting state cells (index = 0) are not impacted by the toggle. This may be useful in improving the appearance of an image generated with a larger lattice size on the canvas and may help with pattern recognition and analysis.
+          <u>Cell Border Toggle</u>: Click the toggle bar labeled "Cell Border" to toggle the black borders that enclose a cell. The border will only be toggled for cells in iterations beyond the starting state such that the starting state cells (index = 0) are not impacted by the toggle. This may be useful in improving the appearance of an image generated with a larger lattice size on the canvas and may help with pattern recognition and analysis. The Canvas will reset upon click.
         </div> 
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + X
