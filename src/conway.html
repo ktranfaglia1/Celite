@@ -45,7 +45,7 @@
       <div class="slider_wrapper">
         <div class="slider_container">
           <div class="p5"> Zoom: <span id="zoomValue"> </span> % </div>
-          <input type="range" min="1" max="99" value="20" class="slider" id="zoomSlider">
+          <input type="range" min="1" max="99" value="50" class="slider" id="zoomSlider">
         </div>
       </div>
       <!-- Speed Slider -->
@@ -56,17 +56,23 @@
         </div>
       </div>
     </div>
-    <!--  <canvas id="logRegion" class="log_box"> </canvas> Display region for the logs -->
     <div id="iterationOutput" class="iteration_output"> </div>  <!-- Output region for iteration count -->
     <!-- Canvas region for lattice display and overlapping canvas for iteration tickmark -->
     <center> 
       <canvas id="latticeRegion" class="lattice_region"> </canvas> 
     </center>
-    <!-- About window to provide information on Wolfram's Nearest Neighbor -->
+    <!-- About window to provide information on Conway's Game of Life -->
     <div id="aboutContainer" class="about_container">
       <div id="aboutContent" class="about_content">
-        <span class="close">&times; </span>
+        <span class="close"> &times; </span>
         <h2> About Conway's Game of Life Simulator </h2>
+      </div>
+    </div>
+    <!-- Library window to provide preset canvas states for Conway's Game of Life -->
+    <div id="libraryContainer" class="library_container">
+      <div id="libraryContent" class="library_content">
+        <span class="close"> &times; </span>
+        <h2> Canvas Preset Library </h2>
       </div>
     </div>
     <div class="Dustin"></div>

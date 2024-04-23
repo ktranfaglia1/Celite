@@ -168,7 +168,7 @@ h6 {
   display: block;
 }
 /* About window formatting */ 
-.about_container {
+.about_container, .library_container {
   display: none;
   position: fixed;
   left: 0;
@@ -179,7 +179,7 @@ h6 {
   overflow: auto;
   z-index: 3;
 }
-.about_content {
+.about_content, .library_content {
   background-color: #fefefe;
   margin: 7% auto;
   border: 2px solid #888;

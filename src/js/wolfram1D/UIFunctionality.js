@@ -37,7 +37,7 @@ const latticeSizeSubmit = document.getElementById("latticeSizeSubmit");
 //Main Buttons Constants
 const startStopButton = document.getElementById("startStopButton");
 const iterateButton = document.getElementById("iterateButton");
-const clearButton = document.getElementById("clearButton");
+const clearResetButton = document.getElementById("clearResetButton");
 const downloadPDFButton = document.getElementById("downloadPDFButton");
 const downloadPNGButton = document.getElementById("downloadPNGButton");
 const aboutButton = document.getElementById("aboutButton");
@@ -353,11 +353,12 @@ iterateButton.addEventListener("click", function() {
 			(neoLatticeArray[0][i]).drawCell(ctx);
 			alterLatticeArray(neoLatticeArray);
 		}
+		clearResetButton.innerHTML = "Reset";
 	}
 	iterate(currentIteration, addIterations);
 });
 
-clearButton.addEventListener("click", function() {
+clearResetButton.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before changing clearing the canvas
 
 	// Removes buffers if they existed.
@@ -376,7 +377,7 @@ clearButton.addEventListener("click", function() {
 	}
 	alterSize(size);
 	clear(latticeArray);
-	makeLog("Cleared Lattice ", logCanvas, messageQueue);
+	clearResetToggle();
 	alterInf(inf[0], false);}
 );
 /* Connect UI Functionality to a prebuilt function */
@@ -445,8 +446,10 @@ startStopButton.addEventListener("click", function() {
 				(neoLatticeArray[0][i]).drawCell(ctx);
 				alterLatticeArray(neoLatticeArray);
 			}
+			if (addIterations) {
+    			clearResetButton.innerHTML = "Reset";
+			}
 		}
-		
 		continouslyIterate(iterationTime);
 	}
 	else {
@@ -477,7 +480,7 @@ document.addEventListener('keydown', function(event) {
 				iterateButton.click();
 				break;
 			case (event.key == 'c'):
-				clearButton.click();
+				clearResetButton.click();
 				break;
 			case (event.key == 'o'):
 				optionsButton.click();
@@ -953,6 +956,17 @@ function startStopToggle() {
     	startStopButton.classList.add("start_button");
 		makeLog("Stopping Iterations", logCanvas, messageQueue);
   	}
+}
+
+// Handle switching GUI for Start/Stop Button upon click
+function clearResetToggle() {
+  	if (clearResetButton.innerHTML.includes("Reset")) {
+    	clearResetButton.innerHTML = "Clear";
+		makeLog("Resetting Canvas", logCanvas, messageQueue);
+  	}
+	else {
+		makeLog("Clearing Canvas", logCanvas, messageQueue);
+	}
 }
 
 // Set boundary condition and ensure one and only one checkbox can be checked at a time upon checkbox click

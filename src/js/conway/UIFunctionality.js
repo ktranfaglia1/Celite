@@ -24,6 +24,8 @@ const zoomValue = document.getElementById("zoomValue");
 
 const aboutWindow = document.getElementById("aboutContainer");  // Connect window for about
 const closeAbout = document.querySelector("#aboutContent .close");  // Connect HTML/CSS close feature to JS for the about window
+const libraryWindow = document.getElementById("libraryContainer");  // Connect window for library
+const closeLibrary = document.querySelector("#libraryContent .close");  // Connect HTML/CSS close feature to JS for the library window
 
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
@@ -49,14 +51,6 @@ iterateButton.addEventListener("click", function() {
 
 clearResetButton.addEventListener("click", function() {
     clearResetToggle();
-});
-
-libraryButton.addEventListener("click", function() {
-    
-});
-
-aboutButton.addEventListener("click", function() {
-    
 });
 
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
@@ -129,7 +123,7 @@ function clearResetToggle() {
   	}
 }
 
-/* Handle open and closing of about window */
+/* Handle open and closing of about and library window */
 // About button is clicked, display about window
 aboutButton.addEventListener("click", function() {
 	aboutWindow.style.display = "block";
@@ -148,8 +142,26 @@ window.addEventListener("click", function(event) {
 	}
 });
 
+// About button is clicked, display about window
+libraryButton.addEventListener("click", function() {
+	libraryWindow.style.display = "block";
+});
+
+// Close if x (close) button in top right of the window is clicked
+closeLibrary.addEventListener("click", function() {
+	libraryWindow.style.display = "none";
+});
+
+// Close if any space outside of the about window is clicked
+window.addEventListener("click", function(event) {
+	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
+	if (event.target == libraryWindow) {
+		libraryWindow.style.display = "none";
+	}
+});
+
 iterationSpeedValue.innerHTML = 250;  // Sets displayed default iteration speed value
-zoomValue.innerHTML = 20;  // Sets displayed default iteration speed value
+zoomValue.innerHTML = 50;  // Sets displayed default zoom value
 
 // Update the current iteration speed slider value upon drag
 iterationSpeedSlider.oninput = function() {
