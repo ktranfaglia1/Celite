@@ -29,6 +29,7 @@ const closeAbout = document.querySelector("#aboutContent .close");  // Connect H
 
 import {canvas, ctx, displayLattice} from "./displayLattice.js";
 import {visLatticeArray, visBounds, latticeArray, iterate, createVis} from "./generateLattice.js";
+import { borderContact, expandBorder } from "./generateLattice.js";
 
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
@@ -42,11 +43,16 @@ iterationSubmit.addEventListener("click", function() {
 });
 
 startStopButton.addEventListener("click", function() {
-
+	//continouslyIterate();
 });
 
 iterateButton.addEventListener("click", function() {
     iterate();
+	let currentBoundaryPush = borderContact();
+	for (let f = 0; f < currentBoundaryPush.length; f++) {
+		expandBorder(currentBoundaryPush[f], (bounds[0] / 2));
+	}
+	createVis();
 	displayLattice(visLatticeArray)
 });
 
@@ -182,7 +188,7 @@ function getMouseLocation(event) {
 
 function clear()
 {
-	console.log("Test");
+	//console.log("Test");
 	for (let i = 0; i < visLatticeArray.length; i++)
 	{
 		for (let j = 0; j < visLatticeArray[0].length; j++)

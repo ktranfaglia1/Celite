@@ -194,11 +194,12 @@ const canvas = document.getElementById('latticeRegion');
 
 let bounds = new Array(500, 500);
 
-let canvasHeight = .64 * window.innerHeight;
-let canvasWidth = .9 * window.innerWidth;
+let canvasHeight = window.innerHeight;
+let canvasWidth = window.innerWidth;
 
-let visLatticeHeight = 25;
-let visLatticeWidth = visLatticeHeight * canvasWidth / canvasHeight - 1;
+let visLatticeHeight = 12;
+//let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+let visLatticeWidth = visLatticeHeight * canvas.height - 1;
 
 
 let visBounds = new Array(0, 0, visLatticeWidth, visLatticeHeight);
@@ -218,16 +219,15 @@ createInit();
 createVis(canvas);
 //Draw intial visual of lattice here. Might want everything after this comment to be triggered by a button.
 /*let currentBoundaryPush = new Array();
-for (let i = 0; i < numIt; i++) {
-    //console.log(i)
-    iterate();
-    currentBoundaryPush = borderContact();
-    for (let f = 0; f < currentBoundaryPush.length; f++) {
-        expandBorder(currentBoundaryPush[f], (bounds[0] / 2));
-    }
-    createVis();
-    //Redraw visual of lattice here
-}*/
+//console.log(i)
+iterate();
+currentBoundaryPush = borderContact();
+for (let f = 0; f < currentBoundaryPush.length; f++) {
+    expandBorder(currentBoundaryPush[f], (bounds[0] / 2));
+}
+createVis();
+//Redraw visual of lattice here
+*/
 
 
 
