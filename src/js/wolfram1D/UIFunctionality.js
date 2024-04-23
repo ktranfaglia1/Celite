@@ -295,6 +295,8 @@ toggleBar.addEventListener("click", function() {
 //Sets all top lattices to black
 latticeFillButton.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before completely filling the lattice
+	clearResetButton.innerHTML = "Clear";
+	setLatticeSize();
 	clear(latticeArray);
 	for (let i = 0; i  < latticeArray[0].length; i++) {
 		latticeArray[0][i].setColor(1);
@@ -305,7 +307,9 @@ latticeFillButton.addEventListener("click", function() {
 
 randomFillButton.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before randomly filling the lattice
-	clear(latticeArray)
+	clearResetButton.innerHTML = "Clear";
+	setLatticeSize();
+	clear(latticeArray);
 	for (let i = 0; i  < latticeArray[0].length; i++) {
 		latticeArray[0][i].setColor(Math.floor(Math.random() * 2));
 	}
@@ -394,6 +398,7 @@ iterationToggleButton.addEventListener("click", function() {
 
 borderToggleButton.addEventListener("click", function() {
 	alterBorder(!getBorder());
+	drawLattice(latticeArray);
 	borderToggleOption();
 });
 
@@ -404,6 +409,7 @@ iterationSubmit.addEventListener("click", function() {
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before changing the lattice size
+	clearResetButton.innerHTML = "Clear";
 	updateLatticeSize(canvas);
 });
 
@@ -742,7 +748,7 @@ function setLatticeSize() {
 	return addIterations;
 }
 
-//gets rid of all arays except the first and sets all cells to dead (white)
+// Gets rid of all arays except the first and sets all cells to dead (white) unless specified to keep initial lattice
 function clear(latticeArray, keepInit = false) {
 	totalDelta = 0;
 	canvas.height = 400;
@@ -762,6 +768,7 @@ function clear(latticeArray, keepInit = false) {
 	let latPlusBufferArr = new Array()
 	//If the clear is keeping the initial timesteps' cell states, push the color onto a mock array to save cell states.
 	if (keepInit) {
+		clearResetButton.innerHTML = "Clear";
 		let bufferNum = (neoLatticeArray[0].length - clearedLattice[0].slice(0).length) / 2;
 		for (let i = bufferNum; i < (latSize[0] + bufferNum); i++) {
 			latPlusBufferArr.push(latticeArray[0][i].getColor())
