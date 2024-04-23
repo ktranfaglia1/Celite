@@ -1,5 +1,5 @@
 
-import {visLatticeArray, visBounds} from "./generateLattice.js";
+import {visLatticeArray, visBounds, latticeArray, createVis} from "./generateLattice.js";
 
 
 //Grabs Canvas and Context Data of the Canvas
@@ -17,6 +17,8 @@ displayLattice(visLatticeArray);
 
 export function displayLattice(visLatticeArray)
 {
+    createVis(canvas);
+
     for(let i = 0; i < visLatticeArray.length; i++)
     {
         for(let j = 0; j < visLatticeArray[0].length; j++)

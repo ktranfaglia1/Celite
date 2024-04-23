@@ -165,7 +165,7 @@ export function iterate() {
         for (let f = 0; f < bounds[0]; f++) {
             let currentState = latticeArray[i][f];
             let numNeighbors = livingNeighbors(f, i);
-            /*
+            
             if (currentState == 0) {
                 if (numNeighbors == 3) {
                     dummyArr.push(1);
@@ -182,11 +182,12 @@ export function iterate() {
                     dummyArr.push(0);
                 }
             }
-            */
+            
         }
         newLat[i] = dummyArr;
     }
     latticeArray = newLat;
+    createVis(canvas);
     return latticeArray;
 }
 
@@ -231,4 +232,4 @@ for (let i = 0; i < numIt; i++) {
 
 
 
-export {visLatticeArray, visBounds};
+export {visLatticeArray, visBounds, latticeArray};

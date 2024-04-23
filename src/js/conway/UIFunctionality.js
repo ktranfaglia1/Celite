@@ -27,8 +27,8 @@ const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 const aboutWindow = document.getElementById("aboutContainer");  // Connect window for about
 const closeAbout = document.querySelector("#aboutContent .close");  // Connect HTML/CSS close feature to JS for the about window
 
-import {canvas, ctx} from "./displayLattice.js";
-import { visLatticeArray } from "./generateLattice.js";
+import {canvas, ctx, displayLattice} from "./displayLattice.js";
+import {visLatticeArray, visBounds, latticeArray, iterate} from "./generateLattice.js";
 
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
@@ -46,7 +46,8 @@ startStopButton.addEventListener("click", function() {
 });
 
 iterateButton.addEventListener("click", function() {
-    
+    iterate();
+	displayLattice(visLatticeArray)
 });
 
 clearResetButton.addEventListener("click", function() {
@@ -69,7 +70,9 @@ canvas.addEventListener("click", function(event){
 	let YIndex = Math.floor(mouseY / visLatticeArray[0][0].getHeight());
 
 	visLatticeArray[YIndex][XIndex].flipColor();
-	visLatticeArray[YIndex][XIndex].drawCell(ctx);	
+	visLatticeArray[YIndex][XIndex].drawCell(ctx);
+	
+	latticeArray[YIndex + visBounds[1]][XIndex + visBounds[0]] = !latticeArray[YIndex + visBounds[1]][XIndex + visBounds[0]];
 
 });
 
