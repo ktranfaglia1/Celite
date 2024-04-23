@@ -27,7 +27,8 @@ const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 const aboutWindow = document.getElementById("aboutContainer");  // Connect window for about
 const closeAbout = document.querySelector("#aboutContent .close");  // Connect HTML/CSS close feature to JS for the about window
 
-import { canvas, ctx } from "./displayLattice";
+import {canvas, ctx} from "./displayLattice.js";
+import { visLatticeArray } from "./generateLattice.js";
 
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
@@ -61,8 +62,15 @@ aboutButton.addEventListener("click", function() {
 });
 
 canvas.addEventListener("click", function(event){
+	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event);
-	
+
+	let XIndex = Math.floor(mouseX / visLatticeArray[0][0].getWidth());
+	let YIndex = Math.floor(mouseY / visLatticeArray[0][0].getHeight());
+
+	visLatticeArray[YIndex][XIndex].flipColor();
+	visLatticeArray[YIndex][XIndex].drawCell(ctx);	
+
 });
 
 //Listener for click on canvas

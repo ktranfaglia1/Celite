@@ -1,3 +1,5 @@
+
+
 //This function creates the intitial lattice. This one is not made up of cell classes for storage purposes, a parallel structure
 //of cells will be made that displays a certain subset of this lattice using cells.
 export function createInit() {
@@ -11,8 +13,10 @@ export function createInit() {
 }
 
 //This function uses the current lattice array and visible boundary to create the current cell lattice to be displayed.
-export function createVis() {
+export function createVis(canvas) {
     let newLat = new Array(new Array());
+    cellSize = (.64 * window.innerHeight) / visBounds[3]; /* Window Calculation / number of cells gives the optimal size to fit screen */
+    console.log(cellSize);
     for (let i = visBounds[1]; i < visBounds[3]; i++) {
         let posY = i - visBounds[1];
         let dummyArr = new Array();
@@ -186,17 +190,32 @@ export function iterate() {
     return latticeArray;
 }
 
-import {cell} from "./cellClass.js"
+const canvas = document.getElementById('latticeRegion');
 
 let bounds = new Array(500, 500);
-let visBounds = new Array(0, 0, 500, 500);
+
+let canvasHeight = .64 * window.innerHeight;
+let canvasWidth = .9 * window.innerWidth;
+
+let visLatticeHeight = 25;
+let visLatticeWidth = visLatticeHeight * canvasWidth / canvasHeight - 1;
+
+
+let visBounds = new Array(0, 0, visLatticeWidth, visLatticeHeight);
 let visLatticeArray = new Array(new Array());
 let latticeArray = new Array(new Array());
 let cellSize = 30;
 let numIt = 500;
 
+import {cell} from "./cellClass.js"
+//import {canvas} from "./displayLattice.js";
+
+//console.log(canvas)
+
+
+
 createInit();
-createVis();
+createVis(canvas);
 //Draw intial visual of lattice here. Might want everything after this comment to be triggered by a button.
 /*let currentBoundaryPush = new Array();
 for (let i = 0; i < numIt; i++) {
@@ -212,4 +231,4 @@ for (let i = 0; i < numIt; i++) {
 
 
 
-export {visLatticeArray};
+export {visLatticeArray, visBounds};

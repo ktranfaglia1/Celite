@@ -1,5 +1,5 @@
 
-import {visLatticeArray} from "../conway/generateLattice.js";
+import {visLatticeArray, visBounds} from "./generateLattice.js";
 
 
 //Grabs Canvas and Context Data of the Canvas
@@ -10,7 +10,10 @@ canvas.width = .9 * window.innerWidth;
 
 canvas.height = .64 * window.innerHeight;
 
-displayLattice(visLatticeArray)
+
+export {canvas, ctx};
+
+displayLattice(visLatticeArray);
 
 export function displayLattice(visLatticeArray)
 {
@@ -22,5 +25,3 @@ export function displayLattice(visLatticeArray)
         }
     }
 }
-
-export {canvas, ctx};
