@@ -1,4 +1,34 @@
+const canvas = document.getElementById('latticeRegion');
 
+let bounds = new Array(500, 500);
+
+//let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
+//let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+
+intialCanvas();
+
+// Calculates Height and Width cooresponding to CSS setting of Canvas
+let canvasHeight = canvas.height;
+let canvasWidth = canvas.width;
+
+let visLatticeHeight = 25; // canvas.height / visLatticeHeight // Size of a cell
+let visLatticeWidth = canvasWidth * visLatticeHeight / canvasHeight - 1; // canvasWidth / size of a cell = visLatticeHeight * canvasWidth / size of a cell
+
+let cellSize = canvasHeight / visLatticeHeight;
+
+let visBounds = new Array(0, 0, visLatticeWidth, visLatticeHeight);
+let visLatticeArray = new Array(new Array());
+let latticeArray = new Array(new Array());
+
+let numIt = 500;
+
+import {cell} from "./cellClass.js"
+import { intialCanvas } from "./displayLattice.js";
+
+createInit();
+createVis(canvas);
+
+export {visLatticeArray, visBounds, latticeArray};
 
 //This function creates the intitial lattice. This one is not made up of cell classes for storage purposes, a parallel structure
 //of cells will be made that displays a certain subset of this lattice using cells.
@@ -189,56 +219,3 @@ export function iterate() {
     createVis(canvas);
     return latticeArray;
 }
-
-const canvas = document.getElementById('latticeRegion');
-
-let bounds = new Array(500, 500);
-
-//let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
-//let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
-
-intialCanvas();
-
-// Calculates Height and Width cooresponding to CSS setting of Canvas
-let canvasHeight = canvas.height;
-let canvasWidth = canvas.width;
-
-let visLatticeHeight = 25; // canvas.height / visLatticeHeight //Size of a cell
-let visLatticeWidth = canvasWidth * visLatticeHeight / canvasHeight - 1; // canvasWidth / size of a cell = visLatticeHeight * canvasWidth / size of a cell
-
-let cellSize = canvasHeight / visLatticeHeight;
-
-let visBounds = new Array(0, 0, visLatticeWidth, visLatticeHeight);
-let visLatticeArray = new Array(new Array());
-let latticeArray = new Array(new Array());
-
-console.log(canvasHeight)
-
-
-let numIt = 500;
-
-import {cell} from "./cellClass.js"
-import { intialCanvas } from "./displayLattice.js";
-//import {canvas} from "./displayLattice.js";
-
-//console.log(canvas)
-
-
-
-createInit();
-createVis(canvas);
-//Draw intial visual of lattice here. Might want everything after this comment to be triggered by a button.
-/*let currentBoundaryPush = new Array();
-//console.log(i)
-iterate();
-currentBoundaryPush = borderContact();
-for (let f = 0; f < currentBoundaryPush.length; f++) {
-    expandBorder(currentBoundaryPush[f], (bounds[0] / 2));
-}
-createVis();
-//Redraw visual of lattice here
-*/
-
-
-
-export {visLatticeArray, visBounds, latticeArray};

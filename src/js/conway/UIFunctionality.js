@@ -34,10 +34,12 @@ const closeLibrary = document.querySelector("#libraryContent .close");  // Conne
 /* Global variables for iteration */
 let run = 0; // Defaults to not keep running
 let currentDelay = 750; // Time to wait before iterating again
+let iterationCount = 0; // Tracks number of iterations
 
 /* Handle button clicks for all primary toolbar buttons */
 
 startStopButton.addEventListener("click", function() {
+	clearResetToggle(true);
 	startStopToggle();
 	run = !run;
 	if (run) {
@@ -46,7 +48,9 @@ startStopButton.addEventListener("click", function() {
 });
 
 iterateButton.addEventListener("click", function() {
+	clearResetToggle(true);
 	iterate();
+	iterationCount++;
 	let currentBoundaryPush = borderContact();
 	for (let i = 0; i < currentBoundaryPush.length; i++) {
 		expandBorder(currentBoundaryPush[i], (bounds[0] / 2));
@@ -57,7 +61,7 @@ iterateButton.addEventListener("click", function() {
 
 clearResetButton.addEventListener("click", function() {
 	clear();
-    clearResetToggle();
+    clearResetToggle(false);
 });
 
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
@@ -133,12 +137,12 @@ function startStopToggle() {
 }
 
 // Handle switching GUI for Clear/Reset Button upon click
-function clearResetToggle() {
+function clearResetToggle(reset) {
 	// If the button is in clear state, change it to reset state and vice versa
-	if (clearResetButton.innerHTML.includes("Clear")) {
+	if (reset) {
     	clearResetButton.innerHTML = "Reset";
   	} 
-  	else {
+  	else if (!reset) {
     	clearResetButton.innerHTML = "Clear";
   	}
 }
@@ -222,6 +226,7 @@ function getMouseLocation(event) {
 }
 
 function clear() {
+	iterationCount = 0;
 	for (let i = 0; i < visLatticeArray.length; i++) {
 		for (let j = 0; j < visLatticeArray[0].length; j++) {
 			latticeArray[i][j] = 0;
@@ -237,6 +242,7 @@ function continouslyIterate() {
 		setTimeout(function() { // puts a wait before iterating again
 			if (run) {
 				iterate(); //iterates the number of lattices
+				iterationCount++;
 				displayLattice(visLatticeArray)
 			}
 			continouslyIterate(); // allows it to coninously run by calling it again

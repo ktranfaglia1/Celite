@@ -22,7 +22,6 @@ change cell label when only one row
 Reset Perspective Button
 */
 
-
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
 //Input Box Constants
@@ -74,7 +73,7 @@ const closeOptions = document.querySelector("#optionsContent .close");
 
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
-let Run = 0; // Defaults to not keep running
+let run = 0; // Defaults to not keep running
 let iterationTime = 750; //Time to wait before iterating again
 let tickerToggle = 0; //Ticker toggle decides if row ticker will be on defaults to on
 
@@ -376,7 +375,12 @@ clearResetButton.addEventListener("click", function() {
 		size = 45; 
 	}
 	alterSize(size);
-	clear(latticeArray);
+	if (latticeArray.length == 1) {
+		clear(latticeArray);
+	}
+	else {
+		clear(latticeArray, true);
+	}
 	clearResetToggle();
 	alterInf(inf[0], false);}
 );
@@ -413,8 +417,8 @@ latticeSizeSubmit.addEventListener("click", function() {
 });
 
 startStopButton.addEventListener("click", function() {
-	if (Run != 1) {
-		Run = 1;
+	if (run != 1) {
+		run = 1;
 		startStopToggle();
 		if (latticeArray.length == 1) {
 			let bufferArr = new Array()
@@ -458,7 +462,7 @@ startStopButton.addEventListener("click", function() {
 		continouslyIterate(iterationTime);
 	}
 	else {
-		Run = 0;
+		run = 0;
 		startStopToggle();
 	}
 });
@@ -654,9 +658,9 @@ function setDelay(newDelay) {
 //repeatly iterates while run is true
 function continouslyIterate(iterationTime) {
 	//Checks if Run is activate
-	if (Run) {
+	if (run) {
 		setTimeout(function(){ // puts a wait before iterating again
-			if (Run) {
+			if (run) {
 				iterate(currentIteration, 1); //iterates the number of lattices
 			}
 			continouslyIterate(iterationTime); // allows it to coninously run by calling it again
@@ -669,7 +673,7 @@ function continouslyIterate(iterationTime) {
 
 function setRule() {
 	let newRule = parseInt(ruleInputBox.value); //Turns input in rule input box into a number
-	Run = 0; //Tells continous to not run
+	run = 0; //Tells continous to not run
 	//Checks if integer was a real integer and if its in the required range of the function
 	if (!isNaN(newRule) && newRule >= 0 && newRule <= 255) {
 		alterRuleNum(newRule);
@@ -834,7 +838,7 @@ function iterate(currentIteration, newIterations) {
 	setTimeout(function(){
 		if (numOfIterations + newIterations > addIterations) {
 			alterNumOfIterations(addIterations + 1);
-			Run = 0;
+			run = 0;
 		}
 		else {
 			alterNumOfIterations(numOfIterations + newIterations);
@@ -851,8 +855,8 @@ function iterate(currentIteration, newIterations) {
 }
 
 function stopIterating() {
-	if (Run) {
-		Run = 0;
+	if (run) {
+		run = 0;
 	}
 }
 
@@ -954,7 +958,7 @@ function borderToggleOption() {
 // Handle switching GUI for Start/Stop Button upon click
 function startStopToggle() {
 	// If the button is in start state, change it to stop state and vice versa
-	if (startStopButton.classList.contains("start_button") && Run) {
+	if (startStopButton.classList.contains("start_button") && run) {
     	startStopButton.innerHTML = "Stop";
     	startStopButton.classList.remove("start_button");
     	startStopButton.classList.add("stop_button");
@@ -962,7 +966,7 @@ function startStopToggle() {
 		//Add buffers.
 		alterInf(inf[0], true)
   	} 
-  	else if (startStopButton.classList.contains("stop_button") && !Run) {
+  	else if (startStopButton.classList.contains("stop_button") && !run) {
     	startStopButton.innerHTML = "Start";
     	startStopButton.classList.remove("stop_button");
     	startStopButton.classList.add("start_button");
@@ -976,7 +980,7 @@ function clearResetToggle() {
     	clearResetButton.innerHTML = "Clear";
 		makeLog("Resetting Canvas", logCanvas, messageQueue);
   	}
-	else if (clearResetButton.innerHTML.includes("Clear") && !Run) {
+	else if (clearResetButton.innerHTML.includes("Clear") && !run) {
 		makeLog("Clearing Canvas", logCanvas, messageQueue);
 	}
 }
@@ -1044,7 +1048,6 @@ checkboxes.forEach(function(checkbox) {
 		}
     });
 });
-
 
 // Adds an error to message log
 function makeError(errorMessage, logCanvas, messageQueue) {
@@ -1166,4 +1169,3 @@ iterationSpeedSlider.oninput = function() {
 };
 
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
-
