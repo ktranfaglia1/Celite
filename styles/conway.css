@@ -152,3 +152,8 @@ hr {
   cursor: pointer;
   background-color: #7b4b33;
 }
+/*Used to center the canvas*/
+.center_canvas {
+  display: flex;
+  justify-content: center;
+}

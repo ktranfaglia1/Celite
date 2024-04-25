@@ -6,6 +6,10 @@
   for simulation modifications and communicates it with utility files
 * Last Updated: 04/18/24
 */
+/* Import utility and variables from other JS files */
+import {canvas, ctx, displayLattice} from "./displayLattice.js";
+import {visLatticeArray, visBounds, latticeArray, iterate, createVis} from "./generateLattice.js";
+import { borderContact, expandBorder } from "./generateLattice.js";
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
@@ -28,28 +32,31 @@ const libraryWindow = document.getElementById("libraryContainer");  // Connect w
 const closeLibrary = document.querySelector("#libraryContent .close");  // Connect HTML/CSS close feature to JS for the library window
 
 /* Global variables for iteration */
-let addIterations = 0; // Defaults iterations
-let Run = 0; // Defaults to not keep running
-let iterationTime = 250; // Time to wait before iterating again
+let run = 0; // Defaults to not keep running
+let currentDelay = 750; // Time to wait before iterating again
 
 /* Handle button clicks for all primary toolbar buttons */
 
 startStopButton.addEventListener("click", function() {
-	if (Run != 1) {
-		startStopToggle();
-		Run = 1;
-	}
-	else {
-		Run = 0;
-		startStopToggle();
+	startStopToggle();
+	run = !run;
+	if (run) {
+		continouslyIterate();
 	}
 });
 
 iterateButton.addEventListener("click", function() {
-    
+	iterate();
+	let currentBoundaryPush = borderContact();
+	for (let i = 0; i < currentBoundaryPush.length; i++) {
+		expandBorder(currentBoundaryPush[i], (bounds[0] / 2));
+	}
+	createVis();
+	displayLattice(visLatticeArray);
 });
 
 clearResetButton.addEventListener("click", function() {
+	clear();
     clearResetToggle();
 });
 
@@ -97,10 +104,23 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
+canvas.addEventListener("click", function(event) {
+	let mouseX, mouseY;
+	[mouseX, mouseY] = getMouseLocation(event);
+
+	let XIndex = Math.floor(mouseX / visLatticeArray[0][0].getWidth());
+	let YIndex = Math.floor(mouseY / visLatticeArray[0][0].getHeight());
+
+	visLatticeArray[YIndex][XIndex].flipColor();
+	visLatticeArray[YIndex][XIndex].drawCell(ctx);
+	
+	latticeArray[YIndex + visBounds[1]][XIndex + visBounds[0]] = !latticeArray[YIndex + visBounds[1]][XIndex + visBounds[0]];
+});
+
 // Handle switching GUI for Start/Stop Button upon click
 function startStopToggle() {
 	// If the button is in start state, change it to stop state and vice versa
-	if (startStopButton.classList.contains("start_button") && !Run) {
+	if (startStopButton.classList.contains("start_button") && !run) {
     	startStopButton.innerHTML = "Stop";
     	startStopButton.classList.remove("start_button");
     	startStopButton.classList.add("stop_button");
@@ -166,11 +186,62 @@ zoomValue.innerHTML = 50;  // Sets displayed default zoom value
 // Update the current iteration speed slider value upon drag
 iterationSpeedSlider.oninput = function() {
 	iterationSpeedValue.innerHTML = this.value;
+	setDelay(this.value);
 };
 
 // Update the current zoom slider value upon drag
 zoomSlider.oninput = function() {
 	zoomValue.innerHTML = this.value;
 };
+
+function setDelay(newDelay) {
+	currentDelay = newDelay;
+}
+
+// Mouse location calculator for dunctions such as clicking cells
+function getMouseLocation(event) {
+	//Gets the posistion of the edges of canvas
+	let bounds = canvas.getBoundingClientRect();
+
+	// Calculates Height and Width cooresponding to CSS setting of Canvas
+	let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
+	let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
+	
+	//Calculates the width of the thin border that wraps around the canvas allowing for pixel perfect clicking
+	let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+	
+	//Gets the amount of padding which isnt generally considered in the mouse click
+	let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+	let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
+	
+	//calculates mouse X and mouse Y of the Mouse during click and then distorts and move the location to where it needs cooresponding
+	let mouseX = (event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width / cssWidth;
+	let mouseY = (event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height / cssHeight;
+
+	return [mouseX, mouseY];
+}
+
+function clear() {
+	for (let i = 0; i < visLatticeArray.length; i++) {
+		for (let j = 0; j < visLatticeArray[0].length; j++) {
+			latticeArray[i][j] = 0;
+		}
+	}
+	createVis(canvas);
+	displayLattice(visLatticeArray);
+}
+
+function continouslyIterate() {
+	console.log(run);
+	if (run) {
+		setTimeout(function() { // puts a wait before iterating again
+			if (run) {
+				iterate(); //iterates the number of lattices
+				displayLattice(visLatticeArray)
+			}
+			continouslyIterate(); // allows it to coninously run by calling it again
+		}, currentDelay);
+	}
+}
 
 // outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page

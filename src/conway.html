@@ -58,9 +58,9 @@
     </div>
     <div id="iterationOutput" class="iteration_output"> </div>  <!-- Output region for iteration count -->
     <!-- Canvas region for lattice display and overlapping canvas for iteration tickmark -->
-    <center> 
+    <div class="center_canvas"> 
       <canvas id="latticeRegion" class="lattice_region"> </canvas> 
-    </center>
+    </div>
     <!-- About window to provide information on Conway's Game of Life -->
     <div id="aboutContainer" class="about_container">
       <div id="aboutContent" class="about_content">
@@ -78,4 +78,7 @@
     <div class="Dustin"></div>
   </body>
 </html>
+<script type="module" src="../src/js/conway/displayLattice.js"> </script> <!-- Connect Javascript for lattice calculation -->
+<script type="module" src="../src/js/conway/generateLattice.js"> </script> <!-- Connect Javascript for lattice calculation -->
+<script type="module" src="../src/js/conway/cellClass.js"> </script> <!-- Connect Javascript for cell creation -->
 <script type="module" src="../src/js/conway/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->

@@ -11,6 +11,7 @@ import {numOfIterations, currentIteration, size, latSize, ruleNum, inf} from './
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder} from './displayLattice.js';
 import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder} from './displayLattice.js';
 import {updateLattice} from './displayLattice.js';
+import {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
 import {logMessage} from './logClass.js';
@@ -70,11 +71,6 @@ const borderToggle = document.querySelector("#borderToggle .toggle_button");
 const closeAbout = document.querySelector("#aboutContent .close");
 const closeOptions = document.querySelector("#optionsContent .close");
 
-//This is the various document stuff for selecting color
-const deadColorSel = document.getElementById("deadCell");
-const aliveColorSel = document.getElementById("aliveCell");
-const deadBorderSel = document.getElementById("deadBorder");
-const aliveBorderSel = document.getElementById("aliveBorder");
 
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
@@ -85,6 +81,9 @@ let tickerToggle = 0; //Ticker toggle decides if row ticker will be on defaults 
 //Stores current scrolling values to keep track of scrolling in or out and preventing user from scrolling too far out
 let scale = 1;
 let totalDelta = 0;
+
+//Sets default colors
+
 
 let messageQueue = []
 
@@ -202,7 +201,7 @@ deadBorderSel.addEventListener('input', function(){
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
 		{
-			(latticeArray[i][j]).setDeadBorder(deadColorSel.value);
+			(latticeArray[i][j]).setDeadBorder(deadBorderSel.value);
 		}
 	}
 	drawLattice(latticeArray);
@@ -286,13 +285,8 @@ ruleSubmit.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before changing the rule number
 	setRule(rule);
 })
-/*
-toggleBar.addEventListener("click", function() {
-	toggleCheckbox();
-});
-*/
 
-//Sets all top lattices to black
+// Sets all starting lattices to alive
 latticeFillButton.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before completely filling the lattice
 	clearResetButton.innerHTML = "Clear";
@@ -305,6 +299,7 @@ latticeFillButton.addEventListener("click", function() {
 	makeLog("Filled Lattice", logCanvas, messageQueue);
 });
 
+// Sets random states to all cells in starting lattice 
 randomFillButton.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before randomly filling the lattice
 	clearResetButton.innerHTML = "Clear";
@@ -317,6 +312,7 @@ randomFillButton.addEventListener("click", function() {
 	makeLog("Randomized Lattice", logCanvas, messageQueue);
 });
 
+// Iterates the iterations inputted
 iterateButton.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before doing a complete iteration
 	//Keep infinite the same and add the buffers
@@ -384,7 +380,10 @@ clearResetButton.addEventListener("click", function() {
 	clearResetToggle();
 	alterInf(inf[0], false);}
 );
+
 /* Connect UI Functionality to a prebuilt function */
+
+//Toggles 
 boundToggleButton.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before changing the boundary condition
 	toggleCheckbox();
@@ -763,6 +762,10 @@ function clear(latticeArray, keepInit = false) {
 	}
 	for (let i = 0; i < latSize[0]; i++) {
 		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0));
+		clearedLattice[0][i].setAliveColor(aliveColorSel.value)
+		clearedLattice[0][i].setDeadColor(deadColorSel.value)
+		clearedLattice[0][i].setAliveBorder(aliveBorderSel.value)
+		clearedLattice[0][i].setDeadBorder(deadBorderSel.value)
 	}
 
 	let latPlusBufferArr = new Array()
@@ -827,21 +830,24 @@ function getMouseLocation(event) {
 }
 
 function iterate(currentIteration, newIterations) {
-	if (numOfIterations + newIterations > addIterations) {
-		alterNumOfIterations(addIterations + 1);
-		Run = 0;
-	}
-	else {
-		alterNumOfIterations(numOfIterations + newIterations);
-	}
-	let neoLatticeArray = latticeArray;
-	while(neoLatticeArray.length > numOfIterations) {
-		neoLatticeArray.pop();
-	}
+	
+	setTimeout(function(){
+		if (numOfIterations + newIterations > addIterations) {
+			alterNumOfIterations(addIterations + 1);
+			Run = 0;
+		}
+		else {
+			alterNumOfIterations(numOfIterations + newIterations);
+		}
+		let neoLatticeArray = latticeArray;
+		while(neoLatticeArray.length > numOfIterations) {
+			neoLatticeArray.pop();
+		}
 
-	alterLatticeArray(neoLatticeArray);
-	updateLattice();
-	return currentIteration;
+		alterLatticeArray(neoLatticeArray);
+		updateLattice();
+		return currentIteration;
+	}, 5)
 }
 
 function stopIterating() {
@@ -1160,3 +1166,4 @@ iterationSpeedSlider.oninput = function() {
 };
 
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
+
