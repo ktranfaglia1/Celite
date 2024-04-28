@@ -36,44 +36,49 @@
     <!-- Primary tool bar containing input boxes and options to manipulate the simulation -->
     <div class="primary_toolbar">
       <!-- Container for iteration input box -->
-      <div class="input_container">
-        <label for="iterationInputBox" class="input_label"> Iterations:</label>
-        <input type="text" id="iterationInputBox" class="simulation_input" placeholder="Enter # of iterations...">
-        <button id="iterationSubmit" class="submit_button"> Enter </button>
-      </div>
       <button id="startStopButton" class="start_button"> Start </button>
       <button id="iterateButton" class="simulation_button"> Iterate </button>
       <button id="clearResetButton" class="simulation_button"> Clear </button>
       <button id="libraryButton" class="simulation_button"> Library </button>
       <button id="aboutButton" class="simulation_button"> About </button>
+      <!-- Zoom Slider -->
+      <div class="slider_wrapper">
+        <div class="slider_container">
+          <div class="p5"> Zoom: <span id="zoomValue"> </span> % </div>
+          <input type="range" min="1" max="99" value="50" class="slider" id="zoomSlider">
+        </div>
+      </div>
       <!-- Speed Slider -->
       <div class="slider_wrapper">
         <div class="slider_container">
           <div class="p5"> Delay: <span id="iterationSpeedValue"> </span> Ms </div>
-          <input type="range" min="40" max="1000" value="250" class="slider" id="iterationSpeedSlider">
+          <input type="range" min="1" max="999" value="250" class="slider" id="iterationSpeedSlider">
         </div>
       </div>
     </div>
-    <!--  <canvas id="logRegion" class="log_box"> </canvas> Display region for the logs -->
     <div id="iterationOutput" class="iteration_output"> </div>  <!-- Output region for iteration count -->
     <!-- Canvas region for lattice display and overlapping canvas for iteration tickmark -->
-    <center>
-      <canvas id="latticeRegion" class="lattice_region"> </canvas>
-    </center> 
+    <div class="center_canvas"> 
+      <canvas id="latticeRegion" class="lattice_region"> </canvas> 
+    </div>
+    <!-- About window to provide information on Conway's Game of Life -->
+    <div id="aboutContainer" class="about_container">
+      <div id="aboutContent" class="about_content">
+        <span class="close"> &times; </span>
+        <h2> About Conway's Game of Life Simulator </h2>
+      </div>
+    </div>
+    <!-- Library window to provide preset canvas states for Conway's Game of Life -->
+    <div id="libraryContainer" class="library_container">
+      <div id="libraryContent" class="library_content">
+        <span class="close"> &times; </span>
+        <h2> Canvas Preset Library </h2>
+      </div>
+    </div>
     <div class="Dustin"></div>
   </body>
 </html>
-<script>
-  // Get the slider element
-  let slider = document.getElementById("iterationSpeedSlider");
-
-  // Check if the browser supports slider color change
-  if ('-webkit-slider-thumb' in slider.style || '-moz-range-thumb' in slider.style || '-ms-thumb' in slider.style) {
-    slider.style.backgroundColor = color;
-  } else {
-    console.error("Slider thumb color change not supported in this browser.");
-  }
-</script>
+<script type="module" src="../src/js/conway/displayLattice.js"> </script> <!-- Connect Javascript for lattice calculation -->
 <script type="module" src="../src/js/conway/generateLattice.js"> </script> <!-- Connect Javascript for lattice calculation -->
 <script type="module" src="../src/js/conway/cellClass.js"> </script> <!-- Connect Javascript for cell creation -->
 <script type="module" src="../src/js/conway/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->

@@ -11,6 +11,7 @@ import {numOfIterations, currentIteration, size, latSize, ruleNum, inf} from './
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder} from './displayLattice.js';
 import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder} from './displayLattice.js';
 import {updateLattice} from './displayLattice.js';
+import {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
 import {cell} from './cellClass.js';
 import {logMessage} from './logClass.js';
@@ -20,7 +21,6 @@ Hotkeys for zoom in/out
 change cell label when only one row
 Reset Perspective Button
 */
-
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
@@ -37,7 +37,7 @@ const latticeSizeSubmit = document.getElementById("latticeSizeSubmit");
 //Main Buttons Constants
 const startStopButton = document.getElementById("startStopButton");
 const iterateButton = document.getElementById("iterateButton");
-const clearButton = document.getElementById("clearButton");
+const clearResetButton = document.getElementById("clearResetButton");
 const downloadPDFButton = document.getElementById("downloadPDFButton");
 const downloadPNGButton = document.getElementById("downloadPNGButton");
 const aboutButton = document.getElementById("aboutButton");
@@ -70,21 +70,19 @@ const borderToggle = document.querySelector("#borderToggle .toggle_button");
 const closeAbout = document.querySelector("#aboutContent .close");
 const closeOptions = document.querySelector("#optionsContent .close");
 
-//This is the various document stuff for selecting color
-const deadColorSel = document.getElementById("deadCell");
-const aliveColorSel = document.getElementById("aliveCell");
-const deadBorderSel = document.getElementById("deadBorder");
-const aliveBorderSel = document.getElementById("aliveBorder");
 
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
-let Run = 0; // Defaults to not keep running
+let run = 0; // Defaults to not keep running
 let iterationTime = 750; //Time to wait before iterating again
 let tickerToggle = 0; //Ticker toggle decides if row ticker will be on defaults to on
 
 //Stores current scrolling values to keep track of scrolling in or out and preventing user from scrolling too far out
 let scale = 1;
 let totalDelta = 0;
+
+//Sets default colors
+
 
 let messageQueue = []
 
@@ -202,7 +200,7 @@ deadBorderSel.addEventListener('input', function(){
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
 		{
-			(latticeArray[i][j]).setDeadBorder(deadColorSel.value);
+			(latticeArray[i][j]).setDeadBorder(deadBorderSel.value);
 		}
 	}
 	drawLattice(latticeArray);
@@ -283,21 +281,15 @@ tickCanvas.addEventListener('wheel', function(event) {
 
 //Changes rule set
 ruleSubmit.addEventListener("click", function() {
-	//Stops the iteration before changing a rule.
-	if (Run == 1) {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
-	}
+	stopIterating();  // Stops the iteration before changing the rule number
 	setRule(rule);
 })
-/*
-toggleBar.addEventListener("click", function() {
-	toggleCheckbox();
-});
-*/
 
-//Sets all top lattices to black
-latticeFillButton.addEventListener("click", function(){
+// Sets all starting lattices to alive
+latticeFillButton.addEventListener("click", function() {
+	stopIterating();  // Stops the iteration before completely filling the lattice
+	clearResetButton.innerHTML = "Clear";
+	setLatticeSize();
 	clear(latticeArray);
 	for (let i = 0; i  < latticeArray[0].length; i++) {
 		latticeArray[0][i].setColor(1);
@@ -306,8 +298,12 @@ latticeFillButton.addEventListener("click", function(){
 	makeLog("Filled Lattice", logCanvas, messageQueue);
 });
 
-randomFillButton.addEventListener("click", function(){
-	clear(latticeArray)
+// Sets random states to all cells in starting lattice 
+randomFillButton.addEventListener("click", function() {
+	stopIterating();  // Stops the iteration before randomly filling the lattice
+	clearResetButton.innerHTML = "Clear";
+	setLatticeSize();
+	clear(latticeArray);
 	for (let i = 0; i  < latticeArray[0].length; i++) {
 		latticeArray[0][i].setColor(Math.floor(Math.random() * 2));
 	}
@@ -315,12 +311,9 @@ randomFillButton.addEventListener("click", function(){
 	makeLog("Randomized Lattice", logCanvas, messageQueue);
 });
 
+// Iterates the iterations inputted
 iterateButton.addEventListener("click", function() {
-	//Stops the iteration before changing a rule.
-	if (Run == 1) {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
-	}
+	stopIterating();  // Stops the iteration before doing a complete iteration
 	//Keep infinite the same and add the buffers
 	alterInf(inf[0], true)
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
@@ -359,18 +352,15 @@ iterateButton.addEventListener("click", function() {
 			(neoLatticeArray[0][i]).drawCell(ctx);
 			alterLatticeArray(neoLatticeArray);
 		}
+		clearResetButton.innerHTML = "Reset";
 	}
 	iterate(currentIteration, addIterations);
 });
 
-clearButton.addEventListener("click", function() {
-	//Stops the iteration before changing a rule.
-	if (Run == 1) {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
-	}
+clearResetButton.addEventListener("click", function() {
+	stopIterating();  // Stops the iteration before changing clearing the canvas
 
-	//Removes buffers if they existed.
+	// Removes buffers if they existed.
 	let newCellNum = (latSize[0] - (2 * latSize[1]));
 	if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
 		alterLatSize(newCellNum);
@@ -378,9 +368,9 @@ clearButton.addEventListener("click", function() {
 	else {
 		makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
 	}
-	//Alters size of cells to accomodate for removed cells.
+	// Alters size of cells to accomodate for removed cells.
 	let size = canvas.width / latSize[0];
-	//Cells should have a maximum size of 45 :: This Caps cell size to 45
+	// Cells should have a maximum size of 45 :: This Caps cell size to 45
 	if (size > 45) {
 		size = 45; 
 	}
@@ -394,13 +384,12 @@ clearButton.addEventListener("click", function() {
 	makeLog("Cleared Lattice ", logCanvas, messageQueue);
 	alterInf(inf[0], false);}
 );
+
 /* Connect UI Functionality to a prebuilt function */
+
+//Toggles 
 boundToggleButton.addEventListener("click", function() {
-	//Stops the iteration before changing a rule.
-	if (Run == 1) {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
-	}
+	stopIterating();  // Stops the iteration before changing the boundary condition
 	toggleCheckbox();
 });
 
@@ -412,33 +401,25 @@ iterationToggleButton.addEventListener("click", function() {
 
 borderToggleButton.addEventListener("click", function() {
 	alterBorder(!getBorder());
+	drawLattice(latticeArray);
 	borderToggleOption();
 });
 
 iterationSubmit.addEventListener("click", function() {
-	//Stops the iteration before changing a rule.
-	if (Run == 1) {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
-	}
+	stopIterating();  // Stops the iteration before changing the iteration amount
 	setLatticeSize();
 });
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
-	//Stops the iteration before changing a rule.
-	if (Run == 1) {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
-	}
+	stopIterating();  // Stops the iteration before changing the lattice size
+	clearResetButton.innerHTML = "Clear";
 	updateLatticeSize(canvas);
 });
 
 startStopButton.addEventListener("click", function() {
-	startStopToggle();
-	if (Run != 1) {
-		Run = 1;
-		makeLog("Starting Iterations", logCanvas, messageQueue);
-		
+	if (run != 1) {
+		run = 1;
+		startStopToggle();
 		if (latticeArray.length == 1) {
 			let bufferArr = new Array()
 			let latPlusBufferArr = new Array()
@@ -474,13 +455,14 @@ startStopButton.addEventListener("click", function() {
 				(neoLatticeArray[0][i]).drawCell(ctx);
 				alterLatticeArray(neoLatticeArray);
 			}
+			if (addIterations) {
+    			clearResetButton.innerHTML = "Reset";
+			}
 		}
-		
 		continouslyIterate(iterationTime);
 	}
 	else {
-		Run = 0;
-		makeLog("Stopping Iterations", logCanvas, messageQueue);
+		run = 0;
 		startStopToggle();
 	}
 });
@@ -507,7 +489,7 @@ document.addEventListener('keydown', function(event) {
 				iterateButton.click();
 				break;
 			case (event.key == 'c'):
-				clearButton.click();
+				clearResetButton.click();
 				break;
 			case (event.key == 'o'):
 				optionsButton.click();
@@ -676,9 +658,9 @@ function setDelay(newDelay) {
 //repeatly iterates while run is true
 function continouslyIterate(iterationTime) {
 	//Checks if Run is activate
-	if (Run) {
+	if (run) {
 		setTimeout(function(){ // puts a wait before iterating again
-			if (Run) {
+			if (run) {
 				iterate(currentIteration, 1); //iterates the number of lattices
 			}
 			continouslyIterate(iterationTime); // allows it to coninously run by calling it again
@@ -691,7 +673,7 @@ function continouslyIterate(iterationTime) {
 
 function setRule() {
 	let newRule = parseInt(ruleInputBox.value); //Turns input in rule input box into a number
-	Run = 0; //Tells continous to not run
+	run = 0; //Tells continous to not run
 	//Checks if integer was a real integer and if its in the required range of the function
 	if (!isNaN(newRule) && newRule >= 0 && newRule <= 255) {
 		alterRuleNum(newRule);
@@ -763,14 +745,13 @@ function setLatticeSize() {
 		addIterations = newValue;//updates the number of iterations
 		makeLog("Iterations Set to " + newValue, logCanvas, messageQueue);
 	}
-	else
-	{
+	else {
 		makeError("Invalid Iteration Size: " + iterationInputBox.value, logCanvas, messageQueue);
 	}
 	return addIterations;
 }
 
-//gets rid of all arays except the first and sets all cells to dead (white)
+// Gets rid of all arays except the first and sets all cells to dead (white) unless specified to keep initial lattice
 function clear(latticeArray, keepInit = false) {
 	totalDelta = 0;
 	canvas.height = 400;
@@ -785,11 +766,16 @@ function clear(latticeArray, keepInit = false) {
 	}
 	for (let i = 0; i < latSize[0]; i++) {
 		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0));
+		clearedLattice[0][i].setAliveColor(aliveColorSel.value)
+		clearedLattice[0][i].setDeadColor(deadColorSel.value)
+		clearedLattice[0][i].setAliveBorder(aliveBorderSel.value)
+		clearedLattice[0][i].setDeadBorder(deadBorderSel.value)
 	}
 
 	let latPlusBufferArr = new Array()
 	//If the clear is keeping the initial timesteps' cell states, push the color onto a mock array to save cell states.
 	if (keepInit) {
+		clearResetButton.innerHTML = "Clear";
 		let bufferNum = (neoLatticeArray[0].length - clearedLattice[0].slice(0).length) / 2;
 		for (let i = bufferNum; i < (latSize[0] + bufferNum); i++) {
 			latPlusBufferArr.push(latticeArray[0][i].getColor())
@@ -848,21 +834,30 @@ function getMouseLocation(event) {
 }
 
 function iterate(currentIteration, newIterations) {
-	if (numOfIterations + newIterations > addIterations) {
-		alterNumOfIterations(addIterations + 1);
-		Run = 0;
-	}
-	else {
-		alterNumOfIterations(numOfIterations + newIterations);
-	}
-	let neoLatticeArray = latticeArray;
-	while(neoLatticeArray.length > numOfIterations) {
-		neoLatticeArray.pop();
-	}
+	
+	setTimeout(function(){
+		if (numOfIterations + newIterations > addIterations) {
+			alterNumOfIterations(addIterations + 1);
+			run = 0;
+		}
+		else {
+			alterNumOfIterations(numOfIterations + newIterations);
+		}
+		let neoLatticeArray = latticeArray;
+		while(neoLatticeArray.length > numOfIterations) {
+			neoLatticeArray.pop();
+		}
 
-	alterLatticeArray(neoLatticeArray);
-	updateLattice();
-	return currentIteration;
+		alterLatticeArray(neoLatticeArray);
+		updateLattice();
+		return currentIteration;
+	}, 5)
+}
+
+function stopIterating() {
+	if (run) {
+		run = 0;
+	}
 }
 
 // Handle when bound toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
@@ -963,27 +958,37 @@ function borderToggleOption() {
 // Handle switching GUI for Start/Stop Button upon click
 function startStopToggle() {
 	// If the button is in start state, change it to stop state and vice versa
-	if (startStopButton.classList.contains("start_button") && !Run) {
+	if (startStopButton.classList.contains("start_button") && run) {
     	startStopButton.innerHTML = "Stop";
     	startStopButton.classList.remove("start_button");
     	startStopButton.classList.add("stop_button");
+		makeLog("Starting Iterations", logCanvas, messageQueue);
 		//Add buffers.
 		alterInf(inf[0], true)
   	} 
-  	else {
+  	else if (startStopButton.classList.contains("stop_button") && !run) {
     	startStopButton.innerHTML = "Start";
     	startStopButton.classList.remove("stop_button");
     	startStopButton.classList.add("start_button");
+		makeLog("Stopping Iterations", logCanvas, messageQueue);
   	}
+}
+
+// Handle switching GUI for Start/Stop Button upon click
+function clearResetToggle() {
+  	if (clearResetButton.innerHTML.includes("Reset")) {
+    	clearResetButton.innerHTML = "Clear";
+		makeLog("Resetting Canvas", logCanvas, messageQueue);
+  	}
+	else if (clearResetButton.innerHTML.includes("Clear") && !run) {
+		makeLog("Clearing Canvas", logCanvas, messageQueue);
+	}
 }
 
 // Set boundary condition and ensure one and only one checkbox can be checked at a time upon checkbox click
 checkboxes.forEach(function(checkbox) {
     checkbox.addEventListener('change', function() {
-			if (Run == 1) {
-				Run = 0;
-				makeLog("Stopping Iterations", logCanvas, messageQueue);
-			}
+		stopIterating();  // Stops the iteration before changing the finite boundary condition
 		// Box is set to be checked upon change
         if (this.checked) {
             checkboxes.forEach(function(otherCheckbox) {
@@ -1043,7 +1048,6 @@ checkboxes.forEach(function(checkbox) {
 		}
     });
 });
-
 
 // Adds an error to message log
 function makeError(errorMessage, logCanvas, messageQueue) {

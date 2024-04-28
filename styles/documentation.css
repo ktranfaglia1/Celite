@@ -12,6 +12,11 @@ hr {
   height: 3px;
   margin-bottom: 10px;
 }
+.head {
+  font-size: 35px;
+  text-decoration: underline;
+  line-height: none;
+}
 /* Sidebar formatting */
 .sidebar {
   position: fixed;
