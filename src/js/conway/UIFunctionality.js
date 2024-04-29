@@ -26,11 +26,13 @@ const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 const zoomSlider = document.getElementById("zoomSlider");
 const zoomValue = document.getElementById("zoomValue");
 
+/* Connect Windows */
 const aboutWindow = document.getElementById("aboutContainer");  // Connect window for about
 const closeAbout = document.querySelector("#aboutContent .close");  // Connect HTML/CSS close feature to JS for the about window
 const libraryWindow = document.getElementById("libraryContainer");  // Connect window for library
 const closeLibrary = document.querySelector("#libraryContent .close");  // Connect HTML/CSS close feature to JS for the library window
 
+let outputIteration = document.getElementById("iterationOutput")  // Connect iteration display region
 /* Global variables for iteration */
 let run = 0; // Defaults to not keep running
 let currentDelay = 750; // Time to wait before iterating again
@@ -50,7 +52,7 @@ startStopButton.addEventListener("click", function() {
 iterateButton.addEventListener("click", function() {
 	clearResetToggle(true);
 	iterate();
-	iterationCount++;
+	updateOutput(true);
 	let currentBoundaryPush = borderContact();
 	for (let i = 0; i < currentBoundaryPush.length; i++) {
 		expandBorder(currentBoundaryPush[i], (bounds[0] / 2));
@@ -226,7 +228,7 @@ function getMouseLocation(event) {
 }
 
 function clear() {
-	iterationCount = 0;
+	updateOutput();
 	for (let i = 0; i < visLatticeArray.length; i++) {
 		for (let j = 0; j < visLatticeArray[0].length; j++) {
 			latticeArray[i][j] = 0;
@@ -242,7 +244,7 @@ function continouslyIterate() {
 		setTimeout(function() { // puts a wait before iterating again
 			if (run) {
 				iterate(); //iterates the number of lattices
-				iterationCount++;
+				updateOutput(true);
 				displayLattice(visLatticeArray)
 			}
 			continouslyIterate(); // allows it to coninously run by calling it again
@@ -250,4 +252,15 @@ function continouslyIterate() {
 	}
 }
 
-// outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
+updateOutput(); // Display initial count of 0
+
+// Displays the current iteration count to Game of Life HTML page
+function updateOutput(increment = false) {
+	if (increment) {
+		iterationCount++;
+	}
+	else {
+		iterationCount = 0;
+	}
+	outputIteration.innerHTML = "Iteration Count: " + iterationCount.toString();  // Display iteration count to HTML page
+}
