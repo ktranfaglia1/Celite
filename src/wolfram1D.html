@@ -9,6 +9,12 @@
     <link rel="stylesheet" type="text/css" href="../styles/wolfram1D.css">  <!-- Link to home specific CSS styles -->
     <link rel="icon" href="../images/cellular_automata_logo.png">  <!-- Link page icon -->
   </head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"> </script> <!-- Connect online Javascript library to capture canvas as a PDF -->
+  <script type="module" src="../src/js/wolfram1D/generateLattice.js" crossorigin="anonymous"> </script> <!-- Connect Javascript for lattice calculation -->
+  <script type="module" src="../src/js/wolfram1D/cellClass.js"> </script> <!-- Connect Javascript for cell creation -->
+  <script type="module" src="../src/js/wolfram1D/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->
+  <script type="module" src="../src/js/wolfram1D/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->
+  <script type="module" src="../src/js/wolfram1D/logClass.js"> </script> <!-- Connect Javascript for logbox functionality -->
   <body>
     <!-- Navigation Bar-->
     <header>
@@ -299,11 +305,5 @@
       </div>
     </div>
     <div class="Dustin"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"> </script> <!-- Connect online Javascript library to capture canvas as a PDF -->
-    <script type="module" src="../src/js/wolfram1D/generateLattice.js" crossorigin="anonymous"> </script> <!-- Connect Javascript for lattice calculation -->
-    <script type="module" src="../src/js/wolfram1D/cellClass.js"> </script> <!-- Connect Javascript for cell creation -->
-    <script type="module" src="../src/js/wolfram1D/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->
-    <script type="module" src="../src/js/wolfram1D/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->
-    <script type="module" src="../src/js/wolfram1D/logClass.js"> </script> <!-- Connect Javascript for logbox functionality -->
   </body>
 </html>
