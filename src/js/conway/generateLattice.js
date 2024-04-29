@@ -26,7 +26,7 @@ import {cell} from "./cellClass.js"
 import { intialCanvas } from "./displayLattice.js";
 
 createInit();
-createVis(canvas);
+createVisInit(canvas);
 
 export {visLatticeArray, visBounds, latticeArray};
 
@@ -43,7 +43,7 @@ export function createInit() {
 }
 
 //This function uses the current lattice array and visible boundary to create the current cell lattice to be displayed.
-export function createVis(canvas) {
+export function createVisInit(canvas) {
     let newLat = new Array(new Array());
     //cellSize = (.64 * window.innerHeight) / visBounds[3]; /* Window Calculation / number of cells gives the optimal size to fit screen */
     for (let i = visBounds[1]; i < visBounds[3]; i++) {
@@ -52,6 +52,25 @@ export function createVis(canvas) {
         for (let f = visBounds[0]; f < visBounds[2]; f++) {
             let posX = f - visBounds[0]
             dummyArr.push(new cell(cellSize, cellSize, posX * cellSize, posY * cellSize, latticeArray[i][f], true));
+        }
+        newLat[i] = dummyArr;
+    }
+    visLatticeArray = newLat;
+}
+
+export function createVis(canvas) {
+    let newLat = new Array(new Array());
+    //cellSize = (.64 * window.innerHeight) / visBounds[3]; /* Window Calculation / number of cells gives the optimal size to fit screen */
+    for (let i = visBounds[1]; i < visBounds[3]; i++) {
+        let posY = i - visBounds[1];
+        let dummyArr = new Array();
+        for (let f = visBounds[0]; f < visBounds[2]; f++) {
+            let posX = f - visBounds[0]
+            let height = visLatticeArray[posY][posX].getHeight();
+            console.log(height)
+            let xCord = visLatticeArray[posY][posX].getXLoc();
+            let yCord = visLatticeArray[posY][posX].getYLoc();
+            dummyArr.push(new cell(height, height, xCord, yCord, latticeArray[i][f], true));
         }
         newLat[i] = dummyArr;
     }
