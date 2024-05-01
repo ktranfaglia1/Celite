@@ -67,7 +67,7 @@
             <!-- headers -->
             <ul class="submenu">
               <li> <a href="#primaryToolbar2" class="subtitle"> Primary Toolbar </a> </li> 
-              <li> <a href="#algorithm" class="subtitle"> algorithm Rules </a> </li>
+              <li> <a href="#algorithm" class="subtitle"> Algorithm Rules </a> </li>
               <li> <a href="#canvas2" class="subtitle"> Canvas </a> </li>
             </ul>
           </li>
@@ -232,10 +232,10 @@
           <u>General Description</u>: The canvas is the gray region enclosed by a black border below the primary and secondary toolbars. It has a fixed width and a dynamic height. Changing the lattice size will not impact the width of the canvas. Rather, cells will be added until they reach the edge of the canvas, then the cells will be evenly resized to fit the fixed canvas width. As for the height, the canvas will dynamically extend downard as space is needed (as iterations occur). Upon using the "Iterate" button, the canvas will seemingly expand and simulate in the same instance, but using the "Start" will show a slower expansion prioir to the simulation. 
         </div>
         <div class="p3"> 
-          <u>Cell State Toggle</u>: Inside the canvas, clicking cells will toggle them between dead (white, 0) and alive (balck, 1) states to set a starting position (index = 0) for the simulation. Only the starting state cells can be toggled. Cells can be toggled even if a simulation has already completed; clicking "Start" or "Iterate" will overwrite the canvas. Cell borders will automatically be removed on the starting lattice for lattice sizes over 200.
+          <u>Cell State Toggle</u>: While inside the canvas, clicking cells will toggle them between dead (white, 0) and alive (balck, 1) states to set a starting position (index = 0) for the simulation. Only the starting state cells can be toggled. Cells can be toggled even if a simulation has already completed; clicking "Start" or "Iterate" will overwrite the canvas. Cell borders will automatically be removed on the starting lattice for lattice sizes over 200.
         </div>
         <div class="p3"> 
-          <u>Zoom</u>: Inside the canvas, using the scroll wheel on a mouse will zoom on a specified location. The x-axis mouse location determines the horizontal zoom focus and the y-axis mouse location determines the vertical zoom focus. When only the starting iteration is present on the canvas (index = 0), the y-axis mouse location has no impact on the zoom focus location; the vertical zoom focus, in this case, will always be on the starting lattice in the canvas. Scroll up to zoom in and scroll down to zoom out. The maximum outward zoom is set to the defaulted (standard - 100%) zoom factor for the canvas.  
+          <u>Zoom</u>: While inside the canvas, using the scroll wheel on a mouse will zoom on a specified location. The x-axis mouse location determines the horizontal zoom focus and the y-axis mouse location determines the vertical zoom focus. When only the starting iteration is present on the canvas (index = 0), the y-axis mouse location has no impact on the zoom focus location; the vertical zoom focus, in this case, will always be on the starting lattice in the canvas. Scroll up to zoom in and scroll down to zoom out. The maximum outward zoom is set to the defaulted (standard - 100%) zoom factor for the canvas.  
         </div>
         <div class="p4"> 
           <i> Warning: </i> The zoom feature encounters performance issues with large lattice sizes and iteration amounts. 
@@ -276,18 +276,18 @@
           <i> Keyboard Shortcut: </i> ALT + A
         </div>
         <div class="p3">
-          <u>Zoom Slider</u>: Click and hold the slider labeled "Zoom" to alter the zoom factor measured by percentage. Moving the slider to the left will decrease the zoom percentage factor and zoom outward, and moving the slider to the right will increase the zoom percentage factor and zoom inward. Using the zoom slider will always center the zoom to the center of the canvas. Alternatively, while inside the canvas, using the scroll wheel on a mouse will zoom on a specified location. The x-axis mouse location determines the horizontal zoom focus and the y-axis mouse location determines the vertical zoom focus. Scroll up to zoom in and scroll down to zoom out. If scrolled to the maximum outward zoom, the canvas will stop zooming out and recenter the view point. Additionally, while inside the canvas and holding the SHIFT key, click and grab, then move the cursor in any direction to traverse the canvas in the specified direction.  
-        </div> 
-        <div class="p4"> 
-          <i> Input Restrictions: </i> Values are percentages in range [1, 99]. <br>
-          <i> Keyboard Shortcut: </i> ALT + Z, then Left Arrow to decrease and Right Arrow to increase the value.
-        </div>
-        <div class="p3">
           <u>Delay Slider</u>: Click and hold the slider labeled "Delay" to alter the delay time (ms) between iterations when using the "Start" button. Alternatively, click the slider and use the left and right arrow keys to change the delay value. Larger delays may be useful in analysing the transitions between iterations. Smaller delays, even a delay value of 0 ms, will not be immediate like the "Iterate" button, although it will generate very fast. 
         </div> 
         <div class="p4"> 
           <i> Input Restrictions: </i> Values are in milliseconds in range [1, 500]. <br>
           <i> Keyboard Shortcut: </i> ALT + Y, then Left Arrow to decrease and Right Arrow to increase the value.
+        </div>
+        <div class="p3">
+          <u>Zoom Slider</u>: Click and hold the slider labeled "Zoom" to alter the zoom factor measured by percentage. Moving the slider to the left will decrease the zoom percentage factor and zoom outward, and moving the slider to the right will increase the zoom percentage factor and zoom inward. Using the zoom slider will always center the zoom to the center of the canvas.
+        </div> 
+        <div class="p4"> 
+          <i> Input Restrictions: </i> Values are percentages in range [1, 99]. <br>
+          <i> Keyboard Shortcut: </i> ALT + Z, then Left Arrow to decrease and Right Arrow to increase the value.
         </div>
         <h6 id="algorithm"> Algorithm Rule </h6>
         <div class="p3"> 
@@ -298,13 +298,10 @@
           <u>General Description</u>: The canvas is the gray region enclosed by a black border below the primary toolbar. It has a fixed width and height for a given screen size, designed to fit the screen after scrolling below the header. The cells will always be evenly resized to fit the canvas width and height. Thus, the amount of cells displayed in the canvas grid for the default 50% zoom factor is relative to the screen size, considering height and width.
         </div>
         <div class="p3"> 
-          <u>Cell State Toggle</u>: Inside the canvas, clicking cells will toggle them between dead (white, 0) and alive (balck, 1) states to set a starting position (index = 0) for the simulation. Only the starting state cells can be toggled. Cells can be toggled even if a simulation has already completed; clicking "Start" or "Iterate" will overwrite the canvas. Cell borders will automatically be removed on the starting lattice for lattice sizes over 200.
+          <u>Cell State Toggle</u>: While inside the canvas, clicking cells will toggle them between dead (white, 0) and alive (balck, 1) states to set a starting position (index = 0) for the simulation. Additionally, click and hold, then move the cursor in any direction on the canvas to toggle all hovered cells to alive. Cells can be toggled at any point before, during, or after a session of iterations. Thus, a cell that is toggled at any point will impact the following iteration such that it will be applied to the state change algorithm. Cell borders will automatically be removed upon a zoom out action if the cells become too small.
         </div>
         <div class="p3"> 
-          <u>Zoom</u>: Inside the canvas, using the scroll wheel on a mouse will zoom on a specified location. The x-axis mouse location determines the horizontal zoom focus and the y-axis mouse location determines the vertical zoom focus. When only the starting iteration is present on the canvas (index = 0), the y-axis mouse location has no impact on the zoom focus location; the vertical zoom focus, in this case, will always be on the starting lattice in the canvas. Scroll up to zoom in and scroll down to zoom out. The maximum outward zoom is set to the defaulted (standard - 100%) zoom factor for the canvas.  
-        </div>
-        <div class="p4"> 
-          <i> Warning: </i> The zoom feature encounters performance issues with large lattice sizes and iteration amounts. 
+          <u>Zoom</u>: While inside the canvas, using the scroll wheel on a mouse will zoom on a specified location. The x-axis mouse location determines the horizontal zoom focus and the y-axis mouse location determines the vertical zoom focus. Scroll up to zoom in and scroll down to zoom out. If scrolled to the maximum outward zoom, the canvas will stop zooming out and recenter the view point. Additionally, while inside the canvas and holding the SHIFT key, click and hold, then move the cursor in any direction to traverse the canvas in the specified direction.  
         </div>
         <div class="p3"> 
           An iteration counter that displays the current iteration index can be found above the top left border of the canvas.
