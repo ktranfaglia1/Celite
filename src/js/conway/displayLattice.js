@@ -1,8 +1,11 @@
 
 import {visLatticeArray, visBounds, latticeArray, createVis} from "./generateLattice.js";
+import { buildGlider } from "./presets.js";
 
 const canvas = document.getElementById('latticeRegion');
-const ctx = canvas.getContext('2d')
+const ctx = canvas.getContext('2d');
+
+buildGlider();
 
 //Grabs Canvas and Context Data of the Canvas
 export function intialCanvas()

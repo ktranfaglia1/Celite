@@ -24,11 +24,12 @@ let numIt = 500;
 
 import {cell} from "./cellClass.js"
 import { intialCanvas } from "./displayLattice.js";
+import { buildGlider } from "./presets.js";
 
 createInit();
 createVis(canvas);
 
-export {visLatticeArray, visBounds, latticeArray};
+export {visLatticeArray, visBounds, latticeArray,bounds};
 
 //This function creates the intitial lattice. This one is not made up of cell classes for storage purposes, a parallel structure
 //of cells will be made that displays a certain subset of this lattice using cells.
