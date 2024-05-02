@@ -8,7 +8,7 @@
 */
 /* Import utility and variables from other JS files */
 import {canvas, ctx, displayLattice} from "./displayLattice.js";
-import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit} from "./generateLattice.js";
+import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds} from "./generateLattice.js";
 import { borderContact, expandBorder } from "./generateLattice.js";
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
@@ -35,6 +35,9 @@ const closeLibrary = document.querySelector("#libraryContent .close");  // Conne
 let run = 0; // Defaults to not keep running
 let currentDelay = 750; // Time to wait before iterating again
 let iterationCount = 0; // Tracks number of iterations
+let scribble = false; //Keeps track of whether the mouse is being held down for scribbling on canvas
+let mouseXScribble = new Array();
+let mouseYScribble = new Array();
 
 /* Handle button clicks for all primary toolbar buttons */
 
@@ -124,6 +127,50 @@ canvas.addEventListener("click", function(event) {
 	}
 });
 
+canvas.addEventListener("mousemove", function(event) {
+	if (scribble) {
+		let mouseX, mouseY;
+		[mouseX, mouseY] = getMouseLocation(event);
+		for (let i = 0; i < visLatticeArray.length; i++) {
+			for (let j = 0; j < visLatticeArray[i].length; j++) {
+				if ((visLatticeArray[i][j].insideCell(mouseX, mouseY)) && (visLatticeArray[i][j].getColor() == 0)) {
+					visLatticeArray[i][j].flipColor();
+					visLatticeArray[i][j].drawCell(ctx);
+					latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
+				}
+			}
+		}
+	}
+});
+
+canvas.addEventListener("mousedown", function() {
+	setTimeout(function() {
+		if (!scribble) {
+			scribble = true;
+		}
+		console.log(scribble);
+	}, 10);
+});
+
+canvas.addEventListener("mouseup", function() {
+	setTimeout(function() {
+		if (scribble) {
+			scribble = false;
+		}
+		console.log(scribble);
+	}, 10);
+});
+/*
+canvas.addEventListener("mouseleave", function() {
+	setTimeout(function() {
+		if (scribble) {
+			scribble = false;
+		}
+		console.log(scribble);
+	}, 100);
+});
+*/
+
 canvas.addEventListener('wheel', function(event) {
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
@@ -152,6 +199,7 @@ canvas.addEventListener('wheel', function(event) {
 	}
 	else if (zoomSlider.value == 100) {
 		createVisInit();
+		redrawLattice();
 	}
 	event.preventDefault();
 }, false)

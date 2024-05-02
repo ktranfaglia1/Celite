@@ -28,7 +28,7 @@ import { intialCanvas } from "./displayLattice.js";
 createInit();
 createVisInit(canvas);
 
-export {visLatticeArray, visBounds, latticeArray};
+export {visLatticeArray, visBounds, latticeArray, bounds};
 
 //This function creates the intitial lattice. This one is not made up of cell classes for storage purposes, a parallel structure
 //of cells will be made that displays a certain subset of this lattice using cells.
@@ -67,7 +67,6 @@ export function createVis(canvas) {
         for (let f = visBounds[0]; f < visBounds[2]; f++) {
             let posX = f - visBounds[0]
             let height = visLatticeArray[posY][posX].getHeight();
-            console.log(height)
             let xCord = visLatticeArray[posY][posX].getXLoc();
             let yCord = visLatticeArray[posY][posX].getYLoc();
             dummyArr.push(new cell(height, height, xCord, yCord, latticeArray[i][f], true));
