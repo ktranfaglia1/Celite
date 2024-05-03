@@ -45,7 +45,7 @@
       <div class="slider_wrapper">
         <div class="slider_container">
           <div class="p5"> Zoom: <span id="zoomValue"> </span> % </div>
-          <input type="range" min="1" max="100" value="100" class="slider" id="zoomSlider">
+          <input type="range" min="1" max="100" value="50" class="slider" id="zoomSlider">
         </div>
       </div>
       <!-- Speed Slider -->
@@ -59,7 +59,7 @@
     <div id="iterationOutput" class="iteration_output"> </div>  <!-- Output region for iteration count -->
     <!-- Canvas region for lattice display and overlapping canvas for iteration tickmark -->
     <div class="center_canvas"> 
-      <canvas id="latticeRegion" class="lattice_region"> </canvas> 
+      <canvas id="latticeRegion" class="lattice_region" tabindex="0"> </canvas> 
     </div>
     <!-- About window to provide information on Conway's Game of Life -->
     <div id="aboutContainer" class="about_container">

@@ -7,9 +7,10 @@
 * Last Updated: 04/18/24
 */
 /* Import utility and variables from other JS files */
-import {canvas, ctx, displayLattice} from "./displayLattice.js";
+import {canvas, ctx, displayLattice, initialize} from "./displayLattice.js";
 import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds} from "./generateLattice.js";
 import { borderContact, expandBorder } from "./generateLattice.js";
+import { cell } from "./cellClass.js";
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
@@ -36,8 +37,18 @@ let run = 0; // Defaults to not keep running
 let currentDelay = 750; // Time to wait before iterating again
 let iterationCount = 0; // Tracks number of iterations
 let scribble = false; //Keeps track of whether the mouse is being held down for scribbling on canvas
-let mouseXScribble = new Array();
-let mouseYScribble = new Array();
+let shift = false; //Keeps track of whether the Shift key is being held down for shifting the canvas
+let mouseXPos = 0; //Stores starting X position of cursor for dragging
+let mouseYPos = 0; //Stores starting Y position of cursor for dragging
+let shiftX = 0; //Stores ending X position of cursor for dragging
+let shiftY = 0; //Stores ending Y position of cursor for dragging
+
+//Waits for canvas to be drawn in displayLattice before applying the initial zoom.
+while(!initialize) {}
+alterLattice(2);
+redrawLattice();
+
+
 
 /* Handle button clicks for all primary toolbar buttons */
 
@@ -54,11 +65,12 @@ iterateButton.addEventListener("click", function() {
 	clearResetToggle(true);
 	iterate();
 	iterationCount++;
+	/* THIS CODE IS BUGGED RN. WILL WORK ON FIX NEXT WEEK
 	let currentBoundaryPush = borderContact();
 	for (let i = 0; i < currentBoundaryPush.length; i++) {
 		expandBorder(currentBoundaryPush[i], (bounds[0] / 2));
 	}
-	createVis();
+	*/
 	ctx.clearRect(0,0, canvas.width, canvas.height);
 	displayLattice(visLatticeArray);
 });
@@ -68,9 +80,43 @@ clearResetButton.addEventListener("click", function() {
     clearResetToggle(false);
 });
 
+document.addEventListener('keyup', function(event) {
+	if (event.key == 'Shift') {
+		setTimeout(function() {
+			if (shift) {
+				shift = false;
+				shiftX = 0;
+				shiftY = 0;
+			}
+		}, 10);
+	}
+});
+
+canvas.addEventListener('mouseleave', function() {
+	setTimeout(function() {
+		if (scribble) {
+			scribble = false;
+			shiftX = 0;
+			shiftY = 0;
+		}
+	}, 10);
+});
+
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
 document.addEventListener('keydown', function(event) {
     // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
+	if (event.shiftKey) {
+		if (event.shiftKey) {
+			setTimeout(function() {
+				if (!shift) {
+					shift = true;
+					if (scribble && shift) {
+						[mouseXPos, mouseYPos] = getMouseLocation(event);
+					}
+				}
+			}, 10);
+		}
+	}
     if (event.altKey) {
 		switch (true) {
 			case (event.key == 'Enter'):
@@ -115,22 +161,28 @@ document.addEventListener('keydown', function(event) {
 canvas.addEventListener("click", function(event) {
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event);
-	
-	for (let i = 0; i < visLatticeArray.length; i++) {
-		for (let j = 0; j < visLatticeArray[i].length; j++) {
-			if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
-				visLatticeArray[i][j].flipColor();
-				visLatticeArray[i][j].drawCell(ctx);
-				latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
+	if (!shift) {
+		for (let i = 0; i < visLatticeArray.length; i++) {
+			for (let j = 0; j < visLatticeArray[i].length; j++) {
+				if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
+					visLatticeArray[i][j].flipColor();
+					visLatticeArray[i][j].drawCell(ctx);
+					latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
+				}
 			}
 		}
 	}
 });
 
 canvas.addEventListener("mousemove", function(event) {
-	if (scribble) {
-		let mouseX, mouseY;
-		[mouseX, mouseY] = getMouseLocation(event);
+	let mouseX, mouseY;
+	[mouseX, mouseY] = getMouseLocation(event);
+	if (scribble && shift) {
+		let offSetX = mouseX - mouseXPos;
+		let offsetY = mouseY - mouseYPos;
+		redrawLattice(offSetX, offsetY);
+	}
+	else if (scribble) {
 		for (let i = 0; i < visLatticeArray.length; i++) {
 			for (let j = 0; j < visLatticeArray[i].length; j++) {
 				if ((visLatticeArray[i][j].insideCell(mouseX, mouseY)) && (visLatticeArray[i][j].getColor() == 0)) {
@@ -143,12 +195,14 @@ canvas.addEventListener("mousemove", function(event) {
 	}
 });
 
-canvas.addEventListener("mousedown", function() {
+canvas.addEventListener("mousedown", function(event) {
 	setTimeout(function() {
 		if (!scribble) {
 			scribble = true;
+			if (scribble && shift) {
+				[mouseXPos, mouseYPos] = getMouseLocation(event);
+			}
 		}
-		console.log(scribble);
 	}, 10);
 });
 
@@ -156,34 +210,23 @@ canvas.addEventListener("mouseup", function() {
 	setTimeout(function() {
 		if (scribble) {
 			scribble = false;
+			shiftX = 0;
+			shiftY = 0;
 		}
-		console.log(scribble);
 	}, 10);
 });
-/*
-canvas.addEventListener("mouseleave", function() {
-	setTimeout(function() {
-		if (scribble) {
-			scribble = false;
-		}
-		console.log(scribble);
-	}, 100);
-});
-*/
 
 canvas.addEventListener('wheel', function(event) {
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
 	let delta = event.deltaY; //Get delta from mouse scroll.
 	let change = false;
-	//If delta and totalDelta are greater than 0, set scale to 0.9 to zoom out
 	let currentScale = 100 / zoomSlider.value;
 	if (delta > 0 && zoomSlider.value < 100) {
 		zoomSlider.value++;
 		zoomValue.innerHTML++;
 		change = true;
 	}
-	//If delta is less than 0, set scale to 1.1 to zoom in.
 	else if (delta < 0 && zoomSlider.value > 1) {
 		zoomSlider.value--;
 		zoomValue.innerHTML--;
@@ -268,7 +311,7 @@ window.addEventListener("click", function(event) {
 });
 
 iterationSpeedValue.innerHTML = 250;  // Sets displayed default iteration speed value
-zoomValue.innerHTML = 100;  // Sets displayed default zoom value
+zoomValue.innerHTML = 50;  // Sets displayed default zoom value
 
 // Update the current iteration speed slider value upon drag
 iterationSpeedSlider.oninput = function() {
@@ -277,16 +320,25 @@ iterationSpeedSlider.oninput = function() {
 };
 
 //Redraws the entire lattice array on the canvas
-export function redrawLattice() {
+function redrawLattice(xOffset = 0, yOffset = 0) {
+	let trueOffsetX = xOffset - shiftX;
+	let trueOffsetY = yOffset - shiftY;
 	ctx.clearRect(0,0, canvas.width, canvas.height);
+	let offSetLat = visLatticeArray;
 	for (let i = 0; i < visLatticeArray.length; i++) {
 		for (let f = 0; f < visLatticeArray[i].length; f++) {
-			visLatticeArray[i][f].drawCell(ctx)
+			if (trueOffsetX != 0 || trueOffsetY != 0) {
+				let curCell = visLatticeArray[i][f];
+				offSetLat[i][f] = new cell(curCell.getHeight(), curCell.getWidth(), curCell.getXLoc() + trueOffsetX, curCell.getYLoc() + trueOffsetY, curCell.getColor(), curCell.getBorder());
+			}
+			offSetLat[i][f].drawCell(ctx)
 		}
 	}
+	shiftX = xOffset;
+	shiftY = yOffset;
 }
 
-function alterLattice(scale, mouseY = canvas.height / 2, mouseX = canvas.width / 2) {
+export function alterLattice(scale, mouseY = canvas.height / 2, mouseX = canvas.width / 2) {
 	for (let i = 0; i < visLatticeArray.length; i++) {
 		for (let j = 0; j < visLatticeArray[i].length; j++) {
 			alterCell(visLatticeArray[i][j], scale, mouseY, mouseX);
@@ -370,20 +422,24 @@ function clear() {
 			latticeArray[i][j] = 0;
 		}
 	}
-	createVis(canvas);
+	createVisInit();
+	alterLattice(2);
+	redrawLattice();
+	zoomSlider.value = 50;
+	zoomValue.innerHTML = 50;
 	ctx.clearRect(0,0, canvas.width, canvas.height);
 	displayLattice(visLatticeArray);
 }
 
 function continouslyIterate() {
-	console.log(run);
 	if (run) {
 		setTimeout(function() { // puts a wait before iterating again
-			if (run) {
-				iterate(); //iterates the number of lattices
+			if (run && !(shift && scribble)) {
+				iterate();
 				iterationCount++;
 				ctx.clearRect(0,0, canvas.width, canvas.height);
-				displayLattice(visLatticeArray)
+				//displayLattice(visLatticeArray)
+				redrawLattice()
 			}
 			continouslyIterate(); // allows it to coninously run by calling it again
 		}, currentDelay);
