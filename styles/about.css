@@ -17,8 +17,7 @@ hr {
   border: none;
   background-color: black;
   height: 2px;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin: 15px 0;
 }
 /* Format text for profiles */
 .text_container {
