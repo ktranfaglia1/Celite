@@ -36,9 +36,15 @@ export class cell {
 	// Function used to draw the cell in its proper location
 	drawCell(ctx)
 	{
+		let border = true;
+
+		if(this.height <= 10)
+		{
+			border = false;
+		}
 
 		//Draws the Box Outline as long as Cells arent too small
-		if(this.border)
+		if(border)
 		{
 			//Sets outline to be inverse of color of cell so you can see it
 			if(this.color == 1)
@@ -65,7 +71,7 @@ export class cell {
 		}
 		
 		//Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
-		if(this.border)
+		if(border)
 		{
 		ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
 		}

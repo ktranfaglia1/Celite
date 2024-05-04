@@ -59,6 +59,7 @@ export function createVisInit() {
 export function createVis(xOffset = 0, yOffset = 0) {
     let newLat = new Array(new Array());
     //cellSize = (.64 * window.innerHeight) / visBounds[3]; /* Window Calculation / number of cells gives the optimal size to fit screen */
+    //let borders = true;
     for (let i = visBounds[1]; i < visBounds[3]; i++) {
         let posY = i - visBounds[1];
         let dummyArr = new Array();
