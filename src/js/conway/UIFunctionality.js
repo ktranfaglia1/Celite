@@ -44,7 +44,10 @@ let shiftX = 0; //Stores ending X position of cursor for dragging
 let shiftY = 0; //Stores ending Y position of cursor for dragging
 
 //Waits for canvas to be drawn in displayLattice before applying the initial zoom.
-while(!initialize) {}
+//while(!initialize) {}
+
+//Stops all functionality from working until canvas is opened
+document.addEventListener("DOMContentLoaded", function() {
 alterLattice(2);
 redrawLattice();
 
@@ -159,7 +162,7 @@ document.addEventListener('keydown', function(event) {
 });
 
 //Doesn't allow canvas to be clickable until Document is loaded
-document.addEventListener("DOMContentLoaded", function() {
+//document.addEventListener("DOMContentLoaded", function() {
 	//Detects and sets lattice color based on where user clicks
 	canvas.addEventListener("click", function(event) {
 		let mouseX, mouseY;
@@ -176,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 		}
 	});
-});
+//});
 
 canvas.addEventListener("mousemove", function(event) {
 	let mouseX, mouseY;
@@ -322,6 +325,8 @@ iterationSpeedSlider.oninput = function() {
 	iterationSpeedValue.innerHTML = this.value;
 	setDelay(this.value);
 };
+
+});
 
 //Redraws the entire lattice array on the canvas
 function redrawLattice(xOffset = 0, yOffset = 0) {
