@@ -1,36 +1,38 @@
-import {latticeArray, bounds} from './generateLattice.js';
+import {latticeArray, visBounds} from './generateLattice.js';
 import { createVis, visLatticeArray } from './generateLattice.js';
 import {canvas, displayLattice} from "./displayLattice.js";
+import { clear } from './UIFunctionality.js';
 
 
 //This function creates the intitial configuration array to be used for setting
 function createNewConfig() {
     let newLattice = new Array(new Array());
-    for (let i = 0; i < bounds[1]; i++) {
+    for (let i = 0; i < visBounds[3]; i++) {
         let dummyArr = new Array();
-        for (let f = 0; f < bounds[0]; f++) {
+        for (let f = 0; f < visBounds[2]; f++) {
             dummyArr.push(0);
             newLattice[i] = dummyArr;
         }
     }
+
+    console.log(visBounds[3])
     return newLattice;
 }
 
 //Sets the visual lattice to the new lattice you created and displays it
 function setLattice(newLattice)
 {
+    clear();
     for(let i = 0; i < newLattice.length; i++)
     {
         for (let j = 0; j < newLattice[0].length; j++)
         {
-            latticeArray[i][j] = newLattice[i][j];
+            latticeArray[i + visBounds[0]][j + visBounds[1]] = newLattice[i][j];
         }
     }
 
-    createVis(canvas);
-    setLattice(newLattice);
     displayLattice(visLatticeArray)
-    //console.log(latticeArray);
+
     return latticeArray;
 }
 
@@ -38,7 +40,16 @@ function setLattice(newLattice)
 export function buildGlider()
 {
     let newLattice = createNewConfig();
-    newLattice[Math.floor(newLattice.length / 2)][Math.floor(newLattice[0].length / 2)] = 1;
 
-    //console.log(newLattice[250][250]);
+    newLattice[Math.floor(visBounds[3] / 2) + 1][Math.floor(visBounds[2] / 2)] = 1;
+    newLattice[Math.floor(visBounds[3] / 2) ][Math.floor(visBounds[2] / 2) + 1] = 1;
+    newLattice[Math.floor(visBounds[3] / 2) + 1][Math.floor(visBounds[2] / 2) + 1] = 1;
+    newLattice[Math.floor(visBounds[3] / 2) + 1][Math.floor(visBounds[2] / 2) - 1] = 1;
+    newLattice[Math.floor(visBounds[3] / 2) - 1][Math.floor(visBounds[2] / 2)] = 1;
+
+    setLattice(newLattice);
+
+    //console.log(newLattice[0][0]);
+
+    //return newLattice;
 }

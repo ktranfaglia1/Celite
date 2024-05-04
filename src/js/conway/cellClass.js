@@ -51,7 +51,7 @@ export class cell {
 			}
 
 			// Draws the main section outside of the square
-			ctx.fillRect(this.XLocation, this.YLocation , this.width, this.height);
+			ctx.fillRect(this.XLocation, this.YLocation , this.width + 1, this.height + 1);
 		}
 
 		//Sets color for the main part of the cell

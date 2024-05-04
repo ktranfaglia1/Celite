@@ -108,17 +108,21 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
-canvas.addEventListener("click", function(event) {
-	let mouseX, mouseY;
-	[mouseX, mouseY] = getMouseLocation(event);
+//Doesn't allow canvas to be clickable until Document is loaded
+document.addEventListener("DOMContentLoaded", function() {
+	//Detects and sets lattice color based on where user clicks
+	canvas.addEventListener("click", function(event) {
+		let mouseX, mouseY;
+		[mouseX, mouseY] = getMouseLocation(event);
 
-	let XIndex = Math.floor(mouseX / visLatticeArray[0][0].getWidth());
-	let YIndex = Math.floor(mouseY / visLatticeArray[0][0].getHeight());
+		let XIndex = Math.floor(mouseX / visLatticeArray[0][0].getWidth());
+		let YIndex = Math.floor(mouseY / visLatticeArray[0][0].getHeight());
 
-	visLatticeArray[YIndex][XIndex].flipColor();
-	visLatticeArray[YIndex][XIndex].drawCell(ctx);
+		visLatticeArray[YIndex][XIndex].flipColor();
+		visLatticeArray[YIndex][XIndex].drawCell(ctx);
 	
-	latticeArray[YIndex + visBounds[1]][XIndex + visBounds[0]] = !latticeArray[YIndex + visBounds[1]][XIndex + visBounds[0]];
+		latticeArray[YIndex + visBounds[1]][XIndex + visBounds[0]] = !latticeArray[YIndex + visBounds[1]][XIndex + visBounds[0]];
+	});
 });
 
 // Handle switching GUI for Start/Stop Button upon click
@@ -225,7 +229,7 @@ function getMouseLocation(event) {
 	return [mouseX, mouseY];
 }
 
-function clear() {
+export function clear() {
 	iterationCount = 0;
 	for (let i = 0; i < visLatticeArray.length; i++) {
 		for (let j = 0; j < visLatticeArray[0].length; j++) {

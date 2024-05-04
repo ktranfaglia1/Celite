@@ -24,7 +24,6 @@ let numIt = 500;
 
 import {cell} from "./cellClass.js"
 import { intialCanvas } from "./displayLattice.js";
-import { buildGlider } from "./presets.js";
 
 createInit();
 createVis(canvas);
@@ -45,6 +44,7 @@ export function createInit() {
 
 //This function uses the current lattice array and visible boundary to create the current cell lattice to be displayed.
 export function createVis(canvas) {
+    //console.log(latticeArray[Math.floor(latticeArray.length / 2)][Math.floor(latticeArray[0].length / 2)]);
     let newLat = new Array(new Array());
     //cellSize = (.64 * window.innerHeight) / visBounds[3]; /* Window Calculation / number of cells gives the optimal size to fit screen */
     for (let i = visBounds[1]; i < visBounds[3]; i++) {
