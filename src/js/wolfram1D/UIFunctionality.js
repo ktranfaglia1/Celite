@@ -381,7 +381,7 @@ clearResetButton.addEventListener("click", function() {
 	else {
 		clear(latticeArray, true);
 	}
-	clearResetToggle();
+	makeLog("Cleared Lattice ", logCanvas, messageQueue);
 	alterInf(inf[0], false);}
 );
 
