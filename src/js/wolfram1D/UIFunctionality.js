@@ -312,7 +312,7 @@ randomFillButton.addEventListener("click", function() {
 });
 
 // Iterates the iterations inputted
-iterateButton.addEventListener("click", function() {
+iterateButton.addEventListener("click", debounce(function() {
 	stopIterating();  // Stops the iteration before doing a complete iteration
 	//Keep infinite the same and add the buffers
 	alterInf(inf[0], true)
@@ -355,9 +355,9 @@ iterateButton.addEventListener("click", function() {
 		clearResetButton.innerHTML = "Reset";
 	}
 	iterate(currentIteration, addIterations);
-});
+}));
 
-clearResetButton.addEventListener("click", function() {
+clearResetButton.addEventListener("click", debounce(function() {
 	stopIterating();  // Stops the iteration before changing clearing the canvas
 
 	// Removes buffers if they existed.
@@ -383,27 +383,27 @@ clearResetButton.addEventListener("click", function() {
 	}
 	makeLog("Cleared Lattice ", logCanvas, messageQueue);
 	alterInf(inf[0], false);}
-);
+));
 
 /* Connect UI Functionality to a prebuilt function */
 
 //Toggles 
-boundToggleButton.addEventListener("click", function() {
+boundToggleButton.addEventListener("click", debounce(function() {
 	stopIterating();  // Stops the iteration before changing the boundary condition
 	toggleCheckbox();
-});
+}));
 
-iterationToggleButton.addEventListener("click", function() {
+iterationToggleButton.addEventListener("click", debounce(function() {
 	tickerToggle = !(tickerToggle);
 	tctx.clearRect(0,0, tickCanvas.width, tickCanvas.height);
 	iterationToggleOption();
-});
+}));
 
-borderToggleButton.addEventListener("click", function() {
+borderToggleButton.addEventListener("click", debounce(function() {
 	alterBorder(!getBorder());
 	drawLattice(latticeArray);
 	borderToggleOption();
-});
+}));
 
 iterationSubmit.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before changing the iteration amount
@@ -416,7 +416,7 @@ latticeSizeSubmit.addEventListener("click", function() {
 	updateLatticeSize(canvas);
 });
 
-startStopButton.addEventListener("click", function() {
+startStopButton.addEventListener("click", debounce(function() {
 	if (run != 1) {
 		run = 1;
 		startStopToggle();
@@ -465,17 +465,17 @@ startStopButton.addEventListener("click", function() {
 		run = 0;
 		startStopToggle();
 	}
-});
+}));
 
 //Continously Checks where the mouse is on the Canvas too allow tick box to next to it
 tickCanvas.addEventListener("mousemove", function(event) {makeTickBox(event, tctx)});
 
 // Runs program to flips squares if Clicked
-tickCanvas.addEventListener('click', function(event) {
+tickCanvas.addEventListener('click', debounce(function(event) {
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of mouse click for usage in setCells
 	setCells(latticeArray, mouseX, mouseY);	// Flips the cell if it was clicked on
-});
+}));
 
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
 document.addEventListener('keydown', function(event) {
@@ -1169,3 +1169,18 @@ iterationSpeedSlider.oninput = function() {
 };
 
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
+
+
+function debounce(callback) {
+    let timeoutId;
+
+    return function(event) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            callback(event); // Directly pass the event object to the callback function
+        }, 25);
+    };
+}
+
+
+
