@@ -48,8 +48,4 @@ export function buildGlider()
     newLattice[Math.floor(visBounds[3] / 2) - 1][Math.floor(visBounds[2] / 2)] = 1;
 
     setLattice(newLattice);
-
-    //console.log(newLattice[0][0]);
-
-    //return newLattice;
 }
