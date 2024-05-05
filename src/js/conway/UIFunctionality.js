@@ -106,16 +106,14 @@ canvas.addEventListener('mouseleave', function() {
 document.addEventListener('keydown', function(event) {
     // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
 	if (event.shiftKey) {
-		if (event.shiftKey) {
-			setTimeout(function() {
-				if (!shift) {
-					shift = true;
-					if (scribble && shift) {
-						[mouseXPos, mouseYPos] = getMouseLocation(event);
-					}
+		setTimeout(function() {
+			if (!shift) {
+				shift = true;
+				if (scribble && shift) {
+					[mouseXPos, mouseYPos] = getMouseLocation(event);
 				}
-			}, 10);
-		}
+			}
+		}, 10);
 	}
     if (event.altKey) {
 		switch (true) {
