@@ -11,6 +11,9 @@ import {canvas, ctx, displayLattice, initialize} from "./displayLattice.js";
 import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds} from "./generateLattice.js";
 import { borderContact, expandBorder } from "./generateLattice.js";
 import { cell } from "./cellClass.js";
+import { buildGlider } from "./presets.js";
+
+//buildGlider();
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
@@ -65,17 +68,20 @@ startStopButton.addEventListener("click", function() {
 });
 
 iterateButton.addEventListener("click", function() {
-	clearResetToggle(true);
-	iterate();
-	iterationCount++;
-	/* THIS CODE IS BUGGED RN. WILL WORK ON FIX NEXT WEEK
-	let currentBoundaryPush = borderContact();
-	for (let i = 0; i < currentBoundaryPush.length; i++) {
-		expandBorder(currentBoundaryPush[i], (bounds[0] / 2));
+	if(!run)
+	{
+		clearResetToggle(true);
+		iterate();
+		iterationCount++;
+		/* THIS CODE IS BUGGED RN. WILL WORK ON FIX NEXT WEEK
+		let currentBoundaryPush = borderContact();
+		for (let i = 0; i < currentBoundaryPush.length; i++) {
+			expandBorder(currentBoundaryPush[i], (bounds[0] / 2));
+		}
+		*/
+		ctx.clearRect(0,0, canvas.width, canvas.height);
+		displayLattice(visLatticeArray);
 	}
-	*/
-	ctx.clearRect(0,0, canvas.width, canvas.height);
-	displayLattice(visLatticeArray);
 });
 
 clearResetButton.addEventListener("click", function() {

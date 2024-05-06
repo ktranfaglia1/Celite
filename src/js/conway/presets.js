@@ -22,7 +22,9 @@ function createNewConfig() {
 //Sets the visual lattice to the new lattice you created and displays it
 function setLattice(newLattice)
 {
-    clear();
+    //clear();
+
+    //Iterates through every lattice and sets to the same value as the new lattice
     for(let i = 0; i < newLattice.length; i++)
     {
         for (let j = 0; j < newLattice[0].length; j++)
@@ -39,13 +41,16 @@ function setLattice(newLattice)
 //Makes a simple glider
 export function buildGlider()
 {
+    //Makes the intial blank Lattice
     let newLattice = createNewConfig();
 
+    //Sets each of the indexes of the new lattice
     newLattice[Math.floor(visBounds[3] / 2) + 1][Math.floor(visBounds[2] / 2)] = 1;
     newLattice[Math.floor(visBounds[3] / 2) ][Math.floor(visBounds[2] / 2) + 1] = 1;
     newLattice[Math.floor(visBounds[3] / 2) + 1][Math.floor(visBounds[2] / 2) + 1] = 1;
     newLattice[Math.floor(visBounds[3] / 2) + 1][Math.floor(visBounds[2] / 2) - 1] = 1;
     newLattice[Math.floor(visBounds[3] / 2) - 1][Math.floor(visBounds[2] / 2)] = 1;
 
+    //sets display lattice to new lattice
     setLattice(newLattice);
 }

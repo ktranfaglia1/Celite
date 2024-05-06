@@ -4,7 +4,8 @@ import { buildGlider } from "./presets.js";
 const canvas = document.getElementById('latticeRegion');
 const ctx = canvas.getContext('2d');
 let initialize = false;
-//buildGlider();
+
+buildGlider();
 
 //Grabs Canvas and Context Data of the Canvas
 export function intialCanvas()

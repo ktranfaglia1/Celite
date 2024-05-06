@@ -299,7 +299,7 @@ latticeFillButton.addEventListener("click", function() {
 });
 
 // Sets random states to all cells in starting lattice 
-randomFillButton.addEventListener("click", function() {
+randomFillButton.addEventListener("click", debounce(function() {
 	stopIterating();  // Stops the iteration before randomly filling the lattice
 	clearResetButton.innerHTML = "Clear";
 	setLatticeSize();
@@ -309,7 +309,7 @@ randomFillButton.addEventListener("click", function() {
 	}
 	drawLattice(latticeArray);
 	makeLog("Randomized Lattice", logCanvas, messageQueue);
-});
+}));
 
 // Iterates the iterations inputted
 iterateButton.addEventListener("click", debounce(function() {
