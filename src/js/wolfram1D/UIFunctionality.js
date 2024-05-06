@@ -282,13 +282,14 @@ tickCanvas.addEventListener('wheel', function(event) {
 //Changes rule set
 ruleSubmit.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before changing the rule number
+	clearResetToggle();
 	setRule(rule);
 })
 
 // Sets all starting lattices to alive
 latticeFillButton.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before completely filling the lattice
-	clearResetButton.innerHTML = "Clear";
+	clearResetToggle();
 	setLatticeSize();
 	clear(latticeArray);
 	for (let i = 0; i  < latticeArray[0].length; i++) {
@@ -301,7 +302,7 @@ latticeFillButton.addEventListener("click", function() {
 // Sets random states to all cells in starting lattice 
 randomFillButton.addEventListener("click", debounce(function() {
 	stopIterating();  // Stops the iteration before randomly filling the lattice
-	clearResetButton.innerHTML = "Clear";
+	clearResetToggle();
 	setLatticeSize();
 	clear(latticeArray);
 	for (let i = 0; i  < latticeArray[0].length; i++) {
@@ -359,6 +360,7 @@ iterateButton.addEventListener("click", debounce(function() {
 
 clearResetButton.addEventListener("click", debounce(function() {
 	stopIterating();  // Stops the iteration before changing clearing the canvas
+	clearResetToggle();
 
 	// Removes buffers if they existed.
 	let newCellNum = (latSize[0] - (2 * latSize[1]));
@@ -381,9 +383,8 @@ clearResetButton.addEventListener("click", debounce(function() {
 	else {
 		clear(latticeArray, true);
 	}
-	makeLog("Cleared Lattice ", logCanvas, messageQueue);
-	alterInf(inf[0], false);}
-));
+	alterInf(inf[0], false);
+}));
 
 /* Connect UI Functionality to a prebuilt function */
 
@@ -412,7 +413,7 @@ iterationSubmit.addEventListener("click", function() {
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before changing the lattice size
-	clearResetButton.innerHTML = "Clear";
+	clearResetToggle();
 	updateLatticeSize(canvas);
 });
 
@@ -775,7 +776,7 @@ function clear(latticeArray, keepInit = false) {
 	let latPlusBufferArr = new Array()
 	//If the clear is keeping the initial timesteps' cell states, push the color onto a mock array to save cell states.
 	if (keepInit) {
-		clearResetButton.innerHTML = "Clear";
+		clearResetButton.innerHTML = "clear";
 		let bufferNum = (neoLatticeArray[0].length - clearedLattice[0].slice(0).length) / 2;
 		for (let i = bufferNum; i < (latSize[0] + bufferNum); i++) {
 			latPlusBufferArr.push(latticeArray[0][i].getColor())
@@ -973,14 +974,13 @@ function startStopToggle() {
 		makeLog("Stopping Iterations", logCanvas, messageQueue);
   	}
 }
-
 // Handle switching GUI for Start/Stop Button upon click
 function clearResetToggle() {
   	if (clearResetButton.innerHTML.includes("Reset")) {
     	clearResetButton.innerHTML = "Clear";
 		makeLog("Resetting Canvas", logCanvas, messageQueue);
   	}
-	else if (clearResetButton.innerHTML.includes("Clear") && !run) {
+	else {
 		makeLog("Clearing Canvas", logCanvas, messageQueue);
 	}
 }
