@@ -20,13 +20,14 @@ let visBounds = new Array(0, 0, visLatticeWidth, visLatticeHeight);
 let visLatticeArray = new Array(new Array());
 let latticeArray = new Array(new Array());
 
-import {cell} from "./cellClass.js"
+import { cell } from "./cellClass.js"
 import { intialCanvas } from "./displayLattice.js";
+import { buildGlider } from "./presets.js";
 
 createInit();
 //createVisInit();
 
-export {visLatticeArray, visBounds, latticeArray, bounds};
+export { visLatticeArray, visBounds, latticeArray, bounds };
 
 //This function creates the intitial lattice. This one is not made up of cell classes for storage purposes, a parallel structure
 //of cells will be made that displays a certain subset of this lattice using cells.
@@ -235,7 +236,7 @@ export function iterate() {
         for (let f = 0; f < bounds[0]; f++) {
             let currentState = latticeArray[i][f];
             let numNeighbors = livingNeighbors(f, i);
-            
+
             if (currentState == 0) {
                 if (numNeighbors == 3) {
                     dummyArr.push(1);
@@ -252,7 +253,7 @@ export function iterate() {
                     dummyArr.push(0);
                 }
             }
-            
+
         }
         newLat[i] = dummyArr;
     }

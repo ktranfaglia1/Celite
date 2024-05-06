@@ -29,7 +29,9 @@ hr {
 /* Large button formatting */
 .navigate_button1 {
   background-image: url("../images/wolfram1D.png");
-  color: white;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  color: rgba(248, 224, 32);
   padding: 68px 34px;
   text-align: center;
   text-decoration: none;
@@ -42,8 +44,10 @@ hr {
   cursor: pointer;
 }
 .navigate_button2 {
-  background-image: url("../images/wolfram1D.png");
-  color: white;
+  background-image: url("../images/Under_construction.jpg");
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  color: rgba(248, 224, 32);
   padding: 68px 34px;
   text-align: center;
   text-decoration: none;
@@ -56,8 +60,13 @@ hr {
   cursor: pointer;
 }
 .navigate_button3 {
-  background-image: url("../images/wolfram1D.png");
-  color: white;
+  background-image: url("../images/Game_of_Life.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  color: rgba(248, 224, 32);
   padding: 68px 34px;
   text-align: center;
   text-decoration: none;

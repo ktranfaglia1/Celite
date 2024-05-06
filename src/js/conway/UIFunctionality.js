@@ -30,11 +30,13 @@ const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 const zoomSlider = document.getElementById("zoomSlider");
 const zoomValue = document.getElementById("zoomValue");
 
+/* Connect Windows */
 const aboutWindow = document.getElementById("aboutContainer");  // Connect window for about
 const closeAbout = document.querySelector("#aboutContent .close");  // Connect HTML/CSS close feature to JS for the about window
 const libraryWindow = document.getElementById("libraryContainer");  // Connect window for library
 const closeLibrary = document.querySelector("#libraryContent .close");  // Connect HTML/CSS close feature to JS for the library window
 
+let outputIteration = document.getElementById("iterationOutput")  // Connect iteration display region
 /* Global variables for iteration */
 let run = 0; // Defaults to not keep running
 let currentDelay = 750; // Time to wait before iterating again
@@ -51,132 +53,155 @@ let shiftY = 0; //Stores ending Y position of cursor for dragging
 
 //Stops all functionality from working until canvas is opened
 document.addEventListener("DOMContentLoaded", function() {
-alterLattice(2);
-redrawLattice();
+	alterLattice(2);
+	redrawLattice();
 
+	buildGlider();
 
+	/* Handle button clicks for all primary toolbar buttons */
 
-/* Handle button clicks for all primary toolbar buttons */
-
-startStopButton.addEventListener("click", debounce(function() {
-	clearResetToggle(true);
-	startStopToggle();
-	run = !run;
-	if (run) {
-		continouslyIterate();
-	}
-}));
-
-iterateButton.addEventListener("click", debounce(function() {
-	if(!run)
-	{
+	startStopButton.addEventListener("click", debounce(function() {
 		clearResetToggle(true);
-		iterate();
-		iterationCount++;
-		/* THIS CODE IS BUGGED RN. WILL WORK ON FIX NEXT WEEK
-		let currentBoundaryPush = borderContact();
-		for (let i = 0; i < currentBoundaryPush.length; i++) {
-			expandBorder(currentBoundaryPush[i], (bounds[0] / 2));
+		startStopToggle();
+		run = !run;
+		if (run) {
+			continouslyIterate();
 		}
-		*/
-		ctx.clearRect(0,0, canvas.width, canvas.height);
-		displayLattice(visLatticeArray);
-	}
-}));
+	}));
 
-clearResetButton.addEventListener("click", debounce(function() {
-	clear();
-    clearResetToggle(false);
-}));
+	iterateButton.addEventListener("click", debounce(function() {
+		if(!run)
+		{
+			clearResetToggle(true);
+			iterate();
+			iterationCount++;
+			updateOutput(true);
+			/* THIS CODE IS BUGGED RN. WILL WORK ON FIX NEXT WEEK
+			let currentBoundaryPush = borderContact();
+			for (let i = 0; i < currentBoundaryPush.length; i++) {
+				expandBorder(currentBoundaryPush[i], (bounds[0] / 2));
+			}
+			*/
+			ctx.clearRect(0,0, canvas.width, canvas.height);
+			displayLattice(visLatticeArray);
+		}
+	}));
 
-document.addEventListener('keyup', function(event) {
-	if (event.key == 'Shift') {
+	clearResetButton.addEventListener("click", debounce(function() {
+		clear();
+		clearResetToggle(false);
+	}));
+
+	document.addEventListener('keyup', function(event) {
+		if (event.key == 'Shift') {
+			setTimeout(function() {
+				if (shift) {
+					shift = false;
+					shiftX = 0;
+					shiftY = 0;
+				}
+			}, 10);
+		}
+	});
+
+	canvas.addEventListener('mouseleave', function() {
 		setTimeout(function() {
-			if (shift) {
-				shift = false;
+			if (scribble) {
+				scribble = false;
 				shiftX = 0;
 				shiftY = 0;
 			}
 		}, 10);
-	}
-});
+	});
 
-canvas.addEventListener('mouseleave', function() {
-	setTimeout(function() {
-		if (scribble) {
-			scribble = false;
-			shiftX = 0;
-			shiftY = 0;
-		}
-	}, 10);
-});
-
-// Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
-document.addEventListener('keydown', function(event) {
-    // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
-	if (event.shiftKey) {
+	// Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
+	document.addEventListener('keydown', function(event) {
+		// Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
 		if (event.shiftKey) {
-			setTimeout(function() {
-				if (!shift) {
-					shift = true;
-					if (scribble && shift) {
-						[mouseXPos, mouseYPos] = getMouseLocation(event);
+			if (event.shiftKey) {
+				setTimeout(function() {
+					if (!shift) {
+						shift = true;
+						if (scribble && shift) {
+							[mouseXPos, mouseYPos] = getMouseLocation(event);
+						}
+					}
+				}, 10);
+			}
+		}
+		if (event.altKey) {
+			switch (true) {
+				case (event.key == 'Enter'):
+					startStopButton.click();
+					break;
+				case (event.key == 'i'):
+					iterateButton.click();
+					break;
+				case (event.key == 'c'):
+					clearButton.click();
+					break;
+				case (event.key == 'l'):
+					libraryButton.click();
+					break;
+				case (event.key == 'a'):
+					aboutButton.click();
+					break;
+				case (event.key == 'y'):
+					iterationSpeedSlider.focus();
+					break;
+				case (event.key == 'z'):
+					zoomSlider.focus();
+					break;
+				case (event.key == '='):
+					let dustin = document.querySelector(".Dustin");
+					if (dustin.style.display == "block") {
+						dustin.style.display = "none"
+					}
+					else {
+						dustin.style.display = "block"
+					}
+					break;
+				default:
+					break;
+			}
+		// Enter key clicked, check if an inputbox is active and click submit for that box
+		} else if (event.key == 'Enter') {
+			iterationSubmit.click();
+		}
+	});
+
+	//Doesn't allow canvas to be clickable until Document is loaded
+	//document.addEventListener("DOMContentLoaded", function() {
+		//Detects and sets lattice color based on where user clicks
+		canvas.addEventListener("click", function(event) {
+			let mouseX, mouseY;
+			[mouseX, mouseY] = getMouseLocation(event);
+			if (!shift) {
+				for (let i = 0; i < visLatticeArray.length; i++) {
+					for (let j = 0; j < visLatticeArray[i].length; j++) {
+						if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
+							visLatticeArray[i][j].flipColor();
+							visLatticeArray[i][j].drawCell(ctx);
+							latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
+						}
 					}
 				}
-			}, 10);
-		}
-	}
-    if (event.altKey) {
-		switch (true) {
-			case (event.key == 'Enter'):
-				startStopButton.click();
-				break;
-			case (event.key == 'i'):
-				iterateButton.click();
-				break;
-			case (event.key == 'c'):
-				clearButton.click();
-				break;
-			case (event.key == 'l'):
-				libraryButton.click();
-				break;
-			case (event.key == 'a'):
-				aboutButton.click();
-				break;
-			case (event.key == 'y'):
-				iterationSpeedSlider.focus();
-				break;
-			case (event.key == 'z'):
-				zoomSlider.focus();
-				break;
-			case (event.key == '='):
-				let dustin = document.querySelector(".Dustin");
-				if (dustin.style.display == "block") {
-					dustin.style.display = "none"
-				}
-				else {
-					dustin.style.display = "block"
-				}
-				break;
-			default:
-				break;
-		}
-	// Enter key clicked, check if an inputbox is active and click submit for that box
-	} else if (event.key == 'Enter') {
-		iterationSubmit.click();
-	}
-});
+			}
+		});
+	//});
 
-//Doesn't allow canvas to be clickable until Document is loaded
-//document.addEventListener("DOMContentLoaded", function() {
-	//Detects and sets lattice color based on where user clicks
-	canvas.addEventListener("click", function(event) {
+	canvas.addEventListener("mousemove", function(event) {
 		let mouseX, mouseY;
 		[mouseX, mouseY] = getMouseLocation(event);
-		if (!shift) {
+		if (scribble && shift) {
+			let offSetX = mouseX - mouseXPos;
+			let offsetY = mouseY - mouseYPos;
+			redrawLattice(offSetX, offsetY);
+		}
+		else if (scribble) {
 			for (let i = 0; i < visLatticeArray.length; i++) {
 				for (let j = 0; j < visLatticeArray[i].length; j++) {
-					if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
+					if ((visLatticeArray[i][j].insideCell(mouseX, mouseY)) && (visLatticeArray[i][j].getColor() == 0)) {
 						visLatticeArray[i][j].flipColor();
 						visLatticeArray[i][j].drawCell(ctx);
 						latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
@@ -185,152 +210,130 @@ document.addEventListener('keydown', function(event) {
 			}
 		}
 	});
-//});
 
-canvas.addEventListener("mousemove", function(event) {
-	let mouseX, mouseY;
-	[mouseX, mouseY] = getMouseLocation(event);
-	if (scribble && shift) {
-		let offSetX = mouseX - mouseXPos;
-		let offsetY = mouseY - mouseYPos;
-		redrawLattice(offSetX, offsetY);
-	}
-	else if (scribble) {
-		for (let i = 0; i < visLatticeArray.length; i++) {
-			for (let j = 0; j < visLatticeArray[i].length; j++) {
-				if ((visLatticeArray[i][j].insideCell(mouseX, mouseY)) && (visLatticeArray[i][j].getColor() == 0)) {
-					visLatticeArray[i][j].flipColor();
-					visLatticeArray[i][j].drawCell(ctx);
-					latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
+	canvas.addEventListener("mousedown", function(event) {
+		setTimeout(function() {
+			if (!scribble) {
+				scribble = true;
+				if (scribble && shift) {
+					[mouseXPos, mouseYPos] = getMouseLocation(event);
 				}
 			}
-		}
-	}
-});
+		}, 10);
+	});
 
-canvas.addEventListener("mousedown", function(event) {
-	setTimeout(function() {
-		if (!scribble) {
-			scribble = true;
-			if (scribble && shift) {
-				[mouseXPos, mouseYPos] = getMouseLocation(event);
+	canvas.addEventListener("mouseup", function() {
+		setTimeout(function() {
+			if (scribble) {
+				scribble = false;
+				shiftX = 0;
+				shiftY = 0;
 			}
+		}, 10);
+	});
+
+	canvas.addEventListener('wheel', function(event) {
+		let mouseX, mouseY;
+		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
+		let delta = event.deltaY; //Get delta from mouse scroll.
+		let change = false;
+		let currentScale = 100 / zoomSlider.value;
+		if (delta > 0 && zoomSlider.value < 100) {
+			zoomSlider.value++;
+			zoomValue.innerHTML++;
+			change = true;
 		}
-	}, 10);
-});
-
-canvas.addEventListener("mouseup", function() {
-	setTimeout(function() {
-		if (scribble) {
-			scribble = false;
-			shiftX = 0;
-			shiftY = 0;
+		else if (delta < 0 && zoomSlider.value > 1) {
+			zoomSlider.value--;
+			zoomValue.innerHTML--;
+			change = true;
 		}
-	}, 10);
-});
-
-canvas.addEventListener('wheel', function(event) {
-	let mouseX, mouseY;
-	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
-	let delta = event.deltaY; //Get delta from mouse scroll.
-	let change = false;
-	let currentScale = 100 / zoomSlider.value;
-	if (delta > 0 && zoomSlider.value < 100) {
-		zoomSlider.value++;
-		zoomValue.innerHTML++;
-		change = true;
-	}
-	else if (delta < 0 && zoomSlider.value > 1) {
-		zoomSlider.value--;
-		zoomValue.innerHTML--;
-		change = true;
-	}
-	if (change) {
-		let newScale = 100 / zoomSlider.value;
-		let scale = newScale / currentScale;
-		if (scale != 1) {
-			alterLattice(scale, mouseY, mouseX);
+		if (change) {
+			let newScale = 100 / zoomSlider.value;
+			let scale = newScale / currentScale;
+			if (scale != 1) {
+				alterLattice(scale, mouseY, mouseX);
+			}
+			redrawLattice();
 		}
-		redrawLattice();
+		else if (zoomSlider.value == 100) {
+			createVisInit();
+			redrawLattice();
+		}
+		event.preventDefault();
+	}, false)
+
+	// Handle switching GUI for Start/Stop Button upon click
+	function startStopToggle() {
+		// If the button is in start state, change it to stop state and vice versa
+		if (startStopButton.classList.contains("start_button") && !run) {
+			startStopButton.innerHTML = "Stop";
+			startStopButton.classList.remove("start_button");
+			startStopButton.classList.add("stop_button");
+		} 
+		else {
+			startStopButton.innerHTML = "Start";
+			startStopButton.classList.remove("stop_button");
+			startStopButton.classList.add("start_button");
+		}
 	}
-	else if (zoomSlider.value == 100) {
-		createVisInit();
-		redrawLattice();
+
+	// Handle switching GUI for Clear/Reset Button upon click
+	function clearResetToggle(reset) {
+		// If the button is in clear state, change it to reset state and vice versa
+		if (reset) {
+			clearResetButton.innerHTML = "Reset";
+		} 
+		else if (!reset) {
+			clearResetButton.innerHTML = "Clear";
+		}
 	}
-	event.preventDefault();
-}, false)
 
-// Handle switching GUI for Start/Stop Button upon click
-function startStopToggle() {
-	// If the button is in start state, change it to stop state and vice versa
-	if (startStopButton.classList.contains("start_button") && !run) {
-    	startStopButton.innerHTML = "Stop";
-    	startStopButton.classList.remove("start_button");
-    	startStopButton.classList.add("stop_button");
-  	} 
-  	else {
-    	startStopButton.innerHTML = "Start";
-    	startStopButton.classList.remove("stop_button");
-    	startStopButton.classList.add("start_button");
-  	}
-}
+	/* Handle open and closing of about and library window */
+	// About button is clicked, display about window
+	aboutButton.addEventListener("click", function() {
+		aboutWindow.style.display = "block";
+	});
 
-// Handle switching GUI for Clear/Reset Button upon click
-function clearResetToggle(reset) {
-	// If the button is in clear state, change it to reset state and vice versa
-	if (reset) {
-    	clearResetButton.innerHTML = "Reset";
-  	} 
-  	else if (!reset) {
-    	clearResetButton.innerHTML = "Clear";
-  	}
-}
-
-/* Handle open and closing of about and library window */
-// About button is clicked, display about window
-aboutButton.addEventListener("click", function() {
-	aboutWindow.style.display = "block";
-});
-
-// Close if x (close) button in top right of the window is clicked
-closeAbout.addEventListener("click", function() {
-	aboutWindow.style.display = "none";
-});
-
-// Close if any space outside of the about window is clicked
-window.addEventListener("click", function(event) {
-	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
-	if (event.target == aboutWindow) {
+	// Close if x (close) button in top right of the window is clicked
+	closeAbout.addEventListener("click", function() {
 		aboutWindow.style.display = "none";
-	}
-});
+	});
 
-// About button is clicked, display about window
-libraryButton.addEventListener("click", function() {
-	libraryWindow.style.display = "block";
-});
+	// Close if any space outside of the about window is clicked
+	window.addEventListener("click", function(event) {
+		// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
+		if (event.target == aboutWindow) {
+			aboutWindow.style.display = "none";
+		}
+	});
 
-// Close if x (close) button in top right of the window is clicked
-closeLibrary.addEventListener("click", function() {
-	libraryWindow.style.display = "none";
-});
+	// About button is clicked, display about window
+	libraryButton.addEventListener("click", function() {
+		libraryWindow.style.display = "block";
+	});
 
-// Close if any space outside of the about window is clicked
-window.addEventListener("click", function(event) {
-	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
-	if (event.target == libraryWindow) {
+	// Close if x (close) button in top right of the window is clicked
+	closeLibrary.addEventListener("click", function() {
 		libraryWindow.style.display = "none";
-	}
-});
+	});
 
-iterationSpeedValue.innerHTML = 250;  // Sets displayed default iteration speed value
-zoomValue.innerHTML = 50;  // Sets displayed default zoom value
+	// Close if any space outside of the about window is clicked
+	window.addEventListener("click", function(event) {
+		// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
+		if (event.target == libraryWindow) {
+			libraryWindow.style.display = "none";
+		}
+	});
 
-// Update the current iteration speed slider value upon drag
-iterationSpeedSlider.oninput = function() {
-	iterationSpeedValue.innerHTML = this.value;
-	setDelay(this.value);
-};
+	iterationSpeedValue.innerHTML = 250;  // Sets displayed default iteration speed value
+	zoomValue.innerHTML = 50;  // Sets displayed default zoom value
+
+	// Update the current iteration speed slider value upon drag
+	iterationSpeedSlider.oninput = function() {
+		iterationSpeedValue.innerHTML = this.value;
+		setDelay(this.value);
+	};
 
 });
 
@@ -430,8 +433,8 @@ function getMouseLocation(event) {
 	return [mouseX, mouseY];
 }
 
-export function clear() {
-	iterationCount = 0;
+function clear() {
+	updateOutput();
 	for (let i = 0; i < visLatticeArray.length; i++) {
 		for (let j = 0; j < visLatticeArray[0].length; j++) {
 			latticeArray[i][j] = 0;
@@ -452,6 +455,7 @@ function continouslyIterate() {
 			if (run && !(shift && scribble)) {
 				iterate();
 				iterationCount++;
+				updateOutput(true);
 				ctx.clearRect(0,0, canvas.width, canvas.height);
 				//displayLattice(visLatticeArray)
 				redrawLattice()
@@ -472,4 +476,17 @@ function debounce(callback) {
             callback(event); // Directly pass the event object to the callback function
         }, 100);
     };
+}
+
+updateOutput(); // Display initial count of 0
+
+// Displays the current iteration count to Game of Life HTML page
+function updateOutput(increment = false) {
+	if (increment) {
+		iterationCount++;
+	}
+	else {
+		iterationCount = 0;
+	}
+	outputIteration.innerHTML = "Iteration Count: " + iterationCount.toString();  // Display iteration count to HTML page
 }

@@ -13,7 +13,7 @@ export function intialCanvas()
     const canvas = document.getElementById('latticeRegion');
     const ctx = canvas.getContext('2d')
     canvas.width = .9 * window.innerWidth;
-    canvas.height = .85 * window.innerHeight;
+    canvas.height = .82 * window.innerHeight;
 }
 
 

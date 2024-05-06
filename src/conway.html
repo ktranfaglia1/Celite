@@ -9,6 +9,10 @@
     <link rel="stylesheet" type="text/css" href="../styles/conway.css">  <!-- Link to home specific CSS styles -->
     <link rel="icon" href="../images/cellular_automata_logo.png">  <!-- Link page icon -->
   </head>
+  <script type="module" src="../src/js/conway/displayLattice.js"> </script> <!-- Connect Javascript for lattice calculation -->
+  <script type="module" src="../src/js/conway/generateLattice.js"> </script> <!-- Connect Javascript for lattice calculation -->
+  <script type="module" src="../src/js/conway/cellClass.js"> </script> <!-- Connect Javascript for cell creation -->
+  <script type="module" src="../src/js/conway/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->
   <body>
     <!-- Navigation Bar-->
     <header>
@@ -52,12 +56,12 @@
       <div class="slider_wrapper">
         <div class="slider_container">
           <div class="p5"> Delay: <span id="iterationSpeedValue"> </span> Ms </div>
-          <input type="range" min="1" max="999" value="250" class="slider" id="iterationSpeedSlider">
+          <input type="range" min="1" max="500" value="250" class="slider" id="iterationSpeedSlider">
         </div>
       </div>
     </div>
     <div id="iterationOutput" class="iteration_output"> </div>  <!-- Output region for iteration count -->
-    <!-- Canvas region for lattice display and overlapping canvas for iteration tickmark -->
+    <!-- Canvas region for lattice display -->
     <div class="center_canvas"> 
       <canvas id="latticeRegion" class="lattice_region" tabindex="0"> </canvas> 
     </div>
@@ -72,13 +76,9 @@
     <div id="libraryContainer" class="library_container">
       <div id="libraryContent" class="library_content">
         <span class="close"> &times; </span>
-        <h2> Canvas Preset Library </h2>
+        <h2> Canvas Starting State Library </h2>
       </div>
     </div>
     <div class="Dustin"></div>
   </body>
 </html>
-<script type="module" src="../src/js/conway/displayLattice.js"> </script> <!-- Connect Javascript for lattice calculation -->
-<script type="module" src="../src/js/conway/generateLattice.js"> </script> <!-- Connect Javascript for lattice calculation -->
-<script type="module" src="../src/js/conway/cellClass.js"> </script> <!-- Connect Javascript for cell creation -->
-<script type="module" src="../src/js/conway/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->

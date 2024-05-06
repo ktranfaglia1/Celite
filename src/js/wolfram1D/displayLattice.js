@@ -13,8 +13,6 @@ nextLattice : Lattice the Next Index will be set too
 rule : This is the Rule number for generating how it will work
 numOfIterations : Holds number of Iterations to Create
 currentIteration : array that holds the bottom of the array
-inf : 
-
 */
 
 //This is the various document stuff for selecting color

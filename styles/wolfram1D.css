@@ -116,8 +116,7 @@ ul {
   justify-content: center;
   align-items: center;
   max-width: 98%;
-  margin: 0;
-  margin-top: 20px;
+  margin: 20px 0 0 0;
 }
 /* Secondary tool bar formatting */
 .secondary_toolbar {
@@ -125,8 +124,7 @@ ul {
   justify-content: center;
   align-items: center;
   max-width: 98%;
-  padding-top: 25px;
-  margin: 0 auto;
+  margin: 20px 0 0 0;
 } 
 /* Container for store multiple elements on the same row: used for primary tool bar */
 .input_container {

@@ -105,6 +105,9 @@ h6 {
   text-align: left;
   color: black;
 }
+a {
+  color: black;
+}
 /* Navigation formatting */
 .navbar {
   display: flex;
