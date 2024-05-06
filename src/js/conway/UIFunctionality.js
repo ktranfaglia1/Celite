@@ -58,16 +58,16 @@ redrawLattice();
 
 /* Handle button clicks for all primary toolbar buttons */
 
-startStopButton.addEventListener("click", function() {
+startStopButton.addEventListener("click", debounce(function() {
 	clearResetToggle(true);
 	startStopToggle();
 	run = !run;
 	if (run) {
 		continouslyIterate();
 	}
-});
+}));
 
-iterateButton.addEventListener("click", function() {
+iterateButton.addEventListener("click", debounce(function() {
 	if(!run)
 	{
 		clearResetToggle(true);
@@ -82,12 +82,12 @@ iterateButton.addEventListener("click", function() {
 		ctx.clearRect(0,0, canvas.width, canvas.height);
 		displayLattice(visLatticeArray);
 	}
-});
+}));
 
-clearResetButton.addEventListener("click", function() {
+clearResetButton.addEventListener("click", debounce(function() {
 	clear();
     clearResetToggle(false);
-});
+}));
 
 document.addEventListener('keyup', function(event) {
 	if (event.key == 'Shift') {
@@ -462,3 +462,14 @@ function continouslyIterate() {
 }
 
 // outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
+
+function debounce(callback) {
+    let timeoutId;
+
+    return function(event) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            callback(event); // Directly pass the event object to the callback function
+        }, 100);
+    };
+}
