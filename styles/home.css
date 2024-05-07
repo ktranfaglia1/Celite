@@ -27,8 +27,7 @@ hr {
   max-width: 95%;
 }
 /* Large button formatting */
-.navigate_button1 {
-  background-image: url("../images/wolfram1D.png");
+.navigate_button {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
   color: rgba(248, 224, 32);
@@ -43,40 +42,17 @@ hr {
   margin: 2% 3% 0 3%;
   cursor: pointer;
 }
+.navigate_button1 {
+  background-image: url("../images/wolfram1D.png");
+}
 .navigate_button2 {
   background-image: url("../images/Under_construction.jpg");
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
-  color: rgba(248, 224, 32);
-  padding: 68px 34px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 30px;
-  font-weight: bold;
-  border: 1px solid black;
-  border-radius: 20px;
-  margin: 2% 3% 0 3%;
-  cursor: pointer;
 }
 .navigate_button3 {
   background-image: url("../images/Game_of_Life.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
-  color: rgba(248, 224, 32);
-  padding: 68px 34px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 30px;
-  font-weight: bold;
-  border: 1px solid black;
-  border-radius: 20px;
-  margin: 2% 3% 0 3%;
-  cursor: pointer;
 }
 .navigate_button1:hover,
 .navigate_button2:hover, 

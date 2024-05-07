@@ -1,5 +1,5 @@
 import {latticeArray, visBounds} from './generateLattice.js';
-import { createVis, visLatticeArray } from './generateLattice.js';
+import {createVis, visLatticeArray } from './generateLattice.js';
 import {canvas, displayLattice} from "./displayLattice.js";
 //import { clear } from './UIFunctionality.js';
 

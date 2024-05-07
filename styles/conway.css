@@ -14,6 +14,10 @@ hr {
 .head {
   background-color: #6b8e23;
 }
+.center_canvas {
+  display: flex;
+  justify-content: center;
+}
 /* Lattice region formatting */
 .lattice_region {
   position: absolute;
@@ -148,8 +152,16 @@ hr {
   cursor: pointer;
   background-color: #7b4b33;
 }
-/*Used to center the canvas*/
-.center_canvas {
-  display: flex;
-  justify-content: center;
+/* Library preset button formatting */
+.library_img {
+  background-image: url("../images/dustin.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 128px 128px;
+  display: inline-block;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 2% 3% 0 3%;
+  cursor: pointer;
 }

@@ -13,8 +13,6 @@ import { borderContact, expandBorder } from "./generateLattice.js";
 import { cell } from "./cellClass.js";
 import { buildGlider } from "./presets.js";
 
-//buildGlider();
-
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
 /* Connect main buttons */
@@ -56,8 +54,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	alterLattice(2);
 	redrawLattice();
 
-	buildGlider();
-
 	/* Handle button clicks for all primary toolbar buttons */
 
 	startStopButton.addEventListener("click", debounce(function() {
@@ -74,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		{
 			clearResetToggle(true);
 			iterate();
-			iterationCount++;
 			updateOutput(true);
 			/* THIS CODE IS BUGGED RN. WILL WORK ON FIX NEXT WEEK
 			let currentBoundaryPush = borderContact();
@@ -454,7 +449,6 @@ function continouslyIterate() {
 		setTimeout(function() { // puts a wait before iterating again
 			if (run && !(shift && scribble)) {
 				iterate();
-				iterationCount++;
 				updateOutput(true);
 				ctx.clearRect(0,0, canvas.width, canvas.height);
 				//displayLattice(visLatticeArray)
