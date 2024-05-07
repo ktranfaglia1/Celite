@@ -154,7 +154,7 @@ hr {
 }
 /* Library preset button formatting */
 .library_img {
-  background-image: url("../images/dustin.jpg");
+  background-image: url("../images/Under_construction.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -172,7 +172,8 @@ hr {
   justify-content: center;
 }
 .library_box {
+  background-color: rgb(228, 228, 228);
   border: 2px solid black;
   padding: 16px;
-  margin: 30px;
+  margin: 20px 80px 40px 80px;
 }
