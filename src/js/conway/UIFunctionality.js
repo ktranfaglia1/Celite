@@ -42,6 +42,10 @@ let mouseXPos = 0; //Stores starting X position of cursor for dragging
 let mouseYPos = 0; //Stores starting Y position of cursor for dragging
 let shiftX = 0; //Stores ending X position of cursor for dragging
 let shiftY = 0; //Stores ending Y position of cursor for dragging
+let reverse =  new Array();
+for (let i = 101; i > 0; i--) {
+	reverse.push(i);
+}
 
 //Waits for canvas to be drawn in displayLattice before applying the initial zoom.
 while(!initialize) {}
@@ -214,33 +218,50 @@ canvas.addEventListener("mouseup", function() {
 	}, 10);
 });
 
+function inLattice(xLoc, yLoc) {
+	let xMin = visLatticeArray[0][0].getXLoc();
+	let xMax = visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() + visLatticeArray[0][visLatticeArray[0].length - 1].getWidth();
+	let yMin = visLatticeArray[0][0].getYLoc();
+	let yMax = visLatticeArray[visLatticeArray.length - 1][0].getYLoc() + visLatticeArray[visLatticeArray.length - 1][0].getHeight();
+	if (xLoc >= xMin && xLoc <= xMax && yLoc >= yMin && yLoc <= yMax) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 canvas.addEventListener('wheel', function(event) {
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
-	let delta = event.deltaY; //Get delta from mouse scroll.
-	let change = false;
-	let currentScale = 100 / zoomSlider.value;
-	if (delta > 0 && zoomSlider.value < 100) {
-		zoomSlider.value++;
-		zoomValue.innerHTML++;
-		change = true;
-	}
-	else if (delta < 0 && zoomSlider.value > 1) {
-		zoomSlider.value--;
-		zoomValue.innerHTML--;
-		change = true;
-	}
-	if (change) {
-		let newScale = 100 / zoomSlider.value;
-		let scale = newScale / currentScale;
-		if (scale != 1) {
-			alterLattice(scale, mouseY, mouseX);
+	let testLoc = inLattice(mouseX, mouseY);
+	console.log(testLoc);
+	if (testLoc) {
+		let delta = event.deltaY; //Get delta from mouse scroll.
+		let change = false;
+		let currentScale = 100 / reverse[zoomSlider.value];
+		if (delta > 0 && zoomSlider.value < 95) {
+			zoomSlider.value++;
+			zoomValue.innerHTML++;
+			change = true;
 		}
-		redrawLattice();
-	}
-	else if (zoomSlider.value == 100) {
-		createVisInit();
-		redrawLattice();
+		else if (delta < 0 && zoomSlider.value > 1) {
+			zoomSlider.value--;
+			zoomValue.innerHTML--;
+			change = true;
+		}
+		if (change) {
+			let newScale = 100 / reverse[zoomSlider.value];
+			let scale = newScale / currentScale;
+			if (scale != 1) {
+				alterLattice(scale, mouseY, mouseX);
+			}
+			redrawLattice();
+		}
+		else if (zoomSlider.value == 1) {
+			createVisInit();
+			redrawLattice();
+		}
 	}
 	event.preventDefault();
 }, false)
@@ -321,6 +342,33 @@ iterationSpeedSlider.oninput = function() {
 function redrawLattice(xOffset = 0, yOffset = 0) {
 	let trueOffsetX = xOffset - shiftX;
 	let trueOffsetY = yOffset - shiftY;
+	if (trueOffsetX != 0 || trueOffsetY != 0) {
+		let maxOffsetX =  canvas.width - (visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() + visLatticeArray[0][visLatticeArray[0].length - 1].getWidth()) - 5 * visLatticeArray[0][0].getWidth();
+		let minOffsetX =  -1 * (visLatticeArray[0][0].getXLoc() - 5 * visLatticeArray[0][0].getWidth());
+		let maxOffsetY =  canvas.height - (visLatticeArray[visLatticeArray.length - 1][0].getYLoc() + visLatticeArray[visLatticeArray.length - 1][0].getHeight()) - 5 * visLatticeArray[0][0].getHeight();
+		let minOffsetY =  -1 * (visLatticeArray[0][0].getYLoc() - 5 * visLatticeArray[0][0].getHeight());
+		
+		if (trueOffsetX > 0) {
+			if (trueOffsetX > minOffsetX) {
+				trueOffsetX = minOffsetX;
+			}
+		}
+		else {
+			if (trueOffsetX < maxOffsetX) {
+				trueOffsetX = maxOffsetX;
+			}
+		}
+		if (trueOffsetY > 0) {
+			if (trueOffsetY > minOffsetY) {
+				trueOffsetY = minOffsetY;
+			}
+		}
+		else {
+			if (trueOffsetY < maxOffsetY) {
+				trueOffsetY = maxOffsetY;
+			}
+		}
+	}
 	ctx.clearRect(0,0, canvas.width, canvas.height);
 	let offSetLat = visLatticeArray;
 	for (let i = 0; i < visLatticeArray.length; i++) {
@@ -330,6 +378,11 @@ function redrawLattice(xOffset = 0, yOffset = 0) {
 				offSetLat[i][f] = new cell(curCell.getHeight(), curCell.getWidth(), curCell.getXLoc() + trueOffsetX, curCell.getYLoc() + trueOffsetY, curCell.getColor(), curCell.getBorder());
 			}
 			offSetLat[i][f].drawCell(ctx)
+			/*
+			if (f == 0 && i == 0) {
+				console.log(offSetLat[i][f].getXLoc());
+			}
+			*/
 		}
 	}
 	shiftX = xOffset;
@@ -378,7 +431,7 @@ function alterCell(cell, scale, mouseY, mouseX) {
 // Update the current zoom slider value upon drag
 zoomSlider.oninput = function() {
 	zoomValue.innerHTML = this.value;
-	let scale = 100 / this.value;
+	let scale = 100 / reverse[this.value];
 	createVisInit();
 	if (scale != 1) {
 		alterLattice(scale);
