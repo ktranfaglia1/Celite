@@ -45,6 +45,10 @@ let mouseXPos = 0; //Stores starting X position of cursor for dragging
 let mouseYPos = 0; //Stores starting Y position of cursor for dragging
 let shiftX = 0; //Stores ending X position of cursor for dragging
 let shiftY = 0; //Stores ending Y position of cursor for dragging
+let reverse =  new Array();
+for (let i = 101; i > 0; i--) {
+	reverse.push(i);
+}
 
 let currentReset = 1;
 
@@ -118,81 +122,69 @@ document.addEventListener("DOMContentLoaded", function() {
 		}, 10);
 	});
 
-	// Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
-	document.addEventListener('keydown', function(event) {
-		// Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
-		if (event.shiftKey) {
-			if (event.shiftKey) {
-				setTimeout(function() {
-					if (!shift) {
-						shift = true;
-						if (scribble && shift) {
-							[mouseXPos, mouseYPos] = getMouseLocation(event);
-						}
-					}
-				}, 10);
-			}
+canvas.addEventListener('mouseleave', function() {
+	setTimeout(function() {
+		if (scribble) {
+			scribble = false;
+			shiftX = 0;
+			shiftY = 0;
 		}
-		if (event.altKey) {
-			switch (true) {
-				case (event.key == 'Enter'):
-					startStopButton.click();
-					break;
-				case (event.key == 'i'):
-					iterateButton.click();
-					break;
-				case (event.key == 'c'):
-					clearButton.click();
-					break;
-				case (event.key == 'l'):
-					libraryButton.click();
-					break;
-				case (event.key == 'a'):
-					aboutButton.click();
-					break;
-				case (event.key == 'y'):
-					iterationSpeedSlider.focus();
-					break;
-				case (event.key == 'z'):
-					zoomSlider.focus();
-					break;
-				case (event.key == '='):
-					let dustin = document.querySelector(".Dustin");
-					if (dustin.style.display == "block") {
-						dustin.style.display = "none"
-					}
-					else {
-						dustin.style.display = "block"
-					}
-					break;
-				default:
-					break;
-			}
-		// Enter key clicked, check if an inputbox is active and click submit for that box
-		} else if (event.key == 'Enter') {
-			iterationSubmit.click();
-		}
-	});
+	}, 10);
+});
 
-	//Doesn't allow canvas to be clickable until Document is loaded
-	//document.addEventListener("DOMContentLoaded", function() {
-		//Detects and sets lattice color based on where user clicks
-		canvas.addEventListener("click", function(event) {
-			let mouseX, mouseY;
-			[mouseX, mouseY] = getMouseLocation(event);
+// Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
+document.addEventListener('keydown', function(event) {
+    // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
+	if (event.shiftKey) {
+		setTimeout(function() {
 			if (!shift) {
-				for (let i = 0; i < visLatticeArray.length; i++) {
-					for (let j = 0; j < visLatticeArray[i].length; j++) {
-						if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
-							visLatticeArray[i][j].flipColor();
-							visLatticeArray[i][j].drawCell(ctx);
-							latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
-						}
-					}
+				shift = true;
+				if (scribble && shift) {
+					[mouseXPos, mouseYPos] = getMouseLocation(event);
 				}
 			}
-		});
-	//});
+		}, 10);
+	}
+    if (event.altKey) {
+		switch (true) {
+			case (event.key == 'Enter'):
+				startStopButton.click();
+				break;
+			case (event.key == 'i'):
+				iterateButton.click();
+				break;
+			case (event.key == 'c'):
+				clearButton.click();
+				break;
+			case (event.key == 'l'):
+				libraryButton.click();
+				break;
+			case (event.key == 'a'):
+				aboutButton.click();
+				break;
+			case (event.key == 'y'):
+				iterationSpeedSlider.focus();
+				break;
+			case (event.key == 'z'):
+				zoomSlider.focus();
+				break;
+			case (event.key == '='):
+				let dustin = document.querySelector(".Dustin");
+				if (dustin.style.display == "block") {
+					dustin.style.display = "none"
+				}
+				else {
+					dustin.style.display = "block"
+				}
+				break;
+			default:
+				break;
+		}
+	// Enter key clicked, check if an inputbox is active and click submit for that box
+	} else if (event.key == 'Enter') {
+		iterationSubmit.click();
+	}
+});
 
 	canvas.addEventListener("mousemove", function(event) {
 		let mouseX, mouseY;
@@ -252,20 +244,57 @@ document.addEventListener("DOMContentLoaded", function() {
 			zoomValue.innerHTML--;
 			change = true;
 		}
-		if (change) {
-			let newScale = 100 / zoomSlider.value;
-			let scale = newScale / currentScale;
-			if (scale != 1) {
-				alterLattice(scale, mouseY, mouseX);
+	}, 10);
+
+	canvas.addEventListener('wheel', function(event) {
+		let mouseX, mouseY;
+		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
+		let testLoc = inLattice(mouseX, mouseY);
+		console.log(testLoc);
+		if (testLoc) {
+			let delta = event.deltaY; //Get delta from mouse scroll.
+			let change = false;
+			let currentScale = 100 / reverse[zoomSlider.value];
+			if (delta > 0 && zoomSlider.value < 95) {
+				zoomSlider.value++;
+				zoomValue.innerHTML++;
+				change = true;
 			}
-			redrawLattice();
-		}
-		else if (zoomSlider.value == 100) {
-			createVisInit();
-			redrawLattice();
-		}
-		event.preventDefault();
-	}, false)
+			else if (delta < 0 && zoomSlider.value > 1) {
+				zoomSlider.value--;
+				zoomValue.innerHTML--;
+				change = true;
+			}
+			if (change) {
+				let newScale = 100 / reverse[zoomSlider.value];
+				let scale = newScale / currentScale;
+				if (scale != 1) {
+					alterLattice(scale, mouseY, mouseX);
+				}
+				redrawLattice();
+			}
+			else if (zoomSlider.value == 100) {
+				createVisInit();
+				redrawLattice();
+			}
+			event.preventDefault();
+		}}, false)
+
+});
+
+function inLattice(xLoc, yLoc) {
+	let xMin = visLatticeArray[0][0].getXLoc();
+	let xMax = visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() + visLatticeArray[0][visLatticeArray[0].length - 1].getWidth();
+	let yMin = visLatticeArray[0][0].getYLoc();
+	let yMax = visLatticeArray[visLatticeArray.length - 1][0].getYLoc() + visLatticeArray[visLatticeArray.length - 1][0].getHeight();
+	if (xLoc >= xMin && xLoc <= xMax && yLoc >= yMin && yLoc <= yMax) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 
 	// Handle switching GUI for Start/Stop Button upon click
 	function startStopToggle() {
@@ -341,12 +370,39 @@ document.addEventListener("DOMContentLoaded", function() {
 		setDelay(this.value);
 	};
 
-});
+
 
 //Redraws the entire lattice array on the canvas
 function redrawLattice(xOffset = 0, yOffset = 0) {
 	let trueOffsetX = xOffset - shiftX;
 	let trueOffsetY = yOffset - shiftY;
+	if (trueOffsetX != 0 || trueOffsetY != 0) {
+		let maxOffsetX =  canvas.width - (visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() + visLatticeArray[0][visLatticeArray[0].length - 1].getWidth()) - 5 * visLatticeArray[0][0].getWidth();
+		let minOffsetX =  -1 * (visLatticeArray[0][0].getXLoc() - 5 * visLatticeArray[0][0].getWidth());
+		let maxOffsetY =  canvas.height - (visLatticeArray[visLatticeArray.length - 1][0].getYLoc() + visLatticeArray[visLatticeArray.length - 1][0].getHeight()) - 5 * visLatticeArray[0][0].getHeight();
+		let minOffsetY =  -1 * (visLatticeArray[0][0].getYLoc() - 5 * visLatticeArray[0][0].getHeight());
+		
+		if (trueOffsetX > 0) {
+			if (trueOffsetX > minOffsetX) {
+				trueOffsetX = minOffsetX;
+			}
+		}
+		else {
+			if (trueOffsetX < maxOffsetX) {
+				trueOffsetX = maxOffsetX;
+			}
+		}
+		if (trueOffsetY > 0) {
+			if (trueOffsetY > minOffsetY) {
+				trueOffsetY = minOffsetY;
+			}
+		}
+		else {
+			if (trueOffsetY < maxOffsetY) {
+				trueOffsetY = maxOffsetY;
+			}
+		}
+	}
 	ctx.clearRect(0,0, canvas.width, canvas.height);
 	let offSetLat = visLatticeArray;
 	for (let i = 0; i < visLatticeArray.length; i++) {
@@ -356,6 +412,11 @@ function redrawLattice(xOffset = 0, yOffset = 0) {
 				offSetLat[i][f] = new cell(curCell.getHeight(), curCell.getWidth(), curCell.getXLoc() + trueOffsetX, curCell.getYLoc() + trueOffsetY, curCell.getColor(), curCell.getBorder());
 			}
 			offSetLat[i][f].drawCell(ctx)
+			/*
+			if (f == 0 && i == 0) {
+				console.log(offSetLat[i][f].getXLoc());
+			}
+			*/
 		}
 	}
 	shiftX = xOffset;
@@ -404,7 +465,7 @@ function alterCell(cell, scale, mouseY, mouseX) {
 // Update the current zoom slider value upon drag
 zoomSlider.oninput = function() {
 	zoomValue.innerHTML = this.value;
-	let scale = 100 / this.value;
+	let scale = 100 / reverse[this.value];
 	createVisInit();
 	if (scale != 1) {
 		alterLattice(scale);
@@ -517,4 +578,16 @@ function updateOutput(increment = false) {
 		iterationCount = 0;
 	}
 	outputIteration.innerHTML = "Iteration Count: " + iterationCount.toString();  // Display iteration count to HTML page
+}
+
+function centerCells() {
+	sizeLattice = latticeArray;
+	console.log(latticeArray.length)
+	for (let i = 0; i < latticeArray.length; i++)
+	{
+		for (let j = 0; j < latticeArray[0].length; j++)
+		{
+
+		}
+	}
 }
