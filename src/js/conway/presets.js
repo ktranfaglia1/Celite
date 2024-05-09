@@ -5,7 +5,7 @@ import {canvas, displayLattice} from "./displayLattice.js";
 
 
 //This function creates the intitial configuration array to be used for setting
-function createNewConfig() {
+export function createNewConfig() {
     let newLattice = new Array(new Array());
     for (let i = 0; i < visBounds[3]; i++) {
         let dummyArr = new Array();
@@ -20,7 +20,7 @@ function createNewConfig() {
 }
 
 //Sets the visual lattice to the new lattice you created and displays it
-function setLattice(newLattice)
+export function setLattice(newLattice)
 {
     //clear();
 
@@ -33,6 +33,7 @@ function setLattice(newLattice)
         }
     }
 
+    createVis();
     displayLattice(visLatticeArray)
 
     return latticeArray;

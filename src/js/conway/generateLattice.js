@@ -11,7 +11,7 @@ intialCanvas();
 let canvasHeight = canvas.height;
 let canvasWidth = canvas.width;
 
-let visLatticeHeight = 100; // canvas.height / visLatticeHeight // Size of a cell
+let visLatticeHeight = 110; // canvas.height / visLatticeHeight // Size of a cell
 let visLatticeWidth = canvasWidth * visLatticeHeight / canvasHeight - 1; // canvasWidth / size of a cell = visLatticeHeight * canvasWidth / size of a cell
 
 let cellSize = canvasHeight / visLatticeHeight;
@@ -20,9 +20,11 @@ let visBounds = new Array(0, 0, visLatticeWidth, visLatticeHeight);
 let visLatticeArray = new Array(new Array());
 let latticeArray = new Array(new Array());
 
+import { saveReset } from "./UIFunctionality.js";
 import { cell } from "./cellClass.js"
 import { intialCanvas } from "./displayLattice.js";
 import { buildGlider } from "./presets.js";
+import {iterationCount} from "./UIFunctionality.js"
 
 createInit();
 //createVisInit();
@@ -259,5 +261,11 @@ export function iterate() {
     }
     latticeArray = newLat;
     createVis();
+
+    if (iterationCount == 0)
+    {
+        saveReset();
+    }
+    
     return latticeArray;
 }

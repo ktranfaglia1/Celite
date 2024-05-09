@@ -11,7 +11,7 @@ import {canvas, ctx, displayLattice, initialize} from "./displayLattice.js";
 import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds} from "./generateLattice.js";
 import { borderContact, expandBorder } from "./generateLattice.js";
 import { cell } from "./cellClass.js";
-import { buildGlider } from "./presets.js";
+import { buildGlider, setLattice } from "./presets.js";
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
@@ -45,6 +45,12 @@ let mouseXPos = 0; //Stores starting X position of cursor for dragging
 let mouseYPos = 0; //Stores starting Y position of cursor for dragging
 let shiftX = 0; //Stores ending X position of cursor for dragging
 let shiftY = 0; //Stores ending Y position of cursor for dragging
+
+let currentReset = 1;
+
+let resetLattice = new Array()
+
+export {iterationCount}
 
 //Waits for canvas to be drawn in displayLattice before applying the initial zoom.
 //while(!initialize) {}
@@ -83,7 +89,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	}));
 
 	clearResetButton.addEventListener("click", debounce(function() {
-		clear();
+		if(currentReset == 1)
+		{clear();}
+		else
+		{reset();}
 		clearResetToggle(false);
 	}));
 
@@ -277,9 +286,11 @@ document.addEventListener("DOMContentLoaded", function() {
 	function clearResetToggle(reset) {
 		// If the button is in clear state, change it to reset state and vice versa
 		if (reset) {
+			currentReset = 0;
 			clearResetButton.innerHTML = "Reset";
 		} 
 		else if (!reset) {
+			currentReset = 1;
 			clearResetButton.innerHTML = "Clear";
 		}
 	}
@@ -442,6 +453,8 @@ function clear() {
 	zoomValue.innerHTML = 50;
 	ctx.clearRect(0,0, canvas.width, canvas.height);
 	displayLattice(visLatticeArray);
+
+	console.log("Clear Lattice")
 }
 
 function continouslyIterate() {
@@ -473,6 +486,26 @@ function debounce(callback) {
 }
 
 updateOutput(); // Display initial count of 0
+
+
+function reset()
+{
+	setLattice(resetLattice);
+}
+
+export function saveReset()
+{
+	resetLattice.length = 0; //Javascript is insane man
+	for(let i = 0; i < latticeArray.length; i++)
+	{
+		let tempRow = new Array();
+		for(let j = 0; j < latticeArray[0].length; j++)
+		{
+			tempRow.push(latticeArray[i][j]);
+		}
+		resetLattice.push(tempRow);
+	}
+}
 
 // Displays the current iteration count to Game of Life HTML page
 function updateOutput(increment = false) {
