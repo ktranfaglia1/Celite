@@ -232,6 +232,12 @@ export function expandBorder(direction, num) {
 
 //This function updates the lattice array for each timestep.
 export function iterate() {
+
+    if (iterationCount == 0)
+    {
+        saveReset();
+    }
+    
     let newLat = new Array(new Array());
     for (let i = 0; i < bounds[1]; i++) {
         let dummyArr = new Array();
@@ -261,11 +267,7 @@ export function iterate() {
     }
     latticeArray = newLat;
     createVis();
-
-    if (iterationCount == 0)
-    {
-        saveReset();
-    }
     
+
     return latticeArray;
 }

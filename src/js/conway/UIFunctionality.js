@@ -491,6 +491,7 @@ updateOutput(); // Display initial count of 0
 function reset()
 {
 	setLattice(resetLattice);
+	updateOutput();
 }
 
 export function saveReset()
