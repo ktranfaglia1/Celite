@@ -580,14 +580,3 @@ function updateOutput(increment = false) {
 	outputIteration.innerHTML = "Iteration Count: " + iterationCount.toString();  // Display iteration count to HTML page
 }
 
-function centerCells() {
-	sizeLattice = latticeArray;
-	console.log(latticeArray.length)
-	for (let i = 0; i < latticeArray.length; i++)
-	{
-		for (let j = 0; j < latticeArray[0].length; j++)
-		{
-
-		}
-	}
-}

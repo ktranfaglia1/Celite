@@ -47,12 +47,13 @@ export function createInit() {
 export function createVisInit() {
     let newLat = new Array(new Array());
     //cellSize = (.64 * window.innerHeight) / visBounds[3]; /* Window Calculation / number of cells gives the optimal size to fit screen */
+    let xOffset = (window.innerWidth * .9 - (visBounds[2] - visBounds[0]) * cellSize) / 2;
     for (let i = visBounds[1]; i < visBounds[3]; i++) {
         let posY = i - visBounds[1];
         let dummyArr = new Array();
         for (let f = visBounds[0]; f < visBounds[2]; f++) {
             let posX = f - visBounds[0]
-            dummyArr.push(new cell(cellSize, cellSize, posX * cellSize, posY * cellSize, latticeArray[i][f], true));
+            dummyArr.push(new cell(cellSize, cellSize, posX * cellSize + xOffset, posY * cellSize, latticeArray[i][f], true));
         }
         newLat[i] = dummyArr;
     }
