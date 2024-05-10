@@ -132,7 +132,7 @@ hr {
 /* Input (submit) button, input box, and input label formatting */
 .input_label {
   font-size: 17px;
-  margin: 8px 8px;
+  margin: 8px;
 }
 .simulation_input {
   border: 2px solid black;
@@ -140,7 +140,7 @@ hr {
   height: 35px;;
 }
 .submit_button {
-  padding: 8px 8px;
+  padding: 8px;
   border: 1px solid black;
   background-color: #5a3c1d;
   color: whitesmoke;
@@ -154,14 +154,42 @@ hr {
 }
 /* Library preset button formatting */
 .library_img {
-  background-image: url("../images/dustin.jpg");
+  background-image: url("../images/under_construction.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 128px 128px;
+  padding: 90px 160px;
   display: inline-block;
   border: 1px solid black;
   border-radius: 10px;
   margin: 2% 3% 0 3%;
   cursor: pointer;
+  margin-bottom: 10px;
+  position: relative;
+}
+.center_img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.library_img::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+}
+.library_img:hover::before {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.library_box {
+  background-color: rgb(228, 228, 228);
+  border: 2px solid black;
+  padding: 16px;
+  margin: 20px 80px 40px 80px;
+}
+#library_1-2-3-4 {
+  background-image: url("../images/game_of_Life.png");
 }

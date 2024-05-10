@@ -776,7 +776,7 @@ function clear(latticeArray, keepInit = false) {
 	let latPlusBufferArr = new Array()
 	//If the clear is keeping the initial timesteps' cell states, push the color onto a mock array to save cell states.
 	if (keepInit) {
-		clearResetButton.innerHTML = "clear";
+		clearResetButton.innerHTML = "Clear";
 		let bufferNum = (neoLatticeArray[0].length - clearedLattice[0].slice(0).length) / 2;
 		for (let i = bufferNum; i < (latSize[0] + bufferNum); i++) {
 			latPlusBufferArr.push(latticeArray[0][i].getColor())
