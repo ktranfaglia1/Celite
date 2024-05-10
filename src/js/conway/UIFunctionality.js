@@ -34,9 +34,20 @@ const closeAbout = document.querySelector("#aboutContent .close");  // Connect H
 const libraryWindow = document.getElementById("libraryContainer");  // Connect window for library
 const closeLibrary = document.querySelector("#libraryContent .close");  // Connect HTML/CSS close feature to JS for the library window
 
-const libraryImage = document.querySelector('.library_img'); // select the button element
+/* Connect Library Buttons */
+const library101 = document.getElementById('library101');
+const library119P4H1V0 = document.getElementById('library119P4H1V0');
+const library1234 = document.getElementById('library1234');
+const library295P5H1V1 = document.getElementById('library295P5H1V1');
+const library4gto5gReaction = document.getElementById('library4gto5gReaction');
+const library60P312 = document.getElementById('library60P312');
+const libraryAK94Gun = document.getElementById('libraryAK94Gun');
+const libraryTrigger = document.getElementById('libraryTrigger');
+const librarySnail = document.getElementById('librarySnail');
+const libraryTubstretcher = document.getElementById('libraryTubstretcher');
 
 let outputIteration = document.getElementById("iterationOutput")  // Connect iteration display region
+
 /* Global variables for iteration */
 let run = 0; // Defaults to not keep running
 let currentDelay = 750; // Time to wait before iterating again
@@ -65,6 +76,7 @@ export {iterationCount}
 document.addEventListener("DOMContentLoaded", function() {
 	alterLattice(2);
 	redrawLattice();
+	buildGlider();
 
 	/* Handle button clicks for all primary toolbar buttons */
 
@@ -280,12 +292,58 @@ document.addEventListener('keydown', function(event) {
 				redrawLattice();
 			}
 			event.preventDefault();
-		}}, false)
+		}
+	}, false);
 
+	library101.addEventListener("click", function() {
+		buildGlider();
+		closeLibrary.click();
+	});
 
-		libraryImage.addEventListener("click", function() {
-			libraryWindow.style.display = "none";
-		});
+	library119P4H1V0.addEventListener("click", function() {
+		buildGlider();
+		closeLibrary.click();
+	});
+
+	library1234.addEventListener("click", function() {
+		buildGlider();
+		closeLibrary.click();
+	});
+
+	library295P5H1V1.addEventListener("click", function() {
+		buildGlider();
+		closeLibrary.click();
+	});
+
+	library4gto5gReaction.addEventListener("click", function() {
+		buildGlider();
+		closeLibrary.click();
+	});
+
+	library60P312.addEventListener("click", function() {
+		buildGlider();
+		closeLibrary.click();
+	});
+
+	libraryAK94Gun.addEventListener("click", function() {
+		buildGlider();
+		closeLibrary.click();
+	});
+
+	librarySnail.addEventListener("click", function() {
+		buildGlider();
+		closeLibrary.click();
+	});
+
+	libraryTrigger.addEventListener("click", function() {
+		buildGlider();
+		closeLibrary.click();
+	});
+
+	libraryTubstretcher.addEventListener("click", function() {
+		buildGlider();
+		closeLibrary.click();
+	});
 });
 
 function inLattice(xLoc, yLoc) {
@@ -301,81 +359,79 @@ function inLattice(xLoc, yLoc) {
 	}
 }
 
-
-	// Handle switching GUI for Start/Stop Button upon click
-	function startStopToggle() {
-		// If the button is in start state, change it to stop state and vice versa
-		if (startStopButton.classList.contains("start_button") && !run) {
-			startStopButton.innerHTML = "Stop";
-			startStopButton.classList.remove("start_button");
-			startStopButton.classList.add("stop_button");
-		} 
-		else {
-			startStopButton.innerHTML = "Start";
-			startStopButton.classList.remove("stop_button");
-			startStopButton.classList.add("start_button");
-		}
+// Handle switching GUI for Start/Stop Button upon click
+function startStopToggle() {
+	// If the button is in start state, change it to stop state and vice versa
+	if (startStopButton.classList.contains("start_button") && !run) {
+		startStopButton.innerHTML = "Stop";
+		startStopButton.classList.remove("start_button");
+		startStopButton.classList.add("stop_button");
+	} 
+	else {
+		startStopButton.innerHTML = "Start";
+		startStopButton.classList.remove("stop_button");
+		startStopButton.classList.add("start_button");
 	}
+}
 
-	// Handle switching GUI for Clear/Reset Button upon click
-	function clearResetToggle(reset) {
-		// If the button is in clear state, change it to reset state and vice versa
-		if (reset) {
-			currentReset = 0;
-			clearResetButton.innerHTML = "Reset";
-		} 
-		else if (!reset) {
-			currentReset = 1;
-			clearResetButton.innerHTML = "Clear";
-		}
+// Handle switching GUI for Clear/Reset Button upon click
+function clearResetToggle(reset) {
+	// If the button is in clear state, change it to reset state and vice versa
+	if (reset) {
+		currentReset = 0;
+		clearResetButton.innerHTML = "Reset";
+	} 
+	else if (!reset) {
+		currentReset = 1;
+		clearResetButton.innerHTML = "Clear";
 	}
+}
 
-	/* Handle open and closing of about and library window */
-	// About button is clicked, display about window
-	aboutButton.addEventListener("click", function() {
-		aboutWindow.style.display = "block";
-	});
+/* Handle open and closing of about and library window */
+// About button is clicked, display about window
+aboutButton.addEventListener("click", function() {
+	aboutWindow.style.display = "block";
+});
 
-	// Close if x (close) button in top right of the window is clicked
-	closeAbout.addEventListener("click", function() {
+// Close if x (close) button in top right of the window is clicked
+closeAbout.addEventListener("click", function() {
+	aboutWindow.style.display = "none";
+});
+
+// Close if any space outside of the about window is clicked
+window.addEventListener("click", function(event) {
+	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
+	if (event.target == aboutWindow) {
 		aboutWindow.style.display = "none";
-	});
+	}
+});
 
-	// Close if any space outside of the about window is clicked
-	window.addEventListener("click", function(event) {
-		// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
-		if (event.target == aboutWindow) {
-			aboutWindow.style.display = "none";
-		}
-	});
+// About button is clicked, display about window
+libraryButton.addEventListener("click", function() {
+	libraryWindow.style.display = "block";
+});
 
-	// About button is clicked, display about window
-	libraryButton.addEventListener("click", function() {
-		libraryWindow.style.display = "block";
-	});
+// Close if x (close) button in top right of the window is clicked
+closeLibrary.addEventListener("click", function() {
+	libraryWindow.style.display = "none";
+});
 
-	// Close if x (close) button in top right of the window is clicked
-	closeLibrary.addEventListener("click", function() {
+// Close if any space outside of the about window is clicked
+window.addEventListener("click", function(event) {
+	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
+	if (event.target == libraryWindow) {
 		libraryWindow.style.display = "none";
-	});
+	}
+});
 
-	// Close if any space outside of the about window is clicked
-	window.addEventListener("click", function(event) {
-		// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
-		if (event.target == libraryWindow) {
-			libraryWindow.style.display = "none";
-		}
-	});
+iterationSpeedValue.innerHTML = 250;  // Sets displayed default iteration speed value
+zoomValue.innerHTML = 50;  // Sets displayed default zoom value
 
-	iterationSpeedValue.innerHTML = 250;  // Sets displayed default iteration speed value
-	zoomValue.innerHTML = 50;  // Sets displayed default zoom value
-
-	// Update the current iteration speed slider value upon drag
-	iterationSpeedSlider.oninput = function() {
-		iterationSpeedValue.innerHTML = this.value;
-		setDelay(this.value);
-	};
-
+// Update the current iteration speed slider value upon drag
+iterationSpeedSlider.oninput = function() {
+	iterationSpeedValue.innerHTML = this.value;
+	setDelay(this.value);
+};
 
 
 //Redraws the entire lattice array on the canvas
@@ -585,4 +641,3 @@ function updateOutput(increment = false) {
 	}
 	outputIteration.innerHTML = "Iteration Count: " + iterationCount.toString();  // Display iteration count to HTML page
 }
-
