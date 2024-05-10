@@ -34,6 +34,8 @@ const closeAbout = document.querySelector("#aboutContent .close");  // Connect H
 const libraryWindow = document.getElementById("libraryContainer");  // Connect window for library
 const closeLibrary = document.querySelector("#libraryContent .close");  // Connect HTML/CSS close feature to JS for the library window
 
+const libraryImage = document.querySelector('.library_img'); // select the button element
+
 let outputIteration = document.getElementById("iterationOutput")  // Connect iteration display region
 /* Global variables for iteration */
 let run = 0; // Defaults to not keep running
@@ -280,6 +282,10 @@ document.addEventListener('keydown', function(event) {
 			event.preventDefault();
 		}}, false)
 
+
+		libraryImage.addEventListener("click", function() {
+			libraryWindow.style.display = "none";
+		});
 });
 
 function inLattice(xLoc, yLoc) {
