@@ -28,7 +28,6 @@ p {
   font-family: Times;
   text-align: center;
   font-size: 22px;
-  line-height: 1.8;
   color: black;
 }
 .p3 {
@@ -106,6 +105,16 @@ h6 {
   color: black;
 }
 a {
+  color: black;
+}
+.subtitle {
+  margin: 0;
+  font-family: Times;
+  font-size: 28px;
+  line-height: 1.4;
+  font-style: italic;
+  font-weight: bold;
+  text-align: center;
   color: black;
 }
 /* Navigation formatting */
