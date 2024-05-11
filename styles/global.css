@@ -27,6 +27,7 @@ p {
   display: block;
   font-family: Times;
   text-align: center;
+  line-height: 1.5;
   font-size: 22px;
   color: black;
 }
@@ -111,7 +112,7 @@ a {
   margin: 0;
   font-family: Times;
   font-size: 28px;
-  line-height: 1.4;
+  line-height: 1.2;
   font-style: italic;
   font-weight: bold;
   text-align: center;
