@@ -180,7 +180,7 @@ a {
 .navbar .dropdown:hover .dropdown_item {
   display: block;
 }
-/* About window formatting */ 
+/* Window formatting */ 
 .about_container, .library_container {
   display: none;
   position: fixed;
