@@ -130,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		setTimeout(function() {
 			if (scribble) {
 				scribble = false;
+				console.log(scribble)
 				shiftX = 0;
 				shiftY = 0;
 			}
@@ -140,6 +141,7 @@ canvas.addEventListener('mouseleave', function() {
 	setTimeout(function() {
 		if (scribble) {
 			scribble = false;
+			console.log(scribble)
 			shiftX = 0;
 			shiftY = 0;
 		}
@@ -200,6 +202,22 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
+canvas.addEventListener("click", function(event) {
+	let mouseX, mouseY;
+	[mouseX, mouseY] = getMouseLocation(event);
+	if (!shift) {
+		for (let i = 0; i < visLatticeArray.length; i++) {
+			for (let j = 0; j < visLatticeArray[i].length; j++) {
+				if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
+					visLatticeArray[i][j].flipColor();
+					visLatticeArray[i][j].drawCell(ctx);
+					latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
+				}
+			}
+		}
+	}
+});
+
 	canvas.addEventListener("mousemove", function(event) {
 		let mouseX, mouseY;
 		[mouseX, mouseY] = getMouseLocation(event);
@@ -225,6 +243,7 @@ document.addEventListener('keydown', function(event) {
 		setTimeout(function() {
 			if (!scribble) {
 				scribble = true;
+				console.log(scribble)
 				if (scribble && shift) {
 					[mouseXPos, mouseYPos] = getMouseLocation(event);
 				}
