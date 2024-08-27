@@ -69,10 +69,10 @@ let resetLattice = new Array()
 
 export {iterationCount}
 
-//Waits for canvas to be drawn in displayLattice before applying the initial zoom.
-//while(!initialize) {}
+// Waits for canvas to be drawn in displayLattice before applying the initial zoom.
+// while(!initialize) {}
 
-//Stops all functionality from working until canvas is opened
+// Stops all functionality from working until canvas is opened
 document.addEventListener("DOMContentLoaded", function() {
 	alterLattice(2);
 	redrawLattice();
@@ -136,69 +136,69 @@ document.addEventListener("DOMContentLoaded", function() {
 		}, 10);
 	});
 
-canvas.addEventListener('mouseleave', function() {
-	setTimeout(function() {
-		if (scribble) {
-			scribble = false;
-			shiftX = 0;
-			shiftY = 0;
-		}
-	}, 10);
-});
-
-// Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
-document.addEventListener('keydown', function(event) {
-    // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
-	if (event.shiftKey) {
+	canvas.addEventListener('mouseleave', function() {
 		setTimeout(function() {
-			if (!shift) {
-				shift = true;
-				if (scribble && shift) {
-					[mouseXPos, mouseYPos] = getMouseLocation(event);
-				}
+			if (scribble) {
+				scribble = false;
+				shiftX = 0;
+				shiftY = 0;
 			}
 		}, 10);
-	}
-    if (event.altKey) {
-		switch (true) {
-			case (event.key == 'Enter'):
-				startStopButton.click();
-				break;
-			case (event.key == 'i'):
-				iterateButton.click();
-				break;
-			case (event.key == 'c'):
-				clearButton.click();
-				break;
-			case (event.key == 'l'):
-				libraryButton.click();
-				break;
-			case (event.key == 'a'):
-				aboutButton.click();
-				break;
-			case (event.key == 'y'):
-				iterationSpeedSlider.focus();
-				break;
-			case (event.key == 'z'):
-				zoomSlider.focus();
-				break;
-			case (event.key == '='):
-				let dustin = document.querySelector(".Dustin");
-				if (dustin.style.display == "block") {
-					dustin.style.display = "none"
+	});
+
+	// Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
+	document.addEventListener('keydown', function(event) {
+		// Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
+		if (event.shiftKey) {
+			setTimeout(function() {
+				if (!shift) {
+					shift = true;
+					if (scribble && shift) {
+						[mouseXPos, mouseYPos] = getMouseLocation(event);
+					}
 				}
-				else {
-					dustin.style.display = "block"
-				}
-				break;
-			default:
-				break;
+			}, 10);
 		}
-	// Enter key clicked, check if an inputbox is active and click submit for that box
-	} else if (event.key == 'Enter') {
-		iterationSubmit.click();
-	}
-});
+		if (event.altKey) {
+			switch (true) {
+				case (event.key == 'Enter'):
+					startStopButton.click();
+					break;
+				case (event.key == 'i'):
+					iterateButton.click();
+					break;
+				case (event.key == 'c'):
+					clearButton.click();
+					break;
+				case (event.key == 'l'):
+					libraryButton.click();
+					break;
+				case (event.key == 'a'):
+					aboutButton.click();
+					break;
+				case (event.key == 'y'):
+					iterationSpeedSlider.focus();
+					break;
+				case (event.key == 'z'):
+					zoomSlider.focus();
+					break;
+				case (event.key == '='):
+					let dustin = document.querySelector(".Dustin");
+					if (dustin.style.display == "block") {
+						dustin.style.display = "none"
+					}
+					else {
+						dustin.style.display = "block"
+					}
+					break;
+				default:
+					break;
+			}
+		// Enter key clicked, check if an inputbox is active and click submit for that box
+		} else if (event.key == 'Enter') {
+			iterationSubmit.click();
+		}
+	});
 
 	canvas.addEventListener("mousemove", function(event) {
 		let mouseX, mouseY;
@@ -244,55 +244,31 @@ document.addEventListener('keydown', function(event) {
 
 	canvas.addEventListener('wheel', function(event) {
 		let mouseX, mouseY;
-		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
-		let delta = event.deltaY; //Get delta from mouse scroll.
+		[mouseX, mouseY] = getMouseLocation(event); // Calculates proper location of zoom center
+		let delta = event.deltaY; // Get delta from mouse scroll.
 		let change = false;
-		let currentScale = 100 / zoomSlider.value;
+		let currentScale = 100 / reverse[zoomSlider.value];
+
 		if (delta > 0 && zoomSlider.value < 100) {
 			zoomSlider.value++;
-			zoomValue.innerHTML++;
+			zoomValue.innerHTML = Math.min(zoomSlider.value, 100); // Ensure the displayed zoom value does not exceed 100%
 			change = true;
-		}
-		else if (delta < 0 && zoomSlider.value > 1) {
+		} else if (delta < 0 && zoomSlider.value > 1) {
 			zoomSlider.value--;
-			zoomValue.innerHTML--;
+			zoomValue.innerHTML = zoomSlider.value;
 			change = true;
 		}
-	}, 10);
 
-	canvas.addEventListener('wheel', function(event) {
-		let mouseX, mouseY;
-		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
-		let testLoc = inLattice(mouseX, mouseY);
-		console.log(testLoc);
-		if (testLoc) {
-			let delta = event.deltaY; //Get delta from mouse scroll.
-			let change = false;
-			let currentScale = 100 / reverse[zoomSlider.value];
-			if (delta > 0 && zoomSlider.value < 95) {
-				zoomSlider.value++;
-				zoomValue.innerHTML++;
-				change = true;
+		if (change) {
+			let newScale = 100 / reverse[zoomSlider.value];
+			let scale = newScale / currentScale;
+			if (scale != 1) {
+				alterLattice(scale, mouseY, mouseX);
 			}
-			else if (delta < 0 && zoomSlider.value > 1) {
-				zoomSlider.value--;
-				zoomValue.innerHTML--;
-				change = true;
-			}
-			if (change) {
-				let newScale = 100 / reverse[zoomSlider.value];
-				let scale = newScale / currentScale;
-				if (scale != 1) {
-					alterLattice(scale, mouseY, mouseX);
-				}
-				redrawLattice();
-			}
-			else if (zoomSlider.value == 100) {
-				createVisInit();
-				redrawLattice();
-			}
-			event.preventDefault();
+			redrawLattice();
 		}
+
+		event.preventDefault();
 	}, false);
 
 	library101.addEventListener("click", function() {
