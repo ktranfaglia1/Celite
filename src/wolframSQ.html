@@ -1,0 +1,312 @@
+<!-- Wolfram's Nearest Neighbor Sequential Simulation Page -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">  <!-- Set the character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Define the viewport for responsive design -->
+    <title> Celite - wolframSQ </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Link to online library for icons -->
+    <link rel="stylesheet" type="text/css" href="../styles/global.css">  <!-- Link to global CSS styles -->
+    <link rel="stylesheet" type="text/css" href="../styles/wolframSQ.css">  <!-- Link to home specific CSS styles -->
+    <link rel="icon" href="../images/cellular_automata_icon.png">  <!-- Link page icon -->
+  </head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"> </script> <!-- Connect online Javascript library to capture canvas as a PDF -->
+  <script type="module" src="../src/js/wolframSQ/generateLattice.js" crossorigin="anonymous"> </script> <!-- Connect Javascript for lattice calculation -->
+  <script type="module" src="../src/js/wolframSQ/cellClass.js"> </script> <!-- Connect Javascript for cell creation -->
+  <script type="module" src="../src/js/wolframSQ/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->
+  <script type="module" src="../src/js/wolframSQ/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->
+  <script type="module" src="../src/js/wolframSQ/logClass.js"> </script> <!-- Connect Javascript for logbox functionality -->
+  <body>
+    <!-- Navigation Bar-->
+    <header>
+      <div class="navbar">
+        <a href="../src/index.html" class="logo">
+          <img src="../images/cellular_automata_logo.png" alt="Logo" width="70" height="70">
+        </a>
+        <a href="../src/index.html"> Home </a>  <!-- Link to the home page -->
+        <!-- Dropdown menu for simulators -->
+        <div class="dropdown">
+          <button class="drop_button"> Simulators <i class="fa fa-caret-down"> </i> </button>
+          <!-- Dropdown items -->
+          <div class="dropdown_item">
+            <a href="../src/wolframPR.html"> Parallel Nearest Neighbor </a>  <!-- Link to Wolfram's Nearest Neighbor Parallel Simulation Page -->
+            <a href="../src/wolframSQ.html"> Sequential Nearest Neighbor </a>  <!-- Link to Wolfram's Nearest Neighbor Sequential Simulation Page -->
+            <a href="../src/conway.html"> Game of Life </a>  <!-- Link to Conway's Game of Life Simulation Page -->
+          </div>
+        </div>
+        <a href="../src/documentation.html"> Documentation </a>  <!-- Link to the documentation page -->
+        <a href="../src/about.html"> Collaborators </a>  <!-- Link to the about page -->
+        <a href="https://github.com/ktranfaglia1/COSC425" target="_blank"> Source </a>  <!-- Link to the source code page -->
+      </div>
+      <h1> Wolfram's Nearest Neighbor Sequential </h1> <hr>
+    </header>
+    <!-- Primary tool bar containing input boxes and options to manipulate the simulation -->
+    <div class="primary_toolbar">
+      <!-- Container for iteration input box -->
+      <div class="input_container">
+        <label for="iterationInputBox" class="input_label"> Iterations:</label>
+        <input type="text" id="iterationInputBox" class="simulation_input" placeholder="Enter # of iterations...">
+        <button id="iterationSubmit" class="submit_button"> Enter </button>
+      </div>
+      <!-- Container for rule input box -->
+      <div class="input_container">
+        <label for="ruleInputBox" class="input_label"> Rule: </label>
+        <input type="text" id="ruleInputBox" class="simulation_input" placeholder="Enter rule # (0-255)...">
+        <button id="ruleSubmit" class="submit_button"> Enter </button>
+      </div>
+      <!-- Container for lattice size input box -->
+      <div class="input_container">
+        <label for="latticeSizeBox" class="input_label"> Lattice: </label>
+        <input type="text" id="latticeSizeBox" class="simulation_input" placeholder="Enter lattice size...">
+        <button id="latticeSizeSubmit" class="submit_button"> Enter </button>
+      </div>
+      <!-- Container for finite/infinite toggle bar -->
+      <div class="input_container">
+        <!-- Create Toggle bar and use Javascript function to handle click -->
+        <label class="toggle_label"> Infinite </label>
+        <div class="toggle_bar" id="boundToggle">
+          <div class="toggle_button"> </div>
+        </div>
+        <label class="toggle_label"> Finite </label>
+      </div>
+      <!-- Create periodic checkbox -->
+      <div class="checkbox_container" id="periodicCheckBox">
+        <input type="checkbox" class="checkbox_select">
+        <label class="checkbox_label"> Periodic </label>
+      </div>
+      <!-- Create null checkbox -->
+      <div class="checkbox_container" id="nullCheckBox">
+        <input type="checkbox" class="checkbox_select">
+        <label class="checkbox_label"> Null </label>
+      </div>
+    </div>
+    <!-- Secondary tool bar containing main buttons and log box for simulation -->
+    <div class="secondary_toolbar">
+      <button id="startStopButton" class="start_button"> Start </button>
+      <button id="iterateButton" class="simulation_button"> Iterate </button>
+      <button id="clearResetButton" class="simulation_button"> Clear </button>
+      <button id="optionsButton" class="simulation_button"> Options </button>
+      <button id="aboutButton" class="simulation_button"> About </button>
+      <canvas id="logRegion" class="log_box"> </canvas> <!-- Display region for the logs -->
+    </div>
+    <div id="iterationOutput" class="iteration_output"> </div> <!-- Output region for iteration count -->
+    <!-- Canvas region for lattice display and overlapping canvas for iteration tickmark -->
+    <center>
+      <canvas id="latticeRegion" class="lattice_region"> </canvas>
+      <canvas id="tickmarkRegion" class="tickmark_region"> </canvas>
+    </center>
+    <!-- Options window to provide advanced options for simulator -->
+    <div id="optionsContainer" class="options_container">
+      <div id="optionsContent" class="options_content">
+        <span class="close"> &times; </span>
+        <h4> Options </h4>
+         <!-- Buttons -->
+        <hr>
+        <button id="downloadPDFButton" class="options_button"> Download PDF </button>
+        <button id="downloadPNGButton" class="options_button"> Download PNG </button>
+        <hr>
+        <button id="latticeFillButton" class="options_button"> Lattice Fill </button>
+        <button id="randomFillButton" class="options_button"> Random Fill </button>
+        <hr>
+        <!-- Toggles -->
+        <div class="p1"> Iteration Box </div>
+        <div class="input_container">
+          <label class="toggle_label"> Off </label>
+          <div class="options_toggle_bar" id="iterationToggle">
+            <div class="toggle_button"> </div>
+          </div>
+          <label class="toggle_label"> On </label>
+        </div>
+        <div class="p1"> Cell Border </div>
+        <div class="input_container">
+          <label class="toggle_label"> Off </label>
+          <div class="options_toggle_bar" id="borderToggle">
+            <div class="toggle_button"> </div>
+          </div>
+          <label class="toggle_label"> On </label>
+        </div>
+        <hr>
+        <!-- Speed Slider -->
+        <div class="slider_container">
+          <div class="p1"> Delay: <span id="iterationSpeedValue"> </span> ms </div>
+          <input type="range" min="0" max="2000" value="750" class="slider" id="iterationSpeedSlider">
+        </div>
+        <hr>
+        <!-- Color Picker -->
+        <div class="color_wrapper">
+          <div class="color_container">
+            <label class="color_label"> Dead Cell </label>
+            <input type="color" class="color_picker" id="deadCell" name="deadCell" value="#ffffff">
+          </div>
+          <div class="color_container">
+            <label class="color_label"> Alive Border </label>
+            <input type="color" class="color_picker" id="aliveBorder" name="aliveBorder" value="#000000">
+          </div>
+        </div>
+        <div class="color_wrapper">
+          <div class="color_container">
+            <label class="color_label"> Alive Cell </label>
+            <input type="color" class="color_picker" id="aliveCell" name="aliveCell" value="#000000">
+          </div>
+          <div class="color_container">
+            <label class="color_label"> Dead Border </label>
+            <input type="color" class="color_picker" id="deadBorder" name="deadBorder" value="#777777">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- About window to provide information on Wolfram's Nearest Neighbor -->
+    <div id="aboutContainer" class="about_container">
+      <div id="aboutContent" class="about_content">
+        <span class="close">&times; </span>
+        <h2> About Wolfram's Nearest Neighbor Sequential Simulator </h2>
+        <h3> User Guide </h3>
+        <p> Visit the Documentation page: <a href="../src/documentation.html/#primaryToolbar3"> Go to Documentation! </a> </p>
+        <h3> Background </h3>
+        <p>
+          This simulator was developed to explore Stephen Wolfram's work on 1-dimensional cellular automata, in
+          particular,
+          his Nearest Neighbor rules that use simple computational systems to produce complex emegergent behaviors.
+          Stephan Wolfram,
+          born August 29, 1959 is a highly regarded computer scientist, mathematician, and entrepreneur, and also the
+          founder and CEO
+          of Wolfram research, the company behind Mathematica, Wolfram|Alpha, and other compuational tools. Wolfram's
+          Nearest Neighbor
+          refers to how each cell in a 1-dimensional array interatcs with its adjacent neighbors based on certain rules.
+          In a
+          1-dimensional cellular automata, there is a row of cells, each of which can be in one of a finite number of
+          states. At each
+          time step, the state of each cell evolves according to a rule based on its current state and the states of its
+          neighboring cells.
+        </p>
+        <h3> Purpose </h3>
+        <p>
+          The study of 1-dimensional cellular automata, particularly nearest neighbor interactions, has the following
+          purposes:
+        </p>
+        <ul>
+          <li>
+            Understanding Emergent Behavior
+          </li>
+          <ul>
+            <li>
+              One of the primary purposes is to understand how complex patterns and behavior emerge from simple local
+              interactions. By studying
+              how individual cells in a cellular automata interact with their nearest neighbors, researchers can uncover
+              fundamental principles
+              of self-organization and emergent phenomena. Beyond mathematics and computer science, this has wide-ranging
+              applications in fields
+              such as biology, physics, sociology, and economics.
+            </li>
+          </ul>
+          <li>
+            Exploring Computational Universality
+          </li>
+          <ul>
+            <li>
+              Stephen Wolfram's research in this area has demonstrated that even simple cellular automata rules can
+              exhibit computational
+              universality, meaning they can perform any computation that a Turing machine can compute. A Turing machine
+              is a theoretical
+              mathematical model of computation proposed by Alan Turing in 1936. It consists of an infinite tape divided
+              into cells, each capable
+              of storing a symbol (such as 0 or 1) and a read/write head that can move left or right along the tape. The
+              machine operates based on
+              a finite set of states and transition rules. Based on the current state, the machine can perform three
+              actions: write a symbol, move
+              the head, and transition to a new state. Turing machines serve as a theoretical model of computation because
+              they can simulate any
+              algorithmic process, prove theorems about computability and complexity, and provide a foundation for
+              understanding the limits and
+              capabilities of algorithms. Overall, Wolfram's insight has profound implications for theoretical computer
+              science and the nature of computation.
+            </li>
+          </ul>
+          <li>
+            Educational Tool
+          </li>
+          <ul>
+            <li>
+              Cellular automata, in this case 1-dimensional simulations, serve as excellent educational tools for teaching
+              complex systems and computational
+              thinking. They provide a tangible way for students to explore concepts such as pattern formation, rule-based
+              systems, and emergent behavior. By
+              experimenting with different rules and initial conditions, students can gain intuitive insights into how
+              simple rules can lead to complex outcomes.
+              Wolfram's Nearest Neighbor is especially useful because of its simplicity as a 1-dimensional simulation that
+              only considers adjacent neighbors, yet
+              it produces a large variation of complex systems, many which resemble the pattern of Pascal's Triangle.
+            </li>
+          </ul>
+          <li>
+            Research Tool
+          </li>
+          <ul>
+            <li>
+              Researchers use cellular automata as models for studying various phenomena, such as pattern formation,
+              biological processes, and physical systems.
+              The simplicity of the rules and the ability to simulate large-scale systems make cellular automata valuable
+              tools for exploring theoretical questions
+              and generating hypotheses for further study. In particular, Wolfram's Nearest Neighbor predominantly aids
+              mathematical and computational studies,
+              however, it has some applications in applicable biological research and analysis of physical systems.
+            </li>
+          </ul>
+          <li>
+            Mathematical Insights
+          </li>
+          <ul>
+            <li>
+              While cellular automata are not inherently mathematical objects, they provide insights into mathematical
+              concepts such as chaos theory, fractals,
+              and computational complexity. Studying the behavior of cellular automata can lead to new mathematical
+              insights and conjectures, particularly in the
+              realm of dynamical systems and discrete mathematics. specifically, Wolfram's Nearest Neighbor provides
+              insight into pattern recognition, dimensionality
+              reduction of the data while preserving its local and global structure, cluster analysis (partitioned data
+              points into groups based on their similarity
+              or proximity), data interpolation and extrapolation (missing or incomplete data points are estimated based
+              on the nearest neighbors), and topological
+              analysis (topological properties of the space: connectivity, compactness, and dimensionality). Ultimately,
+              Wolfram's Nearest Neighbor provides immense
+              mathematical insight through its vast applications in data analitics, data categorization, continuity, and
+              predictions.
+            </li>
+          </ul>
+        </ul>
+        <h3> Summary </h3>
+        <p>
+          In the context of cellular automaton, the Nearest Neighbor algorithm can be applied to determine the state
+          transition
+          rules for each cell based on the states of its neighboring cells in the lattice. A cell, in mathematics, is a
+          basic unit
+          within a lattice, or rather, a rectangular grid consisting of discrete cells arranged in rows and columns,
+          forming a
+          multi-dimensional grid that acts as a spatial framework for cellular automaton evolution. Each cell typically
+          has a finite number of possible states, and the evolution of the cellular automaton is determined by rules
+          that govern cell state change over time by using neighboring cell states. A cell state specifically refers to
+          the
+          condition or value associated with a cell within a cellular automaton, commonly represented in binary states
+          (dead/alive),
+          which is used for this simulation. The grid structure allows for the simulation of dynamic systems and the
+          emergence of
+          complex behaviors from simple local rules, in this case, rules 0-255 (2^8 rules). The rules change how the
+          neighboring cells
+          (left and right) determine the next cell state. The simulation can be completed with varying rule sets, lattice
+          sizes, and
+          iterations and and each alteration will produce a unique result. Additionally, the Nearest Neighbor algorithm
+          can be done with
+          a finite or infinite lattice, such that an infinite lattice is unbounded in respect to neighbors where out of
+          bound neighbors
+          are 0 and become bounded, and a finite lattice must be handled with null boundaries (cells outside of the
+          lattice bounds have
+          no influence on the evolution of the system) or periodic boundaries (edges of the lattice wrap around to connect
+          with the opposite edge).
+          Overall, cellular automaton are discrete computational models composed of a grid of cells that iteratively
+          evolve using a set mathematical rule.
+        </p>
+      </div>
+    </div>
+    <div class="Dustin"></div>
+  </body>
+</html>
