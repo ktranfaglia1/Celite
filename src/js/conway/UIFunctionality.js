@@ -130,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		setTimeout(function() {
 			if (scribble) {
 				scribble = false;
+				console.log(scribble)
 				shiftX = 0;
 				shiftY = 0;
 			}
@@ -146,59 +147,59 @@ document.addEventListener("DOMContentLoaded", function() {
 		}, 10);
 	});
 
-	// Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
-	document.addEventListener('keydown', function(event) {
-		// Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
-		if (event.shiftKey) {
-			setTimeout(function() {
-				if (!shift) {
-					shift = true;
-					if (scribble && shift) {
-						[mouseXPos, mouseYPos] = getMouseLocation(event);
-					}
+// Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
+document.addEventListener('keydown', function(event) {
+    // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
+	if (event.shiftKey) {
+		setTimeout(function() {
+			if (!shift) {
+				shift = true;
+				if (scribble && shift) {
+					[mouseXPos, mouseYPos] = getMouseLocation(event);
 				}
-			}, 10);
-		}
-		if (event.altKey) {
-			switch (true) {
-				case (event.key == 'Enter'):
-					startStopButton.click();
-					break;
-				case (event.key == 'i'):
-					iterateButton.click();
-					break;
-				case (event.key == 'c'):
-					clearButton.click();
-					break;
-				case (event.key == 'l'):
-					libraryButton.click();
-					break;
-				case (event.key == 'a'):
-					aboutButton.click();
-					break;
-				case (event.key == 'y'):
-					iterationSpeedSlider.focus();
-					break;
-				case (event.key == 'z'):
-					zoomSlider.focus();
-					break;
-				case (event.key == '='):
-					let dustin = document.querySelector(".Dustin");
-					if (dustin.style.display == "block") {
-						dustin.style.display = "none"
-					}
-					else {
-						dustin.style.display = "block"
-					}
-					break;
-				default:
-					break;
 			}
-		// Enter key clicked, check if an inputbox is active and click submit for that box
-		} else if (event.key == 'Enter') {
-			iterationSubmit.click();
+		}, 10);
+	}
+    if (event.altKey) {
+		switch (true) {
+			case (event.key == 'Enter'):
+				startStopButton.click();
+				break;
+			case (event.key == 'i'):
+				iterateButton.click();
+				break;
+			case (event.key == 'c'):
+				clearButton.click();
+				break;
+			case (event.key == 'l'):
+				libraryButton.click();
+				break;
+			case (event.key == 'a'):
+				aboutButton.click();
+				break;
+			case (event.key == 'y'):
+				iterationSpeedSlider.focus();
+				break;
+			case (event.key == 'z'):
+				zoomSlider.focus();
+				break;
+			case (event.key == '='):
+				let dustin = document.querySelector(".Dustin");
+				if (dustin.style.display == "block") {
+					dustin.style.display = "none"
+				}
+				else {
+					dustin.style.display = "block"
+				}
+				break;
+			default:
+				break;
 		}
-	});
+	// Enter key clicked, check if an inputbox is active and click submit for that box
+	} else if (event.key == 'Enter') {
+		iterationSubmit.click();
+	}
+});
 
 	canvas.addEventListener("mousemove", function(event) {
 		let mouseX, mouseY;
@@ -225,6 +226,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		setTimeout(function() {
 			if (!scribble) {
 				scribble = true;
+				console.log(scribble)
 				if (scribble && shift) {
 					[mouseXPos, mouseYPos] = getMouseLocation(event);
 				}
