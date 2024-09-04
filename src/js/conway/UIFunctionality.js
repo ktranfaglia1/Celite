@@ -11,7 +11,7 @@ import {canvas, ctx, displayLattice, initialize} from "./displayLattice.js";
 import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds} from "./generateLattice.js";
 import { borderContact, expandBorder } from "./generateLattice.js";
 import { cell } from "./cellClass.js";
-import { buildGlider, setLattice } from "./presets.js";
+import { build101, build119, buildGlider, setLattice } from "./presets.js";
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
@@ -274,12 +274,12 @@ document.addEventListener('keydown', function(event) {
 	}, false);
 
 	library101.addEventListener("click", function() {
-		buildGlider();
+		build101();
 		closeLibrary.click();
 	});
 
 	library119P4H1V0.addEventListener("click", function() {
-		buildGlider();
+		build119();
 		closeLibrary.click();
 	});
 
