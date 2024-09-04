@@ -29,8 +29,8 @@
           <button class="drop_button"> Simulators <i class="fa fa-caret-down"> </i> </button>
           <!-- Dropdown items -->
           <div class="dropdown_item">
-            <a href="../src/wolframPR.html"> Parallel NN </a>  <!-- Link to Wolfram's Nearest Neighbor Parallel Simulation Page -->
-            <a href="../src/wolframSQ.html"> Sequential NN </a>  <!-- Link to Wolfram's Nearest Neighbor Sequential Simulation Page -->
+            <a href="../src/wolframPR.html"> Parallel WNN </a>  <!-- Link to Wolfram's Nearest Neighbor Parallel Simulation Page -->
+            <a href="../src/wolframSQ.html"> Sequential WNN </a>  <!-- Link to Wolfram's Nearest Neighbor Sequential Simulation Page -->
             <a href="../src/conway.html"> Game of Life </a>  <!-- Link to Conway's Game of Life Simulation Page -->
           </div>
         </div>
@@ -159,7 +159,7 @@
     <div id="aboutContainer" class="about_container">
       <div id="aboutContent" class="about_content">
         <span class="close">&times; </span>
-        <h2> About Wolfram's Nearest Neighbor Parallel Simulator </h2>
+        <h2> About Parallel Wolfram's Nearest Neighbor Simulator </h2>
         <h3> User Guide </h3>
         <p> Visit the Documentation page: <a href="../src/documentation.html/#primaryToolbar1"> Go to Documentation! </a> </p>
         <h3> Background </h3>
@@ -181,7 +181,7 @@
         </p>
         <h3> Purpose </h3>
         <p>
-          The study of 1-dimensional cellular automata, particularly nearest neighbor interactions, has the following
+          The study of 1-dimensional cellular automata, particularly parallel nearest neighbor interactions, has the following
           purposes:
         </p>
         <ul>
@@ -276,7 +276,7 @@
         </ul>
         <h3> Summary </h3>
         <p>
-          In the context of cellular automaton, the Nearest Neighbor algorithm can be applied to determine the state
+          In the context of cellular automaton, the Wolfram's Nearest Neighbor algorithm can be applied to determine the state
           transition
           rules for each cell based on the states of its neighboring cells in the lattice. A cell, in mathematics, is a
           basic unit
@@ -302,6 +302,9 @@
           lattice bounds have
           no influence on the evolution of the system) or periodic boundaries (edges of the lattice wrap around to connect
           with the opposite edge).
+          In this case, the parallel aspect enforces that within the algorithm, the sate of a lattice is snapshotted. Thus, only
+          the complete and current lattice of cells is used to determine the cell states of the entire following lattice; this is 
+          all one uniform computation which acts a parallel transition from one state to another. 
           Overall, cellular automaton are discrete computational models composed of a grid of cells that iteratively
           evolve using a set mathematical rule.
         </p>

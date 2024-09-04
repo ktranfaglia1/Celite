@@ -8,7 +8,7 @@ body {
 hr {
   margin: 5px 0 10px 0;
   border: none;
-  border-top: 6px dashed black;
+  border-top: 5px dashed black;
 }
 /* Image formatting */
 .image_container {
