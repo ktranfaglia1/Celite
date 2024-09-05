@@ -730,3 +730,32 @@ export function build295()
 
     setLattice(newLattice);
 }
+
+export function buildGtoG()
+{
+    let newLattice = createNewConfig();
+
+    newLattice[ yCenter() + 19 ][ xCenter() + 24 ] = 1; 
+    newLattice[ yCenter() + 17 ][ xCenter() + 23 ] = 1; 
+    newLattice[ yCenter() + 18 ][ xCenter() + 23 ] = 1; 
+    newLattice[ yCenter() + 18 ][ xCenter() + 22 ] = 1; 
+    newLattice[ yCenter() + 19 ][ xCenter() + 22 ] = 1; 
+    newLattice[ yCenter() + 18 ][ xCenter() + 1 ] = 1; 
+    newLattice[ yCenter() + 17 ][ xCenter() + 2 ] = 1; 
+    newLattice[ yCenter() + 18 ][ xCenter() + 0 ] = 1; 
+    newLattice[ yCenter() + 17 ][ xCenter() + 0 ] = 1; 
+    newLattice[ yCenter() + 16 ][ xCenter() + 0 ] = 1; 
+    newLattice[ yCenter() + 17 ][ xCenter() + -3 ] = 1; 
+    newLattice[ yCenter() + 16 ][ xCenter() + -3 ] = 1; 
+    newLattice[ yCenter() + 15 ][ xCenter() + -3 ] = 1; 
+    newLattice[ yCenter() + 17 ][ xCenter() + -4 ] = 1; 
+    newLattice[ yCenter() + 16 ][ xCenter() + -5 ] = 1; 
+    newLattice[ yCenter() + -8 ][ xCenter() + -18 ] = 1; 
+    newLattice[ yCenter() + -9 ][ xCenter() + -18 ] = 1; 
+    newLattice[ yCenter() + -8 ][ xCenter() + -19 ] = 1; 
+    newLattice[ yCenter() + -7 ][ xCenter() + -19 ] = 1; 
+    newLattice[ yCenter() + -9 ][ xCenter() + -20 ] = 1;
+
+    setLattice(newLattice);
+    
+}

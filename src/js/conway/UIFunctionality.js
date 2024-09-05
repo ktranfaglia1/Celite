@@ -11,7 +11,7 @@ import {canvas, ctx, displayLattice, initialize} from "./displayLattice.js";
 import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds} from "./generateLattice.js";
 import { borderContact, expandBorder } from "./generateLattice.js";
 import { cell } from "./cellClass.js";
-import { build101, build295, build119, build1234, buildGlider, setLattice, yCenter, xCenter } from "./presets.js";
+import { build101, build295, build119, build1234, buildGlider, setLattice, yCenter, xCenter, buildGtoG } from "./presets.js";
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
@@ -76,7 +76,7 @@ export {iterationCount}
 document.addEventListener("DOMContentLoaded", function() {
 	alterLattice(2);
 	redrawLattice();
-	buildGlider();
+	buildGtoG();
 
 	/* Handle button clicks for all primary toolbar buttons */
 
@@ -294,7 +294,7 @@ document.addEventListener('keydown', function(event) {
 	});
 
 	library4gto5gReaction.addEventListener("click", function() {
-		buildGlider();
+		buildGtoG();
 		closeLibrary.click();
 	});
 
