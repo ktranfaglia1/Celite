@@ -240,6 +240,7 @@ canvas.addEventListener("click", function(event) {
 	});
 
 	canvas.addEventListener("mousedown", function(event) {
+		document.body.style.userSelect = 'none';  // Disable text selection globally
 		setTimeout(function() {
 			if (!scribble) {
 				scribble = true;
@@ -252,6 +253,7 @@ canvas.addEventListener("click", function(event) {
 	});
 
 	canvas.addEventListener("mouseup", function() {
+		document.body.style.userSelect = 'auto';  // Enable text selection globally
 		setTimeout(function() {
 			if (scribble) {
 				scribble = false;
