@@ -11,7 +11,7 @@ import {canvas, ctx, displayLattice, initialize} from "./displayLattice.js";
 import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds} from "./generateLattice.js";
 import { borderContact, expandBorder } from "./generateLattice.js";
 import { cell } from "./cellClass.js";
-import { build101, build119, buildGlider, setLattice } from "./presets.js";
+import { build101, build295, build119, build1234, buildGlider, setLattice, yCenter, xCenter } from "./presets.js";
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
@@ -213,6 +213,7 @@ document.addEventListener('keydown', function(event) {
 			for (let i = 0; i < visLatticeArray.length; i++) {
 				for (let j = 0; j < visLatticeArray[i].length; j++) {
 					if ((visLatticeArray[i][j].insideCell(mouseX, mouseY)) && (visLatticeArray[i][j].getColor() == 0)) {
+						console.log("newLattice[ yCenter() + ",i + visBounds[1] - yCenter(),"][ xCenter() + ",j + visBounds[0] - xCenter() - 1,"] = 1;")
 						visLatticeArray[i][j].flipColor();
 						visLatticeArray[i][j].drawCell(ctx);
 						latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
@@ -226,7 +227,6 @@ document.addEventListener('keydown', function(event) {
 		setTimeout(function() {
 			if (!scribble) {
 				scribble = true;
-				console.log(scribble)
 				if (scribble && shift) {
 					[mouseXPos, mouseYPos] = getMouseLocation(event);
 				}
@@ -284,12 +284,12 @@ document.addEventListener('keydown', function(event) {
 	});
 
 	library1234.addEventListener("click", function() {
-		buildGlider();
+		build1234();
 		closeLibrary.click();
 	});
 
 	library295P5H1V1.addEventListener("click", function() {
-		buildGlider();
+		build295();
 		closeLibrary.click();
 	});
 
@@ -540,7 +540,7 @@ function getMouseLocation(event) {
 	return [mouseX, mouseY];
 }
 
-function clear() {
+export function clear() {
 	updateOutput();
 	for (let i = 0; i < visLatticeArray.length; i++) {
 		for (let j = 0; j < visLatticeArray[0].length; j++) {
