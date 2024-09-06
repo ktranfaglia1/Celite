@@ -759,3 +759,75 @@ export function buildGtoG()
     setLattice(newLattice);
     
 }
+
+export function build60P()
+{
+    let newLattice = createNewConfig();
+
+    newLattice[ yCenter() + -3 ][ xCenter() + -26 ] = 1; 
+    newLattice[ yCenter() + -2 ][ xCenter() + -25 ] = 1; 
+    newLattice[ yCenter() + -3 ][ xCenter() + -25 ] = 1; 
+    newLattice[ yCenter() + -2 ][ xCenter() + -26 ] = 1; 
+    newLattice[ yCenter() + 0 ][ xCenter() + -20 ] = 1; 
+    newLattice[ yCenter() + -1 ][ xCenter() + -20 ] = 1; 
+    newLattice[ yCenter() + -1 ][ xCenter() + -19 ] = 1; 
+    newLattice[ yCenter() + -1 ][ xCenter() + -18 ] = 1; 
+    newLattice[ yCenter() + 0 ][ xCenter() + -17 ] = 1; 
+    newLattice[ yCenter() + -12 ][ xCenter() + -20 ] = 1; 
+    newLattice[ yCenter() + -13 ][ xCenter() + -21 ] = 1; 
+    newLattice[ yCenter() + -14 ][ xCenter() + -21 ] = 1; 
+    newLattice[ yCenter() + -15 ][ xCenter() + -20 ] = 1; 
+    newLattice[ yCenter() + -14 ][ xCenter() + -19 ] = 1; 
+    newLattice[ yCenter() + -13 ][ xCenter() + -19 ] = 1;
+    newLattice[ yCenter() + -14 ][ xCenter() + -3 ] = 1; 
+    newLattice[ yCenter() + -15 ][ xCenter() + -4 ] = 1; 
+    newLattice[ yCenter() + -16 ][ xCenter() + -4 ] = 1; 
+    newLattice[ yCenter() + -17 ][ xCenter() + -4 ] = 1; 
+    newLattice[ yCenter() + -17 ][ xCenter() + -3 ] = 1; 
+    newLattice[ yCenter() + -22 ][ xCenter() + -5 ] = 1; 
+    newLattice[ yCenter() + -23 ][ xCenter() + -5 ] = 1; 
+    newLattice[ yCenter() + -23 ][ xCenter() + -6 ] = 1; 
+    newLattice[ yCenter() + -22 ][ xCenter() + -6 ] = 1; 
+    newLattice[ yCenter() + -17 ][ xCenter() + 4 ] = 1; 
+    newLattice[ yCenter() + -18 ][ xCenter() + 5 ] = 1; 
+    newLattice[ yCenter() + -18 ][ xCenter() + 6 ] = 1; 
+    newLattice[ yCenter() + -17 ][ xCenter() + 7 ] = 1; 
+    newLattice[ yCenter() + -16 ][ xCenter() + 6 ] = 1; 
+    newLattice[ yCenter() + -16 ][ xCenter() + 5 ] = 1;
+    newLattice[ yCenter() + -5 ][ xCenter() + 6 ] = 1; 
+    newLattice[ yCenter() + -4 ][ xCenter() + 7 ] = 1; 
+    newLattice[ yCenter() + -4 ][ xCenter() + 8 ] = 1; 
+    newLattice[ yCenter() + -4 ][ xCenter() + 9 ] = 1; 
+    newLattice[ yCenter() + -5 ][ xCenter() + 9 ] = 1; 
+    newLattice[ yCenter() + -3 ][ xCenter() + 14 ] = 1; 
+    newLattice[ yCenter() + -2 ][ xCenter() + 15 ] = 1; 
+    newLattice[ yCenter() + -3 ][ xCenter() + 15 ] = 1; 
+    newLattice[ yCenter() + -2 ][ xCenter() + 14 ] = 1; 
+    newLattice[ yCenter() + 7 ][ xCenter() + 9 ] = 1; 
+    newLattice[ yCenter() + 8 ][ xCenter() + 8 ] = 1; 
+    newLattice[ yCenter() + 9 ][ xCenter() + 8 ] = 1; 
+    newLattice[ yCenter() + 10 ][ xCenter() + 9 ] = 1; 
+    newLattice[ yCenter() + 9 ][ xCenter() + 10 ] = 1; 
+    newLattice[ yCenter() + 8 ][ xCenter() + 10 ] = 1; 
+    
+    newLattice[ yCenter() + 11 ][ xCenter() + -17 ] = 1; 
+    newLattice[ yCenter() + 11 ][ xCenter() + -16 ] = 1; 
+    newLattice[ yCenter() + 12 ][ xCenter() + -18 ] = 1; 
+    newLattice[ yCenter() + 13 ][ xCenter() + -17 ] = 1; 
+    newLattice[ yCenter() + 13 ][ xCenter() + -16 ] = 1; 
+    newLattice[ yCenter() + 12 ][ xCenter() + -15 ] = 1; 
+    newLattice[ yCenter() + 12 ][ xCenter() + -8 ] = 1; 
+    newLattice[ yCenter() + 12 ][ xCenter() + -7 ] = 1; 
+    newLattice[ yCenter() + 11 ][ xCenter() + -7 ] = 1; 
+    newLattice[ yCenter() + 10 ][ xCenter() + -7 ] = 1; 
+    newLattice[ yCenter() + 9 ][ xCenter() + -8] = 1; 
+    newLattice[ yCenter() + 17 ][ xCenter() + -6 ] = 1; 
+    newLattice[ yCenter() + 18 ][ xCenter() + -6 ] = 1; 
+    newLattice[ yCenter() + 18 ][ xCenter() + -5 ] = 1; 
+    newLattice[ yCenter() + 17 ][ xCenter() + -5 ] = 1;
+
+        
+
+
+    setLattice(newLattice);
+}
