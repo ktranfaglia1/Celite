@@ -11,7 +11,7 @@ import {canvas, ctx, displayLattice, initialize} from "./displayLattice.js";
 import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds} from "./generateLattice.js";
 import { borderContact, expandBorder } from "./generateLattice.js";
 import { cell } from "./cellClass.js";
-import { build101, build295, build119, build1234, buildGlider, setLattice, yCenter, xCenter, buildGtoG, build60P, buildAK94, buildTrigger } from "./presets.js";
+import { build101, build295, build119, build1234, buildGlider, setLattice, yCenter, xCenter, buildGtoG, build60P, buildAK94, buildTrigger, buildSnail } from "./presets.js";
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */   
 
@@ -76,7 +76,7 @@ export {iterationCount}
 document.addEventListener("DOMContentLoaded", function() {
 	alterLattice(2);
 	redrawLattice();
-	buildTrigger();
+	buildSnail();
 
 	/* Handle button clicks for all primary toolbar buttons */
 
@@ -309,7 +309,7 @@ document.addEventListener('keydown', function(event) {
 	});
 
 	librarySnail.addEventListener("click", function() {
-		buildGlider();
+		buildSnail();
 		closeLibrary.click();
 	});
 
