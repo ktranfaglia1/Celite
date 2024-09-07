@@ -11,6 +11,14 @@ hr {
   background-color: black;
   height: 3px;
 }
+ul {
+  margin: 0 2.25%;
+  font-family: Times;
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: left;
+  color: black;
+}
 .head {
   background-color: #6b8e23;
 }

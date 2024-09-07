@@ -27,8 +27,8 @@
           <button class="drop_button"> Simulators <i class="fa fa-caret-down"> </i> </button>
           <!-- Dropdown items -->
           <div class="dropdown_item">
-            <a href="../src/wolframPR.html"> Parallel Nearest Neighbor </a>  <!-- Link to Wolfram's Nearest Neighbor Parallel Simulation Page -->
-            <a href="../src/wolframSQ.html"> Sequential Nearest Neighbor </a>  <!-- Link to Wolfram's Nearest Neighbor Sequential Simulation Page -->
+            <a href="../src/wolframPR.html"> Parallel WNN </a>  <!-- Link to Wolfram's Nearest Neighbor Parallel Simulation Page -->
+            <a href="../src/wolframSQ.html"> Sequential WNN </a>  <!-- Link to Wolfram's Nearest Neighbor Sequential Simulation Page -->
             <a href="../src/conway.html"> Game of Life </a>  <!-- Link to Conway's Game of Life Simulation Page -->
           </div>
         </div>
@@ -71,6 +71,116 @@
       <div id="aboutContent" class="about_content">
         <span class="close"> &times; </span>
         <h2> About Conway's Game of Life Simulator </h2>
+        <h3> User Guide </h3>
+        <p> Visit the Documentation page: <a href="../src/documentation.html#primaryToolbar2"> Go to Documentation! </a> </p>
+        <h3> Background </h3>
+        <p>
+          The Game of Life simulator was developed in 1970 by John Conway to explore his work on 2-dimensional cellular automata, specifically his
+          "Game of Life," which demonstrates how simple rules can lead to complex and emergent behaviors. Conway, born 
+          December 26, 1937, was a renowned British mathematician who made significant contributions to many fields, including game 
+          theory, topology, and number theory. The Game of Life consists of a grid of cells, each of which can be in one of two states: 
+          alive or dead. At each time step, the state of a cell is determined by simple rules based on the number of live neighbors. 
+          Despite its simplicity, the Game of Life can produce highly intricate patterns, serving as a fascinating model for studying self-organization, 
+          complexity, and emergent phenomena in computational systems. For instance, it is computationally equivalent to a Turing machine, a fundamental 
+          concept in computer science used to describe the power of computation. A Turing machine, introduced by Alan Turing in 1936, is an abstract machine 
+          that manipulates symbols on a tape according to a set of rules and is capable of simulating any algorithm that can be computed. The Game of Life is 
+          considered "Turing complete," meaning that it can simulate a Turing machine. This equivalence arises from the fact that, given the right initial 
+          configuration of cells, the Game of Life can compute any function that a Turing machine can. This is achieved by encoding the components of a Turing 
+          machine, such as the tape, the head, and the state transitions, within the Game of Life grid. Complex patterns in the game can act as data storage and
+          logic gates, enabling it to perform operations similar to traditional computing processes. The equivalence shows that even a system governed by simple 
+          rules can perform any computation that a modern computer can. It highlights the concept of "universal computation," which implies that complex, 
+          emergent behaviors observed in nature or artificial systems can, in principle, execute sophisticated computations. Therefore, the Game of Life simulator 
+          helps bridge cellular automata, theoretical computer science, and real-world systems, providing insights into how simple local interactions can give rise 
+          to global, complex computational processes.
+        </p>
+        <h3> Purpose </h3>
+        <p>
+          The study of Conway's Game of Life, particularly its 2-dimensional cellular automata, has several key purposes:
+        </p>
+        <ul>
+          <li>
+            Understanding Emergent Behavior
+          </li>
+          <ul>
+            <li>
+              One of the central purposes of the Game of Life is to explore how complex patterns and behaviors emerge from simple, 
+              local interactions. Each cell follows basic rules based on the states of its neighboring cells, yet the system can 
+              give rise to highly intricate, self-organizing patterns. This phenomenon of emergent behavior is not only crucial for 
+              mathematics and computer science but also finds applications in fields like biology, physics, and sociology, 
+              where complex systems emerge from simple rules.
+            </li>
+          </ul>
+          <li>
+            Exploring Computational Universality
+          </li>
+          <ul>
+            <li>
+              Conway's Game of Life is computationally universal, meaning that it can simulate any algorithm that a Turing machine can compute. 
+              In a Turing machine, a theoretical model of computation, symbols are manipulated based on rules to perform any calculable process. 
+              The fact that the Game of Life, despite its simplicity, has been proven to be Turing complete demonstrates its capability to execute 
+              complex calculations and perform any computable operation. This insight has significant implications for theoretical computer science, 
+              showing that simple systems can have powerful computational abilities.
+            </li>
+          </ul>
+          <li>
+            Educational Tool
+          </li>
+          <ul>
+            <li>
+              The Game of Life serves as an excellent educational tool for teaching concepts related to complexity, computation, and emergent behavior. 
+              It provides a visually intuitive way for people to experiment with rule-based systems and observe how different initial configurations 
+              evolve over time. As a model of a 2-dimensional cellular automaton, the Game of Life allows people to explore the impact of small changes 
+              on large systems and how simple rules can lead to diverse, often unpredictable outcomes.
+            </li>
+          </ul>
+          <li>
+            Research Tool
+          </li>
+          <ul>
+            <li>
+              Researchers use the Game of Life as a model for studying self-replicating structures, pattern formation, and computational processes. 
+              Because it is governed by simple rules but capable of complex behavior, the it is a valuable tool for exploring theoretical questions 
+              in mathematics, physics, and computer science. It has even been used in research on artificial life, where the focus is on creating systems 
+              that simulate the properties of living organisms, as well as in other domains like economics, to model growth and system changes over time.
+            </li>
+          </ul>
+          <li>
+            Mathematical Insights
+          </li>
+          <ul>
+            <li>
+              Though the Game of Life is not inherently a mathematical object, it offers deep insights into various mathematical concepts, including chaos theory, 
+              dynamical systems, and discrete mathematics. By analyzing the evolution of cell patterns, researchers have discovered connections to topics such as 
+              fractals, chaos, and tiling problems. The system's ability to generate stable patterns, oscillators, and gliders also provides a fertile ground for 
+              exploring mathematical ideas related to periodicity, stability, and symmetry. Ultimately, the Game of Life contributes to a better understanding of 
+              the interplay between deterministic rules and complex, emergent behaviors.
+            </li>
+          </ul>
+          <li>
+            Applications in Simulating Natural Systems
+          </li>
+          <ul>
+            <li>
+              Beyond theoretical insights, the Game of Life has applications in simulating natural systems such as population dynamics, chemical reactions, and neural networks. 
+              The way simple, local interactions lead to large-scale structures mimics how natural processes like the spread of fire, the growth of crystals, or the organization 
+              of biological cells function, providing a useful model for studying the behavior of complex systems in nature.
+            </li>
+          </ul>
+        </ul>
+        <h3> Summary </h3>
+        <p>
+          In the context of cellular automaton, Conway's Game of Life simulator applies specific rules to determine the state transitions for each cell based on the states of its neighboring 
+          cells in a 2-dimensional lattice. The lattice is a rectangular grid where each cell can be in one of two possible states, alive or dead. The evolution of the system is driven by 
+          simple, predefined rules: a living cell survives if it has 2 or 3 living neighbors, dies if it has fewer than 2 or more than 3 neighbors, and a dead cell becomes alive if exactly 
+          3 neighbors are alive. These rules govern how the state of each cell changes over time based on its interaction with adjacent cells, giving rise to emergent, complex patterns 
+          despite the system's simplicity. The grid structure allows the Game of Life to simulate dynamic systems with intricate behaviors, including stable structures, oscillating patterns, 
+          and moving entities like gliders. The simulator can be run with varying grid sizes, initial conditions, and boundary conditions, producing diverse outcomes that reflect the sensitivity
+          of the system to initial setups. In this case, cells at the edges are handled using null boundaries, so interactions do not happen beyond the grid (treated as dead cells). What makes the 
+          Game of Life particularly intriguing is its computational universality. Despite its simple rules, it is Turing complete, meaning it can perform any calculation that a Turing machine can. 
+          In practice, this allows the Game of Life to simulate computational processes, making it a powerful model for exploring complexity and computation. The parallel nature of the Game of Life 
+          means that the entire grid is updated simultaneously at each iteration, based on the current state of all cells. Overall, Conway's Game of Life serves as a discrete computational model 
+          where local interactions between cells give rise to emergent global behaviors, revealing profound insights into the nature of complexity and computation.
+        </p>
       </div>
     </div>
     <!-- Library window to provide preset canvas states for Conway's Game of Life -->

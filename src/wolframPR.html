@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8">  <!-- Set the character encoding to UTF-8 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Define the viewport for responsive design -->
-    <title> Celite - wolframPR </title>
+    <title> Celite - WolframPR </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Link to online library for icons -->
     <link rel="stylesheet" type="text/css" href="../styles/global.css">  <!-- Link to global CSS styles -->
     <link rel="stylesheet" type="text/css" href="../styles/wolframPR.css">  <!-- Link to home specific CSS styles -->
@@ -29,8 +29,8 @@
           <button class="drop_button"> Simulators <i class="fa fa-caret-down"> </i> </button>
           <!-- Dropdown items -->
           <div class="dropdown_item">
-            <a href="../src/wolframPR.html"> Parallel Nearest Neighbor </a>  <!-- Link to Wolfram's Nearest Neighbor Parallel Simulation Page -->
-            <a href="../src/wolframSQ.html"> Sequential Nearest Neighbor </a>  <!-- Link to Wolfram's Nearest Neighbor Sequential Simulation Page -->
+            <a href="../src/wolframPR.html"> Parallel WNN </a>  <!-- Link to Wolfram's Nearest Neighbor Parallel Simulation Page -->
+            <a href="../src/wolframSQ.html"> Sequential WNN </a>  <!-- Link to Wolfram's Nearest Neighbor Sequential Simulation Page -->
             <a href="../src/conway.html"> Game of Life </a>  <!-- Link to Conway's Game of Life Simulation Page -->
           </div>
         </div>
@@ -159,9 +159,9 @@
     <div id="aboutContainer" class="about_container">
       <div id="aboutContent" class="about_content">
         <span class="close">&times; </span>
-        <h2> About Wolfram's Nearest Neighbor Parallel Simulator </h2>
+        <h2> About Parallel Wolfram's Nearest Neighbor Simulator </h2>
         <h3> User Guide </h3>
-        <p> Visit the Documentation page: <a href="../src/documentation.html"> Go to Documentation! </a> </p>
+        <p> Visit the Documentation page: <a href="../src/documentation.html#primaryToolbar1"> Go to Documentation! </a> </p>
         <h3> Background </h3>
         <p>
           This simulator was developed to explore Stephen Wolfram's work on 1-dimensional cellular automata, in
@@ -181,8 +181,7 @@
         </p>
         <h3> Purpose </h3>
         <p>
-          The study of 1-dimensional cellular automata, particularly nearest neighbor interactions, has the following
-          purposes:
+          The study of 1-dimensional cellular automata, particularly nearest neighbor interactions, has the following purposes:
         </p>
         <ul>
           <li>
@@ -276,7 +275,7 @@
         </ul>
         <h3> Summary </h3>
         <p>
-          In the context of cellular automaton, the Nearest Neighbor algorithm can be applied to determine the state
+          In the context of cellular automaton, the Wolfram's Nearest Neighbor algorithm can be applied to determine the state
           transition
           rules for each cell based on the states of its neighboring cells in the lattice. A cell, in mathematics, is a
           basic unit
@@ -302,8 +301,10 @@
           lattice bounds have
           no influence on the evolution of the system) or periodic boundaries (edges of the lattice wrap around to connect
           with the opposite edge).
-          Overall, cellular automaton are discrete computational models composed of a grid of cells that iteratively
-          evolve using a set mathematical rule.
+          In this case, the parallel algorithm enforces that the current lattice of cells is used to determine the cell 
+          states within the entire following lattice; there is one uniform computation which acts a parallel transition from 
+          one iteration to another. Overall, cellular automaton are discrete computational models composed of a grid of cells 
+          that iteratively evolve using a set mathematical rule.
         </p>
       </div>
     </div>
