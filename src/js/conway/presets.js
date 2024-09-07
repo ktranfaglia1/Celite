@@ -954,3 +954,99 @@ newLattice[ yCenter() + 12 ][ xCenter() + 16 ] = 1;
 
     setLattice(newLattice);
 }
+
+
+export function buildTrigger(){
+    let newLattice = createNewConfig();
+
+    newLattice[ yCenter() + 19 ][ xCenter() + -22 ] = 1; 
+newLattice[ yCenter() + 18 ][ xCenter() + -21 ] = 1; 
+newLattice[ yCenter() + 17 ][ xCenter() + -22 ] = 1; 
+newLattice[ yCenter() + 18 ][ xCenter() + -23 ] = 1; 
+newLattice[ yCenter() + 17 ][ xCenter() + -24 ] = 1; 
+newLattice[ yCenter() + 16 ][ xCenter() + -24 ] = 1; 
+newLattice[ yCenter() + 16 ][ xCenter() + -23 ] = 1; 
+newLattice[ yCenter() + 11 ][ xCenter() + -17 ] = 1; 
+newLattice[ yCenter() + 11 ][ xCenter() + -16 ] = 1; 
+newLattice[ yCenter() + 10 ][ xCenter() + -16 ] = 1; 
+newLattice[ yCenter() + 9 ][ xCenter() + -17 ] = 1; 
+newLattice[ yCenter() + 10 ][ xCenter() + -18 ] = 1;
+
+newLattice[ yCenter() + 10 ][ xCenter() + -13 ] = 1; 
+newLattice[ yCenter() + 11 ][ xCenter() + -12 ] = 1; 
+newLattice[ yCenter() + 11 ][ xCenter() + -11 ] = 1; 
+newLattice[ yCenter() + 10 ][ xCenter() + -11 ] = 1; 
+newLattice[ yCenter() + 9 ][ xCenter() + -12 ] = 1;
+
+newLattice[ yCenter() + 23 ][ xCenter() + -11 ] = 1;
+newLattice[ yCenter() + 24 ][ xCenter() + -11 ] = 1;
+newLattice[ yCenter() + 24 ][ xCenter() + -12 ] = 1;
+newLattice[ yCenter() + 25 ][ xCenter() + -12 ] = 1;
+newLattice[ yCenter() + 25 ][ xCenter() + -10 ] = 1;
+
+newLattice[ yCenter() + 4 ][ xCenter() + 3 ] = 1;
+newLattice[ yCenter() + 4 ][ xCenter() + 4 ] = 1;
+newLattice[ yCenter() + 3 ][ xCenter() + 4 ] = 1;
+newLattice[ yCenter() + 2 ][ xCenter() + 3 ] = 1;
+newLattice[ yCenter() + 3 ][ xCenter() + 2 ] = 1;
+
+newLattice[ yCenter() + -1 ][ xCenter() + 3 ] = 1;
+newLattice[ yCenter() + -1 ][ xCenter() + 4 ] = 1;
+newLattice[ yCenter() + -2 ][ xCenter() + 4 ] = 1;
+newLattice[ yCenter() + -3 ][ xCenter() + 3 ] = 1;
+newLattice[ yCenter() + -2 ][ xCenter() + 2 ] = 1;
+
+newLattice[ yCenter() + -19 ][ xCenter() + 11 ] = 1;
+newLattice[ yCenter() + -20 ][ xCenter() + 11 ] = 1;
+newLattice[ yCenter() + -19 ][ xCenter() + 10 ] = 1;
+newLattice[ yCenter() + -20 ][ xCenter() + 9 ] = 1;
+newLattice[ yCenter() + -21 ][ xCenter() + 10 ] = 1;
+
+
+newLattice[ yCenter() + -24 ][ xCenter() + 11 ] = 1;
+newLattice[ yCenter() + -25 ][ xCenter() + 11 ] = 1;
+newLattice[ yCenter() + -24 ][ xCenter() + 10 ] = 1;
+newLattice[ yCenter() + -25 ][ xCenter() + 9 ] = 1;
+newLattice[ yCenter() + -26 ][ xCenter() + 10 ] = 1;
+
+newLattice[ yCenter() + -28 ][ xCenter() + 16 ] = 1;
+newLattice[ yCenter() + -29 ][ xCenter() + 17 ] = 1;
+newLattice[ yCenter() + -29 ][ xCenter() + 16 ] = 1;
+newLattice[ yCenter() + -28 ][ xCenter() + 17 ] = 1;
+
+
+newLattice[ yCenter() + -24 ][ xCenter() + 22 ] = 1;
+newLattice[ yCenter() + -23 ][ xCenter() + 23 ] = 1;
+newLattice[ yCenter() + -24 ][ xCenter() + 24 ] = 1;
+newLattice[ yCenter() + -25 ][ xCenter() + 24 ] = 1;
+newLattice[ yCenter() + -25 ][ xCenter() + 23 ] = 1;
+
+newLattice[ yCenter() + -26 ][ xCenter() + 27 ] = 1;
+newLattice[ yCenter() + -27 ][ xCenter() + 27 ] = 1;
+newLattice[ yCenter() + -27 ][ xCenter() + 28 ] = 1;
+newLattice[ yCenter() + -25 ][ xCenter() + 28 ] = 1;
+newLattice[ yCenter() + -24 ][ xCenter() + 29 ] = 1;
+
+
+newLattice[ yCenter() + -26 ][ xCenter() + 29 ] = 1;
+newLattice[ yCenter() + -25 ][ xCenter() + 30 ] = 1;
+
+newLattice[ yCenter() + -21 ][ xCenter() + 29 ] = 1;
+newLattice[ yCenter() + -21 ][ xCenter() + 30 ] = 1;
+newLattice[ yCenter() + -21 ][ xCenter() + 28 ] = 1;
+newLattice[ yCenter() + -20 ][ xCenter() + 28 ] = 1;
+newLattice[ yCenter() + -19 ][ xCenter() + 29 ] = 1;
+
+newLattice[ yCenter() + -34 ][ xCenter() + 28 ] = 1;
+newLattice[ yCenter() + -35 ][ xCenter() + 29 ] = 1;
+newLattice[ yCenter() + -34 ][ xCenter() + 29 ] = 1;
+newLattice[ yCenter() + -35 ][ xCenter() + 28 ] = 1;
+
+newLattice[ yCenter() + -34 ][ xCenter() + 25 ] = 1;
+newLattice[ yCenter() + -34 ][ xCenter() + 24 ] = 1;
+newLattice[ yCenter() + -33 ][ xCenter() + 25 ] = 1;
+newLattice[ yCenter() + -33 ][ xCenter() + 24 ] = 1;
+
+/**/
+    setLattice(newLattice);
+}
