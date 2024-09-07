@@ -76,7 +76,7 @@ export {iterationCount}
 document.addEventListener("DOMContentLoaded", function() {
 	alterLattice(2);
 	redrawLattice();
-	buildTub();
+	buildGlider();
 
 	/* Handle button clicks for all primary toolbar buttons */
 
