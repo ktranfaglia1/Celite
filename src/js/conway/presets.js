@@ -1182,3 +1182,44 @@ export function buildSnail() {
     /**/
     setLattice(newLattice);
 }
+
+
+export function buildTub(){
+    let newLattice = createNewConfig()
+
+    newLattice[ yCenter() + 4 ][ xCenter() + 6 ] = 1; 
+newLattice[ yCenter() + 5 ][ xCenter() + 5 ] = 1; 
+newLattice[ yCenter() + 6 ][ xCenter() + 6 ] = 1; 
+newLattice[ yCenter() + 5 ][ xCenter() + 7 ] = 1; 
+newLattice[ yCenter() + 2 ][ xCenter() + 4 ] = 1; 
+newLattice[ yCenter() + 1 ][ xCenter() + 4 ] = 1; 
+newLattice[ yCenter() + 1 ][ xCenter() + 3 ] = 1; 
+newLattice[ yCenter() + 0 ][ xCenter() + 1 ] = 1; 
+newLattice[ yCenter() + -1 ][ xCenter() + 0 ] = 1; 
+newLattice[ yCenter() + -2 ][ xCenter() + 0 ] = 1; 
+newLattice[ yCenter() + -2 ][ xCenter() + 1 ] = 1; 
+newLattice[ yCenter() + -2 ][ xCenter() + 2 ] = 1; 
+newLattice[ yCenter() + 5 ][ xCenter() + 2 ] = 1; 
+newLattice[ yCenter() + 4 ][ xCenter() + 2 ] = 1; 
+newLattice[ yCenter() + 4 ][ xCenter() + 1 ] = 1; 
+newLattice[ yCenter() + 5 ][ xCenter() + 1 ] = 1; 
+newLattice[ yCenter() + 6 ][ xCenter() + 2 ] = 1; 
+newLattice[ yCenter() + 6 ][ xCenter() + 0 ] = 1; 
+newLattice[ yCenter() + 7 ][ xCenter() + 0 ] = 1; 
+newLattice[ yCenter() + 7 ][ xCenter() + -1 ] = 1; 
+newLattice[ yCenter() + 8 ][ xCenter() + 1 ] = 1; 
+newLattice[ yCenter() + 8 ][ xCenter() + -1 ] = 1; 
+newLattice[ yCenter() + 8 ][ xCenter() + -2 ] = 1; 
+newLattice[ yCenter() + 8 ][ xCenter() + -3 ] = 1; 
+newLattice[ yCenter() + 8 ][ xCenter() + -4 ] = 1; 
+newLattice[ yCenter() + 9 ][ xCenter() + -3 ] = 1; 
+newLattice[ yCenter() + 9 ][ xCenter() + -2 ] = 1; 
+newLattice[ yCenter() + 7 ][ xCenter() + -6 ] = 1; 
+newLattice[ yCenter() + 6 ][ xCenter() + -7 ] = 1; 
+newLattice[ yCenter() + 5 ][ xCenter() + -7 ] = 1; 
+newLattice[ yCenter() + 5 ][ xCenter() + -6 ] = 1; 
+newLattice[ yCenter() + 5 ][ xCenter() + -5 ] = 1;
+
+
+    setLattice(newLattice)
+}
