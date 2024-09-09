@@ -40,7 +40,7 @@ const iterateButton = document.getElementById("iterateButton");
 const clearResetButton = document.getElementById("clearResetButton");
 const downloadPDFButton = document.getElementById("downloadPDFButton");
 const downloadPNGButton = document.getElementById("downloadPNGButton");
-const aboutButton = document.getElementById("aboutButton");
+const setupButton = document.getElementById("setupButton");
 const optionsButton = document.getElementById("optionsButton");
 const latticeFillButton = document.getElementById("latticeFillButton");
 const randomFillButton = document.getElementById("randomFillButton");
@@ -55,7 +55,6 @@ const iterationToggleButton = document.getElementById("iterationToggle");
 const borderToggleButton = document.getElementById("borderToggle");
 
 //Side Windows Constants
-const aboutWindow = document.getElementById("aboutContainer");
 const optionsWindow = document.getElementById("optionsContainer");
 
 //iteration Slider Constants
@@ -67,7 +66,6 @@ const checkboxes = document.querySelectorAll(".checkbox_select");
 const boundToggle = document.querySelector("#boundToggle .toggle_button");
 const iterationToggle = document.querySelector("#iterationToggle .toggle_button");
 const borderToggle = document.querySelector("#borderToggle .toggle_button");
-const closeAbout = document.querySelector("#aboutContent .close");
 const closeOptions = document.querySelector("#optionsContent .close");
 
 
@@ -497,7 +495,7 @@ document.addEventListener('keydown', function(event) {
 				optionsButton.click();
 				break;
 			case (event.key == 'a'):
-				aboutButton.click();
+				setupButton.click();
 				break;
 			case (event.key == 'n'):
 				downloadPDFButton.click();
@@ -1123,25 +1121,6 @@ downloadPNGButton.addEventListener('click', function() {
     link.download = "Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize[0] + ".png";  // Set the filename
 	link.click();  // Trigger a click on the anchor element to prompt the browser to download the image
 	makeLog("Downloaded Canvas", logCanvas, messageQueue);
-});
-
-/* Handle open and closing of about window */
-// About button is clicked, display about window
-aboutButton.addEventListener("click", function() {
-	aboutWindow.style.display = "block";
-});
-
-// Close if x (close) button in top right of the window is clicked
-closeAbout.addEventListener("click", function() {
-	aboutWindow.style.display = "none";
-});
-
-// Close if any space outside of the about window is clicked
-window.addEventListener("click", function(event) {
-	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
-	if (event.target == aboutWindow) {
-		aboutWindow.style.display = "none";
-	}
 });
 
 /* Handle open and closing of options window */

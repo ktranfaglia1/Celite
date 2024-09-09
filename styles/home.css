@@ -111,7 +111,7 @@ hr {
 }
 @media only screen and (max-height: 800px) {
   .image_container {
-    margin: 1% 0 1% 0;
+    margin: 1.5% 0 1% 0;
   }
   .navigate_button {
     padding: 48px 24px;
