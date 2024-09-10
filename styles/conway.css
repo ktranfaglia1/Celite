@@ -29,7 +29,7 @@ ul {
 /* Lattice region formatting */
 .lattice_region {
   position: absolute;
-  background-color: lightgrey;
+  background-color: #D0D3D4;
   border: 3px solid black;
   padding: 1% 1% 1% 1%;
   margin-top: 12px;

@@ -16,7 +16,7 @@ hr {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 13% 0 1% 0;
+  margin: 12% 0 1% 0;
 }
 /* Container for store multiple elements on the same row */
 .input_container {
@@ -61,37 +61,37 @@ hr {
 }
 @media only screen and (max-height: 1300px) {
   .image_container {
-    margin: 12% 0 1% 0;
+    margin: 11% 0 1% 0;
   }
 }
 @media only screen and (max-height: 1250px) {
   .image_container {
-    margin: 11% 0 1% 0;
+    margin: 10% 0 1% 0;
   }
 }
 @media only screen and (max-height: 1200px) {
   .image_container {
-    margin: 10% 0 1% 0;
+    margin: 9% 0 1% 0;
   }
 }
 @media only screen and (max-height: 1150px) {
   .image_container {
-    margin: 9% 0 1% 0;
+    margin: 8% 0 1% 0;
   }
 }
 @media only screen and (max-height: 1100px) {
   .image_container {
-    margin: 8% 0 1% 0;
+    margin: 7% 0 1% 0;
   }
 }
 @media only screen and (max-height: 1050px) {
   .image_container {
-    margin: 7% 0 1% 0;
+    margin: 6% 0 1% 0;
   }
 }
 @media only screen and (max-height: 1000px) {
   .image_container {
-    margin: 6% 0 1% 0;
+    margin: 5% 0 1% 0;
   }
 }
 @media only screen and (max-height: 950px) {

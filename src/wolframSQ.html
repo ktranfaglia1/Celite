@@ -38,7 +38,7 @@
         <a href="../src/about.html"> Collaborators </a>  <!-- Link to the about page -->
         <a href="https://github.com/ktranfaglia1/COSC425" target="_blank"> Source </a>  <!-- Link to the source code page -->
       </div>
-      <h1> Wolfram's Nearest Neighbor Sequential </h1> <hr>
+      <h1 class="head"> Wolfram's Nearest Neighbor Sequential </h1> <hr>
     </header>
     <!-- Primary tool bar containing input boxes and options to manipulate the simulation -->
     <div class="primary_toolbar">
@@ -60,6 +60,7 @@
         <input type="text" id="latticeSizeBox" class="simulation_input" placeholder="Enter lattice size...">
         <button id="latticeSizeSubmit" class="submit_button"> Enter </button>
       </div>
+      <label class="input_label"> Boundary: </label>
       <!-- Create periodic checkbox -->
       <div class="checkbox_container" id="periodicCheckBox">
         <input type="checkbox" class="checkbox_select">
@@ -78,6 +79,11 @@
       <button id="clearResetButton" class="simulation_button"> Clear </button>
       <button id="optionsButton" class="simulation_button"> Options </button>
       <button id="setupButton" class="simulation_button"> Setup </button>
+      <button id="exitButton" class="setup_button"> Exit </button>
+      <button id="saveExitButton" class="setup_button"> Save & Exit </button>
+      <button id="voidButton" class="setup_button"> Clear </button>
+      <button id="libraryButton" class="setup_button"> Library </button>
+      <button id="helpButton" class="setup_button"> Help </button>
       <canvas id="logRegion" class="log_box"> </canvas> <!-- Display region for the logs -->
     </div>
     <div id="iterationOutput" class="iteration_output"> </div> <!-- Output region for iteration count -->
@@ -144,6 +150,18 @@
             <input type="color" class="color_picker" id="deadBorder" name="deadBorder" value="#777777">
           </div>
         </div>
+      </div>
+    </div>
+    <div id="libraryContainer" class="library_container">
+      <div id="libraryContent" class="library_content">
+        <span class="close">&times; </span>
+        <h2> Algorithm Configuration Library </h2>
+      </div>
+    </div>
+    <div id="helpContainer" class="about_container">
+      <div id="helpContent" class="about_content">
+        <span class="close">&times; </span>
+        <h2> Algorithm Configuration Assistance </h2>
       </div>
     </div>
     <div class="Dustin"></div>

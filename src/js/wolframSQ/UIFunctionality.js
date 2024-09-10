@@ -40,22 +40,24 @@ const iterateButton = document.getElementById("iterateButton");
 const clearResetButton = document.getElementById("clearResetButton");
 const downloadPDFButton = document.getElementById("downloadPDFButton");
 const downloadPNGButton = document.getElementById("downloadPNGButton");
-const setupButton = document.getElementById("setupButton");
 const optionsButton = document.getElementById("optionsButton");
 const latticeFillButton = document.getElementById("latticeFillButton");
 const randomFillButton = document.getElementById("randomFillButton");
-
-//Perodic and Null Checkbox Constants
-const periodicCheckBox = document.getElementById("periodicCheckBox");
-const nullCheckBox = document.getElementById("nullCheckBox");
+const setupButton = document.getElementById("setupButton");
+const saveExitButton = document.getElementById("saveExitButton");
+const exitButton = document.getElementById("exitButton");
+const voidButton = document.getElementById("voidButton");
+const libraryButton = document.getElementById("libraryButton");
+const helpButton = document.getElementById("helpButton");
 
 //Toggle Switches Constants
-const boundToggleButton = document.getElementById("boundToggle");
 const iterationToggleButton = document.getElementById("iterationToggle");
 const borderToggleButton = document.getElementById("borderToggle");
 
 //Side Windows Constants
 const optionsWindow = document.getElementById("optionsContainer");
+const libraryWindow = document.getElementById("libraryContainer");
+const helpWindow = document.getElementById("helpContainer");
 
 //iteration Slider Constants
 const iterationSpeedSlider = document.getElementById("iterationSpeedSlider");
@@ -63,11 +65,85 @@ const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 
 /* Global constants connecting HTML/CSS features to JS by class name to impliment functionality */
 const checkboxes = document.querySelectorAll(".checkbox_select");
-const boundToggle = document.querySelector("#boundToggle .toggle_button");
 const iterationToggle = document.querySelector("#iterationToggle .toggle_button");
 const borderToggle = document.querySelector("#borderToggle .toggle_button");
-const closeOptions = document.querySelector("#optionsContent .close");
+const closeOptions = document.querySelector("#optionsContent .close"); 
+const setupItems = document.querySelectorAll(".setup_button");
+const standardItems = document.querySelectorAll(".simulation_button, .start_button");
+const closeLibrary = document.querySelector("#libraryContent .close");
+const closeHelp = document.querySelector("#helpContent .close");
 
+setupButton.addEventListener("click", debounce(function() {
+	// Loop through the standard secondary toolbar elements and disable display
+	standardItems.forEach(item => {
+		item.style.display = 'none';
+	});
+
+	// Loop through the setup mode secondary toolbar elements and enable display
+	setupItems.forEach(item => {
+		item.style.display = 'inline-block';
+	});
+}));
+
+saveExitButton.addEventListener("click", function() {
+	exitButton.click();
+});
+
+exitButton.addEventListener("click", function() {
+	// Loop through the standard secondary toolbar elements and enable display
+	standardItems.forEach(item => {
+		item.style.display = 'inline-block';
+	});
+
+	// Loop through the setup mode secondary toolbar elements and disable display
+	setupItems.forEach(item => {
+		item.style.display = 'none';
+	});
+});
+
+voidButton.addEventListener("click", function() {
+});
+
+libraryButton.addEventListener("click", function() {
+});
+
+/* Handle open and closing of help and library window */
+// About button is clicked, display about window
+helpButton.addEventListener("click", function() {
+	helpWindow.style.display = "block";
+});
+
+// Close if x (close) button in top right of the window is clicked
+closeHelp.addEventListener("click", function() {
+	helpWindow.style.display = "none";
+});
+
+// Close if any space outside of the about window is clicked
+window.addEventListener("click", function(event) {
+	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
+	if (event.target == helpWindow) {
+		helpWindow.style.display = "none";
+	}
+});
+
+/* Handle open and closing of help and library window */
+// About button is clicked, display about window
+libraryButton.addEventListener("click", function() {
+	libraryWindow.style.display = "block";
+});
+
+// Close if x (close) button in top right of the window is clicked
+closeLibrary.addEventListener("click", function() {
+	libraryWindow.style.display = "none";
+});
+
+// Close if any space outside of the about window is clicked
+window.addEventListener("click", function(event) {
+	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
+	if (event.target == libraryWindow) {
+		libraryWindow.style.display = "none";
+	}
+});
 
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
@@ -78,9 +154,6 @@ let tickerToggle = 0; //Ticker toggle decides if row ticker will be on defaults 
 //Stores current scrolling values to keep track of scrolling in or out and preventing user from scrolling too far out
 let scale = 1;
 let totalDelta = 0;
-
-//Sets default colors
-
 
 let messageQueue = []
 
@@ -386,12 +459,6 @@ clearResetButton.addEventListener("click", debounce(function() {
 
 /* Connect UI Functionality to a prebuilt function */
 
-//Toggles 
-boundToggleButton.addEventListener("click", debounce(function() {
-	stopIterating();  // Stops the iteration before changing the boundary condition
-	toggleCheckbox();
-}));
-
 iterationToggleButton.addEventListener("click", debounce(function() {
 	tickerToggle = !(tickerToggle);
 	tctx.clearRect(0,0, tickCanvas.width, tickCanvas.height);
@@ -508,9 +575,6 @@ document.addEventListener('keydown', function(event) {
 				break;
 			case (event.key == 'm'):
 				randomFillButton.click();
-				break;
-			case (event.key == 'u'):
-				boundToggleButton.click();
 				break;
 			case (event.key == 'w'):
 				iterationToggleButton.click();
@@ -863,56 +927,26 @@ function stopIterating() {
 // Handle when bound toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
 export function toggleCheckbox() {
 	// Set the first checkbox (not second checkbox) to be checked upon toggle button activation
-  checkboxes[0].checked = true;
+    checkboxes[0].checked = true;
 	checkboxes[1].checked = false;
 	// If checkboxes are currently hidden (toggle bar was not active) display the checkboxes and animate toggle button
-	if (periodicCheckBox.style.display == 'none'|| periodicCheckBox.style.display == '') {
-		//Remove buffers if they exist.
-		let newCellNum = (latSize[0] - (2 * latSize[1]));
-		if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
-			alterLatSize(newCellNum);
-		}
-		else {
-			makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
-		}
-		//Alter cell size to accomodate removed buffers
-		let size = canvas.width / latSize[0];
-		//Cells should have a maximum size of 45 :: This Caps cell size to 45
-		if (size > 45) {
-			size = 45; 
-		}
-		alterSize(size);
-		alterInf(false)
-		makeLog("Setting to Finite", logCanvas, messageQueue);
-		clear(latticeArray, true);
-		periodicCheckBox.style.display = 'block';
-		nullCheckBox.style.display = 'block';
-		boundToggle.style.transform = 'translateX(25px)'; // Move the toggle button to the right
-	// If checkboxes are currently not hidden (toggle bar was active) hide the checkboxes and animate toggle button back
-    } else {
-			//Remove buffers if they exist.
-			let newCellNum = (latSize[0] - (2 * latSize[1]));
-			if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
-				alterLatSize(newCellNum);
-			}
-			else {
-				makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
-			}
-			//Alter cell size to accomodate removed buffers
-			let size = canvas.width / latSize[0];
-			//Cells should have a maximum size of 45 :: This Caps cell size to 45
-			if (size > 45) {
-				size = 45; 
-			}
-			alterSize(size);
-			//Settings changed to Infinite.
-			alterInf(true)
-			makeLog("Setting to Infinite", logCanvas, messageQueue);
-			clear(latticeArray, true);
-			periodicCheckBox.style.display = 'none';
-			nullCheckBox.style.display = 'none';
-			boundToggle.style.transform = 'translateX(0)'; // Move the toggle button back to the left
-    }
+	//Remove buffers if they exist.
+	let newCellNum = (latSize[0] - (2 * latSize[1]));
+	if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
+		alterLatSize(newCellNum);
+	}
+	else {
+		makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
+	}
+	//Alter cell size to accomodate removed buffers
+	let size = canvas.width / latSize[0];
+	//Cells should have a maximum size of 45 :: This Caps cell size to 45
+	if (size > 45) {
+		size = 45; 
+	}
+	alterSize(size);
+	alterInf(false)
+	clear(latticeArray, true);
 }
 
 /* Initialize toggle buttons to x position 0px to enable x translation in functions */
@@ -983,9 +1017,9 @@ function clearResetToggle() {
 		makeLog("Clearing Canvas", logCanvas, messageQueue);
 	}
 }
-
 // Set boundary condition and ensure one and only one checkbox can be checked at a time upon checkbox click
 checkboxes.forEach(function(checkbox) {
+	checkboxes[0].checked = true;
     checkbox.addEventListener('change', function() {
 		stopIterating();  // Stops the iteration before changing the finite boundary condition
 		// Box is set to be checked upon change
