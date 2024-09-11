@@ -13,6 +13,7 @@ nextLattice : Lattice the Next Index will be set too
 rule : This is the Rule number for generating how it will work
 numOfIterations : Holds number of Iterations to Create
 currentIteration : array that holds the bottom of the array
+orderArray : array that holds the sequential order that cells should be changed in
 */
 
 //This is the various document stuff for selecting color
@@ -25,6 +26,11 @@ deadColorSel.value = '#FFFFFF';
 aliveColorSel.value = '#000000';
 deadBorderSel.value = '#000000';
 aliveBorderSel.value = '#808080';
+
+//Mutator for orderArray
+export function alterOrder(neoOrderArray = orderArray) {
+  neoOrderArray = orderArray
+}
 
 //Mutator for latSize
 export function alterLatSize(neoLatSize = latSize[0]) {
@@ -184,9 +190,24 @@ export function updateLattice(){
 	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();  // Display iteration count to HTML page upon update
 }
 
+//Randomize the order then print to console for debugging purposes
+export function createOrder() {
+  orderArray.length = 0;
+  for (let i = 0; i < latSize[0]; i++) {
+    orderArray.push(i);
+  }
+  for (let i = orderArray.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [orderArray[i], orderArray[j]] = [orderArray[j], orderArray[i]];
+  }
+  console.log(orderArray)
+}
+
 import {cell} from "./cellClass.js"
 import {ruleNumToRule, generateLattice} from "./generateLattice.js";
 
+//This variable holds the order that cells will be altered in.
+let orderArray = new Array()
 //This Variable is used to store the full set of all the lattices
 let latticeArray = new Array ( new Array);
 //this holds the lattice on the bottom of the array
@@ -250,7 +271,7 @@ let boundaryCon = 1;
 //Sends Variables to needed location
 export {ruleNum, boundaryCon, latSize, inf, size, currentIteration};
 export {outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx};
-export {latticeArray, numOfIterations, currentLattice};
+export {latticeArray, numOfIterations, currentLattice, orderArray};
 export {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel};
 
 //Sets starting lattice to all dead
@@ -258,4 +279,5 @@ export {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel};
 latticeArray = [];
 LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum);
+createOrder();
 updateLattice();
