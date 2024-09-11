@@ -1,7 +1,7 @@
 /* Wolfram's Nearest Neighbor Sequential Simulation styles page */
 /* General formatting */
 body {
-  background-color: #add8e6;
+  background-color: #b47e4b;
   margin: 0;
   font-family: Arial, sans-serif;
 }
@@ -20,10 +20,13 @@ ul {
   text-align: left;
   color: black;
 }
+.head {
+  background-color: #E07A1F;
+}
 /* Lattice region formatting */
 .lattice_region {
   position: absolute;
-  background-color: lightgrey;
+  background-color: #B6A89B;
   border: 3px solid black;
   padding: 1% 1% 1% 1%;
   max-width: 90%;
@@ -44,7 +47,7 @@ ul {
 .log_box {
   width: 160px;
   height: 45px;
-  background-color: lightgrey;
+  background-color: #B6A89B;
   border: 3px solid black;
   padding-top: 3px;
   margin-left: 1.75%;
@@ -59,7 +62,7 @@ ul {
 }
 /* Large button formatting: used for secondary tool bar */
 .simulation_button {
-  background-color: #943ef8;
+  background-color: #C0392B;
   color: white;
   padding: 16px 32px;
   text-align: center;
@@ -73,10 +76,10 @@ ul {
 }
 .simulation_button:hover {
   cursor: pointer;
-  background-color: #6e24cb;
+  background-color: #A63125;
 }
 .start_button {
-  background-color: #3BBB57;
+  background-color: #6A9A3F;
   color: white;
   padding: 16px 32px;
   text-align: center;
@@ -90,10 +93,10 @@ ul {
 }
 .start_button:hover {
   cursor: pointer;
-  background-color: #2E912B;
+  background-color: #598331;
 }
 .stop_button {
-  background-color: #CD5C5C;
+  background-color: #C0392B;
   color: white;
   padding: 16px 32px;
   text-align: center;
@@ -107,7 +110,24 @@ ul {
 }
 .stop_button:hover {
   cursor: pointer;
-  background-color: #A03D3D;
+  background-color: #A63125;
+}
+.setup_button {
+  background-color: #C0392B;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: none;
+  font-size: 17px;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-left: 1.75%;
+  margin-right: 1.75%;
+}
+.setup_button:hover {
+  cursor: pointer;
+  background-color: #A63125;
 }
 /* Primary tool bar formatting */
 .primary_toolbar {
@@ -145,7 +165,7 @@ ul {
 .submit_button {
   padding: 8px 8px;
   border: 1px solid black;
-  background-color: #9570DB;
+  background-color: #A63125;
   color: whitesmoke;
   font-size: 15px;
   text-align: center;
@@ -153,7 +173,7 @@ ul {
 }
 .submit_button:hover {
   cursor: pointer;
-  background-color: #8a2be2;
+  background-color: #C0392B;
 }
 /* Iteration count formatting */
 .iteration_output {
@@ -197,8 +217,7 @@ ul {
 }
 /* Checkbox container and formatting */
 .checkbox_container {
-  display: none;
-  margin-top: 10px;
+  display: block;
 }
 .checkbox_select {
   margin-left: 8px;
