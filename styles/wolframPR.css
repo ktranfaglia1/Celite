@@ -23,7 +23,7 @@ ul {
 /* Lattice region formatting */
 .lattice_region {
   position: absolute;
-  background-color: lightgrey;
+  background-color: #D0D3D4;
   border: 3px solid black;
   padding: 1% 1% 1% 1%;
   max-width: 90%;
@@ -44,7 +44,7 @@ ul {
 .log_box {
   width: 160px;
   height: 45px;
-  background-color: lightgrey;
+  background-color: #D0D3D4;
   border: 3px solid black;
   padding-top: 3px;
   margin-left: 1.75%;
