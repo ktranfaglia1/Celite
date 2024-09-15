@@ -194,7 +194,7 @@ export function updateLattice(){
 export function createOrder() {
   orderArray.length = 0;
   for (let i = 0; i < latSize[0]; i++) {
-    orderArray.push(-1);
+    orderArray.push(i);
   }
   /*for (let i = orderArray.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -267,6 +267,7 @@ let latSize = new Array(10, 0);
 let numOfIterations = 1;
 let currentIteration = 0;
 let inf = new Array(true, false, 0);
+
 
 export let border = false; //Border = false by default
 //Creates setup variable and defaults to false

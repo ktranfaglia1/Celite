@@ -884,22 +884,27 @@ function setCells(latticeArray, mouseX, mouseY) {
 				neoLatticeArray[0][i].flipColor();
 				if(getSetup() && latticeArray[0][i].getColor() == 1)
 				{
-					let j = 0;
-					for (; j < latticeArray[0].length; j++)
+					for (let j = 0; j < latticeArray[0].length; j++)
 					{
-						if (!orderArray.includes(j))
-						{break;}
-						console.log(j);
+						if(orderArray[j] == -1)
+						{
+							orderArray[j] = i;
+							latticeArray[0][i].setNumber(j)
+							break;
+						}
 					}
-					neoLatticeArray[0][i].setNumber(j);
-					orderArray[i] = j
-					console.log(neoLatticeArray[0][i].getNumber())
 				}
 				else if(getSetup())
 				{
-					console.log(latticeArray[0][i]);
-					neoLatticeArray[0][i].setNumber(-1);
-					orderArray[i] = -1
+					for (let j =0; j < latticeArray[0].length; j++)
+					{
+						if(orderArray[j] == i)
+						{
+							orderArray[j] = -1;
+							latticeArray[0][i].setNumber(j)
+							break;
+						}
+					}
 				}
 			}
 			(neoLatticeArray[0][i]).drawCell(ctx);

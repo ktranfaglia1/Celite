@@ -12,7 +12,7 @@ current timestep number (rowIndex), and the size individual cells.
 import {rule, canvas, latSize, orderArray, getSetup,alterSetup, latticeArray} from './displayLattice.js';
 import {cell} from './cellClass.js';
 import {alterRule} from './displayLattice.js';
-import {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel, border} from './displayLattice.js';
+import {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel, border, currentIteration} from './displayLattice.js';
 
 
 //Generates rule array based on input rule number.
@@ -40,9 +40,10 @@ export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, siz
 		newLattice.push(new cell (size, size, startX + i * size, rowIndex * size, 0, border, getSetup()))
 	}
 
-	console.log(newLattice)
-	if(latticeArray.length > 1)
+	
+	//if(currentLattice.length == 0)
 	{
+		console.log("lattice length", latticeArray.length)
 		//If boundary condition is periodic:
 		if (boundaryCon == 1) {
 			//Iterate over length of new lattice
