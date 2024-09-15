@@ -73,6 +73,9 @@ const standardItems = document.querySelectorAll(".simulation_button, .start_butt
 const closeLibrary = document.querySelector("#libraryContent .close");
 const closeHelp = document.querySelector("#helpContent .close");
 
+
+let setup = false; //Creates setup variable and defaults to false
+
 setupButton.addEventListener("click", debounce(function() {
 	// Loop through the standard secondary toolbar elements and disable display
 	standardItems.forEach(item => {
@@ -83,10 +86,13 @@ setupButton.addEventListener("click", debounce(function() {
 	setupItems.forEach(item => {
 		item.style.display = 'inline-block';
 	});
+	clear();
+	setup = true; //Turns on setup functionality
 }));
 
 saveExitButton.addEventListener("click", function() {
 	exitButton.click();
+	setup = false; //Turns off setup functionality
 });
 
 exitButton.addEventListener("click", function() {
@@ -99,6 +105,7 @@ exitButton.addEventListener("click", function() {
 	setupItems.forEach(item => {
 		item.style.display = 'none';
 	});
+	setup = false; //Turns off setup functionality
 });
 
 voidButton.addEventListener("click", function() {
@@ -387,7 +394,7 @@ randomFillButton.addEventListener("click", debounce(function() {
 iterateButton.addEventListener("click", debounce(function() {
 	stopIterating();  // Stops the iteration before doing a complete iteration
 	//Keep infinite the same and add the buffers
-	alterInf(inf[0], true)
+	alterInf(inf[0], false)
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
 	if (latticeArray.length == 1) {
 		let bufferArr = new Array()
@@ -999,7 +1006,7 @@ function startStopToggle() {
     	startStopButton.classList.add("stop_button");
 		makeLog("Starting Iterations", logCanvas, messageQueue);
 		//Add buffers.
-		alterInf(inf[0], true)
+		alterInf(inf[0], false)
   	} 
   	else if (startStopButton.classList.contains("stop_button") && !run) {
     	startStopButton.innerHTML = "Start";
