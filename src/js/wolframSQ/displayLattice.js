@@ -194,12 +194,12 @@ export function updateLattice(){
 export function createOrder() {
   orderArray.length = 0;
   for (let i = 0; i < latSize[0]; i++) {
-    orderArray.push(i);
+    orderArray.push(-1);
   }
-  for (let i = orderArray.length - 1; i > 0; i--) {
+  /*for (let i = orderArray.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
     [orderArray[i], orderArray[j]] = [orderArray[j], orderArray[i]];
-  }
+  }*/
   console.log(orderArray)
 }
 

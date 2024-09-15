@@ -6,7 +6,7 @@
   for simulation modifications and communicates it with utility files
 * Last Updated: 03/11/24
 */
-import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder} from './displayLattice.js';
+import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder, orderArray, alterOrder} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, inf} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder} from './displayLattice.js';
 import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder, alterSetup, getSetup} from './displayLattice.js';
@@ -86,13 +86,15 @@ setupButton.addEventListener("click", debounce(function() {
 	clear(latticeArray, false);
 	alterSetup(1); //Turns on setup functionality
 	redrawLattice();
+
+	for (let i = 0; i < latticeArray[0].length; i++)
+	{
+		orderArray[i] = -1;
+	}
 }));
 
 saveExitButton.addEventListener("click", function() {
 	exitButton.click();
-	clear(latticeArray, false);
-	alterSetup(0); //Turns off setup functionality
-	redrawLattice();
 });
 
 exitButton.addEventListener("click", function() {
@@ -880,9 +882,29 @@ function setCells(latticeArray, mouseX, mouseY) {
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
 			if (latticeArray[0][i].insideCell(mouseX, mouseY)) {
 				neoLatticeArray[0][i].flipColor();
+				if(getSetup() && latticeArray[0][i].getColor() == 1)
+				{
+					let j = 0;
+					for (; j < latticeArray[0].length; j++)
+					{
+						if (!orderArray.includes(j))
+						{break;}
+						console.log(j);
+					}
+					neoLatticeArray[0][i].setNumber(j);
+					orderArray[i] = j
+					console.log(neoLatticeArray[0][i].getNumber())
+				}
+				else if(getSetup())
+				{
+					console.log(latticeArray[0][i]);
+					neoLatticeArray[0][i].setNumber(-1);
+					orderArray[i] = -1
+				}
 			}
 			(neoLatticeArray[0][i]).drawCell(ctx);
 			alterLatticeArray(neoLatticeArray);
+			alterOrder(orderArray)
 		}
 	}
 }
@@ -926,6 +948,7 @@ function iterate(currentIteration, newIterations) {
 
 		alterLatticeArray(neoLatticeArray);
 		updateLattice();
+		console.log(orderArray);
 		return currentIteration;
 	}, 5)
 }

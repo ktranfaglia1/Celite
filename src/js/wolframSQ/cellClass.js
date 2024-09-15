@@ -35,7 +35,7 @@ export class cell {
 
 		this.setupMode = setupMode
 
-		this.number = 10;
+		this.number = -2; //Displays one above this number
 
 	}
 
@@ -214,5 +214,9 @@ export class cell {
 
 	setNumber(num){
 		this.number = num;
+	}
+
+	getNumber(){
+		return this.number;
 	}
 }
