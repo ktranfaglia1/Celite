@@ -9,7 +9,7 @@
 import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, inf} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder} from './displayLattice.js';
-import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder} from './displayLattice.js';
+import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder, alterSetup, getSetup} from './displayLattice.js';
 import {updateLattice} from './displayLattice.js';
 import {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
@@ -73,9 +73,6 @@ const standardItems = document.querySelectorAll(".simulation_button, .start_butt
 const closeLibrary = document.querySelector("#libraryContent .close");
 const closeHelp = document.querySelector("#helpContent .close");
 
-
-let setup = false; //Creates setup variable and defaults to false
-
 setupButton.addEventListener("click", debounce(function() {
 	// Loop through the standard secondary toolbar elements and disable display
 	standardItems.forEach(item => {
@@ -86,13 +83,16 @@ setupButton.addEventListener("click", debounce(function() {
 	setupItems.forEach(item => {
 		item.style.display = 'inline-block';
 	});
-	clear();
-	setup = true; //Turns on setup functionality
+	clear(latticeArray, false);
+	alterSetup(1); //Turns on setup functionality
+	redrawLattice();
 }));
 
 saveExitButton.addEventListener("click", function() {
 	exitButton.click();
-	setup = false; //Turns off setup functionality
+	clear(latticeArray, false);
+	alterSetup(0); //Turns off setup functionality
+	redrawLattice();
 });
 
 exitButton.addEventListener("click", function() {
@@ -105,10 +105,13 @@ exitButton.addEventListener("click", function() {
 	setupItems.forEach(item => {
 		item.style.display = 'none';
 	});
-	setup = false; //Turns off setup functionality
+	clear(latticeArray, false);
+	alterSetup(0); //Turns off setup functionality
+	redrawLattice();
 });
 
 voidButton.addEventListener("click", function() {
+	clear();
 });
 
 libraryButton.addEventListener("click", function() {
@@ -549,6 +552,7 @@ tickCanvas.addEventListener('click', debounce(function(event) {
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of mouse click for usage in setCells
 	setCells(latticeArray, mouseX, mouseY);	// Flips the cell if it was clicked on
+
 }));
 
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
@@ -837,7 +841,7 @@ function clear(latticeArray, keepInit = false) {
 		neoLatticeArray.pop();
 	}
 	for (let i = 0; i < latSize[0]; i++) {
-		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0));
+		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0, getBorder(), getSetup()));
 		clearedLattice[0][i].setAliveColor(aliveColorSel.value)
 		clearedLattice[0][i].setDeadColor(deadColorSel.value)
 		clearedLattice[0][i].setAliveBorder(aliveBorderSel.value)

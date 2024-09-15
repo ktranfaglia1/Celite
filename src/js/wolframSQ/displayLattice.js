@@ -203,6 +203,18 @@ export function createOrder() {
   console.log(orderArray)
 }
 
+export function getSetup()
+{return setup;}
+
+export function alterSetup(neoSetup)
+{
+  setup = neoSetup;
+  for(let i = 0; i < latticeArray[0].length;i++)
+  {
+    latticeArray[0][i].setSetup(neoSetup);
+  }
+}
+
 import {cell} from "./cellClass.js"
 import {ruleNumToRule, generateLattice} from "./generateLattice.js";
 
@@ -256,8 +268,9 @@ let numOfIterations = 1;
 let currentIteration = 0;
 let inf = new Array(true, false, 0);
 
-let border = false; //Border = false by default
-
+export let border = false; //Border = false by default
+//Creates setup variable and defaults to false
+let setup = false; 
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
 become/stay dead or alive. The boundary condition determines what happens when the rule accessed a value

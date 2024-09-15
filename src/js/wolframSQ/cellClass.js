@@ -15,7 +15,7 @@ import {latSize} from './displayLattice.js';
 export class cell {
 
 	//Basic Constructor for the each cell
-	constructor(height, width, XLocation, YLocation, color, border)
+	constructor(height, width, XLocation, YLocation, color, border, setupMode)
 	{
 		//holds the height and width of the cell this should be the same but can allow for rectangles if needed
 		this.height = height;
@@ -33,6 +33,10 @@ export class cell {
 		this.aliveCell = '#000000';
 		this.aliveBord = '#808080';
 
+		this.setupMode = setupMode
+
+		this.number = 10;
+
 	}
 
 	// Function used to draw the cell in its proper location
@@ -43,28 +47,51 @@ export class cell {
 		if(latSize[0] <= 200 && this.border)
 		{
 			//Sets outline to be inverse of color of cell so you can see it
-			if(this.color == 1)
-			{
-      			ctx.fillStyle = this.aliveBord;
+			if(!this.setupMode){
+				if(this.color == 1)
+				{
+					ctx.fillStyle = this.aliveBord;
+				}
+				else
+				{
+					ctx.fillStyle = this.deadBord;
+				}
 			}
-			else
-			{
-      			ctx.fillStyle = this.deadBord;
+			else{
+				if(this.color == 1)
+				{
+					ctx.fillStyle = "#000000";
+				}
+				else
+				{
+					ctx.fillStyle = '#000000';
+				}
 			}
-
 			// Draws the main section outside of the square
 			ctx.fillRect(this.XLocation, this.YLocation , this.width + 1, this.height + 2);
 		}
-
 		//Sets color for the main part of the cell
-		if(this.color == 1)
-		{
-		ctx.fillStyle = this.aliveCell;
+		if(!this.setupMode){
+			if(this.color == 1)
+			{
+			ctx.fillStyle = this.aliveCell;
+			}
+			else
+			{
+			ctx.fillStyle = this.deadCell;
+			}
 		}
-		else
-		{
-		ctx.fillStyle = this.deadCell;
+		else{
+			if(this.color == 1)
+			{
+				ctx.fillStyle = "#808080";
+			}
+			else
+			{
+			ctx.fillStyle = "#FFFFFF";
+			}
 		}
+		
 		
 		//Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
 		if(latSize[0] <= 200 && this.border)
@@ -75,6 +102,16 @@ export class cell {
 		{
 		ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
 		}
+
+		if(this.color == 1 && this.setupMode)
+		{
+			ctx.font = this.height  + 'px Arial';
+			
+			ctx.fillStyle = 'black';
+
+			ctx.fillText(this.number + 1, this.XLocation, this.YLocation + this.height); //Plus 1 to stop 0 indexing
+		}
+
 		
 	}
 
@@ -170,5 +207,12 @@ export class cell {
 
 	setAliveBorder(color) {
 		this.aliveBord = color;
+	}
+	setSetup(setup){
+		this.setupMode = setup;
+	}
+
+	setNumber(num){
+		this.number = num;
 	}
 }

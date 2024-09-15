@@ -9,10 +9,10 @@ the current timestep, the current rule array, the boundary condition, 1 for peri
 current timestep number (rowIndex), and the size individual cells.
 */
 
-import {rule, canvas, latSize, orderArray} from './displayLattice.js';
+import {rule, canvas, latSize, orderArray, getSetup,alterSetup} from './displayLattice.js';
 import {cell} from './cellClass.js';
 import {alterRule} from './displayLattice.js';
-import {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel} from './displayLattice.js';
+import {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel, border} from './displayLattice.js';
 
 //Generates rule array based on input rule number.
 export function ruleNumToRule(ruleNum) {
@@ -36,7 +36,7 @@ export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, siz
   	let startX = center - startDif;
 	let altered = new Array();
 	for(let i = 0; i < currentLattice.length; i++) {
-		newLattice.push(new cell (size, size, startX + i * size, rowIndex * size, 0))
+		newLattice.push(new cell (size, size, startX + i * size, rowIndex * size, 0, border, getSetup()))
 	}
 	//If boundary condition is periodic:
     if (boundaryCon == 1) {
