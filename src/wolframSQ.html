@@ -79,9 +79,9 @@
       <button id="clearResetButton" class="simulation_button"> Clear </button>
       <button id="optionsButton" class="simulation_button"> Options </button>
       <button id="setupButton" class="simulation_button"> Setup </button>
-      <button id="exitButton" class="setup_button"> Exit </button>
-      <button id="saveExitButton" class="setup_button"> Save & Exit </button>
-      <button id="voidButton" class="setup_button"> Clear </button>
+      <button id="simulateButton" class="setup_button"> Simulate </button>
+      <button id="applyButton" class="setup_button"> Apply </button>
+      <button id="voidButton" class="setup_button"> Void </button>
       <button id="libraryButton" class="setup_button"> Library </button>
       <button id="helpButton" class="setup_button"> Help </button>
       <canvas id="logRegion" class="log_box"> </canvas> <!-- Display region for the logs -->
@@ -156,6 +156,41 @@
       <div id="libraryContent" class="library_content">
         <span class="close">&times; </span>
         <h2> Algorithm Configuration Library </h2>
+        <div class="library_box"> 
+          <h3> Random </h3>
+          <p> TBD... </p>
+          <div class="center_img">
+            <button id="random" class="library_img"> </button>
+          </div>
+        </div>
+        <div class="library_box"> 
+          <h3> Left to Right </h3>
+          <p> TBD... </p>
+          <div class="center_img">
+            <button id="left2right" class="library_img"> </button>
+          </div>
+        </div>
+        <div class="library_box"> 
+          <h3> Right to Left </h3>
+          <p> TBD... </p>
+          <div class="center_img">
+            <button id="right2left" class="library_img"> </button>
+          </div>
+        </div>
+        <div class="library_box"> 
+          <h3> Center Outward </h3>
+          <p> TBD... </p>
+          <div class="center_img">
+            <button id="centerOutward" class="library_img"> </button>
+          </div>
+        </div>
+        <div class="library_box"> 
+          <h3> Edges Inward </h3>
+          <p> TBD... </p>
+          <div class="center_img">
+            <button id="edgesInward" class="library_img"> </button>
+          </div>
+        </div>
       </div>
     </div>
     <div id="helpContainer" class="about_container">
