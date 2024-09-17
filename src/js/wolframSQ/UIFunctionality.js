@@ -6,7 +6,7 @@
   for simulation modifications and communicates it with utility files
 * Last Updated: 03/11/24
 */
-import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice} from './displayLattice.js';
+import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, inf} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder} from './displayLattice.js';
 import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder} from './displayLattice.js';
@@ -680,6 +680,7 @@ function updateLatticeSize(canvas) {
 	
 	if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
 		alterLatSize(newCellNum);
+		createOrder();
 		makeLog("Lattice Size Set to " + newCellNum, logCanvas, messageQueue)
 	}
 	else {
