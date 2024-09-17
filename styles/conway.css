@@ -162,41 +162,32 @@ ul {
 }
 /* Set Library images */
 #library1234 {
-  background-image: url("../images/game_of_Life.png");
+  background-image: url("../images/1234.png");
 }
-
 #library101{
   background-image: url("../images/101.png");
 }
-
-#library119P4H1V0{
-  background-image: url("../images/119.png");
-}
-
-#library295P5H1V1{
-  background-image: url("../images/295.png");
-}
-
-#library4gto5gReaction{
-  background-image: url("../images/to5g.png");
-}
-
-#library60P312{
-  background-image: url("../images/60p.png");
-}
-
-#libraryAK94Gun{
-  background-image: url("../images/ak49.png");
-}
-
-#libraryTrigger{
-  background-image: url("../images/trigger.png");
-}
-
-#librarySnail{
-  background-image: url("../images/snail.png");
-}
-
 #libraryTubstretcher{
-  background-image: url("../images/tub.png");
+  background-image: url("../images/Tubstretcher.png");
+}
+#librarySnail{
+  background-image: url("../images/Snail.png");
+}
+#library119P4H1V0{
+  background-image: url("../images/119P4H1V0.png");
+}
+#libraryAK94Gun{
+  background-image: url("../images/AK94.png");
+}
+#library4gto5gReaction{
+  background-image: url("../images/4gto5g.png");
+}
+#library60P312{
+  background-image: url("../images/60P312.png");
+}
+#library295P5H1V1{
+  background-image: url("../images/295P5H1V1.png");
+}
+#libraryTrigger{
+  background-image: url("../images/Trigger.png");
 }
