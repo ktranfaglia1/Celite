@@ -73,8 +73,14 @@ const standardItems = document.querySelectorAll(".simulation_button, .start_butt
 const closeLibrary = document.querySelector("#libraryContent .close");
 const closeHelp = document.querySelector("#helpContent .close");
 
+
 // Display setup buttons and hide standard buttons upon setup button click
 setupButton.addEventListener("click", debounce(function() {
+	activateSetup();
+}));
+
+function activateSetup()
+{
 	// Loop through the standard secondary toolbar elements and disable display
 	standardItems.forEach(item => {
 		item.style.display = 'none';
@@ -92,7 +98,7 @@ setupButton.addEventListener("click", debounce(function() {
 	{
 		orderArray[i] = -1;
 	}
-}));
+}
 
 // Exit setup mode by calling exit function upon apply button click
 applyButton.addEventListener("click", function() {
@@ -170,6 +176,8 @@ let scale = 1;
 let totalDelta = 0;
 
 let messageQueue = []
+
+activateSetup();
 
 //Redraws the entire lattice array on the canvas
 function redrawLattice() {
@@ -920,6 +928,8 @@ function setCells(latticeArray, mouseX, mouseY) {
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
 			if (latticeArray[0][i].insideCell(mouseX, mouseY)) {
 				neoLatticeArray[0][i].flipColor();
+
+				//Functionality for Setup Clicking
 				if(getSetup() && latticeArray[0][i].getColor() == 1)
 				{
 					for (let j = 0; j < latticeArray[0].length; j++)
@@ -945,9 +955,13 @@ function setCells(latticeArray, mouseX, mouseY) {
 					}
 				}
 			}
+
+			//Draws new Cells and updates lattices accordingly
 			(neoLatticeArray[0][i]).drawCell(ctx);
 			alterLatticeArray(neoLatticeArray);
 			alterOrder(orderArray)
+			
+			//break;
 		}
 	}
 }

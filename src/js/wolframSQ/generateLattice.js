@@ -15,6 +15,7 @@ import {alterRule} from './displayLattice.js';
 import {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel, border, currentIteration} from './displayLattice.js';
 
 
+
 //Generates rule array based on input rule number.
 export function ruleNumToRule(ruleNum) {
   //Converts rule number to binary represented as an array of 0s and 1s.
