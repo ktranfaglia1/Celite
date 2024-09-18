@@ -84,12 +84,12 @@ setupButton.addEventListener("click", debounce(function() {
 	setupItems.forEach(item => {
 		item.style.display = 'inline-block';
 	});
+
 	clear(latticeArray, false);
-	alterSetup(1); //Turns on setup functionality
+	alterSetup(1); // Turns on setup functionality
 	redrawLattice();
 
-	for (let i = 0; i < latticeArray[0].length; i++)
-	{
+	for (let i = 0; i < latticeArray[0].length; i++) {
 		orderArray[i] = -1;
 	}
 }));
@@ -110,7 +110,7 @@ simulateButton.addEventListener("click", function() {
 		item.style.display = 'none';
 	});
 	clear(latticeArray, false);
-	alterSetup(0); //Turns off setup functionality
+	alterSetup(0); // Turns off setup functionality
 	redrawLattice();
 });
 
