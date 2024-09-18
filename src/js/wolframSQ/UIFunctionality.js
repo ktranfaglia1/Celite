@@ -6,10 +6,10 @@
   for simulation modifications and communicates it with utility files
 * Last Updated: 03/11/24
 */
-import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder} from './displayLattice.js';
+import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder, orderArray, alterOrder} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, inf} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder} from './displayLattice.js';
-import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder} from './displayLattice.js';
+import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder, alterSetup, getSetup} from './displayLattice.js';
 import {updateLattice} from './displayLattice.js';
 import {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
@@ -84,6 +84,14 @@ setupButton.addEventListener("click", debounce(function() {
 	setupItems.forEach(item => {
 		item.style.display = 'inline-block';
 	});
+	clear(latticeArray, false);
+	alterSetup(1); //Turns on setup functionality
+	redrawLattice();
+
+	for (let i = 0; i < latticeArray[0].length; i++)
+	{
+		orderArray[i] = -1;
+	}
 }));
 
 // Exit setup mode by calling exit function upon apply button click
@@ -101,9 +109,13 @@ simulateButton.addEventListener("click", function() {
 	setupItems.forEach(item => {
 		item.style.display = 'none';
 	});
+	clear(latticeArray, false);
+	alterSetup(0); //Turns off setup functionality
+	redrawLattice();
 });
 
 voidButton.addEventListener("click", function() {
+	clear();
 });
 
 libraryButton.addEventListener("click", function() {
@@ -389,7 +401,7 @@ randomFillButton.addEventListener("click", debounce(function() {
 iterateButton.addEventListener("click", debounce(function() {
 	stopIterating();  // Stops the iteration before doing a complete iteration
 	//Keep infinite the same and add the buffers
-	alterInf(inf[0], true)
+	alterInf(inf[0], false)
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
 	if (latticeArray.length == 1) {
 		let bufferArr = new Array()
@@ -545,6 +557,7 @@ tickCanvas.addEventListener('click', debounce(function(event) {
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of mouse click for usage in setCells
 	setCells(latticeArray, mouseX, mouseY);	// Flips the cell if it was clicked on
+
 }));
 
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
@@ -868,7 +881,7 @@ function clear(latticeArray, keepInit = false) {
 		neoLatticeArray.pop();
 	}
 	for (let i = 0; i < latSize[0]; i++) {
-		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0));
+		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0, getBorder(), getSetup()));
 		clearedLattice[0][i].setAliveColor(aliveColorSel.value)
 		clearedLattice[0][i].setDeadColor(deadColorSel.value)
 		clearedLattice[0][i].setAliveBorder(aliveBorderSel.value)
@@ -907,9 +920,34 @@ function setCells(latticeArray, mouseX, mouseY) {
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
 			if (latticeArray[0][i].insideCell(mouseX, mouseY)) {
 				neoLatticeArray[0][i].flipColor();
+				if(getSetup() && latticeArray[0][i].getColor() == 1)
+				{
+					for (let j = 0; j < latticeArray[0].length; j++)
+					{
+						if(orderArray[j] == -1)
+						{
+							orderArray[j] = i;
+							latticeArray[0][i].setNumber(j)
+							break;
+						}
+					}
+				}
+				else if(getSetup())
+				{
+					for (let j =0; j < latticeArray[0].length; j++)
+					{
+						if(orderArray[j] == i)
+						{
+							orderArray[j] = -1;
+							latticeArray[0][i].setNumber(j)
+							break;
+						}
+					}
+				}
 			}
 			(neoLatticeArray[0][i]).drawCell(ctx);
 			alterLatticeArray(neoLatticeArray);
+			alterOrder(orderArray)
 		}
 	}
 }
@@ -953,6 +991,7 @@ function iterate(currentIteration, newIterations) {
 
 		alterLatticeArray(neoLatticeArray);
 		updateLattice();
+		console.log(orderArray);
 		return currentIteration;
 	}, 5)
 }
@@ -1037,7 +1076,7 @@ function startStopToggle() {
     	startStopButton.classList.add("stop_button");
 		makeLog("Starting Iterations", logCanvas, messageQueue);
 		//Add buffers.
-		alterInf(inf[0], true)
+		alterInf(inf[0], false)
   	} 
   	else if (startStopButton.classList.contains("stop_button") && !run) {
     	startStopButton.innerHTML = "Start";
