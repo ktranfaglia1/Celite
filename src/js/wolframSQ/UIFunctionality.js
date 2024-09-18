@@ -44,8 +44,8 @@ const optionsButton = document.getElementById("optionsButton");
 const latticeFillButton = document.getElementById("latticeFillButton");
 const randomFillButton = document.getElementById("randomFillButton");
 const setupButton = document.getElementById("setupButton");
-const saveExitButton = document.getElementById("saveExitButton");
-const exitButton = document.getElementById("exitButton");
+const applyButton = document.getElementById("applyButton");
+const simulateButton = document.getElementById("simulateButton");
 const voidButton = document.getElementById("voidButton");
 const libraryButton = document.getElementById("libraryButton");
 const helpButton = document.getElementById("helpButton");
@@ -73,6 +73,7 @@ const standardItems = document.querySelectorAll(".simulation_button, .start_butt
 const closeLibrary = document.querySelector("#libraryContent .close");
 const closeHelp = document.querySelector("#helpContent .close");
 
+// Display setup buttons and hide standard buttons upon setup button click
 setupButton.addEventListener("click", debounce(function() {
 	// Loop through the standard secondary toolbar elements and disable display
 	standardItems.forEach(item => {
@@ -93,11 +94,12 @@ setupButton.addEventListener("click", debounce(function() {
 	}
 }));
 
-saveExitButton.addEventListener("click", function() {
-	exitButton.click();
+// Exit setup mode by calling exit function upon apply button click
+applyButton.addEventListener("click", function() {
 });
 
-exitButton.addEventListener("click", function() {
+// Hide setup buttons and display standard buttons upon setup button click
+simulateButton.addEventListener("click", function() {
 	// Loop through the standard secondary toolbar elements and enable display
 	standardItems.forEach(item => {
 		item.style.display = 'inline-block';
@@ -179,7 +181,7 @@ function redrawLattice() {
 	}
 }
 
-//Determins if the mouse cursor is currently within the lattice. Returns true if cursor is in lattice, false otherwise.
+//Determines if the mouse cursor is currently within the lattice. Returns true if cursor is in lattice, false otherwise.
 function inLattice(mouseX, oneRow = true, mouseY = 0,) {
 	let inLat = false;
 	//If the X position of the mouse is greater then the starting X of the first cell, continue.
@@ -491,6 +493,7 @@ iterationSubmit.addEventListener("click", function() {
 latticeSizeSubmit.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before changing the lattice size
 	clearResetToggle();
+	setupButton.click();
 	updateLatticeSize(canvas);
 });
 
@@ -561,63 +564,98 @@ tickCanvas.addEventListener('click', debounce(function(event) {
 document.addEventListener('keydown', function(event) {
     // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
     if (event.altKey) {
-		switch (true) {
-			case (event.key == 'Enter'):
-				startStopButton.click();
-				break;
-			case (event.key == 'i'):
-				iterateButton.click();
-				break;
-			case (event.key == 'c'):
-				clearResetButton.click();
-				break;
-			case (event.key == 'o'):
-				optionsButton.click();
-				break;
-			case (event.key == 'a'):
-				setupButton.click();
-				break;
-			case (event.key == 'n'):
-				downloadPDFButton.click();
-				break;
-			case (event.key == 'p'):
-				downloadPNGButton.click();
-				break;
-			case (event.key == 'g'):
-				latticeFillButton.click();
-				break;
-			case (event.key == 'm'):
-				randomFillButton.click();
-				break;
-			case (event.key == 'w'):
-				iterationToggleButton.click();
-				break;
-			case (event.key == 'x'):
-				borderToggleButton.click();
-				break;
-			case (event.key == 'j'):
-				iterationInputBox.focus();
-				break;
-			case (event.key == 'k'):
-				ruleInputBox.focus();
-				break;
-			case (event.key == 'l'):
-				latticeSizeBox.focus();
-				break;
-			case (event.key == 'y'):
-				iterationSpeedSlider.focus();
-				break;
-			case (event.key == '='):
-				let dustin = document.querySelector(".Dustin");
-				if (dustin.style.display == "block") {
-					dustin.style.display = "none"
-				}
-				else {
-					dustin.style.display = "block"
-				}
-				break;
-			default:
-				break;
+		if (setupButton.style.display == 'inline-block') {
+			switch (true) {
+				case (event.key == 'Enter'):
+					startStopButton.click();
+					break;
+				case (event.key == 'i'):
+					iterateButton.click();
+					break;
+				case (event.key == 'c'):
+					clearResetButton.click();
+					break;
+				case (event.key == 'o'):
+					optionsButton.click();
+					break;
+				case (event.key == 'a'):
+					setupButton.click();
+					break;
+				case (event.key == 'n'):
+					downloadPDFButton.click();
+					break;
+				case (event.key == 'p'):
+					downloadPNGButton.click();
+					break;
+				case (event.key == 'u'):
+					setupButton.click();
+					break;
+				case (event.key == 'g'):
+					latticeFillButton.click();
+					break;
+				case (event.key == 'm'):
+					randomFillButton.click();
+					break;
+				case (event.key == 'w'):
+					iterationToggleButton.click();
+					break;
+				case (event.key == 'x'):
+					borderToggleButton.click();
+					break;
+				case (event.key == 'j'):
+					iterationInputBox.focus();
+					break;
+				case (event.key == 'k'):
+					ruleInputBox.focus();
+					break;
+				case (event.key == 'l'):
+					latticeSizeBox.focus();
+					break;
+				case (event.key == 'y'):
+					iterationSpeedSlider.focus();
+					break;
+				case (event.key == '='):
+					let dustin = document.querySelector(".Dustin");
+					if (dustin.style.display == "block") {
+						dustin.style.display = "none"
+					}
+					else {
+						dustin.style.display = "block"
+					}
+					break;
+				default:
+					break;
+			}
+		}
+		else {
+			switch (true) {
+				case (event.key == 'Enter'):
+					simulateButton.click();
+					break;
+				case (event.key == 'a'):
+					applyButton.click();
+					break;
+				case (event.key == 'c'):
+					voidButton.click();
+					break;
+				case (event.key == 'l'):
+					libraryButton.click();
+					break;
+				case (event.key == 'p'):
+					helpButton.click();
+					break;
+					case (event.key == '='):
+						let dustin = document.querySelector(".Dustin");
+						if (dustin.style.display == "block") {
+							dustin.style.display = "none"
+						}
+						else {
+							dustin.style.display = "block"
+						}
+						break;
+				default:
+					break;
+			}
 		}
 	// Enter key clicked, check if an inputbox is active and click submit for that box
 	} else if (event.key == 'Enter') {
