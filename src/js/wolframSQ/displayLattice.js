@@ -33,8 +33,8 @@ export function alterOrder(neoOrderArray = orderArray) {
 }
 
 //Mutator for latSize
-export function alterLatSize(neoLatSize = latSize[0]) {
-  latSize[0] = neoLatSize;
+export function alterLatSize(neoLatSize = latSize) {
+  latSize = neoLatSize;
 }
 
 //Mutator for size
@@ -91,46 +91,17 @@ export function getBorder() {
   return border;
 }
 
-//Mutator for inf
-export function alterInf(neoInf = inf[0], bufferToggle = inf[1], bufferSize = inf[2]) {
-  if (inf[2] != bufferSize) {
-    inf[2] = bufferSize;
-  }
-
-  if (!inf[0] && neoInf) {
-    inf[0] = neoInf;
-  }
-  else if (inf[0] && !neoInf) {
-    inf[0] = neoInf;
-    if (inf[1]) {
-      inf[1] = false;
-      latSize[1] = 0;
-    }
-  }
-
-  if (inf[0]) {
-    if (!inf[1] && bufferToggle) {
-      inf[1] = bufferToggle;
-      latSize[1] = inf[2]
-    }
-    else if (inf[1] && !bufferToggle) {
-      inf[1] = bufferToggle;
-      latSize[1] = 0;
-    }
-  }
-}
-
 /*
 This function pushes the initial timestep lattice of cells such that the user can select what cells they want
 on or off
 */
 function LatticeDisplay(latticeArray) {
-	let startDif = (latSize[0] * size) / 2;
+	let startDif = (latSize * size) / 2;
 	let center = canvas.width / 2;
 	let startX = center - startDif;
 	
   //Iterates over lattice size adding a new cell in top row.
-	for (let i = 0; i < latSize[0]; i++) {
+	for (let i = 0; i < latSize; i++) {
 		currentLattice.push(new cell (size, size, startX + i * size, 0, 0))
 	}
   latticeArray.push(currentLattice);
@@ -193,7 +164,7 @@ export function updateLattice(){
 //Randomize the order then print to console for debugging purposes
 export function createOrder() {
   orderArray.length = 0;
-  for (let i = 0; i < latSize[0]; i++) {
+  for (let i = 0; i < latSize; i++) {
     orderArray.push(i);
   }
   /*for (let i = orderArray.length - 1; i > 0; i--) {
@@ -256,17 +227,14 @@ logCanvas.height = 45;
 let size = 45;
 
 /*
-These variables effect the creation of the starting lattice. Inf determines whether the lattice should
-autofit such that given the number of iterations, the simulation never needs to trigger a boundary condition.
-LatSize determines the number of adjustable cells in the timestep 0 lattice (These will be random until we
-can figure out how to toggle them). numOfIterations determines the number of timesteps including the starting
-timestep.
+These variables effect the creation of the starting lattice. 
+LatSize determines the number of adjustable cells in the timestep 0 lattice.
+numOfIterations determines the number of timesteps including the starting timestep.
 */
 
-let latSize = new Array(10, 0);
+let latSize = 10;
 let numOfIterations = 1;
 let currentIteration = 0;
-let inf = new Array(true, false, 0);
 
 
 export let border = false; //Border = false by default
@@ -283,7 +251,7 @@ let ruleNum = 90;
 let boundaryCon = 1;
 
 //Sends Variables to needed location
-export {ruleNum, boundaryCon, latSize, inf, size, currentIteration};
+export {ruleNum, boundaryCon, latSize, size, currentIteration};
 export {outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx};
 export {latticeArray, numOfIterations, currentLattice, orderArray};
 export {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel};
