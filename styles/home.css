@@ -8,7 +8,7 @@ body {
 hr {
   margin: 5px 0 10px 0;
   border: none;
-  border-top: 6px dashed black;
+  border-top: 5px dashed black;
 }
 /* Image formatting */
 .image_container {
@@ -16,7 +16,7 @@ hr {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 20% 0 1% 0;
+  margin: 12% 0 1% 0;
 }
 /* Container for store multiple elements on the same row */
 .input_container {
@@ -49,7 +49,7 @@ hr {
   background-image: url("../images/under_construction.jpg");
 }
 .navigate_button3 {
-  background-image: url("../images/game_of_Life.png");
+  background-image: url("../images/1234.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -61,52 +61,52 @@ hr {
 }
 @media only screen and (max-height: 1300px) {
   .image_container {
-    margin: 19% 0 1% 0;
+    margin: 11% 0 1% 0;
   }
 }
 @media only screen and (max-height: 1250px) {
   .image_container {
-    margin: 17% 0 1% 0;
+    margin: 10% 0 1% 0;
   }
 }
 @media only screen and (max-height: 1200px) {
   .image_container {
-    margin: 15% 0 1% 0;
+    margin: 9% 0 1% 0;
   }
 }
 @media only screen and (max-height: 1150px) {
   .image_container {
-    margin: 13% 0 1% 0;
+    margin: 8% 0 1% 0;
   }
 }
 @media only screen and (max-height: 1100px) {
   .image_container {
-    margin: 11% 0 1% 0;
+    margin: 7% 0 1% 0;
   }
 }
 @media only screen and (max-height: 1050px) {
   .image_container {
-    margin: 9% 0 1% 0;
+    margin: 6% 0 1% 0;
   }
 }
 @media only screen and (max-height: 1000px) {
   .image_container {
-    margin: 7% 0 1% 0;
+    margin: 5% 0 1% 0;
   }
 }
 @media only screen and (max-height: 950px) {
   .image_container {
-    margin: 5% 0 1% 0;
+    margin: 4% 0 1% 0;
   }
 }
 @media only screen and (max-height: 900px) {
   .image_container {
-    margin: 4% 0 1% 0;
+    margin: 3% 0 1% 0;
   }
 }
 @media only screen and (max-height: 850px) {
   .image_container {
-    margin: 3% 0 1% 0;
+    margin: 2% 0 1% 0;
   }
 }
 @media only screen and (max-height: 800px) {

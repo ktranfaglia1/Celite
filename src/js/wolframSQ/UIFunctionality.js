@@ -6,10 +6,10 @@
   for simulation modifications and communicates it with utility files
 * Last Updated: 03/11/24
 */
-import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder} from './displayLattice.js';
+import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder, orderArray, alterOrder} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, inf} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder} from './displayLattice.js';
-import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder} from './displayLattice.js';
+import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder, alterSetup, getSetup} from './displayLattice.js';
 import {updateLattice} from './displayLattice.js';
 import {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel} from './displayLattice.js';
 import {ruleNumToRule} from './generateLattice.js';
@@ -40,23 +40,24 @@ const iterateButton = document.getElementById("iterateButton");
 const clearResetButton = document.getElementById("clearResetButton");
 const downloadPDFButton = document.getElementById("downloadPDFButton");
 const downloadPNGButton = document.getElementById("downloadPNGButton");
-const aboutButton = document.getElementById("aboutButton");
 const optionsButton = document.getElementById("optionsButton");
 const latticeFillButton = document.getElementById("latticeFillButton");
 const randomFillButton = document.getElementById("randomFillButton");
-
-//Perodic and Null Checkbox Constants
-const periodicCheckBox = document.getElementById("periodicCheckBox");
-const nullCheckBox = document.getElementById("nullCheckBox");
+const setupButton = document.getElementById("setupButton");
+const applyButton = document.getElementById("applyButton");
+const simulateButton = document.getElementById("simulateButton");
+const voidButton = document.getElementById("voidButton");
+const libraryButton = document.getElementById("libraryButton");
+const helpButton = document.getElementById("helpButton");
 
 //Toggle Switches Constants
-const boundToggleButton = document.getElementById("boundToggle");
 const iterationToggleButton = document.getElementById("iterationToggle");
 const borderToggleButton = document.getElementById("borderToggle");
 
 //Side Windows Constants
-const aboutWindow = document.getElementById("aboutContainer");
 const optionsWindow = document.getElementById("optionsContainer");
+const libraryWindow = document.getElementById("libraryContainer");
+const helpWindow = document.getElementById("helpContainer");
 
 //iteration Slider Constants
 const iterationSpeedSlider = document.getElementById("iterationSpeedSlider");
@@ -64,12 +65,105 @@ const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 
 /* Global constants connecting HTML/CSS features to JS by class name to impliment functionality */
 const checkboxes = document.querySelectorAll(".checkbox_select");
-const boundToggle = document.querySelector("#boundToggle .toggle_button");
 const iterationToggle = document.querySelector("#iterationToggle .toggle_button");
 const borderToggle = document.querySelector("#borderToggle .toggle_button");
-const closeAbout = document.querySelector("#aboutContent .close");
-const closeOptions = document.querySelector("#optionsContent .close");
+const closeOptions = document.querySelector("#optionsContent .close"); 
+const setupItems = document.querySelectorAll(".setup_button");
+const standardItems = document.querySelectorAll(".simulation_button, .start_button");
+const closeLibrary = document.querySelector("#libraryContent .close");
+const closeHelp = document.querySelector("#helpContent .close");
 
+
+// Display setup buttons and hide standard buttons upon setup button click
+setupButton.addEventListener("click", debounce(function() {
+	activateSetup();
+}));
+
+function activateSetup()
+{
+	// Loop through the standard secondary toolbar elements and disable display
+	standardItems.forEach(item => {
+		item.style.display = 'none';
+	});
+
+	// Loop through the setup mode secondary toolbar elements and enable display
+	setupItems.forEach(item => {
+		item.style.display = 'inline-block';
+	});
+
+	clear(latticeArray, false);
+	alterSetup(1); // Turns on setup functionality
+	redrawLattice();
+
+	for (let i = 0; i < latticeArray[0].length; i++) {
+		orderArray[i] = -1;
+	}
+}
+
+// Exit setup mode by calling exit function upon apply button click
+applyButton.addEventListener("click", function() {
+});
+
+// Hide setup buttons and display standard buttons upon setup button click
+simulateButton.addEventListener("click", function() {
+	// Loop through the standard secondary toolbar elements and enable display
+	standardItems.forEach(item => {
+		item.style.display = 'inline-block';
+	});
+
+	// Loop through the setup mode secondary toolbar elements and disable display
+	setupItems.forEach(item => {
+		item.style.display = 'none';
+	});
+	clear(latticeArray, false);
+	alterSetup(0); // Turns off setup functionality
+	redrawLattice();
+});
+
+voidButton.addEventListener("click", function() {
+	clear();
+});
+
+libraryButton.addEventListener("click", function() {
+});
+
+/* Handle open and closing of help and library window */
+// About button is clicked, display about window
+helpButton.addEventListener("click", function() {
+	helpWindow.style.display = "block";
+});
+
+// Close if x (close) button in top right of the window is clicked
+closeHelp.addEventListener("click", function() {
+	helpWindow.style.display = "none";
+});
+
+// Close if any space outside of the about window is clicked
+window.addEventListener("click", function(event) {
+	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
+	if (event.target == helpWindow) {
+		helpWindow.style.display = "none";
+	}
+});
+
+/* Handle open and closing of help and library window */
+// About button is clicked, display about window
+libraryButton.addEventListener("click", function() {
+	libraryWindow.style.display = "block";
+});
+
+// Close if x (close) button in top right of the window is clicked
+closeLibrary.addEventListener("click", function() {
+	libraryWindow.style.display = "none";
+});
+
+// Close if any space outside of the about window is clicked
+window.addEventListener("click", function(event) {
+	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
+	if (event.target == libraryWindow) {
+		libraryWindow.style.display = "none";
+	}
+});
 
 /* Global variables for iteration */
 let addIterations = 0; // Defaults iterations
@@ -81,10 +175,9 @@ let tickerToggle = 0; //Ticker toggle decides if row ticker will be on defaults 
 let scale = 1;
 let totalDelta = 0;
 
-//Sets default colors
-
-
 let messageQueue = []
+
+activateSetup();
 
 //Redraws the entire lattice array on the canvas
 function redrawLattice() {
@@ -96,7 +189,7 @@ function redrawLattice() {
 	}
 }
 
-//Determins if the mouse cursor is currently within the lattice. Returns true if cursor is in lattice, false otherwise.
+//Determines if the mouse cursor is currently within the lattice. Returns true if cursor is in lattice, false otherwise.
 function inLattice(mouseX, oneRow = true, mouseY = 0,) {
 	let inLat = false;
 	//If the X position of the mouse is greater then the starting X of the first cell, continue.
@@ -316,7 +409,7 @@ randomFillButton.addEventListener("click", debounce(function() {
 iterateButton.addEventListener("click", debounce(function() {
 	stopIterating();  // Stops the iteration before doing a complete iteration
 	//Keep infinite the same and add the buffers
-	alterInf(inf[0], true)
+	alterInf(inf[0], false)
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
 	if (latticeArray.length == 1) {
 		let bufferArr = new Array()
@@ -388,12 +481,6 @@ clearResetButton.addEventListener("click", debounce(function() {
 
 /* Connect UI Functionality to a prebuilt function */
 
-//Toggles 
-boundToggleButton.addEventListener("click", debounce(function() {
-	stopIterating();  // Stops the iteration before changing the boundary condition
-	toggleCheckbox();
-}));
-
 iterationToggleButton.addEventListener("click", debounce(function() {
 	tickerToggle = !(tickerToggle);
 	tctx.clearRect(0,0, tickCanvas.width, tickCanvas.height);
@@ -414,6 +501,7 @@ iterationSubmit.addEventListener("click", function() {
 latticeSizeSubmit.addEventListener("click", function() {
 	stopIterating();  // Stops the iteration before changing the lattice size
 	clearResetToggle();
+	setupButton.click();
 	updateLatticeSize(canvas);
 });
 
@@ -473,75 +561,109 @@ tickCanvas.addEventListener("mousemove", function(event) {makeTickBox(event, tct
 
 // Runs program to flips squares if Clicked
 tickCanvas.addEventListener('click', debounce(function(event) {
+	document.body.style.userSelect = 'none';  // Disable text selection globally
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of mouse click for usage in setCells
 	setCells(latticeArray, mouseX, mouseY);	// Flips the cell if it was clicked on
+
 }));
 
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
 document.addEventListener('keydown', function(event) {
     // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
     if (event.altKey) {
-		switch (true) {
-			case (event.key == 'Enter'):
-				startStopButton.click();
-				break;
-			case (event.key == 'i'):
-				iterateButton.click();
-				break;
-			case (event.key == 'c'):
-				clearResetButton.click();
-				break;
-			case (event.key == 'o'):
-				optionsButton.click();
-				break;
-			case (event.key == 'a'):
-				aboutButton.click();
-				break;
-			case (event.key == 'n'):
-				downloadPDFButton.click();
-				break;
-			case (event.key == 'p'):
-				downloadPNGButton.click();
-				break;
-			case (event.key == 'g'):
-				latticeFillButton.click();
-				break;
-			case (event.key == 'm'):
-				randomFillButton.click();
-				break;
-			case (event.key == 'u'):
-				boundToggleButton.click();
-				break;
-			case (event.key == 'w'):
-				iterationToggleButton.click();
-				break;
-			case (event.key == 'x'):
-				borderToggleButton.click();
-				break;
-			case (event.key == 'j'):
-				iterationInputBox.focus();
-				break;
-			case (event.key == 'k'):
-				ruleInputBox.focus();
-				break;
-			case (event.key == 'l'):
-				latticeSizeBox.focus();
-				break;
-			case (event.key == 'y'):
-				iterationSpeedSlider.focus();
-				break;
-			case (event.key == '='):
-				let dustin = document.querySelector(".Dustin");
-				if (dustin.style.display == "block") {
-					dustin.style.display = "none"
-				}
-				else {
-					dustin.style.display = "block"
-				}
-				break;
-			default:
-				break;
+		if (setupButton.style.display == 'inline-block') {
+			switch (true) {
+				case (event.key == 'Enter'):
+					startStopButton.click();
+					break;
+				case (event.key == 'i'):
+					iterateButton.click();
+					break;
+				case (event.key == 'c'):
+					clearResetButton.click();
+					break;
+				case (event.key == 'o'):
+					optionsButton.click();
+					break;
+				case (event.key == 'a'):
+					setupButton.click();
+					break;
+				case (event.key == 'n'):
+					downloadPDFButton.click();
+					break;
+				case (event.key == 'p'):
+					downloadPNGButton.click();
+					break;
+				case (event.key == 'u'):
+					setupButton.click();
+					break;
+				case (event.key == 'g'):
+					latticeFillButton.click();
+					break;
+				case (event.key == 'm'):
+					randomFillButton.click();
+					break;
+				case (event.key == 'w'):
+					iterationToggleButton.click();
+					break;
+				case (event.key == 'x'):
+					borderToggleButton.click();
+					break;
+				case (event.key == 'j'):
+					iterationInputBox.focus();
+					break;
+				case (event.key == 'k'):
+					ruleInputBox.focus();
+					break;
+				case (event.key == 'l'):
+					latticeSizeBox.focus();
+					break;
+				case (event.key == 'y'):
+					iterationSpeedSlider.focus();
+					break;
+				case (event.key == '='):
+					let dustin = document.querySelector(".Dustin");
+					if (dustin.style.display == "block") {
+						dustin.style.display = "none"
+					}
+					else {
+						dustin.style.display = "block"
+					}
+					break;
+				default:
+					break;
+			}
+		}
+		else {
+			switch (true) {
+				case (event.key == 'Enter'):
+					simulateButton.click();
+					break;
+				case (event.key == 'a'):
+					applyButton.click();
+					break;
+				case (event.key == 'c'):
+					voidButton.click();
+					break;
+				case (event.key == 'l'):
+					libraryButton.click();
+					break;
+				case (event.key == 'p'):
+					helpButton.click();
+					break;
+					case (event.key == '='):
+						let dustin = document.querySelector(".Dustin");
+						if (dustin.style.display == "block") {
+							dustin.style.display = "none"
+						}
+						else {
+							dustin.style.display = "block"
+						}
+						break;
+				default:
+					break;
+			}
 		}
 	// Enter key clicked, check if an inputbox is active and click submit for that box
 	} else if (event.key == 'Enter') {
@@ -767,7 +889,7 @@ function clear(latticeArray, keepInit = false) {
 		neoLatticeArray.pop();
 	}
 	for (let i = 0; i < latSize[0]; i++) {
-		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0));
+		clearedLattice[0][i] = (new cell (size, size, StartX + i * size, 0, 0, getBorder(), getSetup()));
 		clearedLattice[0][i].setAliveColor(aliveColorSel.value)
 		clearedLattice[0][i].setDeadColor(deadColorSel.value)
 		clearedLattice[0][i].setAliveBorder(aliveBorderSel.value)
@@ -806,9 +928,40 @@ function setCells(latticeArray, mouseX, mouseY) {
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
 			if (latticeArray[0][i].insideCell(mouseX, mouseY)) {
 				neoLatticeArray[0][i].flipColor();
+
+				//Functionality for Setup Clicking
+				if(getSetup() && latticeArray[0][i].getColor() == 1)
+				{
+					for (let j = 0; j < latticeArray[0].length; j++)
+					{
+						if(orderArray[j] == -1)
+						{
+							orderArray[j] = i;
+							latticeArray[0][i].setNumber(j)
+							break;
+						}
+					}
+				}
+				else if(getSetup())
+				{
+					for (let j =0; j < latticeArray[0].length; j++)
+					{
+						if(orderArray[j] == i)
+						{
+							orderArray[j] = -1;
+							latticeArray[0][i].setNumber(j)
+							break;
+						}
+					}
+				}
 			}
+
+			//Draws new Cells and updates lattices accordingly
 			(neoLatticeArray[0][i]).drawCell(ctx);
 			alterLatticeArray(neoLatticeArray);
+			alterOrder(orderArray)
+			
+			//break;
 		}
 	}
 }
@@ -852,6 +1005,7 @@ function iterate(currentIteration, newIterations) {
 
 		alterLatticeArray(neoLatticeArray);
 		updateLattice();
+		console.log(orderArray);
 		return currentIteration;
 	}, 5)
 }
@@ -865,56 +1019,26 @@ function stopIterating() {
 // Handle when bound toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
 export function toggleCheckbox() {
 	// Set the first checkbox (not second checkbox) to be checked upon toggle button activation
-  checkboxes[0].checked = true;
+    checkboxes[0].checked = true;
 	checkboxes[1].checked = false;
 	// If checkboxes are currently hidden (toggle bar was not active) display the checkboxes and animate toggle button
-	if (periodicCheckBox.style.display == 'none'|| periodicCheckBox.style.display == '') {
-		//Remove buffers if they exist.
-		let newCellNum = (latSize[0] - (2 * latSize[1]));
-		if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
-			alterLatSize(newCellNum);
-		}
-		else {
-			makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
-		}
-		//Alter cell size to accomodate removed buffers
-		let size = canvas.width / latSize[0];
-		//Cells should have a maximum size of 45 :: This Caps cell size to 45
-		if (size > 45) {
-			size = 45; 
-		}
-		alterSize(size);
-		alterInf(false)
-		makeLog("Setting to Finite", logCanvas, messageQueue);
-		clear(latticeArray, true);
-		periodicCheckBox.style.display = 'block';
-		nullCheckBox.style.display = 'block';
-		boundToggle.style.transform = 'translateX(25px)'; // Move the toggle button to the right
-	// If checkboxes are currently not hidden (toggle bar was active) hide the checkboxes and animate toggle button back
-    } else {
-			//Remove buffers if they exist.
-			let newCellNum = (latSize[0] - (2 * latSize[1]));
-			if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
-				alterLatSize(newCellNum);
-			}
-			else {
-				makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
-			}
-			//Alter cell size to accomodate removed buffers
-			let size = canvas.width / latSize[0];
-			//Cells should have a maximum size of 45 :: This Caps cell size to 45
-			if (size > 45) {
-				size = 45; 
-			}
-			alterSize(size);
-			//Settings changed to Infinite.
-			alterInf(true)
-			makeLog("Setting to Infinite", logCanvas, messageQueue);
-			clear(latticeArray, true);
-			periodicCheckBox.style.display = 'none';
-			nullCheckBox.style.display = 'none';
-			boundToggle.style.transform = 'translateX(0)'; // Move the toggle button back to the left
-    }
+	//Remove buffers if they exist.
+	let newCellNum = (latSize[0] - (2 * latSize[1]));
+	if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
+		alterLatSize(newCellNum);
+	}
+	else {
+		makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue)
+	}
+	//Alter cell size to accomodate removed buffers
+	let size = canvas.width / latSize[0];
+	//Cells should have a maximum size of 45 :: This Caps cell size to 45
+	if (size > 45) {
+		size = 45; 
+	}
+	alterSize(size);
+	alterInf(false)
+	clear(latticeArray, true);
 }
 
 /* Initialize toggle buttons to x position 0px to enable x translation in functions */
@@ -966,7 +1090,7 @@ function startStopToggle() {
     	startStopButton.classList.add("stop_button");
 		makeLog("Starting Iterations", logCanvas, messageQueue);
 		//Add buffers.
-		alterInf(inf[0], true)
+		alterInf(inf[0], false)
   	} 
   	else if (startStopButton.classList.contains("stop_button") && !run) {
     	startStopButton.innerHTML = "Start";
@@ -985,9 +1109,9 @@ function clearResetToggle() {
 		makeLog("Clearing Canvas", logCanvas, messageQueue);
 	}
 }
-
 // Set boundary condition and ensure one and only one checkbox can be checked at a time upon checkbox click
 checkboxes.forEach(function(checkbox) {
+	checkboxes[0].checked = true;
     checkbox.addEventListener('change', function() {
 		stopIterating();  // Stops the iteration before changing the finite boundary condition
 		// Box is set to be checked upon change
@@ -1123,25 +1247,6 @@ downloadPNGButton.addEventListener('click', function() {
     link.download = "Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize[0] + ".png";  // Set the filename
 	link.click();  // Trigger a click on the anchor element to prompt the browser to download the image
 	makeLog("Downloaded Canvas", logCanvas, messageQueue);
-});
-
-/* Handle open and closing of about window */
-// About button is clicked, display about window
-aboutButton.addEventListener("click", function() {
-	aboutWindow.style.display = "block";
-});
-
-// Close if x (close) button in top right of the window is clicked
-closeAbout.addEventListener("click", function() {
-	aboutWindow.style.display = "none";
-});
-
-// Close if any space outside of the about window is clicked
-window.addEventListener("click", function(event) {
-	// Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
-	if (event.target == aboutWindow) {
-		aboutWindow.style.display = "none";
-	}
 });
 
 /* Handle open and closing of options window */

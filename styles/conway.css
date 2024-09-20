@@ -11,6 +11,14 @@ hr {
   background-color: black;
   height: 3px;
 }
+ul {
+  margin: 0 2.25%;
+  font-family: Times;
+  font-size: 20px;
+  line-height: 1.5;
+  text-align: left;
+  color: black;
+}
 .head {
   background-color: #6b8e23;
 }
@@ -21,7 +29,7 @@ hr {
 /* Lattice region formatting */
 .lattice_region {
   position: absolute;
-  background-color: lightgrey;
+  background-color: #D0D3D4;
   border: 3px solid black;
   padding: 1% 1% 1% 1%;
   margin-top: 12px;
@@ -152,44 +160,34 @@ hr {
   cursor: pointer;
   background-color: #7b4b33;
 }
-/* Library preset button formatting */
-.library_img {
-  background-image: url("../images/under_construction.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  padding: 90px 160px;
-  display: inline-block;
-  border: 1px solid black;
-  border-radius: 10px;
-  margin: 2% 3% 0 3%;
-  cursor: pointer;
-  margin-bottom: 10px;
-  position: relative;
-}
-.center_img {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.library_img::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0);
-}
-.library_img:hover::before {
-  background-color: rgba(0, 0, 0, 0.1);
-}
-.library_box {
-  background-color: rgb(228, 228, 228);
-  border: 2px solid black;
-  padding: 16px;
-  margin: 20px 80px 40px 80px;
-}
+/* Set Library images */
 #library1234 {
-  background-image: url("../images/game_of_Life.png");
+  background-image: url("../images/1234.png");
+}
+#library101{
+  background-image: url("../images/101.png");
+}
+#libraryTubstretcher{
+  background-image: url("../images/Tubstretcher.png");
+}
+#librarySnail{
+  background-image: url("../images/Snail.png");
+}
+#library119P4H1V0{
+  background-image: url("../images/119P4H1V0.png");
+}
+#libraryAK94Gun{
+  background-image: url("../images/AK94.png");
+}
+#library4gto5gReaction{
+  background-image: url("../images/4gto5g.png");
+}
+#library60P312{
+  background-image: url("../images/60P312.png");
+}
+#library295P5H1V1{
+  background-image: url("../images/295P5H1V1.png");
+}
+#libraryTrigger{
+  background-image: url("../images/Trigger.png");
 }
