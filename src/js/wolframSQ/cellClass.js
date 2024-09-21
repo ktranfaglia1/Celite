@@ -105,7 +105,7 @@ export class cell {
 
 		if(this.color == 1 && this.setupMode)
 		{
-			ctx.font = this.height  + 'px Arial';
+			ctx.font = this.height - 10 + 'px Arial';
 			
 			ctx.fillStyle = 'black';
 
