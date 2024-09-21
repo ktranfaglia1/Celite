@@ -81,6 +81,10 @@ setupButton.addEventListener("click", debounce(function() {
 
 function activateSetup()
 {
+	makeLog("Use Help for Assistance", logCanvas, messageQueue)
+	makeLog("Please Select Order", logCanvas, messageQueue)
+	makeLog("Welcome to Setup Mode", logCanvas, messageQueue)
+	
 	// Loop through the standard secondary toolbar elements and disable display
 	standardItems.forEach(item => {
 		item.style.display = 'none';
