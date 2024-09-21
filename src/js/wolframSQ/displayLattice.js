@@ -5,16 +5,18 @@ Functions:
 
 alter functions for:
 
-latSize :: Number of Cells in a lattice
-size : Cell Size
-latticeArray : 2D Cell Aray that is Displayed
-currentLattice : Lattice Array at the Bottom of the canvas
-nextLattice : Lattice the Next Index will be set too
-rule : This is the Rule number for generating how it will work
-numOfIterations : Holds number of Iterations to Create
-currentIteration : array that holds the bottom of the array
-orderArray : array that holds the sequential order that cells should be changed in
+  latSize :: Number of Cells in a lattice
+  size : Cell Size
+  latticeArray : 2D Cell Aray that is Displayed
+  currentLattice : Lattice Array at the Bottom of the canvas
+  nextLattice : Lattice the Next Index will be set too
+  rule : This is the Rule number for generating how it will work
+  numOfIterations : Holds number of Iterations to Create
+  currentIteration : array that holds the bottom of the array
+  orderArray : array that holds the sequential order that cells should be changed in
+  tempOrder : array that holds the order values provided by user before it saves  
 */
+
 
 //This is the various document stuff for selecting color
 const deadColorSel = document.getElementById("deadCell");
@@ -28,8 +30,8 @@ deadBorderSel.value = '#000000';
 aliveBorderSel.value = '#808080';
 
 //Mutator for orderArray
-export function alterOrder(neoOrderArray = orderArray) {
-  neoOrderArray = orderArray
+export function alterOrder(neoOrderArray) {
+  orderArray = neoOrderArray;
 }
 
 //Mutator for latSize
@@ -220,6 +222,8 @@ import {ruleNumToRule, generateLattice} from "./generateLattice.js";
 
 //This variable holds the order that cells will be altered in.
 let orderArray = new Array()
+// The array that stores Order while its being modified
+let tempOrder = new Array()
 //This Variable is used to store the full set of all the lattices
 let latticeArray = new Array ( new Array);
 //this holds the lattice on the bottom of the array
@@ -285,7 +289,7 @@ let boundaryCon = 1;
 //Sends Variables to needed location
 export {ruleNum, boundaryCon, latSize, inf, size, currentIteration};
 export {outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx};
-export {latticeArray, numOfIterations, currentLattice, orderArray};
+export {latticeArray, numOfIterations, currentLattice, orderArray, tempOrder};
 export {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel};
 
 //Sets starting lattice to all dead

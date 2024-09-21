@@ -6,8 +6,8 @@
   for simulation modifications and communicates it with utility files
 * Last Updated: 03/11/24
 */
-import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder, orderArray, alterOrder} from './displayLattice.js';
-import {numOfIterations, currentIteration, size, latSize, ruleNum, inf} from './displayLattice.js';
+import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder, alterOrder, tempOrder} from './displayLattice.js';
+import {numOfIterations, currentIteration, size, latSize, ruleNum, inf, orderArray} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder} from './displayLattice.js';
 import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder, alterSetup, getSetup} from './displayLattice.js';
 import {updateLattice} from './displayLattice.js';
@@ -96,7 +96,7 @@ function activateSetup()
 
 	for (let i = 0; i < latticeArray[0].length; i++)
 	{
-		orderArray[i] = -1;
+		tempOrder[i] = -1;
 	}
 }
 
@@ -118,6 +118,17 @@ simulateButton.addEventListener("click", function() {
 	clear(latticeArray, false);
 	alterSetup(0); //Turns off setup functionality
 	redrawLattice();
+
+	if(!tempOrder.includes(-1)) //Tests if array has all been selected and if it has updates
+	{
+		alterOrder(tempOrder)
+		
+		console.log(orderArray);
+	}
+	else
+	{
+		makeError("::Error:: Order Not Set", logCanvas, messageQueue) //Gives User Error Message
+	}
 });
 
 voidButton.addEventListener("click", function() {
@@ -934,9 +945,9 @@ function setCells(latticeArray, mouseX, mouseY) {
 				{
 					for (let j = 0; j < latticeArray[0].length; j++)
 					{
-						if(orderArray[j] == -1)
+						if(tempOrder[j] == -1)
 						{
-							orderArray[j] = i;
+							tempOrder[j] = i;
 							latticeArray[0][i].setNumber(j)
 							break;
 						}
@@ -946,9 +957,9 @@ function setCells(latticeArray, mouseX, mouseY) {
 				{
 					for (let j =0; j < latticeArray[0].length; j++)
 					{
-						if(orderArray[j] == i)
+						if(tempOrder[j] == i)
 						{
-							orderArray[j] = -1;
+							tempOrder[j] = -1;
 							latticeArray[0][i].setNumber(j)
 							break;
 						}
@@ -959,10 +970,12 @@ function setCells(latticeArray, mouseX, mouseY) {
 			//Draws new Cells and updates lattices accordingly
 			(neoLatticeArray[0][i]).drawCell(ctx);
 			alterLatticeArray(neoLatticeArray);
-			alterOrder(orderArray)
+			//console.log(tempOrder)
+			//console.log(orderArray)
 			
 			//break;
 		}
+		//alterOrder(tempOrder)
 	}
 }
 
@@ -1005,7 +1018,7 @@ function iterate(currentIteration, newIterations) {
 
 		alterLatticeArray(neoLatticeArray);
 		updateLattice();
-		console.log(orderArray);
+		//console.log(orderArray);
 		return currentIteration;
 	}, 5)
 }
