@@ -122,7 +122,7 @@ simulateButton.addEventListener("click", function() {
 	if(!tempOrder.includes(-1)) //Tests if array has all been selected and if it has updates
 	{
 		alterOrder(tempOrder)
-		
+		makeLog("Set Order", logCanvas, messageQueue);
 		console.log(orderArray);
 	}
 	else
