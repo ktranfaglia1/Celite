@@ -931,6 +931,11 @@ function clear(latticeArray, keepInit = false) {
 			(neoLatticeArray[0][i]).drawCell(ctx);
 		}
 	}
+
+	for (let i = 0; i < tempOrder.length; i++)
+	{
+		tempOrder[i] = -1;
+	}
 	alterLatticeArray(neoLatticeArray);
 	alterCurrentLattice(latticeArray[0]);
 	updateLattice();
