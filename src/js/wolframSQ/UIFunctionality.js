@@ -136,7 +136,7 @@ simulateButton.addEventListener("click", function() {
 });
 
 voidButton.addEventListener("click", function() {
-	clear();
+	clear(latticeArray, false);
 });
 
 libraryButton.addEventListener("click", function() {
