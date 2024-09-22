@@ -119,9 +119,6 @@ simulateButton.addEventListener("click", function() {
 	setupItems.forEach(item => {
 		item.style.display = 'none';
 	});
-	clear(latticeArray, false);
-	alterSetup(0); //Turns off setup functionality
-	redrawLattice();
 
 	if(!tempOrder.includes(-1)) //Tests if array has all been selected and if it has updates
 	{
@@ -132,7 +129,12 @@ simulateButton.addEventListener("click", function() {
 	else
 	{
 		makeError("::Error:: Order Not Set", logCanvas, messageQueue) //Gives User Error Message
+		console.log(tempOrder);
 	}
+	
+	clear(latticeArray, false);
+	alterSetup(0); //Turns off setup functionality
+	redrawLattice();
 });
 
 voidButton.addEventListener("click", function() {
@@ -957,6 +959,7 @@ function setCells(latticeArray, mouseX, mouseY) {
 						if(tempOrder[j] == -1)
 						{
 							tempOrder[j] = i;
+							console.log(tempOrder)
 							latticeArray[0][i].setNumber(j)
 							break;
 						}
