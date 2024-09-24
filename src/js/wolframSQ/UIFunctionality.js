@@ -77,6 +77,7 @@ const closeHelp = document.querySelector("#helpContent .close");
 // Display setup buttons and hide standard buttons upon setup button click
 setupButton.addEventListener("click", debounce(function() {
 	activateSetup();
+	clearOrder();
 }));
 
 function activateSetup()
@@ -123,6 +124,7 @@ simulateButton.addEventListener("click", function() {
 
 	if(!tempOrder.includes(-1)) //Tests if array has all been selected and if it has updates
 	{
+		console.log("Saving", tempOrder);
 		alterOrder(tempOrder)
 		makeLog("Set Order", logCanvas, messageQueue);
 		console.log(orderArray);
@@ -140,6 +142,7 @@ simulateButton.addEventListener("click", function() {
 
 voidButton.addEventListener("click", function() {
 	clear(latticeArray, false);
+	clearOrder();
 });
 
 libraryButton.addEventListener("click", function() {
@@ -521,6 +524,7 @@ latticeSizeSubmit.addEventListener("click", function() {
 	clearResetToggle();
 	setupButton.click();
 	updateLatticeSize(canvas);
+	clearOrder();
 });
 
 startStopButton.addEventListener("click", debounce(function() {
@@ -935,13 +939,24 @@ function clear(latticeArray, keepInit = false) {
 		}
 	}
 
+	//Resets new Cells to proper order number
+	for(let i = 0;i < latticeArray[0].length; i++)
+	{
+		latticeArray[0][i].setNumber(orderArray[i]);
+	}
+
+	
+	alterLatticeArray(neoLatticeArray);
+	alterCurrentLattice(latticeArray[0]);
+	updateLattice();
+}
+
+export function clearOrder()
+{
 	for (let i = 0; i < tempOrder.length; i++)
 	{
 		tempOrder[i] = -1;
 	}
-	alterLatticeArray(neoLatticeArray);
-	alterCurrentLattice(latticeArray[0]);
-	updateLattice();
 }
 
 //Takes Coordinates of mouseClick and calculates properly where it is in relation to the canvas

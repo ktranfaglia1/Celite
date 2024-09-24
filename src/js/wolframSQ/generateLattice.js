@@ -56,7 +56,7 @@ export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, siz
 				//Otherwise, access the cell and it's two neighbors normally.
 				let leftCell = -1;
 				let rightCell = -1;
-				//console.log(k);
+				console.log(k);
 				let middleCell = currentLattice[k].color;
 				if (k == 0) {
 					//If the cell being checked has already been altered for newest timestep,
