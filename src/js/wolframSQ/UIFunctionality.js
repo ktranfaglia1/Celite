@@ -942,8 +942,14 @@ function clear(latticeArray, keepInit = false) {
 	//Resets new Cells to proper order number
 	for(let i = 0;i < latticeArray[0].length; i++)
 	{
-		latticeArray[0][i].setNumber(orderArray[i]);
+		//console.log(tempOrder)
+		if(tempOrder[i] != -1 && typeof tempOrder[i] !== 'undefined')
+		{
+			latticeArray[0][tempOrder[i]].setNumber(i);
+		}
+		//console.log("Out ", i)
 	}
+	//console.log("0:0 ",latticeArray[0][0])
 
 	
 	alterLatticeArray(neoLatticeArray);
@@ -975,7 +981,7 @@ function setCells(latticeArray, mouseX, mouseY) {
 						if(tempOrder[j] == -1)
 						{
 							tempOrder[j] = i;
-							console.log(tempOrder)
+							//console.log(tempOrder)
 							latticeArray[0][i].setNumber(j)
 							break;
 						}
