@@ -205,6 +205,10 @@ export function createOrder() {
   console.log(orderArray)
 }
 
+export function alterTempOrder(neoTempOrder){
+  tempOrder = neoTempOrder;
+}
+
 export function getSetup()
 {return setup;}
 

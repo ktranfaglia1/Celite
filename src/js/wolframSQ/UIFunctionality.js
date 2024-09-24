@@ -6,7 +6,7 @@
   for simulation modifications and communicates it with utility files
 * Last Updated: 03/11/24
 */
-import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder, alterOrder, tempOrder} from './displayLattice.js';
+import {latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder, alterOrder, tempOrder, alterTempOrder} from './displayLattice.js';
 import {numOfIterations, currentIteration, size, latSize, ruleNum, inf, orderArray} from './displayLattice.js';
 import {alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder} from './displayLattice.js';
 import {alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder, alterSetup, getSetup} from './displayLattice.js';
@@ -116,7 +116,7 @@ simulateButton.addEventListener("click", function() {
 	standardItems.forEach(item => {
 		item.style.display = 'inline-block';
 	});
-
+	console.log(tempOrder)
 	// Loop through the setup mode secondary toolbar elements and disable display
 	setupItems.forEach(item => {
 		item.style.display = 'none';
@@ -136,6 +136,7 @@ simulateButton.addEventListener("click", function() {
 	}
 	
 	clear(latticeArray, false);
+	//alterOrder(tempOrder);
 	alterSetup(0); // Turns off setup functionality
 	redrawLattice();
 });
@@ -520,11 +521,11 @@ iterationSubmit.addEventListener("click", function() {
 });
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
+	clearOrder();
 	stopIterating();  // Stops the iteration before changing the lattice size
 	clearResetToggle();
 	setupButton.click();
 	updateLatticeSize(canvas);
-	clearOrder();
 });
 
 startStopButton.addEventListener("click", debounce(function() {
@@ -959,10 +960,13 @@ function clear(latticeArray, keepInit = false) {
 
 export function clearOrder()
 {
-	for (let i = 0; i < tempOrder.length; i++)
+	let tempTempOrder = Array();
+	for (let i = 0; i < latticeArray[0].length; i++)
 	{
-		tempOrder[i] = -1;
+		tempTempOrder.push(-1);
 	}
+	alterTempOrder(tempTempOrder);
+	console.log("Clear Order", tempOrder)
 }
 
 //Takes Coordinates of mouseClick and calculates properly where it is in relation to the canvas
