@@ -44,7 +44,6 @@ const optionsButton = document.getElementById("optionsButton");
 const latticeFillButton = document.getElementById("latticeFillButton");
 const randomFillButton = document.getElementById("randomFillButton");
 const setupButton = document.getElementById("setupButton");
-const applyButton = document.getElementById("applyButton");
 const simulateButton = document.getElementById("simulateButton");
 const voidButton = document.getElementById("voidButton");
 const libraryButton = document.getElementById("libraryButton");
@@ -105,10 +104,6 @@ function activateSetup()
 		tempOrder[i] = -1;
 	}
 }
-
-// Exit setup mode by calling exit function upon apply button click
-applyButton.addEventListener("click", function() {
-});
 
 // Hide setup buttons and display standard buttons upon setup button click
 simulateButton.addEventListener("click", function() {
@@ -575,9 +570,6 @@ document.addEventListener('keydown', function(event) {
 			switch (true) {
 				case (event.key == 'Enter'):
 					simulateButton.click();
-					break;
-				case (event.key == 'a'):
-					applyButton.click();
 					break;
 				case (event.key == 'c'):
 					voidButton.click();
@@ -1074,7 +1066,7 @@ downloadPDFButton.addEventListener('click', function() {
 	let offsetY = (pdfHeight - imgHeight) / 2;
 	pdf.addImage(imgData, 'PNG', offsetX, offsetY, imgWidth, imgHeight);
 
-	pdf.save("Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".pdf");  // Save the PDF
+	pdf.save("SequentialWNN" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".pdf");  // Save the PDF
 	makeLog("Downloaded Canvas", logCanvas, messageQueue);
 });
 
@@ -1083,7 +1075,7 @@ downloadPNGButton.addEventListener('click', function() {
     let image = canvas.toDataURL();  // Get the image data from the canvas. Default is png
     let link = document.createElement('a');  // Create a new anchor element to create a downloadable link
     link.href = image;  // Set the href attribute of the anchor element to the data URL of the image
-    link.download = "Wolfram1DCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".png";  // Set the filename
+    link.download = "SequentialWNN" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".png";  // Set the filename
 	link.click();  // Trigger a click on the anchor element to prompt the browser to download the image
 	makeLog("Downloaded Canvas", logCanvas, messageQueue);
 });

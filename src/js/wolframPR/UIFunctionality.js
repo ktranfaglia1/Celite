@@ -1111,7 +1111,7 @@ downloadPDFButton.addEventListener('click', function() {
 	let offsetY = (pdfHeight - imgHeight) / 2;
 	pdf.addImage(imgData, 'PNG', offsetX, offsetY, imgWidth, imgHeight);
 
-	pdf.save("wolframPRCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize[0] + ".pdf");  // Save the PDF
+	pdf.save("ParallelWNN" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize[0] + ".pdf");  // Save the PDF
 	makeLog("Downloaded Canvas", logCanvas, messageQueue);
 });
 
@@ -1120,7 +1120,7 @@ downloadPNGButton.addEventListener('click', function() {
     let image = canvas.toDataURL();  // Get the image data from the canvas. Default is png
     let link = document.createElement('a');  // Create a new anchor element to create a downloadable link
     link.href = image;  // Set the href attribute of the anchor element to the data URL of the image
-    link.download = "wolframPRCanvas" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize[0] + ".png";  // Set the filename
+    link.download = "ParallelWNN" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize[0] + ".png";  // Set the filename
 	link.click();  // Trigger a click on the anchor element to prompt the browser to download the image
 	makeLog("Downloaded Canvas", logCanvas, messageQueue);
 });

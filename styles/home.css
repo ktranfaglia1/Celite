@@ -43,10 +43,10 @@ hr {
   cursor: pointer;
 }
 .navigate_button1 {
-  background-image: url("../images/wolfram1D.png");
+  background-image: url("../images/ParallelWNN.png");
 }
 .navigate_button2 {
-  background-image: url("../images/under_construction.jpg");
+  background-image: url("../images/SequentialWNN1.png");
 }
 .navigate_button3 {
   background-image: url("../images/1234.png");
