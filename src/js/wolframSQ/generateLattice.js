@@ -33,7 +33,7 @@ export function ruleNumToRule(ruleNum) {
 //Generates the next lattice based on the current one, the rule, and the boundary condition.
 export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, size) {
   	let newLattice = new Array();
-  	let startDif = (latSize[0] * size) / 2;
+  	let startDif = (latSize * size) / 2;
   	let center = canvas.width / 2;
   	let startX = center - startDif;
 	let altered = new Array();

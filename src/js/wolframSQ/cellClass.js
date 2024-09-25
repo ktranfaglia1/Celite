@@ -44,7 +44,7 @@ export class cell {
 	{
 
 		//Draws the Box Outline as long as Cells arent too small
-		if(latSize[0] <= 200 && this.border)
+		if(latSize <= 200 && this.border)
 		{
 			//Sets outline to be inverse of color of cell so you can see it
 			if(!this.setupMode){
@@ -94,7 +94,7 @@ export class cell {
 		
 		
 		//Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
-		if(latSize[0] <= 200 && this.border)
+		if(latSize <= 200 && this.border)
 		{
 		ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
 		}
