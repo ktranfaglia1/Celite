@@ -126,7 +126,8 @@ simulateButton.addEventListener("click", function() {
 	}
 	else
 	{
-		makeError("::Error:: Order Not Set", logCanvas, messageQueue) //Gives User Error Message
+		makeError("*Incomplete Ordering*", logCanvas, messageQueue);
+		makeLog("Defaulting order to L->R", logCanvas, messageQueue);
 		console.log(tempOrder);
 	}
 	

@@ -1,7 +1,7 @@
 /* Wolfram's Nearest Neighbor Sequential Simulation styles page */
 /* General formatting */
 body {
-  background-color: #b47e4b;
+  background-color: #E0D8A7;
   margin: 0;
   font-family: Arial, sans-serif;
 }
@@ -21,12 +21,12 @@ ul {
   color: black;
 }
 .head {
-  background-color: #E07A1F;
+  background-color: #5B507A;
 }
 /* Lattice region formatting */
 .lattice_region {
   position: absolute;
-  background-color: #B6A89B;
+  background-color: #D0D3D4;
   border: 3px solid black;
   padding: 1% 1% 1% 1%;
   max-width: 90%;
@@ -47,7 +47,7 @@ ul {
 .log_box {
   width: 160px;
   height: 45px;
-  background-color: #B6A89B;
+  background-color: #D0D3D4;
   border: 3px solid black;
   padding-top: 3px;
   margin-left: 1.75%;
@@ -62,7 +62,7 @@ ul {
 }
 /* Large button formatting: used for secondary tool bar */
 .simulation_button {
-  background-color: #C0392B;
+  background-color: #007ACC;
   color: white;
   padding: 16px 32px;
   text-align: center;
@@ -76,10 +76,10 @@ ul {
 }
 .simulation_button:hover {
   cursor: pointer;
-  background-color: #A63125;
+  background-color: #0062A3;
 }
 .start_button {
-  background-color: #6A9A3F;
+  background-color: #28A745;
   color: white;
   padding: 16px 32px;
   text-align: center;
@@ -93,7 +93,7 @@ ul {
 }
 .start_button:hover {
   cursor: pointer;
-  background-color: #598331;
+  background-color: #218838;
 }
 .stop_button {
   background-color: #C0392B;
@@ -110,10 +110,10 @@ ul {
 }
 .stop_button:hover {
   cursor: pointer;
-  background-color: #A63125;
+  background-color: #A93226;
 }
 .setup_button {
-  background-color: #C0392B;
+  background-color: #007ACC;
   color: white;
   padding: 16px 32px;
   text-align: center;
@@ -127,7 +127,7 @@ ul {
 }
 .setup_button:hover {
   cursor: pointer;
-  background-color: #A63125;
+  background-color: #0062A3;
 }
 /* Primary tool bar formatting */
 .primary_toolbar {
@@ -165,7 +165,7 @@ ul {
 .submit_button {
   padding: 8px 8px;
   border: 1px solid black;
-  background-color: #A63125;
+  background-color: #0062A3;
   color: whitesmoke;
   font-size: 15px;
   text-align: center;
@@ -173,7 +173,7 @@ ul {
 }
 .submit_button:hover {
   cursor: pointer;
-  background-color: #C0392B;
+  background-color: #007ACC;
 }
 /* Iteration count formatting */
 .iteration_output {
@@ -272,12 +272,12 @@ ul {
   font-size: 17px;
   border: 1px solid black;
   border-radius: 10px; 
-  background-color: rgb(105, 187, 255);
+  background-color: #9570DB;
   color: black;
   cursor: pointer;
 }
 .options_button:hover {
-  background-color: rgb(90, 167, 235);
+  background-color: #8a2be2;
 }
 /* Container for border and cell color picker */
 .color_container {

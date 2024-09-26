@@ -68,6 +68,7 @@
             <ul class="submenu">
               <li> <a href="#primaryToolbar2" class="subtitle"> Primary Toolbar </a> </li>
               <li> <a href="#secondaryToolbar2" class="subtitle"> Secondary Toolbar </a> </li>
+              <li> <a href="#setupmode" class="subtitle"> Setup Mode </a> </li>
               <li> <a href="#options2" class="subtitle"> Options </a> </li>
               <li> <a href="#algorithm2" class="subtitle"> Algorithm Rules </a> </li>
             </ul>
@@ -119,10 +120,10 @@
           <u>Loaded Information</u>: For all input boxes, including "Iterations," "Rule," and "Lattice," the log box will display the value stored once the submit button is clicked. An error messgae will be displayed if the input is not valid. The loaded information logs are designed to inform of input errors and document the input submissions. Users should utilize the log box to ensure the program is functioning properly and that correct information has been entered.   
         </div> 
         <div class="p3">
-          <u>Successful Actions</u>: All button clicks and toggles will display a log message upon success. This includes "Start," "Iterate," "Clear," "Download PDF," "Download PNG," "Lattice Fill," "Random Fill," "Cell Color," and all toggle bars. The log will include a specific message regarding the success of the action and what was completed. The success log may be useful in debugging simulation errors and tracking previous operations. 
+          <u>Successful Actions</u>: All button clicks and toggles will display a log message upon success. This includes "Start," "Iterate," "Clear," "Download PDF," "Download PNG," "Lattice Fill," "Random Fill," "Cell Color," and all toggle bars. Additional messages are provided in Sequential Wolfram's Nearest Neighbor for setup mode. The log will include a specific message regarding the success of the action and what was completed. The success log may be useful in debugging simulation errors and tracking previous operations. 
         </div>
         <div class="p3">
-          <u>Errors</u>: All error messages will be printed in red. Error messages are only produced during invalid input events for the "Iterations," "Rule," and "Lattice," input boxes. Thus, any input that is not a number or outside of the range for the input box will produce an error message with the provided invalid input.
+          <u>Errors</u>: All error messages will be printed in red. Error messages are only produced during invalid input events for the "Iterations," "Rule," and "Lattice," input boxes. Additional error messages are provided in Sequential Wolfram's Nearest Neighbor for setup mode. Thus, any input that is not a number or outside of the range for the input box will produce an error message with the provided invalid input.
         </div>
         <div class="p3">
           Only three log box messages will be displayed at a time and the most recent message is displayed at the top of the log box. Once the log box is full, a new message will push out the oldest message such that the new message will appear at the top, the bottom message will be deleted, and the rest will slide down. All successful logs including loaded information logs will be printed in black text, while error logs will be printed in red text.
@@ -135,7 +136,7 @@
           <u>Cell State Toggle</u>: While inside the canvas, clicking cells will toggle them between dead (white, 0) and alive (balck, 1) states to set a starting position (index = 0) for the simulation. Only the starting state cells can be toggled. Cells can be toggled even if a simulation has already completed; clicking "Start" or "Iterate" will overwrite the canvas. Cell borders will automatically be removed on the starting lattice for lattice sizes over 200.
         </div>
         <div class="p3"> 
-          <u>Zoom</u>: While inside the canvas, using the scroll wheel on a mouse will zoom on a specified location. The x-axis mouse location determines the horizontal zoom focus and the y-axis mouse location determines the vertical zoom focus. When only the starting iteration is present on the canvas (index = 0), the y-axis mouse location has no impact on the zoom focus location; the vertical zoom focus, in this case, will always be on the starting lattice in the canvas. Scroll up to zoom in and scroll down to zoom out. The maximum outward zoom is set to the defaulted (standard - 100%) zoom factor for the canvas.  
+          <u>Zoom</u>: While inside the canvas, using the scroll wheel on a mouse will zoom on a specified location. The x-axis mouse location determines the horizontal zoom focus and the y-axis mouse location determines the vertical zoom focus. When only the starting iteration is present on the canvas (index = 0), the y-axis mouse location has no impact on the zoom focus location; the vertical zoom focus, in this case, will always be on the starting lattice in the canvas. Scroll up to zoom in and scroll down to zoom out. The maximum outward zoom is set to the default zoom factor for the canvas.  
         </div>
         <div class="p4"> 
           <i> Warning: </i> The zoom feature encounters performance issues with large lattice sizes and iteration amounts. 
@@ -167,7 +168,7 @@
           <i> Keyboard Shortcut: </i> ALT + L
         </div>
         <div class = p3>
-          Must click the "Submit" button to the right of each input box to apply the input. The canvas will be reset upon any input box submit. <br>
+          Must click the "Submit" button to the right of each input box to apply the input. The canvas will be reset upon submit. <br>
           <i> Keyboard Shortcut: </i> ENTER (submits input box in focus or submits all if none in focus)
         </div>
         <h6 id="secondaryToolbar1"> Secondary Toolbar </h6>
@@ -201,14 +202,14 @@
           <u>Download PDF Button</u>: Click "Download PDF" to download a PDF file containing an extraction of the canvas. Even if the canvas, after a simulation, is very large, the pdf will contain the entire canvas in one scaled PDf page. The PDF file will be placed in the downloads folder on the local device.
         </div> 
         <div class="p4"> 
-          <i> File Name: </i> "wolframPRCanvas" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".pdf" <br>
+          <i> File Name: </i> "ParallelWNN" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".pdf" <br>
           <i> Keyboard Shortcut: </i> ALT + N
         </div>
         <div class="p3">
           <u>Download PNG Button</u>: Click "Download PNG" to download a PNG file containing an extraction of the canvas. Even if the canvas, after a simulation, is very large, the PNG will contain the entire canvas in one scaled PNG image. The PNG file will be placed in the downloads folder on the local device.
         </div> 
         <div class="p4"> 
-          <i> File Name: </i> "wolframPRCanvas" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".png" <br>
+          <i> File Name: </i> "ParallelWNN" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".png" <br>
           <i> Keyboard Shortcut: </i> ALT + P
         </div>
         <div class="p3">
@@ -267,14 +268,14 @@
           <i> Keyboard Shortcut: </i> ALT + K
         </div>
         <div class="p3">
-          <u>Lattice Input Box</u>: Enter the lattice size set the number of cells in the lattice (row of cells). Manipulating the lattice size will impact the complexity of the system as it will change the interactions and possibilities for emergent patterns and may impact the affects of the boundary condition. The size of the individual cells will decrease as the lattice size increases to fit the lattice in the canvas region.
+          <u>Lattice Input Box</u>: Enter the lattice size set the number of cells in the lattice (row of cells). Manipulating the lattice size will impact the complexity of the system as it will change the interactions and possibilities for emergent patterns and may impact the affects of the boundary condition. The size of the individual cells will decrease as the lattice size increases to fit the lattice in the canvas region. Changing the lattice size will automatically switch from simulate mode to setup mode to allow for the new lattice be configured with a cell ordering.
         </div> 
         <div class="p4"> 
           <i> Input Restrictions: </i> Non-negative real numbers in range [1, 1000]. Decimal values will be truncated. <br>
           <i> Keyboard Shortcut: </i> ALT + L
         </div>
         <div class = p3>
-          Must click the "Submit" button to the right of each input box to apply the input. The canvas will be reset upon any input box submit. <br>
+          Must click the "Submit" button to the right of each input box to apply the input. The canvas will be reset upon submit. <br>
           <i> Keyboard Shortcut: </i> ENTER (submits input box in focus or submits all if none in focus)
         </div>
         <h6 id="secondaryToolbar2"> Secondary Toolbar </h6>
@@ -298,24 +299,25 @@
           <i> Keyboard Shortcut: </i> ALT + C
         </div>
         <div class="p3">
-          <u>About Button</u>: Click "About" to open an overlaying window to describe the simulator. The window contains information about the background of Wolfram's Nearest Neighbor Parallel, the purpose of its use and study, and a summary of its application. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
+          <u>Setup Button</u>: Click "Setup" to switch out of simulate mode and into setup mode. In setup mode, the cell ordering for the sequential algorithm may be selected. Click the cells to chronologically number the cells in a desired order. A library of presets is available for quick and convenient cell ordering. Exit setup mode and enter simulate mode by clciking the "Simulate" button. For more information, click the "Help" button in setup mode. 
         </div> 
         <div class="p4"> 
-          <i> Keyboard Shortcut: </i> ALT + A
+          <i> Keyboard Shortcut: </i> ALT + U
         </div>
+        <h6 id="setupmode"> Setup Mode </h6>
         <h6 id="options2"> Options </h6>
         <div class="p3">
           <u>Download PDF Button</u>: Click "Download PDF" to download a PDF file containing an extraction of the canvas. Even if the canvas, after a simulation, is very large, the pdf will contain the entire canvas in one scaled PDf page. The PDF file will be placed in the downloads folder on the local device.
         </div> 
         <div class="p4"> 
-          <i> File Name: </i> "wolframPRCanvas" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".pdf" <br>
+          <i> File Name: </i> "SequentialWNN" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".pdf" <br>
           <i> Keyboard Shortcut: </i> ALT + N
         </div>
         <div class="p3">
           <u>Download PNG Button</u>: Click "Download PNG" to download a PNG file containing an extraction of the canvas. Even if the canvas, after a simulation, is very large, the PNG will contain the entire canvas in one scaled PNG image. The PNG file will be placed in the downloads folder on the local device.
         </div> 
         <div class="p4"> 
-          <i> File Name: </i> "wolframPRCanvas" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".png" <br>
+          <i> File Name: </i> "SequentialWNN" + "I" + Number of Iterations + "R" + Rule Number + "L" + Lattice Size + ".png" <br>
           <i> Keyboard Shortcut: </i> ALT + P
         </div>
         <div class="p3">
