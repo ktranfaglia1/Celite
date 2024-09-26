@@ -182,7 +182,7 @@
           <u>Iterate Button</u>: Click "Iterate" to immediately (in time of process completion) iterate up to the total iteration amount (x iterations beyond starting lattice, index = 0). The delay rate will not impact the iteration speed upon click of the "iterate" button.
         </div> 
         <div class="p4"> 
-          <i> Recommendations: </i> With consideration of lattice size, the time of process completion may be long for large total iteration amounts. Consider limiting the total iteration amount or adjusting lattice size as needed. <br>
+          <i> Recommendations: </i> In consideration of lattice size, process completion may be take long for large total iteration amounts. Consider limiting the total iteration amount or adjusting lattice size as needed. <br>
           <i> Keyboard Shortcut: </i> ALT + I
         </div>
         <div class="p3">
@@ -289,7 +289,7 @@
           <u>Iterate Button</u>: Click "Iterate" to immediately (in time of process completion) iterate up to the total iteration amount (x iterations beyond starting lattice, index = 0). The delay rate will not impact the iteration speed upon click of the "iterate" button.
         </div> 
         <div class="p4"> 
-          <i> Recommendations: </i> With consideration of lattice size, the time of process completion may be long for large total iteration amounts. Consider limiting the total iteration amount or adjusting lattice size as needed. <br>
+          <i> Recommendations: </i> In consideration of lattice size, process completion may be take long for large total iteration amounts. Consider limiting the total iteration amount or adjusting lattice size as needed. <br>
           <i> Keyboard Shortcut: </i> ALT + I
         </div>
         <div class="p3">
@@ -299,12 +299,36 @@
           <i> Keyboard Shortcut: </i> ALT + C
         </div>
         <div class="p3">
-          <u>Setup Button</u>: Click "Setup" to switch out of simulate mode and into setup mode. In setup mode, the cell ordering for the sequential algorithm may be selected. Click the cells to chronologically number the cells in a desired order. A library of presets is available for quick and convenient cell ordering. Exit setup mode and enter simulate mode by clciking the "Simulate" button. For more information, click the "Help" button in setup mode. 
+          <u>Setup Button</u>: Click "Setup" to switch out of simulate mode and into setup mode. In setup mode, the cell ordering for the sequential algorithm may be selected. Click, or click and drag, the cells to chronologically number the cells in a desired order. A library of presets is available for quick and convenient cell ordering. Exit setup mode and enter simulate mode by clciking the "Simulate" button. For more information, click the "Help" button in setup mode. 
         </div> 
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + U
         </div>
         <h6 id="setupmode"> Setup Mode </h6>
+        <div class="p3">
+          <u>Simulate Button</u>: Click "Simulate" to switch out of setup mode and into simulate mode. In simulate mode, the dead and alive cells for sequential simulation may be selected. Click, or click and drag, the cells to toggle them between dead and alive. After switching to simulate mode, the configured cell ordering will automatically save, meaning that starting a simulation will use the selected ordering for the sequential algorithm. Note that if all cells were not ordered in setup mode, the cell ordering will default to Left to Right.
+        </div>
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + ENTER
+        </div>
+        <div class="p3">
+          <u>Clear Button</u>: Click "Clear" to refresh the canvas, as in, remove all orderings from the order lattice to produce the default starting state. Note that there is not a reset feature to retrieve the previously cleared ordering.  
+        </div>
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + C
+        </div>
+        <div class="p3">
+          <u>Library Button</u>: Click "Library" to open an overlaying window with selectable preset cell ordering that will apply to the lattice. The window will contain a list of images and descriptions of cell orderings for sequential simulation that help produce unique and intriguing patterns in concordance with the rule selected in simulate mode. Click any of the images in the library to load that preset ordering to the lattice. The current cell ordering in the lattice will be cleared before applying the preset ordering from the Library. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
+        </div>
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + L
+        </div>
+        <div class="p3">
+          <u>Help Button</u>: Click "Help" to open an overlaying window with information about setup mode. The information includes four main sections that provide answers to common questions about setup mode. It outlines the purpose and functionality of setup mode, how it relates to sequential simulation, how to use it to configure the cell ordering, and how to utilize the ordering preset library. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
+        </div>
+        <div class="p4"> 
+          <i> Keyboard Shortcut: </i> ALT + P
+        </div>
         <h6 id="options2"> Options </h6>
         <div class="p3">
           <u>Download PDF Button</u>: Click "Download PDF" to download a PDF file containing an extraction of the canvas. Even if the canvas, after a simulation, is very large, the pdf will contain the entire canvas in one scaled PDf page. The PDF file will be placed in the downloads folder on the local device.
@@ -371,6 +395,7 @@
           <u>Iterate Button</u>: Click "Iterate" to immediately iterate a single time such that one application of the state change algorithm will be applied. The delay rate will not impact the iteration speed upon click of the "iterate" button.
         </div> 
         <div class="p4"> 
+          <i> Recommendations: </i> In consideration of lattice size, process completion may be take long for large total iteration amounts. Consider limiting the total iteration amount or adjusting lattice size as needed. <br>
           <i> Keyboard Shortcut: </i> ALT + I
         </div>
         <div class="p3">
