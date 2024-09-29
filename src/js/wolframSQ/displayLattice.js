@@ -163,17 +163,12 @@ export function updateLattice(){
 	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();  // Display iteration count to HTML page upon update
 }
 
-//Randomize the order then print to console for debugging purposes
+//Set intial order then print to console for debugging purposes
 export function createOrder() {
   orderArray.length = 0;
   for (let i = 0; i < latSize; i++) {
     orderArray.push(i);
   }
-  /*for (let i = orderArray.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [orderArray[i], orderArray[j]] = [orderArray[j], orderArray[i]];
-  }*/
-  console.log(orderArray)
 }
 
 export function alterTempOrder(neoTempOrder){
