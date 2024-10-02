@@ -44,7 +44,6 @@ export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, siz
 	
 	//if(currentLattice.length == 0)
 	{
-		console.log("lattice length", latticeArray.length)
 		//If boundary condition is periodic:
 		if (boundaryCon == 1) {
 			//Iterate over length of new lattice
@@ -56,7 +55,6 @@ export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, siz
 				//Otherwise, access the cell and it's two neighbors normally.
 				let leftCell = -1;
 				let rightCell = -1;
-				console.log(k);
 				let middleCell = currentLattice[k].color;
 				if (k == 0) {
 					//If the cell being checked has already been altered for newest timestep,

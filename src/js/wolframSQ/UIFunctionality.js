@@ -49,6 +49,13 @@ const voidButton = document.getElementById("voidButton");
 const libraryButton = document.getElementById("libraryButton");
 const helpButton = document.getElementById("helpButton");
 
+//Library Option Constants
+const randButton = document.getElementById("random");
+const left2right = document.getElementById("left2right");
+const right2left = document.getElementById("right2left")
+const centerOut = document.getElementById("centerOutward");
+const edgesIn = document.getElementById("edgesInward");
+
 //Toggle Switches Constants
 const iterationToggleButton = document.getElementById("iterationToggle");
 const borderToggleButton = document.getElementById("borderToggle");
@@ -168,6 +175,145 @@ window.addEventListener("click", function(event) {
 // About button is clicked, display about window
 libraryButton.addEventListener("click", function() {
 	libraryWindow.style.display = "block";
+});
+
+/* Handles generation of certain sequence presets */
+randButton.addEventListener("click", function() {
+	clear(latticeArray, false);
+	clearOrder();
+	let mockLattice = new Array();
+	for (let i = 0; i < latticeArray[0].length; i++) {
+		mockLattice.push(i)
+	}
+	for (let i = mockLattice.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[mockLattice[i], mockLattice[j]] = [mockLattice[j], mockLattice[i]]; // Swap elements
+	}
+	let neoLatticeArray = latticeArray;
+	for (let i = 0 ; i < latticeArray[0].length; i++) {
+		neoLatticeArray[0][i].flipColor();
+		latticeArray[0][i].setNumber(mockLattice[i]);
+		(neoLatticeArray[0][i]).drawCell(ctx);
+		alterLatticeArray(neoLatticeArray);
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		tempOrder[mockLattice[i]] = i;
+	}
+	libraryWindow.style.display = "none"
+	console.log(tempOrder)
+});
+
+left2right.addEventListener("click", function() {
+	clear(latticeArray, false);
+	clearOrder();
+	let mockLattice = new Array();
+	for (let i = 0; i < latticeArray[0].length; i++) {
+		mockLattice.push(i)
+	}
+	let neoLatticeArray = latticeArray;
+	for (let i = 0 ; i < latticeArray[0].length; i++) {
+		neoLatticeArray[0][i].flipColor();
+		latticeArray[0][i].setNumber(mockLattice[i]);
+		(neoLatticeArray[0][i]).drawCell(ctx);
+		alterLatticeArray(neoLatticeArray);
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		tempOrder[mockLattice[i]] = i;
+	}
+	libraryWindow.style.display = "none";
+	console.log(tempOrder)
+});
+
+right2left.addEventListener("click", function() {
+	clear(latticeArray, false);
+	clearOrder();
+	let mockLattice = new Array();
+	for (let i = 0; i < latticeArray[0].length; i++) {
+		mockLattice.push(latticeArray[0].length - (1 + i))
+	}
+	let neoLatticeArray = latticeArray;
+	for (let i = 0 ; i < latticeArray[0].length; i++) {
+		neoLatticeArray[0][i].flipColor();
+		latticeArray[0][i].setNumber(mockLattice[i]);
+		(neoLatticeArray[0][i]).drawCell(ctx);
+		alterLatticeArray(neoLatticeArray);
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		tempOrder[mockLattice[i]] = i;
+	}
+	libraryWindow.style.display = "none";
+	console.log(tempOrder)
+});
+
+centerOut.addEventListener("click", function() {
+	clear(latticeArray, false);
+	clearOrder();
+	let mockLattice = new Array();
+	for (let i = 0; i < latticeArray[0].length; i++) {
+		mockLattice.push(i)
+	}
+	if (mockLattice.length % 2 == 0) {
+		for (let i = 0; i < mockLattice.length / 2; i++) {
+			mockLattice[i] = (mockLattice.length - (2 * (i + 1)));
+			mockLattice[i + (mockLattice.length / 2)] = (2 * i) + 1;
+		}
+	}
+	else {
+		mockLattice[(mockLattice.length - 1) / 2] = 0
+		for (let i = 0; i < (mockLattice.length - 1) / 2; i++) {
+			mockLattice[i] = (mockLattice.length - 1) - 2 * i;
+			mockLattice[(mockLattice.length - 1) / 2 + 1 + i] = ((i + 1) * 2) - 1;
+		}
+	}
+	let neoLatticeArray = latticeArray;
+	for (let i = 0 ; i < latticeArray[0].length; i++) {
+		neoLatticeArray[0][i].flipColor();
+		latticeArray[0][i].setNumber(mockLattice[i]);
+		(neoLatticeArray[0][i]).drawCell(ctx);
+		alterLatticeArray(neoLatticeArray);
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		tempOrder[mockLattice[i]] = i;
+	}
+	libraryWindow.style.display = "none";
+	console.log(tempOrder)
+});
+
+edgesIn.addEventListener("click", function() {
+	clear(latticeArray, false);
+	clearOrder();
+	let mockLattice = new Array();
+	for (let i = 0; i < latticeArray[0].length; i++) {
+		mockLattice.push(i)
+	}
+	if (mockLattice.length % 2 == 0) {
+		for (let i = 0; i < mockLattice.length / 2; i++) {
+			mockLattice[i] = (mockLattice.length - (2 * (i + 1)));
+			mockLattice[i + (mockLattice.length / 2)] = (2 * i) + 1;
+		}
+	}
+	else {
+		mockLattice[(mockLattice.length - 1) / 2] = 0
+		for (let i = 0; i < (mockLattice.length - 1) / 2; i++) {
+			mockLattice[i] = (mockLattice.length - 1) - 2 * i;
+			mockLattice[(mockLattice.length - 1) / 2 + 1 + i] = ((i + 1) * 2) - 1;
+		}
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		mockLattice[i] = (mockLattice.length - 1) - mockLattice[i];
+	}
+	let neoLatticeArray = latticeArray;
+	for (let i = 0 ; i < latticeArray[0].length; i++) {
+		neoLatticeArray[0][i].flipColor();
+		latticeArray[0][i].setNumber(mockLattice[i]);
+		(neoLatticeArray[0][i]).drawCell(ctx);
+		alterLatticeArray(neoLatticeArray);
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		tempOrder[mockLattice[i]] = i;
+	}
+	libraryWindow.style.display = "none";
+	console.log(tempOrder)
 });
 
 // Close if x (close) button in top right of the window is clicked
@@ -825,7 +971,8 @@ function setCells(latticeArray, mouseX, mouseY) {
 						if(tempOrder[j] == -1)
 						{
 							tempOrder[j] = i;
-							//console.log(tempOrder)
+							console.log(tempOrder)
+							//console.log("Add")
 							latticeArray[0][i].setNumber(j)
 							break;
 						}
@@ -833,11 +980,13 @@ function setCells(latticeArray, mouseX, mouseY) {
 				}
 				else if(getSetup())
 				{
-					for (let j =0; j < latticeArray[0].length; j++)
+					for (let j = 0; j < latticeArray[0].length; j++)
 					{
 						if(tempOrder[j] == i)
 						{
 							tempOrder[j] = -1;
+							console.log(tempOrder)
+							//console.log("Remove")
 							latticeArray[0][i].setNumber(j)
 							break;
 						}
