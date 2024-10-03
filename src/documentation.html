@@ -88,6 +88,7 @@
             <span class="menu_title"> Insights & FAQS </span>
             <!-- headers -->
             <ul class="submenu">
+              <li> <a href="#faqs" class="subtitle"> FAQS </a> </li> 
               <li> <a href="#keyboardShortcuts" class="subtitle"> Keyboard Shortcuts </a> </li> 
             </ul>
           </li>
@@ -113,7 +114,7 @@
         </div>
         <div class = p3>
           Boundary conditions may be selected on the right side of the primary toolbar. For Parallel Wolfram's Nearest Neighbor, finite condition checkboxes appear and canvas will be reset upon toggle. <br>
-          <i> Keyboard Shortcut: </i> ALT + U
+          <i> Keyboard Shortcut: </i> ALT + U (Parallel Wolfram's Nearest Neighbor)
         </div>
         <h6 id="logBox"> Log Box </h6>
         <div class="p3">
@@ -126,7 +127,7 @@
           <u>Errors</u>: All error messages will be printed in red. Error messages are only produced during invalid input events for the "Iterations," "Rule," and "Lattice," input boxes. Additional error messages are provided in Sequential Wolfram's Nearest Neighbor for setup mode. Thus, any input that is not a number or outside of the range for the input box will produce an error message with the provided invalid input.
         </div>
         <div class="p3">
-          Only three log box messages will be displayed at a time and the most recent message is displayed at the top of the log box. Once the log box is full, a new message will push out the oldest message such that the new message will appear at the top, the bottom message will be deleted, and the rest will slide down. All successful logs including loaded information logs will be printed in black text, while error logs will be printed in red text.
+          Only three log box messages will be displayed at a time and the most recent message is displayed at the top of the log box. Once the log box is full, a new message will push out the oldest message, such that the new message will appear at the top, the bottom message will be deleted, and the rest will slide down. All successful logs including loaded information logs will be printed in black text, while error logs will be printed in red text.
         </div>
         <h6 id="canvas1"> Canvas </h6>
         <div class="p3"> 
@@ -299,7 +300,7 @@
           <i> Keyboard Shortcut: </i> ALT + C
         </div>
         <div class="p3">
-          <u>Setup Button</u>: Click "Setup" to switch out of simulate mode and into setup mode. In setup mode, the cell ordering for the sequential algorithm may be selected. Click, or click and drag, the cells to chronologically number the cells in a desired order. A library of presets is available for quick and convenient cell ordering. Exit setup mode and enter simulate mode by clciking the "Simulate" button. For more information, click the "Help" button in setup mode. 
+          <u>Setup Button</u>: Click "Setup" to switch out of simulate mode and into setup mode. In setup mode, the cell ordering for the sequential algorithm may be selected. Click, or click and drag, the cells to chronologically number the cells in a desired order. A library of presets is available for quick and convenient cell ordering. Exit setup mode and enter simulate mode by clicking the "Simulate" button. For more information, click the "Help" button in setup mode. 
         </div> 
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + U
@@ -312,19 +313,19 @@
           <i> Keyboard Shortcut: </i> ALT + ENTER
         </div>
         <div class="p3">
-          <u>Clear Button</u>: Click "Clear" to refresh the canvas, as in, remove all orderings from the order lattice to produce the default starting state. Note that there is not a reset feature to retrieve the previously cleared ordering.  
+          <u>Clear Button</u>: Click "Clear" to refresh the canvas, as in, remove all cell orderings from the order lattice to produce the default starting state. Note that there is not a reset feature to retrieve the previously cleared ordering.  
         </div>
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + C
         </div>
         <div class="p3">
-          <u>Library Button</u>: Click "Library" to open an overlaying window with selectable preset cell ordering that will apply to the lattice. The window will contain a list of images and descriptions of cell orderings for sequential simulation that help produce unique and intriguing patterns in concordance with the rule selected in simulate mode. Click any of the images in the library to load that preset ordering to the lattice. The current cell ordering in the lattice will be cleared before applying the preset ordering from the Library. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
+          <u>Library Button</u>: Click "Library" to open an overlaying window with selectable preset cell ordering that will apply to the lattice. The window will contain a list of images and descriptions of cell orderings for sequential simulation that help produce unique and intriguing patterns in concordance with the rule selected in simulate mode. Click any of the images in the library to load the preset ordering to the lattice. The current cell ordering in the lattice will be cleared before applying the preset ordering from the Library. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
         </div>
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + L
         </div>
         <div class="p3">
-          <u>Help Button</u>: Click "Help" to open an overlaying window with information about setup mode. The information includes four main sections that provide answers to common questions about setup mode. It outlines the purpose and functionality of setup mode, how it relates to sequential simulation, how to use it to configure the cell ordering, and how to utilize the ordering preset library. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
+          <u>Help Button</u>: Click "Help" to open an overlaying window with information about setup mode. The information includes four main sections that provide answers to common questions about setup mode. It outlines the purpose and functionality of setup mode, how it relates to sequential simulation, how to configure the cell ordering, and how to utilize the ordering preset library. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
         </div>
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + P
@@ -427,7 +428,7 @@
           <u>Zoom Slider</u>: Click and hold the slider labeled "Zoom" to alter the zoom factor measured by percentage. Moving the slider to the left will decrease the zoom percentage factor and zoom outward, and moving the slider to the right will increase the zoom percentage factor and zoom inward. Using the zoom slider will always center the zoom to the center of the canvas.
         </div> 
         <div class="p4"> 
-          <i> Input Restrictions: </i> Values are percentages in range [1, 99]. <br>
+          <i> Input Restrictions: </i> Values are percentages in range [1, 100]. <br>
           <i> Keyboard Shortcut: </i> ALT + Z, then Left Arrow to decrease and Right Arrow to increase the value.
         </div>
         <h6 id="canvas2"> Canvas </h6>
@@ -448,6 +449,13 @@
           <u>TBD ...</u>: <br> 
         </div> <br> <br>
         <h2 class="head"> Insights & FAQS </h2>
+        <h6 id="faqs"> Frequently Asked Questions </h6>
+        <div class="p4"> 
+          <i>Question?</i>
+        </div> <br>
+        <div class="p3"> 
+          Answer!
+        </div> 
         <h6 id="keyboardShortcuts"> Keyboard Shortcuts </h6>
         <div class="shortcut_container">
           <div class="p3" class="shortcut_item"> 
