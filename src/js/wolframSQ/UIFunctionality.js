@@ -656,7 +656,7 @@ tickCanvas.addEventListener("mousemove", shortDebounce(function(event){
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event);
 	if(mouseDown)
-		setCells(latticeArray, mouseX, mouseY, true); console.log(mouseDown)
+		setCells(latticeArray, mouseX, mouseY, true);
 }));
 
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
@@ -985,7 +985,6 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 				//Functionality for Setup Clicking
 				if(getSetup() && latticeArray[0][i].getColor() == 1 && !tempOrder.includes(i))
 				{
-					console.log("Number ", latticeArray[0][i].getNumber())
 					for (let j = 0; j < tempOrder.length; j++)
 					{
 						if(tempOrder[j] == -1)
@@ -1004,7 +1003,6 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 						if(tempOrder[j] == i)
 						{
 							tempOrder[j] = -1;
-							console.log(tempOrder)
 							//console.log("Remove")
 							latticeArray[0][i].setNumber(-2)
 							break;
