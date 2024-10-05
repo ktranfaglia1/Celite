@@ -79,6 +79,8 @@ const standardItems = document.querySelectorAll(".simulation_button, .start_butt
 const closeLibrary = document.querySelector("#libraryContent .close");
 const closeHelp = document.querySelector("#helpContent .close");
 
+let mouseDown = false;
+
 
 // Display setup buttons and hide standard buttons upon setup button click
 setupButton.addEventListener("click", debounce(function() {
@@ -646,6 +648,16 @@ tickCanvas.addEventListener('click', debounce(function(event) {
 
 }));
 
+tickCanvas.addEventListener("mousedown", function(event){mouseDown = true;});
+tickCanvas.addEventListener("mouseup", function(event){mouseDown = false;});
+
+tickCanvas.addEventListener("mousemove", shortDebounce(function(event){
+	let mouseX, mouseY;
+	[mouseX, mouseY] = getMouseLocation(event);
+	if(mouseDown)
+		setCells(latticeArray, mouseX, mouseY); console.log(mouseDown)
+}));
+
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
 document.addEventListener('keydown', function(event) {
     // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
@@ -961,24 +973,32 @@ function setCells(latticeArray, mouseX, mouseY) {
 	if (latticeArray.length == 1) {
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
 			if (latticeArray[0][i].insideCell(mouseX, mouseY)) {
-				neoLatticeArray[0][i].flipColor();
-
-				//Functionality for Setup Clicking
-				if(getSetup() && latticeArray[0][i].getColor() == 1)
+				if(!mouseDown)
 				{
+					neoLatticeArray[0][i].flipColor();
+				}
+				else
+				{
+					neoLatticeArray[0][i].setColor(1);
+				}
+				//Functionality for Setup Clicking
+				if(getSetup() && latticeArray[0][i].getColor() == 1 && tempOrder[i] == -1)
+				{
+					console.log("Number ", latticeArray[0][i].getNumber())
 					for (let j = 0; j < latticeArray[0].length; j++)
 					{
 						if(tempOrder[j] == -1)
 						{
+							console.log("j: ",tempOrder[j])
 							tempOrder[j] = i;
-							console.log(tempOrder)
 							//console.log("Add")
 							latticeArray[0][i].setNumber(j)
+							console.log(j);
 							break;
 						}
 					}
 				}
-				else if(getSetup())
+				else if(getSetup() && !mouseDown)
 				{
 					for (let j = 0; j < latticeArray[0].length; j++)
 					{
@@ -992,6 +1012,7 @@ function setCells(latticeArray, mouseX, mouseY) {
 						}
 					}
 				}
+				console.log("Temp Order: ", tempOrder)
 			}
 
 			//Draws new Cells and updates lattices accordingly
@@ -1266,5 +1287,17 @@ function debounce(callback) {
         timeoutId = setTimeout(() => {
             callback(event); // Directly pass the event object to the callback function
         }, 25);
+    };
+}
+
+//This is a debounce designed for slide since temp array needs to update before next cell can be clicked
+function shortDebounce(callback) {
+    let timeoutId;
+
+    return function(event) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            callback(event); // Directly pass the event object to the callback function
+        }, 0);
     };
 }
