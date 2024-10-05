@@ -645,6 +645,7 @@ tickCanvas.addEventListener('click', debounce(function(event) {
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of mouse click for usage in setCells
 	setCells(latticeArray, mouseX, mouseY);	// Flips the cell if it was clicked on
+	mouseDown = false;
 
 }));
 
@@ -655,7 +656,7 @@ tickCanvas.addEventListener("mousemove", shortDebounce(function(event){
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event);
 	if(mouseDown)
-		setCells(latticeArray, mouseX, mouseY); console.log(mouseDown)
+		setCells(latticeArray, mouseX, mouseY, true); console.log(mouseDown)
 }));
 
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
@@ -968,7 +969,7 @@ export function clearOrder()
 }
 
 //Takes Coordinates of mouseClick and calculates properly where it is in relation to the canvas
-function setCells(latticeArray, mouseX, mouseY) {
+function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 	let neoLatticeArray = latticeArray;
 	if (latticeArray.length == 1) {
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
@@ -982,37 +983,34 @@ function setCells(latticeArray, mouseX, mouseY) {
 					neoLatticeArray[0][i].setColor(1);
 				}
 				//Functionality for Setup Clicking
-				if(getSetup() && latticeArray[0][i].getColor() == 1 && tempOrder[i] == -1)
+				if(getSetup() && latticeArray[0][i].getColor() == 1 && !tempOrder.includes(i))
 				{
 					console.log("Number ", latticeArray[0][i].getNumber())
-					for (let j = 0; j < latticeArray[0].length; j++)
+					for (let j = 0; j < tempOrder.length; j++)
 					{
 						if(tempOrder[j] == -1)
 						{
-							console.log("j: ",tempOrder[j])
 							tempOrder[j] = i;
 							//console.log("Add")
 							latticeArray[0][i].setNumber(j)
-							console.log(j);
 							break;
 						}
 					}
 				}
 				else if(getSetup() && !mouseDown)
 				{
-					for (let j = 0; j < latticeArray[0].length; j++)
+					for (let j = 0; j < tempOrder.length; j++)
 					{
 						if(tempOrder[j] == i)
 						{
 							tempOrder[j] = -1;
 							console.log(tempOrder)
 							//console.log("Remove")
-							latticeArray[0][i].setNumber(j)
+							latticeArray[0][i].setNumber(-2)
 							break;
 						}
 					}
 				}
-				console.log("Temp Order: ", tempOrder)
 			}
 
 			//Draws new Cells and updates lattices accordingly
@@ -1202,7 +1200,7 @@ function makeLog(errorMessage, logCanvas, messageQueue) {
 
 //outputs correct elements of the message log
 function displayLog(messageQueue, logCanvas) {
-	let dummyMessage = new logMessage("God Bless Karl Marx", 'red', logCanvas); //Message used to just clear canvas
+	let dummyMessage = new logMessage("God Bless Ronald Reagan", 'red', logCanvas); //Message used to just clear canvas
 	dummyMessage.clearCanvas();
 	for (let i = 0; i < messageQueue.length; i++) {
 		messageQueue[i].displayMessage(i);
@@ -1298,6 +1296,6 @@ function shortDebounce(callback) {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => {
             callback(event); // Directly pass the event object to the callback function
-        }, 0);
+        }, 5);
     };
 }
