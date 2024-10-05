@@ -106,7 +106,7 @@ export class cell {
 		if(this.color == 1 && this.setupMode)
 		{
 			if((Math.trunc(Math.log(this.number + 1) / Math.log(10)) + 1) >= 2)
-			ctx.font = (this.height / ((Math.trunc(Math.log(this.number + 1) / Math.log(10)) + 1) * .54)) + 'px Arial';
+			ctx.font = (this.height / ((Math.trunc(Math.log(this.number + 1) / Math.log(10)) + 1) * .54)) - 2 + 'px Arial';
 			else
 			ctx.font = (this.height / ((Math.trunc(Math.log(this.number + 1) / Math.log(10)) + 1))) + 'px Arial';
 			
