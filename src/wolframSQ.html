@@ -157,35 +157,30 @@
         <h2> Algorithm Configuration Library </h2>
         <div class="library_box"> 
           <h3> Random </h3>
-          <p> TBD... </p>
           <div class="center_img">
             <button id="random" class="library_img"> </button>
           </div>
         </div>
         <div class="library_box"> 
           <h3> Left to Right </h3>
-          <p> TBD... </p>
           <div class="center_img">
             <button id="left2right" class="library_img"> </button>
           </div>
         </div>
         <div class="library_box"> 
           <h3> Right to Left </h3>
-          <p> TBD... </p>
           <div class="center_img">
             <button id="right2left" class="library_img"> </button>
           </div>
         </div>
         <div class="library_box"> 
           <h3> Center Outward </h3>
-          <p> TBD... </p>
           <div class="center_img">
             <button id="centerOutward" class="library_img"> </button>
           </div>
         </div>
         <div class="library_box"> 
           <h3> Edges Inward </h3>
-          <p> TBD... </p>
           <div class="center_img">
             <button id="edgesInward" class="library_img"> </button>
           </div>
@@ -205,48 +200,47 @@
           for sequential simulation. By default, setup mode applies a left to right configuration for sequential 
           simulation, but the user has complete control of algorithm configuration at any point. Selecting a cell
           ordering is significant to the sequential simulator as it greatly expands the capabilities and uniqueness of
-          the simulation; it greatly surpases the uniqueness and complexity of the Parallel Wolfram Nearest Neighbor
-          Simulator. Selecting an order is not mandatory nor necessary as a default ordering will be appllied, yet it is 
+          the simulation; it dramatically surpasses the uniqueness and complexity of the Parallel Wolfram Nearest Neighbor
+          Simulator. Selecting an order is not mandatory nor necessary as a default order will be applied, yet it is 
           strongly recommended to configure an ordering in setup mode and explore the vast capabilities of the program.
         </p>
         <h3> What is sequential simulation? </h3>
         <p> In the sequential implementation of the Wolfram nearest neighbor algorithm, the state of each cell in a lattice is 
           updated one at a time, with each update using the results from previous cells in the same iteration. This causes a 
           cascading effect, where the outcome for a cell depends on the already updated state of its neighbors, which may have 
-          been changed earlier in the same iteration. One at a time, the algorithm examines each cell in the lattice, updating
+          been changed earlier in the same iteration. The algorithm examines each cell in the lattice one at a time, updating
           it based on its nearest neighbors' states. However, unlike a parallel version where all cells are updated simultaneously, 
           the state of each cell is altered as the algorithm proceeds across the lattice in the configured order. Since the state
           of a cell is modified before moving to another cell, it may be influenced by the newly updated state of the previous cell,
           leading to a dependency chain within the same iteration. In each iteration, the algorithm performs updates sequentially, 
           meaning that the effect of earlier updates propagates forward, and the end of the lattice may look quite different from 
-          the start, depending on the order in which cells were updated. Overall, this can lead to more complex, evolving behavior 
+          the start, depending on the order in which cells were updated. This can lead to more complex, evolving behavior 
           within a single iteration due to the cascading updates, making it more natural for modeling processes where local changes 
           propagate gradually.</p>
         <h3> How to configure cell ordering? </h3>
         <p> In setup mode, clicking a cell does not toggle it between dead and alive states, but rather, it sets the chronological 
-          ordering such that a number will be set to the cell. The numbers are stored in stack that is in decending order from
+          ordering such that a number will be set to the cell. The numbers are stored in a stack in descending order from
           one to the lattice size. Clicking a cell will set it to the number at the top of the stack, so if an order was already half
-          selected and the cell set as six was selected again, it would be removed and six would be put back in the stack, meaning that 
-          the next cell clicked would be ordered at six. Keep in mind, the configuration has no limitations as long as each cell is 
-          given an order in the sequence. For instance, it is not required that the sequence follows a particular pattern nor does 
-          a cell and its neighbor need to be close in ordering. Ordering the cells with a number simply communicates to the algorithm 
+          selected and the cell set as six was selected again, it would be removed and, six would be put back in the stack, meaning that 
+          the next cell clicked would be ordered at six. Keep in mind that the configuration has no limitations as long as each cell is 
+          given an order in the sequence. For instance, it is not required that the sequence follows a particular pattern, nor do 
+          a cell and its neighbor need to be close in order. Ordering the cells with a number simply communicates to the algorithm 
           which cell to first apply the algorithm and then what cell to proceed, up until the final ordered cell in which the iteration 
-          is then complete. Cells may be numbered by clicking them individually or by clicking and draging, which will chronologically 
-          order the cells that were clicked during the event. Note that the cell ordering can be changed at any time by clearing with 
-          the "Clear" button or clicking an already ordered cell in setup mode. If it is desired to change the ordering while in 
-          simulate mode, click the "setup" button to view the current cell ordering and alter it as desired. Additionally cell 
+          is complete. Cells may be numbered by clicking them individually or by clicking and dragging, which will chronologically 
+          order the cells that were clicked during the event. Note that the cell ordering can be changed anytime by clearing with 
+          the "Clear" button or clicking an already ordered cell in setup mode. If changing the ordering while in simulate mode
+          is desired, click the "setup" button to view the current cell ordering and alter it as desired. Additionally, cell 
           ordering can be skipped (simulate without selecting order) as it will default to a left to right ordering.
         </p>
         <h3> What is the Library? </h3>
-        <p> The library in setup mode is a collection of sequential ordering presets. The presets provided are common orderings
-          that tend to produce interesting outputs in concordance with the rule number selected in simulate mode. Overall, the 
-          presets are relatively basic and patterned (except for random ordering) but produce complex models. It is recommended 
-          to explore the vast configuration options by individually selecting cells for an order, but the library is useful for 
-          quick and convenient ordering. Utilize the library by clicking a preset image button to apply the ordering outlined 
-          in the preset description. Note that the current cell ordering in the lattice will be cleared before applying the 
-          preset ordering from the Library. The ordering will be displayed in setup mode and then the "Simulate" button must 
-          be clicked in order proceed to simulation mode, which will use the selected ordering. Before entering simulate mode, 
-          the cell ordering displayed with the library preset may be altered as desired. 
+        <p> The library in setup mode is a collection of sequential ordering presets, designed for quick and convenient ordering. 
+          The presets provided are common orderings that produce interesting outputs in concordance with the rule number selected in 
+          simulate mode. While the presets are relatively basic and patterned (except for random ordering), they produce complex 
+          models. The library allows users to efficiently apply these presets by clicking a preset image button. The current cell 
+          ordering in the lattice will be cleared before applying the preset ordering from the library. The ordering will be displayed 
+          in setup mode, and then the 'Simulate' button must be clicked in order to proceed to simulation mode, which will use the selected 
+          ordering. Before entering simulate mode, the cell ordering displayed with the library preset may be altered as desired, 
+          ensuring users can maintain their efficiency while using the library.
         </p>
       </div>
     </div>
