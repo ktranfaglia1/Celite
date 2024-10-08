@@ -1068,7 +1068,7 @@ function makeLog(errorMessage, logCanvas, messageQueue) {
 
 //outputs correct elements of the message log
 function displayLog(messageQueue, logCanvas) {
-	let dummyMessage = new logMessage("God Bless Karl Marx", 'red', logCanvas); //Message used to just clear canvas
+	let dummyMessage = new logMessage("God Bless Ronald Reagan", 'red', logCanvas); //Message used to just clear canvas
 	dummyMessage.clearCanvas();
 	for (let i = 0; i < messageQueue.length; i++) {
 		messageQueue[i].displayMessage(i);

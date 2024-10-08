@@ -105,8 +105,12 @@ export class cell {
 
 		if(this.color == 1 && this.setupMode)
 		{
-			ctx.font = this.height - 10 + 'px Arial';
-			
+			if((Math.trunc(Math.log(this.number + 1) / Math.log(10)) + 1) >= 2)
+			ctx.font = (this.height / ((Math.trunc(Math.log(this.number + 1) / Math.log(10)) + 1) * .54)) - 2 + 'px Arial';
+			else
+			ctx.font = (this.height / ((Math.trunc(Math.log(this.number + 1) / Math.log(10)) + 1))) + 'px Arial';
+		
+
 			ctx.fillStyle = 'black';
 
 			ctx.fillText(this.number + 1, this.XLocation, this.YLocation + this.height); //Plus 1 to stop 0 indexing
