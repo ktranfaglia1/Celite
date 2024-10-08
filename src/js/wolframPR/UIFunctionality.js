@@ -885,7 +885,7 @@ export function toggleCheckbox() {
 		}
 		alterSize(size);
 		alterInf(false)
-		makeLog("Setting to Finite", logCanvas, messageQueue);
+		makeLog("Finite Condition Set", logCanvas, messageQueue);
 		clear(latticeArray, true);
 		periodicCheckBox.style.display = 'block';
 		nullCheckBox.style.display = 'block';
@@ -909,7 +909,7 @@ export function toggleCheckbox() {
 			alterSize(size);
 			//Settings changed to Infinite.
 			alterInf(true)
-			makeLog("Setting to Infinite", logCanvas, messageQueue);
+			makeLog("Infinite Condition Set", logCanvas, messageQueue);
 			clear(latticeArray, true);
 			periodicCheckBox.style.display = 'none';
 			nullCheckBox.style.display = 'none';
@@ -982,7 +982,7 @@ function clearResetToggle() {
 		makeLog("Resetting Canvas", logCanvas, messageQueue);
   	}
 	else {
-		makeLog("Clearing Canvas", logCanvas, messageQueue);
+		makeLog("Canvas Cleared", logCanvas, messageQueue);
 	}
 }
 
@@ -1002,7 +1002,7 @@ checkboxes.forEach(function(checkbox) {
 			//boundary condition. Otherwise set boundaryCon to 0 representing Null.
 			if (checkboxes[0].checked) {
 				alterBoundaryCon(1);
-				makeLog("Setting to Periodic", logCanvas, messageQueue);
+				makeLog("Periodic Boundary Set", logCanvas, messageQueue);
 				//Remove buffers if they exist.
 				let newCellNum = (latSize[0] - (2 * latSize[1]));
 				if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
@@ -1023,7 +1023,7 @@ checkboxes.forEach(function(checkbox) {
 			}
 			else {
 				alterBoundaryCon(0);
-				makeLog("Setting to Null", logCanvas, messageQueue);
+				makeLog("Null Boundary Set", logCanvas, messageQueue);
 				//Remove buffers if they exist.
 				let newCellNum = (latSize[0] - (2 * latSize[1]));
 				if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
