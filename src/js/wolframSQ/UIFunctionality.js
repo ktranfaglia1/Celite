@@ -85,12 +85,13 @@ let displayWelcome = true;  // Setup mode welcome message flag (only display on 
 // Display setup buttons and hide standard buttons upon setup button click
 setupButton.addEventListener("click", debounce(function() {
 	activateSetup();
-	for (let i = 0; i < latticeArray[0].length; i++)
+	console.log(orderArray);
+	for (let i = 0; i < orderArray.length; i++)
 	{
 		latticeArray[0][i].setColor(1)
 		latticeArray[0][i].setNumber(orderArray[i])
-		alterTempOrder(orderArray)
 	}
+	alterTempOrder(orderArray)
 	redrawLattice();
 	//clearOrder();
 }));
@@ -121,10 +122,10 @@ function activateSetup()
 	alterSetup(1); // Turns on setup functionality
 	redrawLattice();
 
-	for (let i = 0; i < latticeArray[0].length; i++)
+	/*for (let i = 0; i < latticeArray[0].length; i++)
 	{
 		tempOrder[i] = -1;
-	}
+	}*/
 }
 
 // Hide setup buttons and display standard buttons upon setup button click
@@ -638,7 +639,7 @@ iterationSubmit.addEventListener("click", function() {
 });
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
-	clearOrder();
+	//clearOrder();
 	stopIterating();  // Stops the iteration before changing the lattice size
 	clearResetToggle();
 	if(!getSetup())
