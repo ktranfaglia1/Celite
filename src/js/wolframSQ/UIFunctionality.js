@@ -641,6 +641,7 @@ latticeSizeSubmit.addEventListener("click", function() {
 	clearOrder();
 	stopIterating();  // Stops the iteration before changing the lattice size
 	clearResetToggle();
+	if(!getSetup())
 	setupButton.click();
 	updateLatticeSize(canvas);
 });
@@ -704,6 +705,7 @@ document.addEventListener('keydown', function(event) {
 					optionsButton.click();
 					break;
 				case (event.key == 'a'):
+					if(!getSetup())
 					setupButton.click();
 					break;
 				case (event.key == 'n'):
@@ -713,6 +715,7 @@ document.addEventListener('keydown', function(event) {
 					downloadPNGButton.click();
 					break;
 				case (event.key == 'u'):
+					if(!getSetup())
 					setupButton.click();
 					break;
 				case (event.key == 'g'):
