@@ -85,7 +85,14 @@ let displayWelcome = true;  // Setup mode welcome message flag (only display on 
 // Display setup buttons and hide standard buttons upon setup button click
 setupButton.addEventListener("click", debounce(function() {
 	activateSetup();
-	clearOrder();
+	for (let i = 0; i < latticeArray[0].length; i++)
+	{
+		latticeArray[0][i].setColor(1)
+		latticeArray[0][i].setNumber(orderArray[i])
+		alterTempOrder(orderArray)
+	}
+	redrawLattice();
+	//clearOrder();
 }));
 
 function activateSetup()

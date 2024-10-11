@@ -109,7 +109,8 @@ export class cell {
 			ctx.font = (this.height / ((Math.trunc(Math.log(this.number + 1) / Math.log(10)) + 1) * .54)) - 2 + 'px Arial';
 			else
 			ctx.font = (this.height / ((Math.trunc(Math.log(this.number + 1) / Math.log(10)) + 1))) + 'px Arial';
-		
+			
+
 
 			ctx.fillStyle = 'black';
 
