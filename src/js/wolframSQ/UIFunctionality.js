@@ -28,11 +28,13 @@ Reset Perspective Button
 const iterationInputBox = document.getElementById("iterationInputBox");
 const ruleInputBox = document.getElementById("ruleInputBox");
 const latticeSizeBox = document.getElementById("latticeSizeBox");
+const nInputBox = document.getElementById("nInputBox");
 
 //Submit Button Constants
 const iterationSubmit = document.getElementById("iterationSubmit");
 const ruleSubmit = document.getElementById("ruleSubmit");
 const latticeSizeSubmit = document.getElementById("latticeSizeSubmit");
+const nSubmit = document.getElementById("nSubmit");
 
 //Main Buttons Constants
 const startStopButton = document.getElementById("startStopButton");
@@ -55,6 +57,9 @@ const left2right = document.getElementById("left2right");
 const right2left = document.getElementById("right2left")
 const centerOut = document.getElementById("centerOutward");
 const edgesIn = document.getElementById("edgesInward");
+const centerOutR = document.getElementById("centerOutwardR");
+const edgesInR = document.getElementById("edgesInwardR");
+const skip = document.getElementById("nSkip");
 
 //Toggle Switches Constants
 const iterationToggleButton = document.getElementById("iterationToggle");
@@ -78,6 +83,9 @@ const setupItems = document.querySelectorAll(".setup_button");
 const standardItems = document.querySelectorAll(".simulation_button, .start_button");
 const closeLibrary = document.querySelector("#libraryContent .close");
 const closeHelp = document.querySelector("#helpContent .close");
+
+//Local variable nSkip needed for n-skip order setting
+let nSkip = 2
 
 
 // Display setup buttons and hide standard buttons upon setup button click
@@ -200,7 +208,6 @@ randButton.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none"
-	console.log(tempOrder)
 });
 
 left2right.addEventListener("click", function() {
@@ -221,7 +228,6 @@ left2right.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
-	console.log(tempOrder)
 });
 
 right2left.addEventListener("click", function() {
@@ -242,7 +248,6 @@ right2left.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
-	console.log(tempOrder)
 });
 
 centerOut.addEventListener("click", function() {
@@ -276,7 +281,6 @@ centerOut.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
-	console.log(tempOrder)
 });
 
 edgesIn.addEventListener("click", function() {
@@ -313,7 +317,114 @@ edgesIn.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
-	console.log(tempOrder)
+});
+
+centerOutR.addEventListener("click", function() {
+	clear(latticeArray, false);
+	clearOrder();
+	let mockLattice = new Array();
+	for (let i = 0; i < latticeArray[0].length; i++) {
+		mockLattice.push(i)
+	}
+	if (mockLattice.length % 2 == 0) {
+		for (let i = 0; i < mockLattice.length / 2; i++) {
+			mockLattice[i] = (mockLattice.length - (2 * (i + 1)));
+			mockLattice[i + (mockLattice.length / 2)] = (2 * i) + 1;
+		}
+	}
+	else {
+		mockLattice[(mockLattice.length - 1) / 2] = 0
+		for (let i = 0; i < (mockLattice.length - 1) / 2; i++) {
+			mockLattice[i] = (mockLattice.length - 1) - 2 * i;
+			mockLattice[(mockLattice.length - 1) / 2 + 1 + i] = ((i + 1) * 2) - 1;
+		}
+	}
+	for (let i = 0; i < mockLattice.length / 2; i++) {
+		let temp = mockLattice[i]
+		mockLattice[i] = mockLattice[(mockLattice.length - 1) - i];
+		mockLattice[(mockLattice.length - 1) - i] = temp;
+	}
+	let neoLatticeArray = latticeArray;
+	for (let i = 0 ; i < latticeArray[0].length; i++) {
+		neoLatticeArray[0][i].flipColor();
+		latticeArray[0][i].setNumber(mockLattice[i]);
+		(neoLatticeArray[0][i]).drawCell(ctx);
+		alterLatticeArray(neoLatticeArray);
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		tempOrder[mockLattice[i]] = i;
+	}
+	libraryWindow.style.display = "none";
+});
+
+edgesInR.addEventListener("click", function() {
+	clear(latticeArray, false);
+	clearOrder();
+	let mockLattice = new Array();
+	for (let i = 0; i < latticeArray[0].length; i++) {
+		mockLattice.push(i)
+	}
+	if (mockLattice.length % 2 == 0) {
+		for (let i = 0; i < mockLattice.length / 2; i++) {
+			mockLattice[i] = (mockLattice.length - (2 * (i + 1)));
+			mockLattice[i + (mockLattice.length / 2)] = (2 * i) + 1;
+		}
+	}
+	else {
+		mockLattice[(mockLattice.length - 1) / 2] = 0
+		for (let i = 0; i < (mockLattice.length - 1) / 2; i++) {
+			mockLattice[i] = (mockLattice.length - 1) - 2 * i;
+			mockLattice[(mockLattice.length - 1) / 2 + 1 + i] = ((i + 1) * 2) - 1;
+		}
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		mockLattice[i] = (mockLattice.length - 1) - mockLattice[i];
+	}
+	for (let i = 0; i < mockLattice.length / 2; i++) {
+		let temp = mockLattice[i]
+		mockLattice[i] = mockLattice[(mockLattice.length - 1) - i];
+		mockLattice[(mockLattice.length - 1) - i] = temp;
+	}
+	let neoLatticeArray = latticeArray;
+	for (let i = 0 ; i < latticeArray[0].length; i++) {
+		neoLatticeArray[0][i].flipColor();
+		latticeArray[0][i].setNumber(mockLattice[i]);
+		(neoLatticeArray[0][i]).drawCell(ctx);
+		alterLatticeArray(neoLatticeArray);
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		tempOrder[mockLattice[i]] = i;
+	}
+	libraryWindow.style.display = "none";
+});
+
+skip.addEventListener("click", function() {
+	clear(latticeArray, false);
+	clearOrder();
+	let mockLattice = new Array();
+	for (let i = 0; i < latticeArray[0].length; i++) {
+		mockLattice.push(0);
+	}
+	let count = 0;
+	for (let i = 1; i < nSkip + 1; i++) {
+		for (let f = 0; f < mockLattice.length; f++) {
+			if ((f + 1) % nSkip == i % nSkip) {
+				mockLattice[f] = count;
+				count += 1;
+			}
+		}
+	}
+	let neoLatticeArray = latticeArray;
+	for (let i = 0 ; i < latticeArray[0].length; i++) {
+		neoLatticeArray[0][i].flipColor();
+		latticeArray[0][i].setNumber(mockLattice[i]);
+		(neoLatticeArray[0][i]).drawCell(ctx);
+		alterLatticeArray(neoLatticeArray);
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		tempOrder[mockLattice[i]] = i;
+	}
+	libraryWindow.style.display = "none";
 });
 
 // Close if x (close) button in top right of the window is clicked
@@ -616,6 +727,9 @@ latticeSizeSubmit.addEventListener("click", function() {
 	setupButton.click();
 	updateLatticeSize(canvas);
 });
+nSubmit.addEventListener("click", function() {
+	setN();
+});
 
 startStopButton.addEventListener("click", debounce(function() {
 	if (run != 1) {
@@ -852,6 +966,17 @@ function continouslyIterate(iterationTime) {
 	}
 	else {
 		startStopToggle(currentIteration);
+	}
+}
+
+function setN() {
+	let newN = parseInt(nInputBox.value);
+	if (!isNaN(newN) && newN >= 2 && newN <= latSize) {
+		nSkip = newN;
+		makeLog("N Set to " + newN, logCanvas, messageQueue);
+	}
+	else {
+		makeError("Invalid N: " + nInputBox.value, logCanvas, messageQueue);
 	}
 }
 
