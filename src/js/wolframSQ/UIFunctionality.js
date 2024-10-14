@@ -154,6 +154,11 @@ simulateButton.addEventListener("click", function() {
 	{
 		makeLog("Defaulting order to L->R", logCanvas, messageQueue);
 		makeError("*Incomplete Ordering*", logCanvas, messageQueue);
+		for(let i = 0; i < tempOrder.length;i++)
+		{
+			tempOrder[i] = i;
+		}
+		alterOrder(tempOrder);
 		console.log(tempOrder);
 	}
 
@@ -169,9 +174,6 @@ voidButton.addEventListener("click", function() {
 	clear(latticeArray, false);
 	clearOrder();
 	makeLog("Order Cleared", logCanvas, messageQueue)
-});
-
-libraryButton.addEventListener("click", function() {
 });
 
 /* Handle open and closing of help and library window */
