@@ -239,6 +239,10 @@ let latSize = 10;
 let numOfIterations = 1;
 let currentIteration = 0;
 
+for(let i =0; i < latSize; i++)
+{
+  tempOrder[i] = -1
+}
 
 export let border = false; //Border = false by default
 //Creates setup variable and defaults to false

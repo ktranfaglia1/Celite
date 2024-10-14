@@ -682,8 +682,8 @@ tickCanvas.addEventListener("mouseup", function(event){mouseDown = false;});
 
 tickCanvas.addEventListener("mousemove", shortDebounce(function(event){
 	let mouseX, mouseY;
-	[mouseX, mouseY] = getMouseLocation(event);
 	if(mouseDown)
+		[mouseX, mouseY] = getMouseLocation(event);
 		setCells(latticeArray, mouseX, mouseY, true);
 }));
 
@@ -1003,7 +1003,6 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 	let neoLatticeArray = latticeArray;
 	if (latticeArray.length == 1) {
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
-			console.log(tempOrder);
 			if (latticeArray[0][i].insideCell(mouseX, mouseY)) {
 				if(!mouseDown)
 				{
@@ -1014,6 +1013,8 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 					neoLatticeArray[0][i].setColor(1);
 				}
 				//Functionality for Setup Clicking
+				console.log("Temp Order: ", tempOrder);
+				console.log(getSetup());
 				if(getSetup() && latticeArray[0][i].getColor() == 1 && !tempOrder.includes(i))
 				{
 					for (let j = 0; j < tempOrder.length; j++)
