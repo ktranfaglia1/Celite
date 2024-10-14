@@ -89,7 +89,7 @@ setupButton.addEventListener("click", debounce(function() {
 	for (let i = 0; i < orderArray.length; i++)
 	{
 		latticeArray[0][i].setColor(1)
-		latticeArray[0][i].setNumber(orderArray[i])
+		latticeArray[0][orderArray[i]].setNumber(i)
 	}
 	alterTempOrder(orderArray)
 	redrawLattice();
@@ -1013,7 +1013,6 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 					neoLatticeArray[0][i].setColor(1);
 				}
 				//Functionality for Setup Clicking
-				console.log("Temp Order: ", tempOrder);
 				console.log(getSetup());
 				if(getSetup() && latticeArray[0][i].getColor() == 1 && !tempOrder.includes(i))
 				{
@@ -1041,6 +1040,7 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 						}
 					}
 				}
+				console.log("Temp Order: ", tempOrder);
 			}
 
 			//Draws new Cells and updates lattices accordingly
