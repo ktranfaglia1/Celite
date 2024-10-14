@@ -1003,6 +1003,7 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 	let neoLatticeArray = latticeArray;
 	if (latticeArray.length == 1) {
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
+			console.log(tempOrder);
 			if (latticeArray[0][i].insideCell(mouseX, mouseY)) {
 				if(!mouseDown)
 				{
