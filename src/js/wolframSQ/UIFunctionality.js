@@ -331,6 +331,11 @@ edgesIn.addEventListener("click", function() {
 	for (let i = 0; i < mockLattice.length; i++) {
 		mockLattice[i] = (mockLattice.length - 1) - mockLattice[i];
 	}
+	for (let i = 0; i < mockLattice.length / 2; i++) {
+		let temp = mockLattice[i]
+		mockLattice[i] = mockLattice[(mockLattice.length - 1) - i];
+		mockLattice[(mockLattice.length - 1) - i] = temp;
+	}
 	let neoLatticeArray = latticeArray;
 	for (let i = 0 ; i < latticeArray[0].length; i++) {
 		neoLatticeArray[0][i].flipColor();
@@ -342,9 +347,6 @@ edgesIn.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
-	console.log(tempOrder)
-	makeLog("Edges Inward Order Set", logCanvas, messageQueue)
-
 });
 
 centerOutR.addEventListener("click", function() {
@@ -408,11 +410,6 @@ edgesInR.addEventListener("click", function() {
 	for (let i = 0; i < mockLattice.length; i++) {
 		mockLattice[i] = (mockLattice.length - 1) - mockLattice[i];
 	}
-	for (let i = 0; i < mockLattice.length / 2; i++) {
-		let temp = mockLattice[i]
-		mockLattice[i] = mockLattice[(mockLattice.length - 1) - i];
-		mockLattice[(mockLattice.length - 1) - i] = temp;
-	}
 	let neoLatticeArray = latticeArray;
 	for (let i = 0 ; i < latticeArray[0].length; i++) {
 		neoLatticeArray[0][i].flipColor();
@@ -424,6 +421,9 @@ edgesInR.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
+	console.log(tempOrder)
+	makeLog("Edges Inward Order Set", logCanvas, messageQueue)
+
 });
 
 skip.addEventListener("click", function() {
