@@ -99,6 +99,11 @@ function activateSetup()
 	else {
 		makeLog("Entered Setup Mode", logCanvas, messageQueue)
 	}
+
+	// Check if the options window is displayed and disable it (not designed for setup mode)
+	if (optionsWindow.style.display == "block") {
+		optionsWindow.style.display = "none";
+	}
 	
 	// Loop through the standard secondary toolbar elements and disable display
 	standardItems.forEach(item => {
@@ -161,9 +166,6 @@ voidButton.addEventListener("click", function() {
 	clear(latticeArray, false);
 	clearOrder();
 	makeLog("Order Cleared", logCanvas, messageQueue)
-});
-
-libraryButton.addEventListener("click", function() {
 });
 
 /* Handle open and closing of help and library window */
