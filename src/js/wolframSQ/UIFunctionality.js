@@ -28,11 +28,13 @@ Reset Perspective Button
 const iterationInputBox = document.getElementById("iterationInputBox");
 const ruleInputBox = document.getElementById("ruleInputBox");
 const latticeSizeBox = document.getElementById("latticeSizeBox");
+const nInputBox = document.getElementById("nInputBox");
 
 //Submit Button Constants
 const iterationSubmit = document.getElementById("iterationSubmit");
 const ruleSubmit = document.getElementById("ruleSubmit");
 const latticeSizeSubmit = document.getElementById("latticeSizeSubmit");
+const nSubmit = document.getElementById("nSubmit");
 
 //Main Buttons Constants
 const startStopButton = document.getElementById("startStopButton");
@@ -55,6 +57,9 @@ const left2right = document.getElementById("left2right");
 const right2left = document.getElementById("right2left")
 const centerOut = document.getElementById("centerOutward");
 const edgesIn = document.getElementById("edgesInward");
+const centerOutR = document.getElementById("centerOutwardR");
+const edgesInR = document.getElementById("edgesInwardR");
+const skip = document.getElementById("nSkip");
 
 //Toggle Switches Constants
 const iterationToggleButton = document.getElementById("iterationToggle");
@@ -81,6 +86,9 @@ const closeHelp = document.querySelector("#helpContent .close");
 
 let mouseDown = false;
 let displayWelcome = true;  // Setup mode welcome message flag (only display on page load)
+
+let nSkip = 2  // Local variable nSkip needed for n-skip order setting
+
 
 // Display setup buttons and hide standard buttons upon setup button click
 setupButton.addEventListener("click", debounce(function() {
@@ -639,6 +647,9 @@ latticeSizeSubmit.addEventListener("click", function() {
 	setupButton.click();
 	updateLatticeSize(canvas);
 });
+nSubmit.addEventListener("click", function() {
+	setN();
+});
 
 startStopButton.addEventListener("click", debounce(function() {
 	if (run != 1) {
@@ -886,6 +897,17 @@ function continouslyIterate(iterationTime) {
 	}
 	else {
 		startStopToggle(currentIteration);
+	}
+}
+
+function setN() {
+	let newN = parseInt(nInputBox.value);
+	if (!isNaN(newN) && newN >= 2 && newN <= latSize) {
+		nSkip = newN;
+		makeLog("N Set to " + newN, logCanvas, messageQueue);
+	}
+	else {
+		makeError("Invalid N: " + nInputBox.value, logCanvas, messageQueue);
 	}
 }
 
