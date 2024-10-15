@@ -347,6 +347,116 @@ edgesIn.addEventListener("click", function() {
 
 });
 
+centerOutR.addEventListener("click", function() {
+	clear(latticeArray, false);
+	clearOrder();
+	let mockLattice = new Array();
+	for (let i = 0; i < latticeArray[0].length; i++) {
+		mockLattice.push(i)
+	}
+	if (mockLattice.length % 2 == 0) {
+		for (let i = 0; i < mockLattice.length / 2; i++) {
+			mockLattice[i] = (mockLattice.length - (2 * (i + 1)));
+			mockLattice[i + (mockLattice.length / 2)] = (2 * i) + 1;
+		}
+	}
+	else {
+		mockLattice[(mockLattice.length - 1) / 2] = 0
+		for (let i = 0; i < (mockLattice.length - 1) / 2; i++) {
+			mockLattice[i] = (mockLattice.length - 1) - 2 * i;
+			mockLattice[(mockLattice.length - 1) / 2 + 1 + i] = ((i + 1) * 2) - 1;
+		}
+	}
+	for (let i = 0; i < mockLattice.length / 2; i++) {
+		let temp = mockLattice[i]
+		mockLattice[i] = mockLattice[(mockLattice.length - 1) - i];
+		mockLattice[(mockLattice.length - 1) - i] = temp;
+	}
+	let neoLatticeArray = latticeArray;
+	for (let i = 0 ; i < latticeArray[0].length; i++) {
+		neoLatticeArray[0][i].flipColor();
+		latticeArray[0][i].setNumber(mockLattice[i]);
+		(neoLatticeArray[0][i]).drawCell(ctx);
+		alterLatticeArray(neoLatticeArray);
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		tempOrder[mockLattice[i]] = i;
+	}
+	libraryWindow.style.display = "none";
+});
+
+edgesInR.addEventListener("click", function() {
+	clear(latticeArray, false);
+	clearOrder();
+	let mockLattice = new Array();
+	for (let i = 0; i < latticeArray[0].length; i++) {
+		mockLattice.push(i)
+	}
+	if (mockLattice.length % 2 == 0) {
+		for (let i = 0; i < mockLattice.length / 2; i++) {
+			mockLattice[i] = (mockLattice.length - (2 * (i + 1)));
+			mockLattice[i + (mockLattice.length / 2)] = (2 * i) + 1;
+		}
+	}
+	else {
+		mockLattice[(mockLattice.length - 1) / 2] = 0
+		for (let i = 0; i < (mockLattice.length - 1) / 2; i++) {
+			mockLattice[i] = (mockLattice.length - 1) - 2 * i;
+			mockLattice[(mockLattice.length - 1) / 2 + 1 + i] = ((i + 1) * 2) - 1;
+		}
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		mockLattice[i] = (mockLattice.length - 1) - mockLattice[i];
+	}
+	for (let i = 0; i < mockLattice.length / 2; i++) {
+		let temp = mockLattice[i]
+		mockLattice[i] = mockLattice[(mockLattice.length - 1) - i];
+		mockLattice[(mockLattice.length - 1) - i] = temp;
+	}
+	let neoLatticeArray = latticeArray;
+	for (let i = 0 ; i < latticeArray[0].length; i++) {
+		neoLatticeArray[0][i].flipColor();
+		latticeArray[0][i].setNumber(mockLattice[i]);
+		(neoLatticeArray[0][i]).drawCell(ctx);
+		alterLatticeArray(neoLatticeArray);
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		tempOrder[mockLattice[i]] = i;
+	}
+	libraryWindow.style.display = "none";
+});
+
+skip.addEventListener("click", function() {
+	clear(latticeArray, false);
+	clearOrder();
+	let mockLattice = new Array();
+	for (let i = 0; i < latticeArray[0].length; i++) {
+		mockLattice.push(0);
+	}
+	let count = 0;
+	for (let i = 1; i < nSkip + 1; i++) {
+		for (let f = 0; f < mockLattice.length; f++) {
+			if ((f + 1) % nSkip == i % nSkip) {
+				mockLattice[f] = count;
+				count += 1;
+			}
+		}
+	}
+	let neoLatticeArray = latticeArray;
+	for (let i = 0 ; i < latticeArray[0].length; i++) {
+		neoLatticeArray[0][i].flipColor();
+		latticeArray[0][i].setNumber(mockLattice[i]);
+		(neoLatticeArray[0][i]).drawCell(ctx);
+		alterLatticeArray(neoLatticeArray);
+	}
+	for (let i = 0; i < mockLattice.length; i++) {
+		tempOrder[mockLattice[i]] = i;
+	}
+	libraryWindow.style.display = "none";
+	makeLog("N-Skip order set | N = " + nSkip, logCanvas, messageQueue)
+});
+
+
 // Close if x (close) button in top right of the window is clicked
 closeLibrary.addEventListener("click", function() {
 	libraryWindow.style.display = "none";
@@ -904,10 +1014,10 @@ function setN() {
 	let newN = parseInt(nInputBox.value);
 	if (!isNaN(newN) && newN >= 2 && newN <= latSize) {
 		nSkip = newN;
-		makeLog("N Set to " + newN, logCanvas, messageQueue);
+		makeLog("N-value Set to " + newN, logCanvas, messageQueue);
 	}
 	else {
-		makeError("Invalid N: " + nInputBox.value, logCanvas, messageQueue);
+		makeError("*Invalid N-value: " + nInputBox.value + "(N >= 2)*", logCanvas, messageQueue);
 	}
 }
 

@@ -332,3 +332,12 @@ ul {
 #edgesInward {
   background-image: url("../images/Edges_inward.png");
 }
+#centerOutwardR {
+  background-image: url("../images/Center_outward_reverse.png");
+}
+#edgesInwardR {
+  background-image: url("../images/Edges_inward.png");
+}
+#nSkip {
+  background-image: url("../images/Edges_inward.png");
+}
