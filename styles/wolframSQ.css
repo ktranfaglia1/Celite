@@ -310,9 +310,25 @@ ul {
   top: 0;
   left: 0;
   margin: 0;
-  background-image: url('../images/dustin.jpg');
+  background-image: url('../images/Dustin.jpg');
   background-position: center;
   background-size: cover;
   display: none;
   z-index: 999;
+}
+/* Library images */
+#random {
+  background-image: url("../images/Random.png");
+}
+#left2right {
+  background-image: url("../images/Left2Right.png");
+}
+#right2left {
+  background-image: url("../images/Right2Left.png");
+}
+#centerOutward {
+  background-image: url("../images/Center_outward.png");
+}
+#edgesInward {
+  background-image: url("../images/Edges_inward.png");
 }

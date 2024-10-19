@@ -137,16 +137,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		}, 10);
 	});
 
-canvas.addEventListener('mouseleave', function() {
-	setTimeout(function() {
-		if (scribble) {
-			scribble = false;
-			console.log(scribble)
-			shiftX = 0;
-			shiftY = 0;
-		}
-	}, 10);
-});
 
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
 document.addEventListener('keydown', function(event) {
@@ -251,6 +241,8 @@ canvas.addEventListener("click", function(event) {
 			}
 		}, 10);
 	});
+
+	
 
 	canvas.addEventListener("mouseup", function() {
 		document.body.style.userSelect = 'auto';  // Enable text selection globally

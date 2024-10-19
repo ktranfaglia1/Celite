@@ -52,7 +52,7 @@ const libraryButton = document.getElementById("libraryButton");
 const helpButton = document.getElementById("helpButton");
 
 //Library Option Constants
-const randButton = document.getElementById("random");
+const randOrder = document.getElementById("random");
 const left2right = document.getElementById("left2right");
 const right2left = document.getElementById("right2left")
 const centerOut = document.getElementById("centerOutward");
@@ -87,6 +87,8 @@ const closeHelp = document.querySelector("#helpContent .close");
 //Local variable nSkip needed for n-skip order setting
 let nSkip = 2
 
+let mouseDown = false;
+let displayWelcome = true;  // Setup mode welcome message flag (only display on page load)
 
 // Display setup buttons and hide standard buttons upon setup button click
 setupButton.addEventListener("click", debounce(function() {
@@ -96,9 +98,15 @@ setupButton.addEventListener("click", debounce(function() {
 
 function activateSetup()
 {
-	makeLog("Use Help for Assistance", logCanvas, messageQueue)
-	makeLog("Please Select Order", logCanvas, messageQueue)
-	makeLog("Welcome to Setup Mode", logCanvas, messageQueue)
+	if (displayWelcome) {
+		makeLog("Use Help for Assistance", logCanvas, messageQueue)
+		makeLog("Please Select Order", logCanvas, messageQueue)
+		makeLog("Welcome to Setup Mode", logCanvas, messageQueue)
+		displayWelcome = false;
+	}
+	else {
+		makeLog("Entered Setup Mode", logCanvas, messageQueue)
+	}
 	
 	// Loop through the standard secondary toolbar elements and disable display
 	standardItems.forEach(item => {
@@ -122,17 +130,20 @@ function activateSetup()
 
 // Hide setup buttons and display standard buttons upon setup button click
 simulateButton.addEventListener("click", function() {
+
 	// Loop through the standard secondary toolbar elements and enable display
 	standardItems.forEach(item => {
 		item.style.display = 'inline-block';
 	});
+
 	console.log(tempOrder)
 	// Loop through the setup mode secondary toolbar elements and disable display
 	setupItems.forEach(item => {
 		item.style.display = 'none';
 	});
 
-	if(!tempOrder.includes(-1)) //Tests if array has all been selected and if it has updates
+	// Check if all cells have been ordered
+	if(!tempOrder.includes(-1))
 	{
 		console.log("Saving", tempOrder);
 		alterOrder(tempOrder)
@@ -141,10 +152,12 @@ simulateButton.addEventListener("click", function() {
 	}
 	else
 	{
-		makeError("*Incomplete Ordering*", logCanvas, messageQueue);
 		makeLog("Defaulting order to L->R", logCanvas, messageQueue);
+		makeError("*Incomplete Ordering*", logCanvas, messageQueue);
 		console.log(tempOrder);
 	}
+
+	makeLog("Entered Simulate Mode", logCanvas, messageQueue)
 	
 	clear(latticeArray, false);
 	//alterOrder(tempOrder);
@@ -155,6 +168,7 @@ simulateButton.addEventListener("click", function() {
 voidButton.addEventListener("click", function() {
 	clear(latticeArray, false);
 	clearOrder();
+	makeLog("Order Cleared", logCanvas, messageQueue)
 });
 
 libraryButton.addEventListener("click", function() {
@@ -186,7 +200,7 @@ libraryButton.addEventListener("click", function() {
 });
 
 /* Handles generation of certain sequence presets */
-randButton.addEventListener("click", function() {
+randOrder.addEventListener("click", function() {
 	clear(latticeArray, false);
 	clearOrder();
 	let mockLattice = new Array();
@@ -208,6 +222,8 @@ randButton.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none"
+	console.log(tempOrder)
+	makeLog("Random Order Set", logCanvas, messageQueue)
 });
 
 left2right.addEventListener("click", function() {
@@ -228,6 +244,8 @@ left2right.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
+	console.log(tempOrder)
+	makeLog("Left to Right Order Set", logCanvas, messageQueue)
 });
 
 right2left.addEventListener("click", function() {
@@ -248,6 +266,9 @@ right2left.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
+	console.log(tempOrder)
+	makeLog("Right to Left Order Set", logCanvas, messageQueue)
+
 });
 
 centerOut.addEventListener("click", function() {
@@ -281,6 +302,8 @@ centerOut.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
+	console.log(tempOrder)
+	makeLog("Center Outward Order Set", logCanvas, messageQueue)
 });
 
 edgesIn.addEventListener("click", function() {
@@ -317,6 +340,8 @@ edgesIn.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
+	console.log(tempOrder)
+	makeLog("Edges Inward Order Set", logCanvas, messageQueue)
 });
 
 centerOutR.addEventListener("click", function() {
@@ -757,7 +782,18 @@ tickCanvas.addEventListener('click', debounce(function(event) {
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of mouse click for usage in setCells
 	setCells(latticeArray, mouseX, mouseY);	// Flips the cell if it was clicked on
+	mouseDown = false;
 
+}));
+
+tickCanvas.addEventListener("mousedown", function(event){mouseDown = true;});
+tickCanvas.addEventListener("mouseup", function(event){mouseDown = false;});
+
+tickCanvas.addEventListener("mousemove", shortDebounce(function(event){
+	let mouseX, mouseY;
+	[mouseX, mouseY] = getMouseLocation(event);
+	if(mouseDown)
+		setCells(latticeArray, mouseX, mouseY, true);
 }));
 
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
@@ -1081,38 +1117,42 @@ export function clearOrder()
 }
 
 //Takes Coordinates of mouseClick and calculates properly where it is in relation to the canvas
-function setCells(latticeArray, mouseX, mouseY) {
+function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 	let neoLatticeArray = latticeArray;
 	if (latticeArray.length == 1) {
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
 			if (latticeArray[0][i].insideCell(mouseX, mouseY)) {
-				neoLatticeArray[0][i].flipColor();
-
-				//Functionality for Setup Clicking
-				if(getSetup() && latticeArray[0][i].getColor() == 1)
+				if(!mouseDown)
 				{
-					for (let j = 0; j < latticeArray[0].length; j++)
+					neoLatticeArray[0][i].flipColor();
+				}
+				else
+				{
+					neoLatticeArray[0][i].setColor(1);
+				}
+				//Functionality for Setup Clicking
+				if(getSetup() && latticeArray[0][i].getColor() == 1 && !tempOrder.includes(i))
+				{
+					for (let j = 0; j < tempOrder.length; j++)
 					{
 						if(tempOrder[j] == -1)
 						{
 							tempOrder[j] = i;
-							console.log(tempOrder)
 							//console.log("Add")
 							latticeArray[0][i].setNumber(j)
 							break;
 						}
 					}
 				}
-				else if(getSetup())
+				else if(getSetup() && !mouseDown)
 				{
-					for (let j = 0; j < latticeArray[0].length; j++)
+					for (let j = 0; j < tempOrder.length; j++)
 					{
 						if(tempOrder[j] == i)
 						{
 							tempOrder[j] = -1;
-							console.log(tempOrder)
 							//console.log("Remove")
-							latticeArray[0][i].setNumber(j)
+							latticeArray[0][i].setNumber(-2)
 							break;
 						}
 					}
@@ -1252,7 +1292,7 @@ function clearResetToggle() {
 		makeLog("Resetting Canvas", logCanvas, messageQueue);
   	}
 	else {
-		makeLog("Clearing Canvas", logCanvas, messageQueue);
+		makeLog("Canvas Cleared", logCanvas, messageQueue);
 	}
 }
 // Set boundary condition and ensure one and only one checkbox can be checked at a time upon checkbox click
@@ -1272,12 +1312,12 @@ checkboxes.forEach(function(checkbox) {
 			//boundary condition. Otherwise set boundaryCon to 0 representing Null.
 			if (checkboxes[0].checked) {
 				alterBoundaryCon(1);
-				makeLog("Setting to Periodic", logCanvas, messageQueue);
+				makeLog("Periodic Boundary Set", logCanvas, messageQueue);
 				clear(latticeArray, true);
 			}
 			else {
 				alterBoundaryCon(0);
-				makeLog("Setting to Null", logCanvas, messageQueue);
+				makeLog("Null Boundary Set", logCanvas, messageQueue);
 				clear(latticeArray, true);
 			}
         }
@@ -1306,7 +1346,7 @@ function makeLog(errorMessage, logCanvas, messageQueue) {
 
 //outputs correct elements of the message log
 function displayLog(messageQueue, logCanvas) {
-	let dummyMessage = new logMessage("God Bless Karl Marx", 'red', logCanvas); //Message used to just clear canvas
+	let dummyMessage = new logMessage("God Bless Ronald Reagan", 'red', logCanvas); //Message used to just clear canvas
 	dummyMessage.clearCanvas();
 	for (let i = 0; i < messageQueue.length; i++) {
 		messageQueue[i].displayMessage(i);
@@ -1391,5 +1431,17 @@ function debounce(callback) {
         timeoutId = setTimeout(() => {
             callback(event); // Directly pass the event object to the callback function
         }, 25);
+    };
+}
+
+//This is a debounce designed for slide since temp array needs to update before next cell can be clicked
+function shortDebounce(callback) {
+    let timeoutId;
+
+    return function(event) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            callback(event); // Directly pass the event object to the callback function
+        }, 5);
     };
 }

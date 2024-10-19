@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Link to online library for icons -->
     <link rel="stylesheet" type="text/css" href="../styles/global.css">  <!-- Link to global CSS styles -->
     <link rel="stylesheet" type="text/css" href="../styles/documentation.css">  <!-- Link to home specific CSS styles -->
-    <link rel="icon" href="../images/cellular_automata_icon.png">  <!-- Link page icon -->
+    <link rel="icon" href="../images/Cellular_automata_icon.png">  <!-- Link page icon -->
   </head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> </script> <!-- Connect to online Javascript library for sidebar functionality -->
   <script type="module" src="../src/js/documentation/documentation.js"> </script> <!-- Connect Javascript for documentation functionality -->
@@ -17,7 +17,7 @@
     <header>
       <div class="navbar">
         <a href="../src/index.html" class="logo">
-          <img src="../images/cellular_automata_logo.png" alt="Logo" width="70" height="70">
+          <img src="../images/Cellular_automata_logo.png" alt="Logo" width="70" height="70">
         </a>
         <a href="../src/index.html"> Home </a>  <!-- Link to the home page -->
         <!-- Dropdown menu for simulators -->
@@ -48,6 +48,7 @@
               <li> <a href="#boundaryConditions" class="subtitle"> Boundary Conditions </a> </li>
               <li> <a href="#logBox" class="subtitle"> Log Box </a> </li>
               <li> <a href="#canvas1" class="subtitle"> Canvas </a> </li>
+              <li> <a href="#WNNalgorithm" class="subtitle"> Algorithm Rule </a> </li>
             </ul>
           </li>
           <!-- category -->
@@ -58,7 +59,6 @@
               <li> <a href="#primaryToolbar1" class="subtitle"> Primary Toolbar </a> </li>
               <li> <a href="#secondaryToolbar1" class="subtitle"> Secondary Toolbar </a> </li>
               <li> <a href="#options1" class="subtitle"> Options </a> </li>
-              <li> <a href="#algorithm1" class="subtitle"> Algorithm Rules </a> </li>
             </ul>
           </li>
           <!-- category -->
@@ -70,7 +70,6 @@
               <li> <a href="#secondaryToolbar2" class="subtitle"> Secondary Toolbar </a> </li>
               <li> <a href="#setupmode" class="subtitle"> Setup Mode </a> </li>
               <li> <a href="#options2" class="subtitle"> Options </a> </li>
-              <li> <a href="#algorithm2" class="subtitle"> Algorithm Rules </a> </li>
             </ul>
           </li>
           <!-- category -->
@@ -80,7 +79,7 @@
             <ul class="submenu">
               <li> <a href="#primaryToolbar3" class="subtitle"> Primary Toolbar </a> </li> 
               <li> <a href="#canvas2" class="subtitle"> Canvas </a> </li>
-              <li> <a href="#algorithm3" class="subtitle"> Algorithm Rules </a> </li>
+              <li> <a href="#GOLalgorithm" class="subtitle"> Algorithm Rule </a> </li>
             </ul>
           </li>
           <!-- category -->
@@ -88,6 +87,7 @@
             <span class="menu_title"> Insights & FAQS </span>
             <!-- headers -->
             <ul class="submenu">
+              <li> <a href="#faqs" class="subtitle"> FAQS </a> </li> 
               <li> <a href="#keyboardShortcuts" class="subtitle"> Keyboard Shortcuts </a> </li> 
             </ul>
           </li>
@@ -113,7 +113,7 @@
         </div>
         <div class = p3>
           Boundary conditions may be selected on the right side of the primary toolbar. For Parallel Wolfram's Nearest Neighbor, finite condition checkboxes appear and canvas will be reset upon toggle. <br>
-          <i> Keyboard Shortcut: </i> ALT + U
+          <i> Keyboard Shortcut: </i> ALT + U (Parallel Wolfram's Nearest Neighbor)
         </div>
         <h6 id="logBox"> Log Box </h6>
         <div class="p3">
@@ -126,7 +126,7 @@
           <u>Errors</u>: All error messages will be printed in red. Error messages are only produced during invalid input events for the "Iterations," "Rule," and "Lattice," input boxes. Additional error messages are provided in Sequential Wolfram's Nearest Neighbor for setup mode. Thus, any input that is not a number or outside of the range for the input box will produce an error message with the provided invalid input.
         </div>
         <div class="p3">
-          Only three log box messages will be displayed at a time and the most recent message is displayed at the top of the log box. Once the log box is full, a new message will push out the oldest message such that the new message will appear at the top, the bottom message will be deleted, and the rest will slide down. All successful logs including loaded information logs will be printed in black text, while error logs will be printed in red text.
+          Only three log box messages will be displayed at a time and the most recent message is displayed at the top of the log box. Once the log box is full, a new message will push out the oldest message, such that the new message will appear at the top, the bottom message will be deleted, and the rest will slide down. All successful logs including loaded information logs will be printed in black text, while error logs will be printed in red text.
         </div>
         <h6 id="canvas1"> Canvas </h6>
         <div class="p3"> 
@@ -143,6 +143,26 @@
         </div>
         <div class="p3"> 
           An iteration counter that displays the current iteration index can be found above the top left border of the canvas.
+        </div>
+        <h6 id="WNNalgorithm"> Algorithm Rule </h6>
+        <div class="p3"> 
+          The Wolfram Nearest Neighbor algorithm works by updating the state of each cell, which can either be dead (0) or alive (1), in a one-dimensional lattice based on the state of that cell and its immediate neighbors (left and right). For each cell in the lattice, we consider it together with its left and right neighbors as a triplet. For example, if the left cell is 1, the current cell is 0, and the right cell is 1, the triplet is 101. The key idea is that each triplet of cells (left, current, right) forms a 3-bit binary number, which is used to determine the next state of the current cell according to a rule. The rule outcomes are determined by the binary conversion of the rule number such that the possible outcomes in a state change table (read top to bottom) stem from the binary digits of the 8-bit binary representation (read left to right). The 8-bit binary representation of the rule number allows for eight possible outcomes and also restricts rule numbers to be within 2^8 [0, 255]. The rule is essentially a lookup table that specifies the next state of the current cell based on the triplet. The algorithm determines the next state of the current cell by looking at the triplet with its neighbors and using the rule table to map that triplet to a new state. <br> <br> 
+          For example, here is the state change table for rule 30: <br> 
+          If the left cell is 1, the current cell is 1, and the right cell is 1 (111), the next state of the current cell is 0. <br>
+          If the left cell is 1, the current cell is 1, and the right cell is 0 (110), the next state of the current cell is 0. <br>
+          If the left cell is 1, the current cell is 0, and the right cell is 1 (101), the next state of the current cell is 0. <br>
+          If the left cell is 1, the current cell is 0, and the right cell is 0 (100), the next state of the current cell is 1. <br>
+          If the left cell is 0, the current cell is 1, and the right cell is 1 (011), the next state of the current cell is 1. <br>
+          If the left cell is 0, the current cell is 1, and the right cell is 0 (010), the next state of the current cell is 1. <br>
+          If the left cell is 0, the current cell is 0, and the right cell is 1 (001), the next state of the current cell is 1. <br>
+          If the left cell is 0, the current cell is 0, and the right cell is 0 (000), the next state of the current cell is 0. <br> 
+          <i> *Notice that this example uses rule 30, which has an 8-bit binary number of 00011110. The binary number from left to right is the output of the state table above, read top down. This is the case for all possible rule numbers 0 - 255, as the 8-bit binary representation of the rule number determines the state change table output. </i> <br> <br>
+          The algorithm follows the steps: <br>
+          1. Initialize the lattice with an initial configuration. <br>
+          2. For each time step and cell in the lattice, identify the left neighbor, the current cell, and the right neighbor, form the triplet and convert it to a binary number, then use the rule table to determine the next state of the current cell. <br>
+          3. Update the lattice synchronously (all cells are updated simutaneously after each time step) for parallel simulation or asynchronously (cells are updated sequentially in a particular order after each time step) for sequential simulation. <br>
+          4. Repeat for the desired number of time steps (iteration amount). <br> <br>
+          For parallel simulation (synchronous updating), all the cells in the lattice are updated at the same time based on the current state of the system. This means that the next state for each cell is computed based on the neighbors' values before any updates happen. All cells are updated simultaneously in a single time step. For sequential simulation (asynchronous updating), the cells are updated one at a time in some configured sequence. This means that by the time a given cell is updated, some of its neighbors might have already been updated, while others have not. The next state of each cell is computed based on the most recent available states of its neighbors, which could include updated cells.
         </div> <br> <br>
         <h2 class="head"> Parallel Wolfram's Nearest Neighbor </h2>
         <h6 id="primaryToolbar1"> Primary Toolbar </h6>
@@ -154,7 +174,7 @@
           <i> Keyboard Shortcut: </i> ALT + J
         </div>
         <div class="p3">
-          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, the rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current timestep, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). The three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary number. The value at the given index is the new state of the cell. The rule is applied as a parallel update, meaning every cell in the lattice is updated simutaneously upon each iteration.
+          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, the rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current time step, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). The three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary number. The value at the given index is the new state of the cell. The rule is applied as a parallel update, meaning every cell in the lattice is updated simutaneously upon each iteration.
         </div> 
         <div class="p4"> 
           <i> Input Restrictions: </i> Non-negative real numbers in range [0, 255]. Decimal values will be truncated. <br>
@@ -246,10 +266,6 @@
         </div>
         <div class="p3">
           <u>Cell Color Boxes</u>: Click any of the four color boxes labeled "Alive Cell," "Dead Cell," "Alive Border," and "Dead Border" to open a color picker window. In the window, depending on the web-browser, there is a color selector that allows for full color customization for the selected region. The color picker uses a RGB based GUI built into HTML that allows for precise color selection, then applies the color to the specified cell region.
-        </div>
-        <h6 id="algorithm1"> Algorithm Rules </h6>
-        <div class="p3"> 
-          <u>TBD ...</u>: <br> 
         </div> <br> <br>
         <h2 class="head"> Sequential Wolfram's Nearest Neighbor </h2>
         <h6 id="primaryToolbar2"> Primary Toolbar </h6>
@@ -261,7 +277,7 @@
           <i> Keyboard Shortcut: </i> ALT + J
         </div>
         <div class="p3">
-          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, the rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current timestep, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). The three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary number. The value at the given index is the new state of the cell. The rule is applied as a parallel update, meaning every cell in the lattice is updated simutaneously upon each iteration.
+          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, the rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current time step, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). The three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary number. The value at the given index is the new state of the cell. The rule is applied as a parallel update, meaning every cell in the lattice is updated simutaneously upon each iteration.
         </div> 
         <div class="p4"> 
           <i> Input Restrictions: </i> Non-negative real numbers in range [0, 255]. Decimal values will be truncated. <br>
@@ -299,7 +315,7 @@
           <i> Keyboard Shortcut: </i> ALT + C
         </div>
         <div class="p3">
-          <u>Setup Button</u>: Click "Setup" to switch out of simulate mode and into setup mode. In setup mode, the cell ordering for the sequential algorithm may be selected. Click, or click and drag, the cells to chronologically number the cells in a desired order. A library of presets is available for quick and convenient cell ordering. Exit setup mode and enter simulate mode by clciking the "Simulate" button. For more information, click the "Help" button in setup mode. 
+          <u>Setup Button</u>: Click "Setup" to switch out of simulate mode and into setup mode. In setup mode, the cell ordering for the sequential algorithm may be selected. Click, or click and drag, the cells to chronologically number the cells in a desired order. A library of presets is available for quick and convenient cell ordering. Exit setup mode and enter simulate mode by clicking the "Simulate" button. For more information, click the "Help" button in setup mode. 
         </div> 
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + U
@@ -312,19 +328,19 @@
           <i> Keyboard Shortcut: </i> ALT + ENTER
         </div>
         <div class="p3">
-          <u>Clear Button</u>: Click "Clear" to refresh the canvas, as in, remove all orderings from the order lattice to produce the default starting state. Note that there is not a reset feature to retrieve the previously cleared ordering.  
+          <u>Clear Button</u>: Click "Clear" to refresh the canvas, as in, remove all cell orderings from the order lattice to produce the default starting state. Note that there is not a reset feature to retrieve the previously cleared ordering.  
         </div>
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + C
         </div>
         <div class="p3">
-          <u>Library Button</u>: Click "Library" to open an overlaying window with selectable preset cell ordering that will apply to the lattice. The window will contain a list of images and descriptions of cell orderings for sequential simulation that help produce unique and intriguing patterns in concordance with the rule selected in simulate mode. Click any of the images in the library to load that preset ordering to the lattice. The current cell ordering in the lattice will be cleared before applying the preset ordering from the Library. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
+          <u>Library Button</u>: Click "Library" to open an overlaying window with selectable preset cell ordering that will apply to the lattice. The window will contain a list of images and descriptions of cell orderings for sequential simulation that help produce unique and intriguing patterns in concordance with the rule selected in simulate mode. Click any of the images in the library to load the preset ordering to the lattice. The current cell ordering in the lattice will be cleared before applying the preset ordering from the Library. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
         </div>
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + L
         </div>
         <div class="p3">
-          <u>Help Button</u>: Click "Help" to open an overlaying window with information about setup mode. The information includes four main sections that provide answers to common questions about setup mode. It outlines the purpose and functionality of setup mode, how it relates to sequential simulation, how to use it to configure the cell ordering, and how to utilize the ordering preset library. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
+          <u>Help Button</u>: Click "Help" to open an overlaying window with information about setup mode. The information includes four main sections that provide answers to common questions about setup mode. It outlines the purpose and functionality of setup mode, how it relates to sequential simulation, how to configure the cell ordering, and how to utilize the ordering preset library. The window may be longer than the page, so a vertical scroll bar will be available to navigate the entire window. The window may be closed by clicking the "x" at the top right of the window or clicking anywhere outside the windows borders. 
         </div>
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + P
@@ -378,10 +394,6 @@
         </div>
         <div class="p3">
           <u>Cell Color Boxes</u>: Click any of the four color boxes labeled "Alive Cell," "Dead Cell," "Alive Border," and "Dead Border" to open a color picker window. In the window, depending on the web-browser, there is a color selector that allows for full color customization for the selected region. The color picker uses a RGB based GUI built into HTML that allows for precise color selection, then applies the color to the specified cell region.
-        </div>
-        <h6 id="algorithm2"> Algorithm Rules </h6>
-        <div class="p3"> 
-          <u>TBD ...</u>: <br> 
         </div> <br> <br>
         <h2 class="head"> Game of Life </h2>
         <h6 id="primaryToolbar3"> Primary Toolbar </h6>
@@ -427,7 +439,7 @@
           <u>Zoom Slider</u>: Click and hold the slider labeled "Zoom" to alter the zoom factor measured by percentage. Moving the slider to the left will decrease the zoom percentage factor and zoom outward, and moving the slider to the right will increase the zoom percentage factor and zoom inward. Using the zoom slider will always center the zoom to the center of the canvas.
         </div> 
         <div class="p4"> 
-          <i> Input Restrictions: </i> Values are percentages in range [1, 99]. <br>
+          <i> Input Restrictions: </i> Values are percentages in range [1, 100]. <br>
           <i> Keyboard Shortcut: </i> ALT + Z, then Left Arrow to decrease and Right Arrow to increase the value.
         </div>
         <h6 id="canvas2"> Canvas </h6>
@@ -443,11 +455,44 @@
         <div class="p3"> 
           An iteration counter that displays the current iteration index can be found above the top left border of the canvas.
         </div> 
-        <h6 id="algorithm3"> Algorithm Rules </h6>
+        <h6 id="GOLalgorithm"> Algorithm Rule </h6>
         <div class="p3"> 
-          <u>TBD ...</u>: <br> 
+          The Game of Life is represented on a 2D grid where each cell has eight neighbors (top, bottom, left, right, and the four diagonals). A cell on the grid can either be dead (0) or alive (1), and the state of the cells change over discrete time steps according to the states of neighboring cells. Specifically, the state of each cell at the next time step is determined by its current state of the cell and the number of alive neighbors. <br> <br>
+          The algorithm Update Rules: <br>
+          1. Underpopulation: A living cell with fewer than 2 alive neighbors dies (due to loneliness). <br>
+          2. Survival: A living cell with 2 or 3 alive neighbors remains alive (survival). <br>
+          3. Overpopulation: A living cell with more than 3 alive neighbors dies (due to overcrowding). <br>
+          4. Reproduction: A dead cell with exactly 3 alive neighbors becomes a live cell (a new cell is born). <br> <br>
+          The algorithm follows the steps: <br>
+          1. Initialize: Set up the grid with some configuration: some cells marked as alive (1) and others as dead (0). <br>
+          2. Count Neighbors: For each cell, count the number of live neighbors in its neighborhood grid (eight neighbors). <br>
+          3. Apply Rules: For each cell, apply the rules to determine whether the cell will be alive or dead in the next time step. <br>
+          4. Update Grid: Update the grid to reflect the new states after applying the rules. <br>
+          5. Repeat: Continue iterating for multiple time steps to observe how the patterns evolve. <br> <br>
+          For example, consider a 3x3 grid with the initial configuration [(0,1,0), (0,1,0), (0,1,0)] (Flattened 2D array.) <br>
+          In this case, cells (1,0), (1,1), and (1,2) are alive (1), and the rest are dead (0). <br> <br>
+          Results after algorithm application: <br>
+          Cell (0,0): Dead (0), with 2 alive neighbors (0,1) and (1,0). It remains dead. <br>
+          Cell (0,1): Alive (1), with 1 alive neighbor (1,1). It dies due to underpopulation. <br>
+          Cell (0,2): Dead (0), with 2 alive neighbors (0,1) and (1,2). It remains dead. <br>
+          Cell (1,0): Alive (1), with 1 alive neighbor (1,1). It dies due to underpopulation. <br>
+          Cell (1,1): Alive (1), with 2 alive neighbors (1,0) and (1,2). It survives. <br>
+          Cell (1,2): Alive (1), with 1 alive neighbor (1,1). It dies due to underpopulation. <br>
+          Cell (2,0): Dead (0), with 2 alive neighbors (1,0) and (2,1). It remains dead. <br>
+          Cell (2,1): Alive (1), with 2 alive neighbors (1,1) and (2,0). It survives. <br>
+          Cell (2,2): Dead (0), with 2 alive neighbors (1,2) and (2,1). It remains dead. <br> <br>
+          Updated grid after one iteration: [(0,0,0), (1,1,1), (0,0,0)]. <br>
+          In this case, cells (0,1), (1,1), and (2,1) are alive (1), and the rest are dead (0). <br>
+          In this new state, a horizontal line of living cells has formed, showing the transformation from a vertical line of alive cells to a horizontal line after one iteration.
         </div> <br> <br>
         <h2 class="head"> Insights & FAQS </h2>
+        <h6 id="faqs"> Frequently Asked Questions </h6>
+        <div class="p4"> 
+          <i>Question?</i>
+        </div> <br>
+        <div class="p3"> 
+          Answer!
+        </div> 
         <h6 id="keyboardShortcuts"> Keyboard Shortcuts </h6>
         <div class="shortcut_container">
           <div class="p3" class="shortcut_item"> 
