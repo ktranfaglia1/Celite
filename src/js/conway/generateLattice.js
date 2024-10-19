@@ -1,6 +1,6 @@
 const canvas = document.getElementById('latticeRegion');
 
-let bounds = new Array(500, 500);
+let bounds = new Array(1131, 1110);
 
 //let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
 //let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
@@ -13,10 +13,11 @@ let canvasWidth = canvas.width;
 
 let visLatticeHeight = 110; // canvas.height / visLatticeHeight // Size of a cell
 let visLatticeWidth = canvasWidth * visLatticeHeight / canvasHeight - 1; // canvasWidth / size of a cell = visLatticeHeight * canvasWidth / size of a cell
+console.log(visLatticeWidth);
 
 let cellSize = canvasHeight / visLatticeHeight;
 
-let visBounds = new Array(0, 0, visLatticeWidth, visLatticeHeight);
+let visBounds = new Array(500, 500, 500 + visLatticeWidth, 500 + visLatticeHeight);
 let visLatticeArray = new Array(new Array());
 let latticeArray = new Array(new Array());
 
@@ -27,7 +28,6 @@ import { buildGlider } from "./presets.js";
 import {iterationCount} from "./UIFunctionality.js"
 
 createInit();
-//createVisInit();
 
 export { visLatticeArray, visBounds, latticeArray, bounds };
 
@@ -38,16 +38,16 @@ export function createInit() {
         let dummyArr = new Array();
         for (let f = 0; f < bounds[0]; f++) {
             dummyArr.push(0);
-            latticeArray[i] = dummyArr;
         }
+        latticeArray.push(dummyArr);
     }
+    latticeArray.shift();
 }
 
 //This function uses the current lattice array and visible boundary to create the current cell lattice to be displayed.
 export function createVisInit() {
     let newLat = new Array(new Array());
-    //cellSize = (.64 * window.innerHeight) / visBounds[3]; /* Window Calculation / number of cells gives the optimal size to fit screen */
-    let xOffset = (window.innerWidth * .9 - (visBounds[2] - visBounds[0]) * cellSize) / 2; //Calculates offset neeed to center canvas although size is hard coded
+    let xOffset = (window.innerWidth * .9 - (visBounds[2] - visBounds[0]) * cellSize) / 2; //Calculates offset need to center canvas although size is hard coded
     for (let i = visBounds[1]; i < visBounds[3]; i++) {
         let posY = i - visBounds[1];
         let dummyArr = new Array();
@@ -55,27 +55,25 @@ export function createVisInit() {
             let posX = f - visBounds[0]
             dummyArr.push(new cell(cellSize, cellSize, posX * cellSize + xOffset, posY * cellSize, latticeArray[i][f], true));
         }
-        newLat[i] = dummyArr;
+        newLat.push(dummyArr);
     }
+    newLat.shift();
     visLatticeArray = newLat;
 }
 
 export function createVis(xOffset = 0, yOffset = 0) {
     let newLat = new Array(new Array());
-    //cellSize = (.64 * window.innerHeight) / visBounds[3]; /* Window Calculation / number of cells gives the optimal size to fit screen */
-    //let borders = true;
-    for (let i = visBounds[1]; i < visBounds[3]; i++) {
-        let posY = i - visBounds[1];
+    for (let i = 0; i < visBounds[3] - visBounds[1]; i++) {
         let dummyArr = new Array();
-        for (let f = visBounds[0]; f < visBounds[2]; f++) {
-            let posX = f - visBounds[0]
-            let height = visLatticeArray[posY][posX].getHeight();
-            let xCord = visLatticeArray[posY][posX].getXLoc() + xOffset;
-            let yCord = visLatticeArray[posY][posX].getYLoc() + yOffset;
-            dummyArr.push(new cell(height, height, xCord, yCord, latticeArray[i][f], true));
+        for (let f = 0; f < visBounds[2] - visBounds[0]; f++) {
+            let height = visLatticeArray[i][f].getHeight();
+            let xCord = visLatticeArray[i][f].getXLoc() + xOffset;
+            let yCord = visLatticeArray[i][f].getYLoc() + yOffset;
+            dummyArr.push(new cell(height, height, xCord, yCord, latticeArray[i + visBounds[1]][f + visBounds[0]], true));
         }
-        newLat[i] = dummyArr;
+        newLat.push(dummyArr);
     }
+    newLat.shift();
     visLatticeArray = newLat;
 }
 
@@ -106,129 +104,6 @@ export function livingNeighbors(x, y) {
         }
     }
     return alive;
-}
-
-//This function checks for contact with any of the borders in the current iteration. Returns an array containing characters
-//'n', 's', 'e', and 'w' representing the cardinal directions. For example this function would return an array containing 'n' and 's'
-//if live cells have hit the north and south border of the lattice.
-export function borderContact() {
-    let contactedBordersDup = new Array();
-    for (let i = 0; i < bounds[0]; i++) {
-        if (latticeArray[0][i] == 1) {
-            contactedBordersDup.push('n');
-        }
-        if (latticeArray[bounds[1] - 1][i] == 1) {
-            contactedBordersDup.push('s');
-        }
-        if (latticeArray[i][0] == 1) {
-            contactedBordersDup.push('w');
-        }
-        if (latticeArray[i][bounds[0] - 1] == 1) {
-            contactedBordersDup.push('e');
-        }
-    }
-    let contactedBorders = new Array();
-    let north = false;
-    let south = false;
-    let east = false;
-    let west = false;
-    for (let i = 0; i < contactedBordersDup.length; i++) {
-        if (contactedBordersDup[i] == 'n' && !north) {
-            north = true;
-            contactedBorders.push('n')
-        }
-        else if (contactedBordersDup[i] == 's' && !south) {
-            south = true;
-            contactedBorders.push('s')
-        }
-        else if (contactedBordersDup[i] == 'e' && !east) {
-            east = true;
-            contactedBorders.push('e')
-        }
-        else if (contactedBordersDup[i] == 'w' && !west) {
-            west = true;
-            contactedBorders.push('w')
-        }
-    }
-    console.log(contactedBorders);
-    return contactedBorders;
-}
-
-//This function takes a direction in the form of a character representing a cardinal direction and a number of cells to expand the lattice by.
-//This function will push the border in that direction back num rows/columns.
-export function expandBorder(direction, num) {
-    if (direction == 'n') {
-        let newLat = new Array(new Array());
-        for (let i = 0; i < (bounds[1] + num); i++) {
-            let dummyArr = new Array();
-            for (let f = 0; f < bounds[0]; f++) {
-                if (i < num) {
-                    dummyArr.push(0);
-                }
-                else {
-                    dummyArr.push(latticeArray[i - num][f]);
-                }
-            }
-            newLat[i] = dummyArr;
-        }
-        latticeArray = newLat;
-        bounds[1] = bounds[1] + num;
-        visBounds[1] = visBounds[1] + num;
-        visBounds[3] = visBounds[3] + num;
-    }
-    else if (direction == 's') {
-        let newLat = new Array(new Array());
-        for (let i = 0; i < (bounds[1] + num); i++) {
-            let dummyArr = new Array();
-            for (let f = 0; f < bounds[0]; f++) {
-                if (i < bounds[1]) {
-                    dummyArr.push(latticeArray[i][f]);
-                }
-                else {
-                    dummyArr.push(0);
-                }
-            }
-            newLat[i] = dummyArr;
-        }
-        latticeArray = newLat;
-        bounds[1] = bounds[1] + num;
-    }
-    else if (direction == 'w') {
-        let newLat = new Array(new Array());
-        for (let i = 0; i < (bounds[1]); i++) {
-            let dummyArr = new Array();
-            for (let f = 0; f < bounds[0] + num; f++) {
-                if (f < num) {
-                    dummyArr.push(0);
-                }
-                else {
-                    dummyArr.push(latticeArray[i][f - num]);
-                }
-            }
-            newLat[i] = dummyArr;
-        }
-        latticeArray = newLat;
-        bounds[0] = bounds[0] + num;
-        visBounds[0] = visBounds[0] + num;
-        visBounds[2] = visBounds[2] + num;
-    }
-    else if (direction == 'e') {
-        newLat = new Array(new Array());
-        for (let i = 0; i < (bounds[1]); i++) {
-            let dummyArr = new Array();
-            for (let f = 0; f < bounds[0] + num; f++) {
-                if (f < bounds[0]) {
-                    dummyArr.push(latticeArray[i][f]);
-                }
-                else {
-                    dummyArr.push(0);
-                }
-            }
-            newLat[i] = dummyArr;
-        }
-        latticeArray = newLat;
-        bounds[0] = bounds[0] + num;
-    }
 }
 
 //This function updates the lattice array for each timestep.
@@ -268,7 +143,7 @@ export function iterate() {
     }
     latticeArray = newLat;
     createVis();
-    
+    //createVisInit();
 
     return latticeArray;
 }

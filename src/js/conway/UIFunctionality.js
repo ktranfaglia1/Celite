@@ -9,7 +9,6 @@
 /* Import utility and variables from other JS files */
 import {canvas, ctx, displayLattice, initialize} from "./displayLattice.js";
 import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds} from "./generateLattice.js";
-import { borderContact, expandBorder } from "./generateLattice.js";
 import { cell } from "./cellClass.js";
 import { build101, build295, build119, build1234, buildGlider, setLattice, yCenter, xCenter, buildGtoG, build60P, buildAK94, buildTrigger, buildSnail, buildTub } from "./presets.js";
 
@@ -220,7 +219,6 @@ canvas.addEventListener("click", function(event) {
 			for (let i = 0; i < visLatticeArray.length; i++) {
 				for (let j = 0; j < visLatticeArray[i].length; j++) {
 					if ((visLatticeArray[i][j].insideCell(mouseX, mouseY)) && (visLatticeArray[i][j].getColor() == 0)) {
-						console.log("newLattice[ yCenter() + ",i + visBounds[1] - yCenter(),"][ xCenter() + ",j + visBounds[0] - xCenter() - 1,"] = 1;")
 						visLatticeArray[i][j].flipColor();
 						visLatticeArray[i][j].drawCell(ctx);
 						latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
@@ -277,7 +275,6 @@ canvas.addEventListener("click", function(event) {
 		let mouseX, mouseY;
 		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
 		let testLoc = inLattice(mouseX, mouseY);
-		console.log(testLoc);
 		if (testLoc) {
 			let delta = event.deltaY; //Get delta from mouse scroll.
 			let change = false;
@@ -487,11 +484,6 @@ function redrawLattice(xOffset = 0, yOffset = 0) {
 				offSetLat[i][f] = new cell(curCell.getHeight(), curCell.getWidth(), curCell.getXLoc() + trueOffsetX, curCell.getYLoc() + trueOffsetY, curCell.getColor(), curCell.getBorder());
 			}
 			offSetLat[i][f].drawCell(ctx)
-			/*
-			if (f == 0 && i == 0) {
-				console.log(offSetLat[i][f].getXLoc());
-			}
-			*/
 		}
 	}
 	shiftX = xOffset;
@@ -577,8 +569,8 @@ function getMouseLocation(event) {
 
 export function clear() {
 	updateOutput();
-	for (let i = 0; i < visLatticeArray.length; i++) {
-		for (let j = 0; j < visLatticeArray[0].length; j++) {
+	for (let i = 0; i < latticeArray.length; i++) {
+		for (let j = 0; j < latticeArray[0].length; j++) {
 			latticeArray[i][j] = 0;
 		}
 	}
@@ -589,8 +581,6 @@ export function clear() {
 	zoomValue.innerHTML = 50;
 	ctx.clearRect(0,0, canvas.width, canvas.height);
 	displayLattice(visLatticeArray);
-
-	console.log("Clear Lattice")
 }
 
 function continouslyIterate() {
@@ -642,6 +632,7 @@ export function saveReset()
 		}
 		resetLattice.push(tempRow);
 	}
+	//console.log(resetLattice[0].length)
 }
 
 // Displays the current iteration count to Game of Life HTML page

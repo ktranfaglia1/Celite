@@ -19,13 +19,12 @@ export function intialCanvas()
 
 export {canvas, ctx, initialize};
 ctx.clearRect(0,0, canvas.width, canvas.height);
-createVisInit(canvas);
+createVisInit();
 displayLattice(visLatticeArray);
 //initialize = true;
 
 export function displayLattice(visLatticeArray)
 {
-    //createVisInit(canvas);
     for(let i = 0; i < visLatticeArray.length; i++)
     {
         for(let j = 0; j < visLatticeArray[0].length; j++)
