@@ -670,16 +670,16 @@ startStopButton.addEventListener("click", debounce(function() {
 tickCanvas.addEventListener("mousemove", function(event) {makeTickBox(event, tctx)});
 
 // Runs program to flips squares if Clicked
-tickCanvas.addEventListener('click', debounce(function(event) {
+tickCanvas.addEventListener('mousedown', debounce(function(event) {
 	document.body.style.userSelect = 'none';  // Disable text selection globally
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of mouse click for usage in setCells
 	setCells(latticeArray, mouseX, mouseY);	// Flips the cell if it was clicked on
-	mouseDown = false;
+	mouseDown = true;
 
 }));
 
-tickCanvas.addEventListener("mousedown", function(event){mouseDown = true;});
+//tickCanvas.addEventListener("mousedown", function(event){mouseDown = true;});
 tickCanvas.addEventListener("mouseup", function(event){mouseDown = false;});
 
 tickCanvas.addEventListener("mousemove", shortDebounce(function(event){
