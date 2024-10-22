@@ -471,12 +471,23 @@ startStopButton.addEventListener("click", debounce(function() {
 //Continously Checks where the mouse is on the Canvas too allow tick box to next to it
 tickCanvas.addEventListener("mousemove", function(event) {makeTickBox(event, tctx)});
 
+let mouseDown = false;
 // Runs program to flips squares if Clicked
 tickCanvas.addEventListener('mousedown', debounce(function(event) {
 	document.body.style.userSelect = 'none';  // Disable text selection globally
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event);  // Calculates Proper location of mouse click for usage in setCells
 	setCells(latticeArray, mouseX, mouseY);	 // Flips the cell if it was clicked on
+	mouseDown = true;
+}));
+
+tickCanvas.addEventListener("mouseup", function(event){mouseDown = false;});
+
+tickCanvas.addEventListener("mousemove", shortDebounce(function(event){
+	let mouseX, mouseY;
+	if(mouseDown)
+		[mouseX, mouseY] = getMouseLocation(event);
+		setCells(latticeArray, mouseX, mouseY, true);
 }));
 
 // Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
@@ -805,7 +816,14 @@ function setCells(latticeArray, mouseX, mouseY) {
 	if (latticeArray.length == 1) {
 		for (let i = 0 ; i < latticeArray[0].length; i++) {
 			if (latticeArray[0][i].insideCell(mouseX, mouseY)) {
-				neoLatticeArray[0][i].flipColor();
+				if(!mouseDown)
+					{
+						neoLatticeArray[0][i].flipColor();
+					}
+					else
+					{
+						neoLatticeArray[0][i].setColor(1);
+					}
 			}
 			(neoLatticeArray[0][i]).drawCell(ctx);
 			alterLatticeArray(neoLatticeArray);
@@ -1184,4 +1202,14 @@ function debounce(callback) {
 }
 
 
+//This is a debounce designed for slide since temp array needs to update before next cell can be clicked
+function shortDebounce(callback) {
+    let timeoutId;
 
+    return function(event) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            callback(event); // Directly pass the event object to the callback function
+        }, 5);
+    };
+}

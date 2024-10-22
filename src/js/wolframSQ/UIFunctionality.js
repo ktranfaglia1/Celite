@@ -668,7 +668,6 @@ startStopButton.addEventListener("click", debounce(function() {
 
 //Continously Checks where the mouse is on the Canvas too allow tick box to next to it
 tickCanvas.addEventListener("mousemove", function(event) {makeTickBox(event, tctx)});
-
 // Runs program to flips squares if Clicked
 tickCanvas.addEventListener('mousedown', debounce(function(event) {
 	document.body.style.userSelect = 'none';  // Disable text selection globally
