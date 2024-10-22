@@ -192,7 +192,7 @@ document.addEventListener('keydown', function(event) {
 	}
 });
 
-canvas.addEventListener("click", function(event) {
+canvas.addEventListener("mousedown", function(event) {
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event);
 	if (!shift) {
