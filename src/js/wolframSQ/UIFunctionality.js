@@ -152,7 +152,7 @@ simulateButton.addEventListener("click", function() {
 	{
 		console.log("Saving", tempOrder);
 		alterOrder(tempOrder)
-		makeLog("Set Order", logCanvas, messageQueue);
+		makeLog("Order Set", logCanvas, messageQueue);
 		console.log(orderArray);
 	}
 	else
@@ -347,6 +347,8 @@ edgesIn.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
+	console.log(tempOrder)
+	makeLog("Edges Inward Order Set", logCanvas, messageQueue)
 });
 
 centerOutR.addEventListener("click", function() {
