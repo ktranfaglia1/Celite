@@ -44,7 +44,7 @@ export class cell {
 	{
 
 		//Draws the Box Outline as long as Cells arent too small
-		if(latSize <= 200 && this.border)
+		if(this.height >= 15 && this.border)
 		{
 			//Sets outline to be inverse of color of cell so you can see it
 			if(!this.setupMode){
@@ -94,7 +94,7 @@ export class cell {
 		
 		
 		//Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
-		if(latSize <= 200 && this.border)
+		if(this.height >= 10 && this.border)
 		{
 		ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
 		}
@@ -105,11 +105,12 @@ export class cell {
 
 		if(this.color == 1 && this.setupMode)
 		{
-			if((Math.trunc(Math.log(this.number + 1) / Math.log(10)) + 1) >= 2)
-			ctx.font = (this.height / ((Math.trunc(Math.log(this.number + 1) / Math.log(10)) + 1) * .54)) - 2 + 'px Arial';
+			if((Math.trunc(Math.log(latSize) / Math.log(10)) + 1) >= 2)
+			ctx.font = (this.height / ((Math.trunc(Math.log(latSize) / Math.log(10)) + 1) * .54)) - 2 + 'px Arial';
 			else
-			ctx.font = (this.height / ((Math.trunc(Math.log(this.number + 1) / Math.log(10)) + 1))) + 'px Arial';
-		
+			ctx.font = (this.height / ((Math.trunc(Math.log(latSize) / Math.log(10)) + 1))) + 'px Arial';
+			
+
 
 			ctx.fillStyle = 'black';
 

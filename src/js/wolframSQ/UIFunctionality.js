@@ -93,7 +93,15 @@ let nSkip = 2  // Local variable nSkip needed for n-skip order setting
 // Display setup buttons and hide standard buttons upon setup button click
 setupButton.addEventListener("click", debounce(function() {
 	activateSetup();
-	clearOrder();
+	console.log(orderArray);
+	for (let i = 0; i < orderArray.length; i++)
+	{
+		latticeArray[0][i].setColor(1)
+		latticeArray[0][orderArray[i]].setNumber(i)
+	}
+	alterTempOrder(orderArray)
+	redrawLattice();
+	//clearOrder();
 }));
 
 function activateSetup()
@@ -127,10 +135,10 @@ function activateSetup()
 	alterSetup(1); // Turns on setup functionality
 	redrawLattice();
 
-	for (let i = 0; i < latticeArray[0].length; i++)
+	/*for (let i = 0; i < latticeArray[0].length; i++)
 	{
 		tempOrder[i] = -1;
-	}
+	}*/
 }
 
 // Hide setup buttons and display standard buttons upon setup button click
@@ -159,6 +167,11 @@ simulateButton.addEventListener("click", function() {
 	{
 		makeLog("Defaulting order to L->R", logCanvas, messageQueue);
 		makeError("*Incomplete Ordering*", logCanvas, messageQueue);
+		for(let i = 0; i < tempOrder.length;i++)
+		{
+			tempOrder[i] = i;
+		}
+		alterOrder(tempOrder);
 		console.log(tempOrder);
 	}
 
@@ -753,9 +766,10 @@ iterationSubmit.addEventListener("click", function() {
 });
 //Sets the number of cells in a lattice
 latticeSizeSubmit.addEventListener("click", function() {
-	clearOrder();
+	//clearOrder();
 	stopIterating();  // Stops the iteration before changing the lattice size
 	clearResetToggle();
+	if(!getSetup())
 	setupButton.click();
 	updateLatticeSize(canvas);
 });
@@ -782,24 +796,23 @@ startStopButton.addEventListener("click", debounce(function() {
 
 //Continously Checks where the mouse is on the Canvas too allow tick box to next to it
 tickCanvas.addEventListener("mousemove", function(event) {makeTickBox(event, tctx)});
-
 // Runs program to flips squares if Clicked
-tickCanvas.addEventListener('click', debounce(function(event) {
+tickCanvas.addEventListener('mousedown', debounce(function(event) {
 	document.body.style.userSelect = 'none';  // Disable text selection globally
 	let mouseX, mouseY;
 	[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of mouse click for usage in setCells
 	setCells(latticeArray, mouseX, mouseY);	// Flips the cell if it was clicked on
-	mouseDown = false;
+	mouseDown = true;
 
 }));
 
-tickCanvas.addEventListener("mousedown", function(event){mouseDown = true;});
+//tickCanvas.addEventListener("mousedown", function(event){mouseDown = true;});
 tickCanvas.addEventListener("mouseup", function(event){mouseDown = false;});
 
 tickCanvas.addEventListener("mousemove", shortDebounce(function(event){
 	let mouseX, mouseY;
-	[mouseX, mouseY] = getMouseLocation(event);
 	if(mouseDown)
+		[mouseX, mouseY] = getMouseLocation(event);
 		setCells(latticeArray, mouseX, mouseY, true);
 }));
 
@@ -822,6 +835,7 @@ document.addEventListener('keydown', function(event) {
 					optionsButton.click();
 					break;
 				case (event.key == 'a'):
+					if(!getSetup())
 					setupButton.click();
 					break;
 				case (event.key == 'n'):
@@ -831,6 +845,7 @@ document.addEventListener('keydown', function(event) {
 					downloadPNGButton.click();
 					break;
 				case (event.key == 'u'):
+					if(!getSetup())
 					setupButton.click();
 					break;
 				case (event.key == 'g'):
@@ -1138,6 +1153,7 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 					neoLatticeArray[0][i].setColor(1);
 				}
 				//Functionality for Setup Clicking
+				console.log(getSetup());
 				if(getSetup() && latticeArray[0][i].getColor() == 1 && !tempOrder.includes(i))
 				{
 					for (let j = 0; j < tempOrder.length; j++)
@@ -1164,6 +1180,7 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 						}
 					}
 				}
+				console.log("Temp Order: ", tempOrder);
 			}
 
 			//Draws new Cells and updates lattices accordingly
