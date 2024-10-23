@@ -400,6 +400,7 @@ centerOutR.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
+	makeLog("Center Out Rev Order Set", logCanvas, messageQueue)
 });
 
 edgesInR.addEventListener("click", function() {
@@ -437,7 +438,7 @@ edgesInR.addEventListener("click", function() {
 	}
 	libraryWindow.style.display = "none";
 	console.log(tempOrder)
-	makeLog("Edges Inward Order Set", logCanvas, messageQueue)
+	makeLog("Edges In Rev Order Set", logCanvas, messageQueue)
 
 });
 
