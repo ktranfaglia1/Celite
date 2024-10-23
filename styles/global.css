@@ -197,12 +197,12 @@ a {
   margin: 7% auto;
   border: 2px solid #888;
   padding: 1% 1% 1% 1%;
-  width: 70%;
+  width: 65%;
 }
 .close {
   color: #aaa;
   float: right;
-  font-size: 28px;
+  font-size: 36px;
   font-weight: bold;
 }
 .close:hover,
@@ -244,7 +244,7 @@ a {
   background-color: rgba(0, 0, 0, 0.1);
 }
 .library_box {
-  background-color: rgb(228, 228, 228);
+  background-color: #DDDAFF;
   border: 2px solid black;
   padding: 16px;
   margin: 20px 80px 40px 80px;

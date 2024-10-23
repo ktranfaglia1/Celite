@@ -157,32 +157,64 @@
         <h2> Algorithm Configuration Library </h2>
         <div class="library_box"> 
           <h3> Random </h3>
+          <p> Cells are ordered in a numerically random configuration. </p>
           <div class="center_img">
             <button id="random" class="library_img"> </button>
           </div>
         </div>
         <div class="library_box"> 
           <h3> Left to Right </h3>
+          <p> Cells are ordered in a chronological sequence beginning from the leftmost cell (left/start lattice edge) and progressing towards the rightmost cell (right/end lattice edge). This is the default sequential ordering. </p>
           <div class="center_img">
             <button id="left2right" class="library_img"> </button>
           </div>
         </div>
         <div class="library_box"> 
           <h3> Right to Left </h3>
+          <p> Cells are ordered in a chronological sequence beginning from the rightmost cell (right/end lattice edge) and progressing towards the leftmost cell (left/start lattice edge). </p>
           <div class="center_img">
             <button id="right2left" class="library_img"> </button>
           </div>
         </div>
         <div class="library_box"> 
           <h3> Center Outward </h3>
+          <p> Cells are ordered in a alternating chronological structure beginning at the lattice center and progressing towards the edges. For even lattice sizes, the first cell is the left center cell in the lattice, the second cell is the right center cell, and this alternating sequence continues outward. </p>
           <div class="center_img">
             <button id="centerOutward" class="library_img"> </button>
           </div>
         </div>
         <div class="library_box"> 
           <h3> Edges Inward </h3>
+          <p> Cells are ordered in a alternating chronological structure beginning at the lattice edges and progressing towards the center. The first cell is the leftmost cell in the lattice, the second cell is the rightmost cell, and this alternating sequence continues inward. </p>
           <div class="center_img">
             <button id="edgesInward" class="library_img"> </button>
+          </div>
+        </div>
+        <div class="library_box"> 
+          <h3> Center Outward - Reversed </h3>
+          <p> Cells are ordered in a center outward structure where for even lattice sizes, the first cell is the right center cell, the second cell is the left center cell, and this alternating sequence continues outward. </p>
+          <div class="center_img">
+            <button id="centerOutwardR" class="library_img"> </button>
+          </div>
+        </div>
+        <div class="library_box"> 
+          <h3> Edges Inward - Reversed </h3>
+          <p> Cells are ordered in a edges inward structure where the first cell is the rightmost cell in the lattice, the second cell is the leftmost cell, and this alternating sequence continues inward. </p>
+          <div class="center_img">
+            <button id="edgesInwardR" class="library_img"> </button>
+          </div>
+        </div>
+        <div class="library_box"> 
+          <h3> N-Skip </h3>
+          <p> Cells are ordered in a modular pattern based on an interval of N. This creates a weaving sequence, where every Nth cell is chronologically ordered, forming a repeated pattern. Enter an N-value below to set the modularity for the weaving sequence. Invalid inputs will default to N = 2. N is restricted to the following range: 2 <= N <= Lattice Size. </p>
+          <div class="center_img">
+            <button id="nSkip" class="library_img"> </button>
+          </div>
+          <!-- Container for n input box -->
+          <div class="input_container">
+            <label for="nInputBox" class="input_label"> N-value: </label>
+            <input type="text" id="nInputBox" class="simulation_input" placeholder="Enter modular value...">
+            <button id="nSubmit" class="submit_button"> Enter </button>
           </div>
         </div>
       </div>
