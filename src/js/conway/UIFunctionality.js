@@ -256,35 +256,17 @@ canvas.addEventListener("mousedown", function(event) {
 	canvas.addEventListener('wheel', function(event) {
 		let mouseX, mouseY;
 		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
-		let delta = event.deltaY; //Get delta from mouse scroll.
-		let change = false;
-		let currentScale = 100 / zoomSlider.value;
-		if (delta > 0 && zoomSlider.value < 100) {
-			zoomSlider.value++;
-			zoomValue.innerHTML++;
-			change = true;
-		}
-		else if (delta < 0 && zoomSlider.value > 1) {
-			zoomSlider.value--;
-			zoomValue.innerHTML--;
-			change = true;
-		}
-	}, 10);
-
-	canvas.addEventListener('wheel', function(event) {
-		let mouseX, mouseY;
-		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
 		let testLoc = inLattice(mouseX, mouseY);
 		if (testLoc) {
 			let delta = event.deltaY; //Get delta from mouse scroll.
 			let change = false;
 			let currentScale = 100 / reverse[zoomSlider.value];
-			if (delta > 0 && zoomSlider.value < 95) {
+			if (delta < 0 && zoomSlider.value < 95) {
 				zoomSlider.value++;
 				zoomValue.innerHTML++;
 				change = true;
 			}
-			else if (delta < 0 && zoomSlider.value > 1) {
+			else if (delta > 0 && zoomSlider.value > 1) {
 				zoomSlider.value--;
 				zoomValue.innerHTML--;
 				change = true;
