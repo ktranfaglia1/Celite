@@ -148,3 +148,18 @@ export function iterate() {
 
     return latticeArray;
 }
+
+export function boundaryCollide() {
+    let collide = false;
+    for (let i = 0; i < bounds[0]; i++) {
+        if (latticeArray[0][i] == 1 || latticeArray[latticeArray.length - 1][i] == 1) {
+            collide = true;
+        }
+    }
+    for (let i = 0; i < bounds[1]; i++) {
+        if (latticeArray[i][0] == 1 || latticeArray[i][latticeArray[i].length - 1] == 1) {
+            collide = true;
+        }
+    }
+    return collide;
+}

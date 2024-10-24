@@ -8,7 +8,7 @@
 */
 /* Import utility and variables from other JS files */
 import {canvas, ctx, displayLattice, initialize} from "./displayLattice.js";
-import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds} from "./generateLattice.js";
+import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds, boundaryCollide} from "./generateLattice.js";
 import { cell } from "./cellClass.js";
 import { build101, build295, build119, build1234, buildGlider, setLattice, yCenter, xCenter, buildGtoG, build60P, buildAK94, buildTrigger, buildSnail, buildTub } from "./presets.js";
 
@@ -80,17 +80,18 @@ document.addEventListener("DOMContentLoaded", function() {
 	/* Handle button clicks for all primary toolbar buttons */
 
 	startStopButton.addEventListener("click", debounce(function() {
-		clearResetToggle(true);
-		startStopToggle();
-		run = !run;
-		if (run) {
-			continouslyIterate();
+		if (!boundaryCollide() || run) {
+			clearResetToggle(true);
+			startStopToggle();
+			run = !run;
+			if (run) {
+				continouslyIterate();
+			}
 		}
 	}));
 
 	iterateButton.addEventListener("click", debounce(function() {
-		if(!run)
-		{
+		if(!run && !boundaryCollide()) {
 			clearResetToggle(true);
 			iterate();
 			updateOutput(true);
@@ -108,9 +109,16 @@ document.addEventListener("DOMContentLoaded", function() {
 	clearResetButton.addEventListener("click", debounce(function() {
 		if(currentReset == 1)
 		{clear();}
-		else
-		{reset();}
-		clearResetToggle(false);
+		else {
+			if (run) {
+				startStopToggle();
+				run = false;
+			}
+			else {
+				clearResetToggle(false);
+			}
+			reset();
+		}
 	}));
 
 	document.addEventListener('keyup', function(event) {
@@ -568,14 +576,20 @@ export function clear() {
 function continouslyIterate() {
 	if (run) {
 		setTimeout(function() { // puts a wait before iterating again
-			if (run && !(shift && scribble)) {
+			if (run && !(shift && scribble) && !boundaryCollide()) {
 				iterate();
 				updateOutput(true);
 				ctx.clearRect(0,0, canvas.width, canvas.height);
 				//displayLattice(visLatticeArray)
 				redrawLattice()
 			}
-			continouslyIterate(); // allows it to coninously run by calling it again
+			if (!boundaryCollide()) {
+				continouslyIterate(); // allows it to coninously run by calling it again
+			}
+			else {
+				startStopToggle();
+				run = false;
+			}
 		}, currentDelay);
 	}
 }
