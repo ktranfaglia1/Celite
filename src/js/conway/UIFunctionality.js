@@ -58,7 +58,7 @@ let mouseYPos = 0; //Stores starting Y position of cursor for dragging
 let shiftX = 0; //Stores ending X position of cursor for dragging
 let shiftY = 0; //Stores ending Y position of cursor for dragging
 let reverse =  new Array();
-for (let i = 101; i > 0; i--) {
+for (let i = 100; i > 0; i--) {
 	reverse.push(i);
 }
 
@@ -268,8 +268,10 @@ canvas.addEventListener("mousedown", function(event) {
 		if (testLoc) {
 			let delta = event.deltaY; //Get delta from mouse scroll.
 			let change = false;
-			let currentScale = 100 / reverse[zoomSlider.value];
-			if (delta < 0 && zoomSlider.value < 95) {
+			console.log(reverse.length);
+			console.log(zoomSlider.value);
+			let currentScale = 100 / reverse[zoomSlider.value - 1];
+			if (delta < 0 && zoomSlider.value < 100) {
 				zoomSlider.value++;
 				zoomValue.innerHTML++;
 				change = true;
@@ -280,14 +282,14 @@ canvas.addEventListener("mousedown", function(event) {
 				change = true;
 			}
 			if (change) {
-				let newScale = 100 / reverse[zoomSlider.value];
+				let newScale = 100 / reverse[zoomSlider.value - 1];
 				let scale = newScale / currentScale;
 				if (scale != 1) {
 					alterLattice(scale, mouseY, mouseX);
 				}
 				redrawLattice();
 			}
-			else if (zoomSlider.value == 100) {
+			else if (zoomSlider.value == 1) {
 				createVisInit();
 				redrawLattice();
 			}
@@ -522,7 +524,7 @@ function alterCell(cell, scale, mouseY, mouseX) {
 // Update the current zoom slider value upon drag
 zoomSlider.oninput = function() {
 	zoomValue.innerHTML = this.value;
-	let scale = 100 / reverse[this.value];
+	let scale = 100 / reverse[this.value - 1];
 	createVisInit();
 	if (scale != 1) {
 		alterLattice(scale);
