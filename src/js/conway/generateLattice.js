@@ -14,8 +14,6 @@ let bounds = new Array(visLatticeWidth + (2 * buffer), visLatticeHeight + (2 * b
 //let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
 //let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
 
-console.log(visLatticeWidth);
-
 let cellSize = canvasHeight / visLatticeHeight;
 
 let visBounds = new Array(buffer, buffer, buffer + visLatticeWidth, buffer + visLatticeHeight);

@@ -137,7 +137,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		setTimeout(function() {
 			if (scribble) {
 				scribble = false;
-				console.log(scribble)
 				shiftX = 0;
 				shiftY = 0;
 			}
@@ -268,8 +267,6 @@ canvas.addEventListener("mousedown", function(event) {
 		if (testLoc) {
 			let delta = event.deltaY; //Get delta from mouse scroll.
 			let change = false;
-			console.log(reverse.length);
-			console.log(zoomSlider.value);
 			let currentScale = 100 / reverse[zoomSlider.value - 1];
 			if (delta < 0 && zoomSlider.value < 100) {
 				zoomSlider.value++;
@@ -630,7 +627,6 @@ export function saveReset()
 		}
 		resetLattice.push(tempRow);
 	}
-	//console.log(resetLattice[0].length)
 }
 
 // Displays the current iteration count to Game of Life HTML page
