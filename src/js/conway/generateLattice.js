@@ -11,7 +11,7 @@ intialCanvas();
 let canvasHeight = canvas.height;
 let canvasWidth = canvas.width;
 
-let visLatticeHeight = 110; // canvas.height / visLatticeHeight // Size of a cell
+let visLatticeHeight = 500; // canvas.height / visLatticeHeight // Size of a cell
 let visLatticeWidth = canvasWidth * visLatticeHeight / canvasHeight - 1; // canvasWidth / size of a cell = visLatticeHeight * canvasWidth / size of a cell
 
 let cellSize = canvasHeight / visLatticeHeight;
