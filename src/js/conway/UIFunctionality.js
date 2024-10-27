@@ -202,6 +202,7 @@ canvas.addEventListener("mousedown", function(event) {
 					visLatticeArray[i][j].flipColor();
 					visLatticeArray[i][j].drawCell(ctx);
 					latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
+					console.log("i: ", i, " j: ", j);
 				}
 			}
 		}
@@ -479,6 +480,8 @@ function redrawLattice(xOffset = 0, yOffset = 0) {
 		}
 	}
 	ctx.clearRect(0,0, canvas.width, canvas.height);
+	ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 	let offSetLat = visLatticeArray;
 	for (let i = 0; i < visLatticeArray.length; i++) {
 		for (let f = 0; f < visLatticeArray[i].length; f++) {

@@ -36,7 +36,7 @@ export class cell {
 	// Function used to draw the cell in its proper location
 	drawCell(ctx)
 	{
-		if(this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation > 0 && this.YLocation + this.height < ctx.canvas.height )
+		if(this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && (this.color || this.height > 10 )/*&& (this.color || border)*/)
 		{
 			let border = true;
 

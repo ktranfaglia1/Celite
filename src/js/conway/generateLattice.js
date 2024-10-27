@@ -1,6 +1,5 @@
 const canvas = document.getElementById('latticeRegion');
 
-let bounds = new Array(500, 500);
 
 //let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
 //let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
@@ -11,14 +10,17 @@ intialCanvas();
 let canvasHeight = canvas.height;
 let canvasWidth = canvas.width;
 
-let visLatticeHeight = 500; // canvas.height / visLatticeHeight // Size of a cell
-let visLatticeWidth = canvasWidth * visLatticeHeight / canvasHeight - 1; // canvasWidth / size of a cell = visLatticeHeight * canvasWidth / size of a cell
+let visLatticeWidth = 1000; // canvasWidth / size of a cell = visLatticeHeight * canvasWidth / size of a cell
+let visLatticeHeight = (visLatticeWidth + 1) * canvasHeight / canvasWidth ; // canvas.height / visLatticeHeight // Size of a cell
+
 
 let cellSize = canvasHeight / visLatticeHeight;
 
 let visBounds = new Array(0, 0, visLatticeWidth, visLatticeHeight);
 let visLatticeArray = new Array(new Array());
 let latticeArray = new Array(new Array());
+
+let bounds = new Array(visLatticeWidth, visLatticeHeight);
 
 import { saveReset } from "./UIFunctionality.js";
 import { cell } from "./cellClass.js"
