@@ -283,7 +283,7 @@ canvas.addEventListener("mousedown", function(event) {
 			let delta = event.deltaY; //Get delta from mouse scroll.
 			let change = false;
 			let currentScale = 100 / reverse[zoomSlider.value];
-			if (delta > 0 && zoomSlider.value < 95) {
+			if (delta > 0 && zoomSlider.value < 99) {
 				zoomSlider.value++;
 				zoomValue.innerHTML++;
 				change = true;
