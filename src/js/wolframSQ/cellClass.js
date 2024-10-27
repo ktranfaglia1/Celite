@@ -42,6 +42,8 @@ export class cell {
 	// Function used to draw the cell in its proper location
 	drawCell(ctx)
 	{
+		if(this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && (this.color || this.height > 10 )/*&& (this.color || border)*/)
+			{
 
 		//Draws the Box Outline as long as Cells arent too small
 		if(this.height >= 15 && this.border)
@@ -116,7 +118,7 @@ export class cell {
 
 			ctx.fillText(this.number + 1, this.XLocation, this.YLocation + this.height); //Plus 1 to stop 0 indexing
 		}
-
+	}
 		
 	}
 

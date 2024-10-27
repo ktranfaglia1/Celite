@@ -500,6 +500,8 @@ activateSetup();
 //Redraws the entire lattice array on the canvas
 function redrawLattice() {
 	ctx.clearRect(0,0, canvas.width, canvas.height);
+	ctx.fillStyle = deadColorSel.value;
+	ctx.fillRect(latticeArray[0][0].getXLoc(), latticeArray[0][0].getYLoc(), latticeArray[0].length * latticeArray[0][0].getHeight() ,latticeArray.length * latticeArray[0][0].getWidth());
 	for (let i = 0; i < latticeArray.length; i++) {
 		for (let f = 0; f < latticeArray[i].length; f++) {
 			latticeArray[i][f].drawCell(ctx)
