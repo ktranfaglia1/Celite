@@ -256,7 +256,7 @@ canvas.addEventListener("mousedown", function(event) {
 		}, 10);
 	});
 
-	canvas.addEventListener('wheel', function(event) {
+	/*canvas.addEventListener('wheel', function(event) {
 		let mouseX, mouseY;
 		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
 		let delta = event.deltaY; //Get delta from mouse scroll.
@@ -272,7 +272,7 @@ canvas.addEventListener("mousedown", function(event) {
 			zoomValue.innerHTML--;
 			change = true;
 		}
-	}, 10);
+	}, 10);*/
 
 	canvas.addEventListener('wheel', function(event) {
 		let mouseX, mouseY;
