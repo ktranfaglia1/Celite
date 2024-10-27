@@ -7,38 +7,45 @@ import { clear } from './UIFunctionality.js';
 //This function creates the intitial configuration array to be used for setting
 export function createNewConfig() {
     let newLattice = new Array(new Array());
-    for (let i = 0; i < visBounds[3]; i++) {
+    for (let i = 0; i < visBounds[3] - visBounds[1]; i++) {
         let dummyArr = new Array();
-        for (let f = 0; f < visBounds[2]; f++) {
+        for (let f = 0; f < visBounds[2] - visBounds[0]; f++) {
             dummyArr.push(0);
-            newLattice[i] = dummyArr;
         }
+        newLattice.push(dummyArr)
     }
-
-    console.log(visBounds[3])
+    newLattice.shift();
     return newLattice;
 }
 
 //Sets the visual lattice to the new lattice you created and displays it
 export function setLattice(newLattice) {
     clear();
-
     //Iterates through every lattice and sets to the same value as the new lattice
-    for (let i = 0; i < newLattice.length; i++) {
-        for (let j = 0; j < newLattice[0].length; j++) {
-            latticeArray[i + visBounds[0]][j + visBounds[1]] = newLattice[i][j];
+    if (latticeArray.length == newLattice.length && latticeArray[0].length == newLattice[0].length) {
+        for (let i = 0; i < newLattice.length; i++) {
+            for (let j = 0; j < newLattice[0].length; j++) {
+                latticeArray[i][j] = newLattice[i][j];
+            }
         }
     }
-
+    else {
+        for (let i = 0; i < newLattice.length; i++) {
+            for (let j = 0; j < newLattice[0].length; j++) {
+                latticeArray[i + visBounds[0]][j + visBounds[1]] = newLattice[i][j];
+            }
+        }
+    }
+    //Iterates through every lattice and sets to the same value as the new lattice
     createVis();
     displayLattice(visLatticeArray)
 
     return latticeArray;
 }
 
-export function yCenter() { return Math.floor(visBounds[3] / 2); }
+export function yCenter() { return Math.floor((visBounds[3] - visBounds[1]) / 2); }
 
-export function xCenter() { return Math.floor(visBounds[2] / 2); }
+export function xCenter() { return Math.floor((visBounds[2] - visBounds[0]) / 2); }
 
 //Makes a Simple Glider
 export function buildGlider() {
@@ -51,7 +58,6 @@ export function buildGlider() {
     newLattice[yCenter() + 1][xCenter() + 1] = 1;
     newLattice[yCenter() + 1][xCenter() - 1] = 1;
     newLattice[yCenter() - 1][xCenter()] = 1;
-
     //sets display lattice to new lattice
     setLattice(newLattice);
 }
@@ -155,8 +161,6 @@ export function build101() {
     newLattice[yCenter() + 2][xCenter() + 7] = 1;
     newLattice[yCenter() + 1][xCenter() + 8] = 1;
     newLattice[yCenter() + 2][xCenter() + 8] = 1;
-
-
     setLattice(newLattice);
 }
 
@@ -330,8 +334,6 @@ export function build119() {
     newLattice[yCenter() + 8][xCenter() + 4] = 1;
     newLattice[yCenter() + 9][xCenter() + 5] = 1;
     newLattice[yCenter() + 8][xCenter() + 6] = 1;
-
-
     setLattice(newLattice);
 }
 
@@ -384,7 +386,6 @@ export function build1234() {
     newLattice[yCenter() + 6][xCenter()] = 1;
     newLattice[yCenter() + 5][xCenter() - 1] = 1;
     newLattice[yCenter() + 5][xCenter() + 1] = 1;
-
     setLattice(newLattice);
 }
 
@@ -715,9 +716,6 @@ export function build295() {
     newLattice[yCenter() + 18][xCenter() + 27] = 1;
     newLattice[yCenter() + 19][xCenter() + 28] = 1;
     newLattice[yCenter() + 20][xCenter() + 28] = 1;
-
-
-
     setLattice(newLattice);
 }
 
@@ -744,7 +742,6 @@ export function buildGtoG() {
     newLattice[yCenter() + -8][xCenter() + -19] = 1;
     newLattice[yCenter() + -7][xCenter() + -19] = 1;
     newLattice[yCenter() + -9][xCenter() + -20] = 1;
-
     setLattice(newLattice);
 
 }
@@ -813,10 +810,6 @@ export function build60P() {
     newLattice[yCenter() + 18][xCenter() + -6] = 1;
     newLattice[yCenter() + 18][xCenter() + -5] = 1;
     newLattice[yCenter() + 17][xCenter() + -5] = 1;
-
-
-
-
     setLattice(newLattice);
 }
 
@@ -936,9 +929,6 @@ export function buildAK94() {
     newLattice[yCenter() + 11][xCenter() + 15] = 1;
     newLattice[yCenter() + 11][xCenter() + 16] = 1;
     newLattice[yCenter() + 12][xCenter() + 16] = 1;
-    /*
-    */
-
     setLattice(newLattice);
 }
 
@@ -1033,8 +1023,6 @@ export function buildTrigger() {
     newLattice[yCenter() + -34][xCenter() + 24] = 1;
     newLattice[yCenter() + -33][xCenter() + 25] = 1;
     newLattice[yCenter() + -33][xCenter() + 24] = 1;
-
-    /**/
     setLattice(newLattice);
 }
 
@@ -1178,48 +1166,43 @@ export function buildSnail() {
     newLattice[yCenter() + -3][xCenter() + 21] = 1;
     newLattice[yCenter() + 2][xCenter() + 20] = 1;
     newLattice[yCenter() + 3][xCenter() + 21] = 1;
-
-    /**/
     setLattice(newLattice);
 }
 
 
 export function buildTub(){
     let newLattice = createNewConfig()
-
     newLattice[ yCenter() + 4 ][ xCenter() + 6 ] = 1; 
-newLattice[ yCenter() + 5 ][ xCenter() + 5 ] = 1; 
-newLattice[ yCenter() + 6 ][ xCenter() + 6 ] = 1; 
-newLattice[ yCenter() + 5 ][ xCenter() + 7 ] = 1; 
-newLattice[ yCenter() + 2 ][ xCenter() + 4 ] = 1; 
-newLattice[ yCenter() + 1 ][ xCenter() + 4 ] = 1; 
-newLattice[ yCenter() + 1 ][ xCenter() + 3 ] = 1; 
-newLattice[ yCenter() + 0 ][ xCenter() + 1 ] = 1; 
-newLattice[ yCenter() + -1 ][ xCenter() + 0 ] = 1; 
-newLattice[ yCenter() + -2 ][ xCenter() + 0 ] = 1; 
-newLattice[ yCenter() + -2 ][ xCenter() + 1 ] = 1; 
-newLattice[ yCenter() + -2 ][ xCenter() + 2 ] = 1; 
-newLattice[ yCenter() + 5 ][ xCenter() + 2 ] = 1; 
-newLattice[ yCenter() + 4 ][ xCenter() + 2 ] = 1; 
-newLattice[ yCenter() + 4 ][ xCenter() + 1 ] = 1; 
-newLattice[ yCenter() + 5 ][ xCenter() + 1 ] = 1; 
-newLattice[ yCenter() + 6 ][ xCenter() + 2 ] = 1; 
-newLattice[ yCenter() + 6 ][ xCenter() + 0 ] = 1; 
-newLattice[ yCenter() + 7 ][ xCenter() + 0 ] = 1; 
-newLattice[ yCenter() + 7 ][ xCenter() + -1 ] = 1; 
-newLattice[ yCenter() + 8 ][ xCenter() + 1 ] = 1; 
-newLattice[ yCenter() + 8 ][ xCenter() + -1 ] = 1; 
-newLattice[ yCenter() + 8 ][ xCenter() + -2 ] = 1; 
-newLattice[ yCenter() + 8 ][ xCenter() + -3 ] = 1; 
-newLattice[ yCenter() + 8 ][ xCenter() + -4 ] = 1; 
-newLattice[ yCenter() + 9 ][ xCenter() + -3 ] = 1; 
-newLattice[ yCenter() + 9 ][ xCenter() + -2 ] = 1; 
-newLattice[ yCenter() + 7 ][ xCenter() + -6 ] = 1; 
-newLattice[ yCenter() + 6 ][ xCenter() + -7 ] = 1; 
-newLattice[ yCenter() + 5 ][ xCenter() + -7 ] = 1; 
-newLattice[ yCenter() + 5 ][ xCenter() + -6 ] = 1; 
-newLattice[ yCenter() + 5 ][ xCenter() + -5 ] = 1;
-
-
+    newLattice[ yCenter() + 5 ][ xCenter() + 5 ] = 1; 
+    newLattice[ yCenter() + 6 ][ xCenter() + 6 ] = 1; 
+    newLattice[ yCenter() + 5 ][ xCenter() + 7 ] = 1; 
+    newLattice[ yCenter() + 2 ][ xCenter() + 4 ] = 1; 
+    newLattice[ yCenter() + 1 ][ xCenter() + 4 ] = 1; 
+    newLattice[ yCenter() + 1 ][ xCenter() + 3 ] = 1; 
+    newLattice[ yCenter() + 0 ][ xCenter() + 1 ] = 1; 
+    newLattice[ yCenter() + -1 ][ xCenter() + 0 ] = 1; 
+    newLattice[ yCenter() + -2 ][ xCenter() + 0 ] = 1; 
+    newLattice[ yCenter() + -2 ][ xCenter() + 1 ] = 1; 
+    newLattice[ yCenter() + -2 ][ xCenter() + 2 ] = 1; 
+    newLattice[ yCenter() + 5 ][ xCenter() + 2 ] = 1; 
+    newLattice[ yCenter() + 4 ][ xCenter() + 2 ] = 1; 
+    newLattice[ yCenter() + 4 ][ xCenter() + 1 ] = 1; 
+    newLattice[ yCenter() + 5 ][ xCenter() + 1 ] = 1; 
+    newLattice[ yCenter() + 6 ][ xCenter() + 2 ] = 1; 
+    newLattice[ yCenter() + 6 ][ xCenter() + 0 ] = 1; 
+    newLattice[ yCenter() + 7 ][ xCenter() + 0 ] = 1; 
+    newLattice[ yCenter() + 7 ][ xCenter() + -1 ] = 1; 
+    newLattice[ yCenter() + 8 ][ xCenter() + 1 ] = 1; 
+    newLattice[ yCenter() + 8 ][ xCenter() + -1 ] = 1; 
+    newLattice[ yCenter() + 8 ][ xCenter() + -2 ] = 1; 
+    newLattice[ yCenter() + 8 ][ xCenter() + -3 ] = 1; 
+    newLattice[ yCenter() + 8 ][ xCenter() + -4 ] = 1; 
+    newLattice[ yCenter() + 9 ][ xCenter() + -3 ] = 1; 
+    newLattice[ yCenter() + 9 ][ xCenter() + -2 ] = 1; 
+    newLattice[ yCenter() + 7 ][ xCenter() + -6 ] = 1; 
+    newLattice[ yCenter() + 6 ][ xCenter() + -7 ] = 1; 
+    newLattice[ yCenter() + 5 ][ xCenter() + -7 ] = 1; 
+    newLattice[ yCenter() + 5 ][ xCenter() + -6 ] = 1; 
+    newLattice[ yCenter() + 5 ][ xCenter() + -5 ] = 1;
     setLattice(newLattice)
 }

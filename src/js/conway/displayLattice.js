@@ -19,7 +19,7 @@ export function intialCanvas()
 
 export {canvas, ctx, initialize};
 ctx.clearRect(0,0, canvas.width, canvas.height);
-createVisInit(canvas);
+createVisInit();
 displayLattice(visLatticeArray);
 //initialize = true;
 
