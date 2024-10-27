@@ -93,7 +93,6 @@ let nSkip = 2  // Local variable nSkip needed for n-skip order setting
 // Display setup buttons and hide standard buttons upon setup button click
 setupButton.addEventListener("click", debounce(function() {
 	activateSetup();
-	console.log(orderArray);
 	for (let i = 0; i < orderArray.length; i++)
 	{
 		latticeArray[0][i].setColor(1)
@@ -149,7 +148,6 @@ simulateButton.addEventListener("click", function() {
 		item.style.display = 'inline-block';
 	});
 
-	console.log(tempOrder)
 	// Loop through the setup mode secondary toolbar elements and disable display
 	setupItems.forEach(item => {
 		item.style.display = 'none';
@@ -158,10 +156,8 @@ simulateButton.addEventListener("click", function() {
 	// Check if all cells have been ordered
 	if(!tempOrder.includes(-1))
 	{
-		console.log("Saving", tempOrder);
 		alterOrder(tempOrder)
 		makeLog("Order Set", logCanvas, messageQueue);
-		console.log(orderArray);
 	}
 	else
 	{
@@ -172,7 +168,6 @@ simulateButton.addEventListener("click", function() {
 			tempOrder[i] = i;
 		}
 		alterOrder(tempOrder);
-		console.log(tempOrder);
 	}
 
 	makeLog("Entered Simulate Mode", logCanvas, messageQueue)
@@ -237,7 +232,6 @@ randOrder.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none"
-	console.log(tempOrder)
 	makeLog("Random Order Set", logCanvas, messageQueue)
 });
 
@@ -259,7 +253,6 @@ left2right.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
-	console.log(tempOrder)
 	makeLog("Left to Right Order Set", logCanvas, messageQueue)
 });
 
@@ -281,7 +274,6 @@ right2left.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
-	console.log(tempOrder)
 	makeLog("Right to Left Order Set", logCanvas, messageQueue)
 
 });
@@ -317,7 +309,6 @@ centerOut.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
-	console.log(tempOrder)
 	makeLog("Center Outward Order Set", logCanvas, messageQueue)
 });
 
@@ -360,7 +351,6 @@ edgesIn.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
-	console.log(tempOrder)
 	makeLog("Edges Inward Order Set", logCanvas, messageQueue)
 });
 
@@ -437,8 +427,12 @@ edgesInR.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
+<<<<<<< HEAD
 	console.log(tempOrder)
 	makeLog("Edges In Rev Order Set", logCanvas, messageQueue)
+=======
+	makeLog("Edges Inward Order Set", logCanvas, messageQueue)
+>>>>>>> origin/Timmys_Branch
 
 });
 
@@ -585,7 +579,6 @@ function alterCell(mouseX, cell, scale, mouseY = 0) {
 
 //Selects color for dead color
 deadColorSel.addEventListener('input', function(){
-	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
@@ -598,7 +591,6 @@ deadColorSel.addEventListener('input', function(){
 
 //Selects color for alive
 aliveColorSel.addEventListener('input', function(){
-	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
@@ -611,7 +603,6 @@ aliveColorSel.addEventListener('input', function(){
 
 //Selects color for dead cells border
 deadBorderSel.addEventListener('input', function(){
-	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
@@ -624,7 +615,6 @@ deadBorderSel.addEventListener('input', function(){
 
 //select cells for alive cells border
 aliveBorderSel.addEventListener('input', function(){
-	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
@@ -982,7 +972,6 @@ function makeTickBox(event) {
 		if(lineNumber < 0)
 		{insideBox = false;}
 
-		//console.log(colNumber);
 		//drawLattice(latticeArray);
 		if(insideBox)
 		{
@@ -994,8 +983,6 @@ function makeTickBox(event) {
 			{
 				textSize = 30
 			}
-
-			console.log(textSize);
 
 			tctx.fillStyle = "grey";
 			tctx.fillRect(mouseX + 3, mouseY - 12, textSize + 3, 15); //Draws the Tick Box square
@@ -1115,14 +1102,11 @@ function clear(latticeArray, keepInit = false) {
 	//Resets new Cells to proper order number
 	for(let i = 0;i < latticeArray[0].length; i++)
 	{
-		//console.log(tempOrder)
 		if(tempOrder[i] != -1 && typeof tempOrder[i] !== 'undefined')
 		{
 			latticeArray[0][tempOrder[i]].setNumber(i);
 		}
-		//console.log("Out ", i)
 	}
-	//console.log("0:0 ",latticeArray[0][0])
 
 	
 	alterLatticeArray(neoLatticeArray);
@@ -1138,7 +1122,6 @@ export function clearOrder()
 		tempTempOrder.push(-1);
 	}
 	alterTempOrder(tempTempOrder);
-	console.log("Clear Order", tempOrder)
 }
 
 //Takes Coordinates of mouseClick and calculates properly where it is in relation to the canvas
@@ -1156,7 +1139,6 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 					neoLatticeArray[0][i].setColor(1);
 				}
 				//Functionality for Setup Clicking
-				console.log(getSetup());
 				if(getSetup() && latticeArray[0][i].getColor() == 1 && !tempOrder.includes(i))
 				{
 					for (let j = 0; j < tempOrder.length; j++)
@@ -1164,7 +1146,6 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 						if(tempOrder[j] == -1)
 						{
 							tempOrder[j] = i;
-							//console.log("Add")
 							latticeArray[0][i].setNumber(j)
 							break;
 						}
@@ -1177,20 +1158,16 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
 						if(tempOrder[j] == i)
 						{
 							tempOrder[j] = -1;
-							//console.log("Remove")
 							latticeArray[0][i].setNumber(-2)
 							break;
 						}
 					}
 				}
-				console.log("Temp Order: ", tempOrder);
 			}
 
 			//Draws new Cells and updates lattices accordingly
 			(neoLatticeArray[0][i]).drawCell(ctx);
 			alterLatticeArray(neoLatticeArray);
-			//console.log(tempOrder)
-			//console.log(orderArray)
 			
 			//break;
 		}
@@ -1237,7 +1214,6 @@ function iterate(currentIteration, newIterations) {
 
 		alterLatticeArray(neoLatticeArray);
 		updateLattice();
-		//console.log(orderArray);
 		return currentIteration;
 	}, 5)
 }

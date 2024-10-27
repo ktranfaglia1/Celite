@@ -171,7 +171,6 @@ function alterCell(mouseX, cell, scale, mouseY = 0) {
 
 //Selects color for dead color
 deadColorSel.addEventListener('input', function(){
-	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
@@ -184,7 +183,6 @@ deadColorSel.addEventListener('input', function(){
 
 //Selects color for alive
 aliveColorSel.addEventListener('input', function(){
-	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
@@ -197,7 +195,6 @@ aliveColorSel.addEventListener('input', function(){
 
 //Selects color for dead cells border
 deadBorderSel.addEventListener('input', function(){
-	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
@@ -210,7 +207,6 @@ deadBorderSel.addEventListener('input', function(){
 
 //select cells for alive cells border
 aliveBorderSel.addEventListener('input', function(){
-	console.log(latticeArray[0][0])
 	for (let i = 0; i < latticeArray.length; i++)
 	{
 		for (let j = 0; j < latticeArray[0].length; j++)
@@ -638,7 +634,6 @@ function makeTickBox(event) {
 		if(lineNumber < 0)
 		{insideBox = false;}
 
-		//console.log(colNumber);
 		//drawLattice(latticeArray);
 		if(insideBox)
 		{
@@ -650,8 +645,6 @@ function makeTickBox(event) {
 			{
 				textSize = 30
 			}
-
-			console.log(textSize);
 
 			tctx.fillStyle = "grey";
 			tctx.fillRect(mouseX + 3, mouseY - 12, textSize + 3, 15); //Draws the Tick Box square

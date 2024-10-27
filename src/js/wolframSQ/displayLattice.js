@@ -86,7 +86,6 @@ export function alterBoundaryCon(neoBoundaryCon) {
 
 export function alterBorder(neoBorder) {
   border = neoBorder;
-  console.log(border)
 }
 
 export function getBorder() {
@@ -118,8 +117,6 @@ export function drawLattice(latticeArray) {
     tickCanvas.height = canvas.height;
     //canvas.style.height = (latticeArray.length * size) + 'px';
   }
-
-    //console.log(latticeArray);
 
     for (let i = 0; i < latticeArray.length; i++)
     {
