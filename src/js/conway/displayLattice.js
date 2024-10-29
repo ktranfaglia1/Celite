@@ -25,6 +25,9 @@ displayLattice(visLatticeArray);
 
 export function displayLattice(visLatticeArray)
 {
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //createVisInit(canvas);
     for(let i = 0; i < visLatticeArray.length; i++)
     {
         for(let j = 0; j < visLatticeArray[0].length; j++)

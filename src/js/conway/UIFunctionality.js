@@ -8,7 +8,7 @@
 */
 /* Import utility and variables from other JS files */
 import {canvas, ctx, displayLattice, initialize} from "./displayLattice.js";
-import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds} from "./generateLattice.js";
+import {visLatticeArray, visBounds, latticeArray, iterate, createVis, createVisInit, bounds, boundaryCollide} from "./generateLattice.js";
 import { cell } from "./cellClass.js";
 import { build101, build295, build119, build1234, buildGlider, setLattice, yCenter, xCenter, buildGtoG, build60P, buildAK94, buildTrigger, buildSnail, buildTub } from "./presets.js";
 
@@ -58,7 +58,7 @@ let mouseYPos = 0; //Stores starting Y position of cursor for dragging
 let shiftX = 0; //Stores ending X position of cursor for dragging
 let shiftY = 0; //Stores ending Y position of cursor for dragging
 let reverse =  new Array();
-for (let i = 101; i > 0; i--) {
+for (let i = 100; i > 0; i--) {
 	reverse.push(i);
 }
 
@@ -80,17 +80,18 @@ document.addEventListener("DOMContentLoaded", function() {
 	/* Handle button clicks for all primary toolbar buttons */
 
 	startStopButton.addEventListener("click", debounce(function() {
-		clearResetToggle(true);
-		startStopToggle();
-		run = !run;
-		if (run) {
-			continouslyIterate();
+		if (!boundaryCollide() || run) {
+			clearResetToggle(true);
+			startStopToggle();
+			run = !run;
+			if (run) {
+				continouslyIterate();
+			}
 		}
 	}));
 
 	iterateButton.addEventListener("click", debounce(function() {
-		if(!run)
-		{
+		if(!run && !boundaryCollide()) {
 			clearResetToggle(true);
 			iterate();
 			updateOutput(true);
@@ -108,9 +109,16 @@ document.addEventListener("DOMContentLoaded", function() {
 	clearResetButton.addEventListener("click", debounce(function() {
 		if(currentReset == 1)
 		{clear();}
-		else
-		{reset();}
-		clearResetToggle(false);
+		else {
+			if (run) {
+				startStopToggle();
+				run = false;
+			}
+			else {
+				clearResetToggle(false);
+			}
+			reset();
+		}
 	}));
 
 	document.addEventListener('keyup', function(event) {
@@ -129,7 +137,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		setTimeout(function() {
 			if (scribble) {
 				scribble = false;
-				console.log(scribble)
 				shiftX = 0;
 				shiftY = 0;
 			}
@@ -201,6 +208,7 @@ canvas.addEventListener("mousedown", function(event) {
 					visLatticeArray[i][j].flipColor();
 					visLatticeArray[i][j].drawCell(ctx);
 					latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
+					console.log("i: ", i, " j: ", j);
 				}
 			}
 		}
@@ -253,7 +261,7 @@ canvas.addEventListener("mousedown", function(event) {
 		}, 10);
 	});
 
-	canvas.addEventListener('wheel', function(event) {
+	/*canvas.addEventListener('wheel', function(event) {
 		let mouseX, mouseY;
 		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
 		let delta = event.deltaY; //Get delta from mouse scroll.
@@ -269,7 +277,7 @@ canvas.addEventListener("mousedown", function(event) {
 			zoomValue.innerHTML--;
 			change = true;
 		}
-	}, 10);
+	}, 10);*/
 
 	canvas.addEventListener('wheel', function(event) {
 		let mouseX, mouseY;
@@ -278,26 +286,26 @@ canvas.addEventListener("mousedown", function(event) {
 		if (testLoc) {
 			let delta = event.deltaY; //Get delta from mouse scroll.
 			let change = false;
-			let currentScale = 100 / reverse[zoomSlider.value];
-			if (delta > 0 && zoomSlider.value < 95) {
+			let currentScale = 100 / reverse[zoomSlider.value - 1];
+			if (delta < 0 && zoomSlider.value < 100) {
 				zoomSlider.value++;
 				zoomValue.innerHTML++;
 				change = true;
 			}
-			else if (delta < 0 && zoomSlider.value > 1) {
+			else if (delta > 0 && zoomSlider.value > 1) {
 				zoomSlider.value--;
 				zoomValue.innerHTML--;
 				change = true;
 			}
 			if (change) {
-				let newScale = 100 / reverse[zoomSlider.value];
+				let newScale = 100 / reverse[zoomSlider.value - 1];
 				let scale = newScale / currentScale;
 				if (scale != 1) {
 					alterLattice(scale, mouseY, mouseX);
 				}
 				redrawLattice();
 			}
-			else if (zoomSlider.value == 100) {
+			else if (zoomSlider.value == 1) {
 				createVisInit();
 				redrawLattice();
 			}
@@ -476,6 +484,8 @@ function redrawLattice(xOffset = 0, yOffset = 0) {
 		}
 	}
 	ctx.clearRect(0,0, canvas.width, canvas.height);
+	ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 	let offSetLat = visLatticeArray;
 	for (let i = 0; i < visLatticeArray.length; i++) {
 		for (let f = 0; f < visLatticeArray[i].length; f++) {
@@ -532,7 +542,7 @@ function alterCell(cell, scale, mouseY, mouseX) {
 // Update the current zoom slider value upon drag
 zoomSlider.oninput = function() {
 	zoomValue.innerHTML = this.value;
-	let scale = 100 / reverse[this.value];
+	let scale = 100 / reverse[this.value - 1];
 	createVisInit();
 	if (scale != 1) {
 		alterLattice(scale);
@@ -586,14 +596,20 @@ export function clear() {
 function continouslyIterate() {
 	if (run) {
 		setTimeout(function() { // puts a wait before iterating again
-			if (run && !(shift && scribble)) {
+			if (run && !(shift && scribble) && !boundaryCollide()) {
 				iterate();
 				updateOutput(true);
 				ctx.clearRect(0,0, canvas.width, canvas.height);
 				//displayLattice(visLatticeArray)
 				redrawLattice()
 			}
-			continouslyIterate(); // allows it to coninously run by calling it again
+			if (!boundaryCollide()) {
+				continouslyIterate(); // allows it to coninously run by calling it again
+			}
+			else {
+				startStopToggle();
+				run = false;
+			}
 		}, currentDelay);
 	}
 }
@@ -632,7 +648,6 @@ export function saveReset()
 		}
 		resetLattice.push(tempRow);
 	}
-	//console.log(resetLattice[0].length)
 }
 
 // Displays the current iteration count to Game of Life HTML page

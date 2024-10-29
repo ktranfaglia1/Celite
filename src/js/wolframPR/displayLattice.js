@@ -78,7 +78,6 @@ export function alterBoundaryCon(neoBoundaryCon) {
 
 export function alterBorder(neoBorder) {
   border = neoBorder;
-  console.log(border)
 }
 
 export function getBorder() {
@@ -140,8 +139,6 @@ export function drawLattice(latticeArray) {
     //canvas.style.height = (latticeArray.length * size) + 'px';
   }
 
-    //console.log(latticeArray);
-
     for (let i = 0; i < latticeArray.length; i++)
     {
       for (let j = 0; j < latticeArray[0].length; j++)
@@ -159,6 +156,9 @@ export function drawLattice(latticeArray) {
 
   ctx.clearRect(0,0, canvas.width, canvas.height);
   //Iterates over each cell in each lattice in each timestep drawing them to the canvas.
+  
+  ctx.fillStyle = deadColorSel.value;
+  ctx.fillRect(latticeArray[0][0].getXLoc(), latticeArray[0][0].getYLoc(), latticeArray[0].length * latticeArray[0][0].getHeight() ,latticeArray.length * latticeArray[0][0].getWidth());
   for (let j = 0; j < latticeArray.length; j++) {
     for (let i = 0; i < latticeArray[j].length; i++) {
       (latticeArray[j][i]).drawCell(ctx);

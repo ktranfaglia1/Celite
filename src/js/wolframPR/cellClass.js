@@ -39,43 +39,45 @@ export class cell {
 	drawCell(ctx)
 	{
 
-		//Draws the Box Outline as long as Cells arent too small
-		if(latSize[0] <= 200 && this.border)
+		if(this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && (this.color || this.height > 10 )/*&& (this.color || border)*/)
 		{
-			//Sets outline to be inverse of color of cell so you can see it
+			//Draws the Box Outline as long as Cells arent too small
+			if(latSize[0] <= 200 && this.border)
+			{
+				//Sets outline to be inverse of color of cell so you can see it
+				if(this.color == 1)
+				{
+					ctx.fillStyle = this.aliveBord;
+				}
+				else
+				{
+					ctx.fillStyle = this.deadBord;
+				}
+
+				// Draws the main section outside of the square
+				ctx.fillRect(this.XLocation, this.YLocation , this.width + 1, this.height + 1);
+			}
+
+			//Sets color for the main part of the cell
 			if(this.color == 1)
 			{
-      			ctx.fillStyle = this.aliveBord;
+			ctx.fillStyle = this.aliveCell;
 			}
 			else
 			{
-      			ctx.fillStyle = this.deadBord;
+			ctx.fillStyle = this.deadCell;
 			}
-
-			// Draws the main section outside of the square
-			ctx.fillRect(this.XLocation, this.YLocation , this.width + 1, this.height + 1);
+			
+			//Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
+			if(latSize[0] <= 200 && this.border)
+			{
+			ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
+			}
+			else
+			{
+			ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
+			}
 		}
-
-		//Sets color for the main part of the cell
-		if(this.color == 1)
-		{
-		ctx.fillStyle = this.aliveCell;
-		}
-		else
-		{
-		ctx.fillStyle = this.deadCell;
-		}
-		
-		//Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
-		if(latSize[0] <= 200 && this.border)
-		{
-		ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
-		}
-		else
-		{
-		ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
-		}
-		
 	}
 
 	setBorder(newBorder)
