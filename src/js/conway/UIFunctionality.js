@@ -49,7 +49,7 @@ let outputIteration = document.getElementById("iterationOutput")  // Connect ite
 
 /* Global variables for iteration */
 let run = 0; // Defaults to not keep running
-let currentDelay = 750; // Time to wait before iterating again
+let currentDelay = 125; // Time to wait before iterating again
 let iterationCount = 0; // Tracks number of iterations
 let scribble = false; //Keeps track of whether the mouse is being held down for scribbling on canvas
 let shift = false; //Keeps track of whether the Shift key is being held down for shifting the canvas
@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 
 
-// Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
+// Recognize a keydown event, as in keyboard key press, then check and handle key presses. Used for keyboard shortcuts
 document.addEventListener('keydown', function(event) {
     // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
 	if (event.shiftKey) {
@@ -442,7 +442,7 @@ window.addEventListener("click", function(event) {
 	}
 });
 
-iterationSpeedValue.innerHTML = 250;  // Sets displayed default iteration speed value
+iterationSpeedValue.innerHTML = 125;  // Sets displayed default iteration speed value
 zoomValue.innerHTML = 50;  // Sets displayed default zoom value
 
 // Update the current iteration speed slider value upon drag
