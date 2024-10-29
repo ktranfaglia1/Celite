@@ -9,8 +9,8 @@ intialCanvas();
 // Calculates Height and Width cooresponding to CSS setting of Canvas
 let canvasHeight = canvas.height;
 let canvasWidth = canvas.width;
-const buffer = 200;
-let visLatticeWidth = 1000; // canvasWidth / size of a cell = visLatticeHeight * canvasWidth / size of a cell
+const buffer = 100;
+let visLatticeWidth = 500; // canvasWidth / size of a cell = visLatticeHeight * canvasWidth / size of a cell
 let visLatticeHeight = (visLatticeWidth + 1) * canvasHeight / canvasWidth ; // canvas.height / visLatticeHeight // Size of a cell
 
 //let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));

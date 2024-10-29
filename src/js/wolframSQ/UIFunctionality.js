@@ -427,13 +427,8 @@ edgesInR.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
-<<<<<<< HEAD
 	console.log(tempOrder)
 	makeLog("Edges In Rev Order Set", logCanvas, messageQueue)
-=======
-	makeLog("Edges Inward Order Set", logCanvas, messageQueue)
->>>>>>> origin/Timmys_Branch
-
 });
 
 skip.addEventListener("click", function() {
