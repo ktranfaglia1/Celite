@@ -453,7 +453,7 @@ iterationSpeedSlider.oninput = function() {
 
 
 //Redraws the entire lattice array on the canvas
-function redrawLattice(xOffset = 0, yOffset = 0) {
+export function redrawLattice(xOffset = 0, yOffset = 0) {
 	let trueOffsetX = xOffset - shiftX;
 	let trueOffsetY = yOffset - shiftY;
 	if (trueOffsetX != 0 || trueOffsetY != 0) {
