@@ -427,13 +427,8 @@ edgesInR.addEventListener("click", function() {
 		tempOrder[mockLattice[i]] = i;
 	}
 	libraryWindow.style.display = "none";
-<<<<<<< HEAD
 	console.log(tempOrder)
 	makeLog("Edges In Rev Order Set", logCanvas, messageQueue)
-=======
-	makeLog("Edges Inward Order Set", logCanvas, messageQueue)
->>>>>>> origin/Timmys_Branch
-
 });
 
 skip.addEventListener("click", function() {
@@ -827,10 +822,6 @@ document.addEventListener('keydown', function(event) {
 				case (event.key == 'o'):
 					optionsButton.click();
 					break;
-				case (event.key == 'a'):
-					if(!getSetup())
-					setupButton.click();
-					break;
 				case (event.key == 'n'):
 					downloadPDFButton.click();
 					break;
@@ -838,7 +829,6 @@ document.addEventListener('keydown', function(event) {
 					downloadPNGButton.click();
 					break;
 				case (event.key == 'u'):
-					if(!getSetup())
 					setupButton.click();
 					break;
 				case (event.key == 'g'):
@@ -892,15 +882,18 @@ document.addEventListener('keydown', function(event) {
 				case (event.key == 'p'):
 					helpButton.click();
 					break;
-					case (event.key == '='):
-						let dustin = document.querySelector(".Dustin");
-						if (dustin.style.display == "block") {
-							dustin.style.display = "none"
-						}
-						else {
-							dustin.style.display = "block"
-						}
-						break;
+				case (event.key == 'w'):
+					iterationToggleButton.click();
+					break;
+				case (event.key == '='):
+					let dustin = document.querySelector(".Dustin");
+					if (dustin.style.display == "block") {
+						dustin.style.display = "none"
+					}
+					else {
+						dustin.style.display = "block"
+					}
+					break;
 				default:
 					break;
 			}
