@@ -21,6 +21,7 @@ let cellSize = canvasHeight / visLatticeHeight;
 let visBounds = new Array(buffer, buffer, buffer + visLatticeWidth, buffer + visLatticeHeight);
 let visLatticeArray = new Array(new Array());
 let latticeArray = new Array(new Array());
+let bufferArray = new Array(new Array());
 
 let bounds = new Array(visLatticeWidth + (2 * buffer), visLatticeHeight + (2 * buffer));
 
@@ -39,10 +40,13 @@ export { visLatticeArray, visBounds, latticeArray, bounds };
 export function createInit() {
     for (let i = 0; i < bounds[1]; i++) {
         let dummyArr = new Array();
+        let dummyArr2 = new Array();
         for (let f = 0; f < bounds[0]; f++) {
             dummyArr.push(0);
+            dummyArr2.push(0);
         }
         latticeArray.push(dummyArr);
+        bufferArray.push(dummyArr2);
     }
     latticeArray.shift();
 }
@@ -65,92 +69,74 @@ export function createVisInit() {
 }
 
 export function createVis(xOffset = 0, yOffset = 0) {
-    //let newLat = new Array(new Array());
     for (let i = 0; i < visBounds[3] - visBounds[1]; i++) {
-        //let dummyArr = new Array();
         for (let f = 0; f < visBounds[2] - visBounds[0]; f++) {
-            /*let height = visLatticeArray[i][f].getHeight();
-            let xCord = visLatticeArray[i][f].getXLoc() + xOffset;
-            let yCord = visLatticeArray[i][f].getYLoc() + yOffset;
-            dummyArr.push(new cell(height, height, xCord, yCord, latticeArray[i + visBounds[1]][f + visBounds[0]], true));*/
             visLatticeArray[i][f].setXLoc(visLatticeArray[i][f].getXLoc() + xOffset);
             visLatticeArray[i][f].setYLoc(visLatticeArray[i][f].getYLoc() + yOffset);
             visLatticeArray[i][f].setColor(latticeArray[i + visBounds[1]][f + visBounds[0]])
         }
-        //newLat.push(dummyArr);
     }
-    //visLatticeArray.shift()
-    /*newLat.shift();
-    visLatticeArray = newLat;
-    console.log(visLatticeArray)*/
 }
 
-//This function counts the number of living neighbors around any given cell.
-export function livingNeighbors(x, y) {
-    let alive = 0;
-    for (let i = -1; i < 2; i++) {
-        if (i != 0) {
-            for (let f = -1; f < 2; f++) {
-                if (((y + f) < bounds[1]) && ((y + f) >= 0) && ((x + i) >= 0) && ((x + i) < bounds[0])) {
-                    if (latticeArray[y + f][x + i] == 1) {
-                        alive++;
-                    }
-                }
-            }
-        }
-        else {
-            if (((y + 1) < bounds[1]) && ((y + 1) >= 0)) {
-                if (latticeArray[y + 1][x] == 1) {
-                    alive++;
-                }
-            }
-            if (((y - 1) < bounds[1]) && ((y - 1) >= 0)) {
-                if (latticeArray[y - 1][x] == 1) {
-                    alive++;
-                }
-            }
-        }
-    }
-    return alive;
+function incrementCell(x,y)
+{
+    if(x > 0 && x < bounds[1] && y > 0 && y < bounds[0])
+        bufferArray[x][y] += 1
 }
+
 
 //This function updates the lattice array for each timestep.
 export function iterate() {
 
+    console.time("create Vis")
     if (iterationCount == 0)
     {
         saveReset();
     }
     
-    let newLat = new Array(new Array());
     for (let i = 0; i < bounds[1]; i++) {
-        let dummyArr = new Array();
         for (let f = 0; f < bounds[0]; f++) {
-            let currentState = latticeArray[i][f];
-            let numNeighbors = livingNeighbors(f, i);
-
-            if (currentState == 0) {
-                if (numNeighbors == 3) {
-                    dummyArr.push(1);
-                }
-                else {
-                    dummyArr.push(0);
-                }
-            }
-            else {
-                if (numNeighbors == 2 || numNeighbors == 3) {
-                    dummyArr.push(1);
-                }
-                else {
-                    dummyArr.push(0);
-                }
-            }
-
+            bufferArray[i][f] = 0;
         }
-        newLat[i] = dummyArr;
     }
-    latticeArray = newLat;
-    console.time("create Vis")
+
+    for (let i = 0; i < bounds[1]; i++) {
+        for (let f = 0; f < bounds[0]; f++) {
+            if(latticeArray[i][f] == 1)
+            {
+                incrementCell(i - 1, f - 1);
+                incrementCell(i, f - 1);
+                incrementCell(i + 1, f - 1);
+
+                incrementCell(i - 1, f);
+                //incrementCell(i, f);
+                incrementCell(i + 1, f);
+
+                incrementCell(i - 1, f + 1);
+                incrementCell(i, f + 1);
+                incrementCell(i + 1, f + 1);
+            }
+        }
+    }
+
+    for (let i = 0; i < bounds[1]; i++) {
+        for (let f = 0; f < bounds[0]; f++) {
+            if(bufferArray[i][f] == 3 && latticeArray[i][f] == 0)
+            {
+                latticeArray[i][f] = 1;
+            }
+            else if((bufferArray[i][f] == 3 || bufferArray[i][f] == 2) && latticeArray[i][f] == 1)
+            {
+                latticeArray[i][f] = 1;
+            }
+            else
+            {
+                latticeArray[i][f] = 0;
+            }
+        }
+    }
+
+    //latticeArray = newLat;
     createVis();
     console.timeEnd("create Vis");
     //createVisInit();
