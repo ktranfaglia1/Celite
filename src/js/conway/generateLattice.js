@@ -65,19 +65,24 @@ export function createVisInit() {
 }
 
 export function createVis(xOffset = 0, yOffset = 0) {
-    let newLat = new Array(new Array());
+    //let newLat = new Array(new Array());
     for (let i = 0; i < visBounds[3] - visBounds[1]; i++) {
-        let dummyArr = new Array();
+        //let dummyArr = new Array();
         for (let f = 0; f < visBounds[2] - visBounds[0]; f++) {
-            let height = visLatticeArray[i][f].getHeight();
+            /*let height = visLatticeArray[i][f].getHeight();
             let xCord = visLatticeArray[i][f].getXLoc() + xOffset;
             let yCord = visLatticeArray[i][f].getYLoc() + yOffset;
-            dummyArr.push(new cell(height, height, xCord, yCord, latticeArray[i + visBounds[1]][f + visBounds[0]], true));
+            dummyArr.push(new cell(height, height, xCord, yCord, latticeArray[i + visBounds[1]][f + visBounds[0]], true));*/
+            visLatticeArray[i][f].setXLoc(visLatticeArray[i][f].getXLoc() + xOffset);
+            visLatticeArray[i][f].setYLoc(visLatticeArray[i][f].getYLoc() + yOffset);
+            visLatticeArray[i][f].setColor(latticeArray[i + visBounds[1]][f + visBounds[0]])
         }
-        newLat.push(dummyArr);
+        //newLat.push(dummyArr);
     }
-    newLat.shift();
+    //visLatticeArray.shift()
+    /*newLat.shift();
     visLatticeArray = newLat;
+    console.log(visLatticeArray)*/
 }
 
 //This function counts the number of living neighbors around any given cell.
@@ -145,7 +150,9 @@ export function iterate() {
         newLat[i] = dummyArr;
     }
     latticeArray = newLat;
+    console.time("create Vis")
     createVis();
+    console.timeEnd("create Vis");
     //createVisInit();
 
     return latticeArray;
