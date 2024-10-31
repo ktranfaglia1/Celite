@@ -88,7 +88,6 @@ function incrementCell(x,y)
 //This function updates the lattice array for each timestep.
 export function iterate() {
 
-    console.time("create Vis")
     if (iterationCount == 0)
     {
         saveReset();
@@ -138,7 +137,6 @@ export function iterate() {
 
     //latticeArray = newLat;
     createVis();
-    console.timeEnd("create Vis");
     //createVisInit();
 
     return latticeArray;

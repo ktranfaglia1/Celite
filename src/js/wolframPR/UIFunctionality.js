@@ -315,6 +315,12 @@ iterateButton.addEventListener("click", debounce(function() {
 	stopIterating();  // Stops the iteration before doing a complete iteration
 	//Keep infinite the same and add the buffers
 	alterInf(inf[0], true)
+	console.log(addIterations)
+		if(addIterations == 0)
+		{
+			makeError("Iteration not set", logCanvas, messageQueue)
+			return
+		}
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
 	if (latticeArray.length == 1) {
 		let bufferArr = new Array()
@@ -416,6 +422,12 @@ latticeSizeSubmit.addEventListener("click", function() {
 });
 
 startStopButton.addEventListener("click", debounce(function() {
+	
+	if(addIterations == 0)
+		{
+			makeError("Iteration not set", logCanvas, messageQueue)
+			return
+		}
 	if (run != 1) {
 		run = 1;
 		startStopToggle();
@@ -851,6 +863,7 @@ function getMouseLocation(event) {
 function iterate(currentIteration, newIterations) {
 	
 	setTimeout(function(){
+
 		if (numOfIterations + newIterations > addIterations) {
 			alterNumOfIterations(addIterations + 1);
 			run = 0;
