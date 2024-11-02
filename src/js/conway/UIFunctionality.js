@@ -57,6 +57,10 @@ let mouseXPos = 0; //Stores starting X position of cursor for dragging
 let mouseYPos = 0; //Stores starting Y position of cursor for dragging
 let shiftX = 0; //Stores ending X position of cursor for dragging
 let shiftY = 0; //Stores ending Y position of cursor for dragging
+
+iterationSpeedValue.innerHTML = 125;  // Sets displayed default iteration speed value
+zoomValue.innerHTML = 75;  // Sets displayed default zoom value
+zoomValue.value = 75;
 let reverse =  new Array();
 for (let i = 100; i > 0; i--) {
 	reverse.push(i);
@@ -73,7 +77,7 @@ export {iterationCount}
 
 //Stops all functionality from working until canvas is opened
 document.addEventListener("DOMContentLoaded", function() {
-	alterLattice(2);
+	alterLattice(100 / reverse[zoomValue.value - 1]);
 	redrawLattice();
 	buildGlider();
 
@@ -261,24 +265,6 @@ canvas.addEventListener("mousedown", function(event) {
 		}, 10);
 	});
 
-	/*canvas.addEventListener('wheel', function(event) {
-		let mouseX, mouseY;
-		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
-		let delta = event.deltaY; //Get delta from mouse scroll.
-		let change = false;
-		let currentScale = 100 / zoomSlider.value;
-		if (delta > 0 && zoomSlider.value < 100) {
-			zoomSlider.value++;
-			zoomValue.innerHTML++;
-			change = true;
-		}
-		else if (delta < 0 && zoomSlider.value > 1) {
-			zoomSlider.value--;
-			zoomValue.innerHTML--;
-			change = true;
-		}
-	}, 10);*/
-
 	canvas.addEventListener('wheel', function(event) {
 		let mouseX, mouseY;
 		[mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
@@ -442,9 +428,6 @@ window.addEventListener("click", function(event) {
 	}
 });
 
-iterationSpeedValue.innerHTML = 125;  // Sets displayed default iteration speed value
-zoomValue.innerHTML = 50;  // Sets displayed default zoom value
-
 // Update the current iteration speed slider value upon drag
 iterationSpeedSlider.oninput = function() {
 	iterationSpeedValue.innerHTML = this.value;
@@ -585,10 +568,10 @@ export function clear() {
 		}
 	}
 	createVisInit();
-	alterLattice(2);
+	alterLattice(100 / 26);
 	redrawLattice();
-	zoomSlider.value = 50;
-	zoomValue.innerHTML = 50;
+	zoomSlider.value = 75;
+	zoomValue.innerHTML = 75;
 	ctx.clearRect(0,0, canvas.width, canvas.height);
 	displayLattice(visLatticeArray);
 }

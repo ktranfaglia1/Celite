@@ -9,7 +9,7 @@ intialCanvas();
 // Calculates Height and Width cooresponding to CSS setting of Canvas
 let canvasHeight = canvas.height;
 let canvasWidth = canvas.width;
-const buffer = 160;
+const buffer = 0;
 let visLatticeWidth = 800; // canvasWidth / size of a cell = visLatticeHeight * canvasWidth / size of a cell
 let visLatticeHeight = (visLatticeWidth + 1) * canvasHeight / canvasWidth ; // canvas.height / visLatticeHeight // Size of a cell
 
@@ -48,6 +48,7 @@ export function createInit() {
         latticeArray.push(dummyArr);
         bufferArray.push(dummyArr2);
     }
+    bufferArray.shift();
     latticeArray.shift();
 }
 
@@ -80,7 +81,7 @@ export function createVis(xOffset = 0, yOffset = 0) {
 
 function incrementCell(x,y)
 {
-    if(x > 0 && x < bounds[1] && y > 0 && y < bounds[0])
+    if(x >= 0 && x < bounds[1] && y >= 0 && y < bounds[0])
         bufferArray[x][y] += 1
 }
 
@@ -134,10 +135,8 @@ export function iterate() {
             }
         }
     }
-    boundaryCollide();
-    //latticeArray = newLat;
+    //boundaryCollide();
     createVis();
-    //createVisInit();
 
     return latticeArray;
 }
