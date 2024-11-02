@@ -1,15 +1,15 @@
+import { saveReset } from "./UIFunctionality.js";
+import { cell } from "./cellClass.js"
+import { intialCanvas } from "./displayLattice.js";
+import {iterationCount} from "./UIFunctionality.js"
+
 const canvas = document.getElementById('latticeRegion');
-
-
-//let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue('width'));
-//let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue('height'));
-
+const buffer = 160;
 intialCanvas();
 
 // Calculates Height and Width cooresponding to CSS setting of Canvas
 let canvasHeight = canvas.height;
 let canvasWidth = canvas.width;
-const buffer = 0;
 let visLatticeWidth = 800; // canvasWidth / size of a cell = visLatticeHeight * canvasWidth / size of a cell
 let visLatticeHeight = (visLatticeWidth + 1) * canvasHeight / canvasWidth ; // canvas.height / visLatticeHeight // Size of a cell
 
@@ -24,12 +24,6 @@ let latticeArray = new Array(new Array());
 let bufferArray = new Array(new Array());
 
 let bounds = new Array(visLatticeWidth + (2 * buffer), visLatticeHeight + (2 * buffer));
-
-import { saveReset } from "./UIFunctionality.js";
-import { cell } from "./cellClass.js"
-import { intialCanvas } from "./displayLattice.js";
-import { buildGlider } from "./presets.js";
-import {iterationCount} from "./UIFunctionality.js"
 
 createInit();
 
