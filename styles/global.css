@@ -180,6 +180,71 @@ a {
 .navbar .dropdown:hover .dropdown_item {
   display: block;
 }
+/* Lattice region formatting */
+.lattice_region {
+  position: absolute;
+  background-color: #D0D3D4;
+  border: 3px solid black;
+  padding: 1% 1% 1% 1%;
+  margin-top: 12px;
+  max-width: 90%;
+  z-index: 0;
+}
+.center_canvas {
+  display: flex;
+  justify-content: center;
+}
+/* Tickmark region formatting */
+.tickmark_region {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  padding: 1% 1% 1% 1%;
+  max-width: 90%;
+  margin-top: 12px;
+}
+/* Log box formatting */
+.log_box {
+  width: 160px;
+  height: 45px;
+  background-color: #D0D3D4;
+  border: 3px solid black;
+  padding-top: 3px;
+  margin-left: 1.75%;
+}
+/* Toggle bar formatting */
+.toggle_bar {
+  width: 50px;
+  height: 25px;
+  background-color: #ffffff;
+  border-radius: 12.5px;
+  position: relative;
+  cursor: pointer;
+}
+.toggle_button {
+  width: 25px;
+  height: 25px;
+  background-color: #008CFF;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.4s ease;
+}
+.toggle_label {
+  margin: 3px 7px;
+  font-size: 17px;
+}
+.options_toggle_bar {
+  width: 50px; 
+  height: 25px;
+  background-color: #ddd;
+  border-radius: 12.5px;
+  position: relative;
+  cursor: pointer;
+  margin: 0 0 10px 0;
+}
 /* Window formatting */ 
 .about_container, .library_container {
   display: none;
