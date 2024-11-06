@@ -82,7 +82,7 @@ hr {
   display: flex;
   gap: 5px;
 }
-.item {
+.flex_item {
   margin: 0 0 0 78px;
 }
 /* Back to top hover button formatting */ 
