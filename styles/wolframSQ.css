@@ -21,7 +21,7 @@ ul {
   color: black;
 }
 .head {
-  background-color: #5B507A;
+  background-color: #8D7A4E;
 }
 /* Large button formatting: used for secondary tool bar */
 .simulation_button {
@@ -39,7 +39,7 @@ ul {
 }
 .simulation_button:hover {
   cursor: pointer;
-  background-color: #0062A3;
+  background-color: #006AA3;
 }
 .start_button {
   background-color: #28A745;
@@ -90,13 +90,19 @@ ul {
 }
 .setup_button:hover {
   cursor: pointer;
-  background-color: #0062A3;
+  background-color: #006AA3;
+}
+.mode_button {
+  background-color: #17A2B8;
+}
+.mode_button:hover {
+  background-color: #138D99;
 }
 /* Input (submit) button formatting */
 .submit_button {
   padding: 8px 8px;
   border: 1px solid black;
-  background-color: #0062A3;
+  background-color: #3388CC;
   color: whitesmoke;
   font-size: 15px;
   text-align: center;
@@ -115,12 +121,12 @@ ul {
   font-size: 17px;
   border: 1px solid black;
   border-radius: 10px; 
-  background-color: #9570DB;
+  background-color: #B8B56D;
   color: black;
   cursor: pointer;
 }
 .options_button:hover {
-  background-color: #854bd2;
+  background-color: #9E9B4C;
 }
 /* Library images */
 #random {

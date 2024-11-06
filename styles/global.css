@@ -275,6 +275,9 @@ a {
 .checkbox_container {
   display: none;
 }
+.visible_checkbox_container {
+  display: inline-block;
+}
 .checkbox_select {
   margin-left: 8px;
   width: 18px;
