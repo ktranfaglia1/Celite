@@ -122,29 +122,6 @@ ul {
 .options_button:hover {
   background-color: #854bd2;
 }
-/* Container for border and cell color picker */
-.color_container {
-  display: inline-block;
-  margin-left: 6px;
-  margin-right: 6px;
-  text-align: center;
-}
-.color_label {
-  display: block;
-  margin-bottom: 2px;
-  font-size: 17px;
-  font-family: times;
-}
-.color_wrapper {
-  justify-content: center;
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 6px;
-}
-.color_picker {
-  width: 50px;
-  height: 25px;
-}
 /* Library images */
 #random {
   background-image: url("../images/Random.png");
