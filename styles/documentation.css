@@ -80,10 +80,10 @@ hr {
 }
 .shortcut_container {
   display: flex;
+  gap: 5px;
 }
-.shortcut_item {
-  flex: 1;
-  margin: 0;
+.flex_item {
+  margin: 0 0 0 77px;
 }
 /* Back to top hover button formatting */ 
 .hovering_button {

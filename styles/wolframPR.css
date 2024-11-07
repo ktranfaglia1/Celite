@@ -20,43 +20,6 @@ ul {
   text-align: left;
   color: black;
 }
-/* Lattice region formatting */
-.lattice_region {
-  position: absolute;
-  background-color: #D0D3D4;
-  border: 3px solid black;
-  padding: 1% 1% 1% 1%;
-  max-width: 90%;
-  margin-top: 12px;
-  z-index: 0;
-}
-/* Tickmark region formatting */
-.tickmark_region {
-  position: relative;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  padding: 1% 1% 1% 1%;
-  max-width: 90%;
-  margin-top: 12px;
-}
-/* Log box formatting */
-.log_box {
-  width: 160px;
-  height: 45px;
-  background-color: #D0D3D4;
-  border: 3px solid black;
-  padding-top: 3px;
-  margin-left: 1.75%;
-}
-ul {
-  margin: 0 2.25%;
-  font-family: Times;
-  font-size: 20px;
-  line-height: 1.5;
-  text-align: left;
-  color: black;
-}
 /* Large button formatting: used for secondary tool bar */
 .simulation_button {
   background-color: #943ef8;
@@ -109,39 +72,7 @@ ul {
   cursor: pointer;
   background-color: #A03D3D;
 }
-/* Primary tool bar formatting */
-.primary_toolbar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 98%;
-  margin: 20px 0 0 0;
-}
-/* Secondary tool bar formatting */
-.secondary_toolbar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 98%;
-  margin: 20px 0 0 0;
-} 
-/* Container for store multiple elements on the same row: used for primary tool bar */
-.input_container {
-  justify-content: center;
-  display: flex;
-  margin-left: .75%;
-  margin-right: .75%;
-  max-width: 95%;
-}
-/* Input (submit) button, input box, and input label formatting */
-.input_label {
-  font-size: 17px;
-  margin: 8px 8px;
-}
-.simulation_input {
-  border: 2px solid black;
-  width: 132px;
-}
+/* Input (submit) button formatting */
 .submit_button {
   padding: 8px 8px;
   border: 1px solid black;
@@ -155,96 +86,7 @@ ul {
   cursor: pointer;
   background-color: #8a2be2;
 }
-/* Iteration count formatting */
-.iteration_output {
-  font-size: 17px;
-  line-height: 0;
-  margin: 0;
-  margin-left: 8%;
-  margin-top: 20px;
-}
-/* Toggle bar formatting */
-.toggle_bar {
-  width: 50px;
-  height: 25px;
-  background-color: #ffffff;
-  border-radius: 12.5px;
-  position: relative;
-  cursor: pointer;
-}
-.toggle_button {
-  width: 25px;
-  height: 25px;
-  background-color: #008CFF;
-  border-radius: 50%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: transform 0.4s ease;
-}
-.toggle_label {
-  margin: 3px 7px;
-  font-size: 17px;
-}
-.options_toggle_bar {
-  width: 50px; 
-  height: 25px;
-  background-color: #ddd;
-  border-radius: 12.5px;
-  position: relative;
-  cursor: pointer;
-  margin: 0 0 10px 0;
-}
-/* Checkbox container and formatting */
-.checkbox_container {
-  display: none;
-  margin-top: 10px;
-}
-.checkbox_select {
-  margin-left: 8px;
-  width: 18px;
-  height: 18px;
-  vertical-align: middle;
-}
-.checkbox_label {
-  font-size: 14px;
-}
-/* Slider formatting */
-.slider_container {
-  width: 55%;
-  margin: 7px auto;
-  text-align: center;
-}
-.slider {
-  width: 100%;
-  height: 20px;
-  border-radius: 5px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.8;
-  transition: opacity .2s;
-}
-.slider:hover {
-  opacity: 1;
-}
 /* Options window formatting */
-.options_container {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 60px;
-  width: 250px;
-  height: 650px;
-  background-color: #fefefe;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.4);
-  z-index: 2;
-}
-.options_content {
-  padding: 20px;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-}
 .options_button {
   display: block;
   width: 80%;
@@ -259,41 +101,4 @@ ul {
 }
 .options_button:hover {
   background-color: #4A9DD8;
-}
-/* Container for border and cell color picker */
-.color_container {
-  display: inline-block;
-  margin-left: 6px;
-  margin-right: 6px;
-  text-align: center;
-}
-.color_label {
-  display: block;
-  margin-bottom: 2px;
-  font-size: 17px;
-  font-family: times;
-}
-.color_wrapper {
-  justify-content: center;
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 6px;
-}
-.color_picker {
-  width: 50px;
-  height: 25px;
-}
-/* Don't worry about it */
-.Dustin {
-  width: 100dvw;
-  height: 100dvh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  margin: 0;
-  background-image: url('../images/Dustin.jpg');
-  background-position: center;
-  background-size: cover;
-  display: none;
-  z-index: 999;
 }

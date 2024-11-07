@@ -1,18 +1,25 @@
+/*
+presets is used to store the  functionality for drawing library configurations on canvas
+Author: Dustin O'Brien
+*/
+
+//IMPORTS
 import { latticeArray, visBounds } from './generateLattice.js';
 import { createVis, visLatticeArray } from './generateLattice.js';
-import { canvas, displayLattice } from "./displayLattice.js";
+import { displayLattice } from "./displayLattice.js";
 import { clear } from './UIFunctionality.js';
 
-
+//EXPORTS
 //This function creates the intitial configuration array to be used for setting
 export function createNewConfig() {
     let newLattice = new Array(new Array());
+    //Create new lattice to correspond to visible lattice
     for (let i = 0; i < visBounds[3] - visBounds[1]; i++) {
         let dummyArr = new Array();
         for (let f = 0; f < visBounds[2] - visBounds[0]; f++) {
             dummyArr.push(0);
         }
-        newLattice.push(dummyArr)
+        newLattice.push(dummyArr);
     }
     newLattice.shift();
     return newLattice;
@@ -43,9 +50,15 @@ export function setLattice(newLattice) {
     return latticeArray;
 }
 
-export function yCenter() { return Math.floor((visBounds[3] - visBounds[1]) / 2); }
+export function yCenter() { 
+    return Math.floor((visBounds[3] - visBounds[1]) / 2); 
+}
 
-export function xCenter() { return Math.floor((visBounds[2] - visBounds[0]) / 2); }
+export function xCenter() { 
+    return Math.floor((visBounds[2] - visBounds[0]) / 2); 
+}
+
+//All the following functions are to create library presets
 
 //Makes a Simple Glider
 export function buildGlider() {
@@ -389,7 +402,6 @@ export function build1234() {
     setLattice(newLattice);
 }
 
-//Screw Kyle for this one
 export function build295() {
     let newLattice = createNewConfig();
 

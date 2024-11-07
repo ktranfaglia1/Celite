@@ -6,68 +6,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Define the viewport for responsive design -->
     <title> Celite - Sequential WNN </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Link to online library for icons -->
-    <link rel="stylesheet" type="text/css" href="../styles/global.css">  <!-- Link to global CSS styles -->
-    <link rel="stylesheet" type="text/css" href="../styles/wolframSQ.css">  <!-- Link to home specific CSS styles -->
-    <link rel="icon" href="../images/Cellular_automata_icon.png">  <!-- Link page icon -->
+    <link rel="stylesheet" type="text/css" href="styles/global.css">  <!-- Link to global CSS styles -->
+    <link rel="stylesheet" type="text/css" href="styles/wolframSQ.css">  <!-- Link to home specific CSS styles -->
+    <link rel="icon" href="images/Cellular_automata_icon.png">  <!-- Link page icon -->
   </head>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"> </script> <!-- Connect online Javascript library to capture canvas as a PDF -->
-  <script type="module" src="../src/js/wolframSQ/generateLattice.js" crossorigin="anonymous"> </script> <!-- Connect Javascript for lattice calculation -->
-  <script type="module" src="../src/js/wolframSQ/cellClass.js"> </script> <!-- Connect Javascript for cell creation -->
-  <script type="module" src="../src/js/wolframSQ/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->
-  <script type="module" src="../src/js/wolframSQ/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->
-  <script type="module" src="../src/js/wolframSQ/logClass.js"> </script> <!-- Connect Javascript for logbox functionality -->
+  <script type="module" src="js/wolframSQ/generateLattice.js" crossorigin="anonymous"> </script> <!-- Connect Javascript for lattice calculation -->
+  <script type="module" src="js/wolframSQ/cellClass.js"> </script> <!-- Connect Javascript for cell creation -->
+  <script type="module" src="js/wolframSQ/displayLattice.js"> </script> <!-- Connect Javascript for lattice display -->
+  <script type="module" src="js/wolframSQ/UIFunctionality.js"> </script> <!-- Connect Javascript for user interface -->
+  <script type="module" src="js/wolframSQ/logClass.js"> </script> <!-- Connect Javascript for logbox functionality -->
   <body>
     <!-- Navigation Bar-->
     <header>
       <div class="navbar">
-        <a href="../src/index.html" class="logo">
-          <img src="../images/Cellular_automata_logo.png" alt="Logo" width="70" height="70">
+        <a href="index.html" class="logo">
+          <img src="images/Cellular_automata_logo.png" alt="Logo" width="70" height="70">
         </a>
-        <a href="../src/index.html"> Home </a>  <!-- Link to the home page -->
+        <a href="index.html"> Home </a>  <!-- Link to the home page -->
         <!-- Dropdown menu for simulators -->
         <div class="dropdown">
           <button class="drop_button"> Simulators <i class="fa fa-caret-down"> </i> </button>
           <!-- Dropdown items -->
           <div class="dropdown_item">
-            <a href="../src/wolframPR.html"> Parallel WNN </a>  <!-- Link to Wolfram's Nearest Neighbor Parallel Simulation Page -->
-            <a href="../src/wolframSQ.html"> Sequential WNN </a>  <!-- Link to Wolfram's Nearest Neighbor Sequential Simulation Page -->
-            <a href="../src/conway.html"> Game of Life </a>  <!-- Link to Conway's Game of Life Simulation Page -->
+            <a href="wolframPR.html"> Parallel WNN </a>  <!-- Link to Wolfram's Nearest Neighbor Parallel Simulation Page -->
+            <a href="wolframSQ.html"> Sequential WNN </a>  <!-- Link to Wolfram's Nearest Neighbor Sequential Simulation Page -->
+            <a href="conway.html"> Game of Life </a>  <!-- Link to Conway's Game of Life Simulation Page -->
           </div>
         </div>
-        <a href="../src/documentation.html"> Documentation </a>  <!-- Link to the documentation page -->
-        <a href="../src/about.html"> Collaborators </a>  <!-- Link to the about page -->
-        <a href="https://github.com/ktranfaglia1/COSC425" target="_blank"> Source </a>  <!-- Link to the source code page -->
+        <a href="documentation.html"> Documentation </a>  <!-- Link to the documentation page -->
+        <a href="about.html"> Collaborators </a>  <!-- Link to the about page -->
+        <a href="https://github.com/ktranfaglia1/Celite" target="_blank"> Source </a>  <!-- Link to the source code page -->
       </div>
       <h1 class="head"> Wolfram's Nearest Neighbor Sequential </h1> <hr>
     </header>
     <!-- Primary tool bar containing input boxes and options to manipulate the simulation -->
     <div class="primary_toolbar">
       <!-- Container for iteration input box -->
-      <div class="input_container">
+      <div class="input_container1">
         <label for="iterationInputBox" class="input_label"> Iterations:</label>
         <input type="text" id="iterationInputBox" class="simulation_input" placeholder="Enter # of iterations...">
         <button id="iterationSubmit" class="submit_button"> Enter </button>
       </div>
       <!-- Container for rule input box -->
-      <div class="input_container">
+      <div class="input_container1">
         <label for="ruleInputBox" class="input_label"> Rule: </label>
         <input type="text" id="ruleInputBox" class="simulation_input" placeholder="Enter rule # (0-255)...">
         <button id="ruleSubmit" class="submit_button"> Enter </button>
       </div>
       <!-- Container for lattice size input box -->
-      <div class="input_container">
+      <div class="input_container1">
         <label for="latticeSizeBox" class="input_label"> Lattice: </label>
         <input type="text" id="latticeSizeBox" class="simulation_input" placeholder="Enter lattice size...">
         <button id="latticeSizeSubmit" class="submit_button"> Enter </button>
       </div>
       <label class="input_label"> Boundary: </label>
       <!-- Create periodic checkbox -->
-      <div class="checkbox_container" id="periodicCheckBox">
+      <div class="visible_checkbox_container" id="periodicCheckBox">
         <input type="checkbox" class="checkbox_select">
         <label class="checkbox_label"> Periodic </label>
       </div>
       <!-- Create null checkbox -->
-      <div class="checkbox_container" id="nullCheckBox">
+      <div class="visible_checkbox_container" id="nullCheckBox">
         <input type="checkbox" class="checkbox_select">
         <label class="checkbox_label"> Null </label>
       </div>
@@ -78,8 +78,8 @@
       <button id="iterateButton" class="simulation_button"> Iterate </button>
       <button id="clearResetButton" class="simulation_button"> Clear </button>
       <button id="optionsButton" class="simulation_button"> Options </button>
-      <button id="setupButton" class="simulation_button"> Setup </button>
-      <button id="simulateButton" class="setup_button"> Simulate </button>
+      <button id="setupButton" class="mode_button simulation_button"> Setup </button>
+      <button id="simulateButton" class="mode_button setup_button"> Simulate </button>
       <button id="voidButton" class="setup_button"> Clear </button>
       <button id="libraryButton" class="setup_button"> Library </button>
       <button id="helpButton" class="setup_button"> Help </button>
@@ -87,10 +87,10 @@
     </div>
     <div id="iterationOutput" class="iteration_output"> </div> <!-- Output region for iteration count -->
     <!-- Canvas region for lattice display and overlapping canvas for iteration tickmark -->
-    <center>
+    <div class="center_canvas">
       <canvas id="latticeRegion" class="lattice_region"> </canvas>
       <canvas id="tickmarkRegion" class="tickmark_region"> </canvas>
-    </center>
+    </div>
     <!-- Options window to provide advanced options for simulator -->
     <div id="optionsContainer" class="options_container">
       <div id="optionsContent" class="options_content">
@@ -106,7 +106,7 @@
         <hr>
         <!-- Toggles -->
         <div class="p1"> Iteration Box: </div>
-        <div class="input_container">
+        <div class="input_container1">
           <label class="toggle_label"> Off </label>
           <div class="options_toggle_bar" id="iterationToggle">
             <div class="toggle_button"> </div>
@@ -114,7 +114,7 @@
           <label class="toggle_label"> On </label>
         </div>
         <div class="p1"> Cell Border: </div>
-        <div class="input_container">
+        <div class="input_container1">
           <label class="toggle_label"> Off </label>
           <div class="options_toggle_bar" id="borderToggle">
             <div class="toggle_button"> </div>
@@ -211,7 +211,7 @@
             <button id="nSkip" class="library_img"> </button>
           </div>
           <!-- Container for n input box -->
-          <div class="input_container">
+          <div class="input_container1">
             <label for="nInputBox" class="input_label"> N-value: </label>
             <input type="text" id="nInputBox" class="simulation_input" placeholder="Enter modular value...">
             <button id="nSubmit" class="submit_button"> Enter </button>
@@ -224,7 +224,7 @@
         <span class="close">&times; </span>
         <h2> Algorithm Configuration Assistance </h2>
         <h3> User Guide </h3>
-        <p> Visit the Documentation page: <a href="../src/documentation.html#primaryToolbar2"> Go to Documentation! </a> </p>
+        <p> Visit the Documentation page: <a href="documentation.html#primaryToolbar2"> Go to Documentation! </a> </p>
         <h3> What is Setup Mode? </h3>
         <p> Setup mode is an interface unique to the Sequential Wolfram Nearest Neighbor Simulator. It is activated
           upon page load (opening the simulator), changing the lattice size, and clicking the "setup" button. In
@@ -274,7 +274,7 @@
           ordering. Before entering simulate mode, the cell ordering displayed with the library preset may be altered as desired, 
           ensuring users can maintain their efficiency while using the library.
         </p>
-        <h3> How to identify a cell? </h3>
+        <h3> How to identify a cell index? </h3>
         <p> When selecting an order with a large lattice size, it may be difficult to determine which cell is the 120th or 300th in 
           the lattice. In order to identify the cell without tediously counting all the cells before it, use the iteration box feature.
           The iteration box is a hovering iteration calculator that follows the mouse inside the canvas. Anytime the mouse is on a lattice 
@@ -282,7 +282,7 @@
           the cell index, starting at index 0. Lattice iteration and cell index are seperated by a colon. Thus, with the iteration box 
           toggled on, hover over the cell in need of identification and reference the value after the colon (rightmost value). Since the 
           iteration box toggle is located in the options window, which is not accessable in setup mode, it must be toggled by either
-          using the keyboard shortcut ALT + 'w' or by clicking the iteration box toggle bar within the options window in simulate mode.
+          using the keyboard shortcut ALT + 'W' or by clicking the iteration box toggle bar within the options window in simulate mode.
           Alternatively, use a preset ordering in the library to conveniently ensure all cells are ordered.
         </p>
       </div>

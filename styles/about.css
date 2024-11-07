@@ -19,7 +19,7 @@ hr {
   height: 2px;
   margin: 15px 0;
 }
-/* Format text for profiles */
+/* Profile formatting: text, images, and layouts */
 .text_container {
   text-align: center;
   max-width: 85%;
@@ -30,7 +30,6 @@ hr {
   text-indent: -2em;
   margin-left: 3%;
 }
-/* Profile formatting: images and layouts */
 .team_container {
   display: flex;
   align-items: center;
