@@ -209,6 +209,7 @@ let outputIteration = document.getElementById("iterationOutput")
 canvas.width = 1800;
 canvas.height = 400;
 
+
 // pulls in Canvas used to display the ticker
 const tickCanvas = document.getElementById("tickmarkRegion");
 const tctx = tickCanvas.getContext("2d"); // gets the lattice display region
@@ -267,3 +268,4 @@ LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum);
 createOrder();
 updateLattice();
+;

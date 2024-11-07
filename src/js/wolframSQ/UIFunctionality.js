@@ -109,6 +109,12 @@ function activateSetup()
 		makeLog("Use Help for Assistance", logCanvas, messageQueue)
 		makeLog("Please Select Order", logCanvas, messageQueue)
 		makeLog("Welcome to Setup Mode", logCanvas, messageQueue)
+		// Set font properties
+		ctx.font = "30px Arial";  // Font size and style
+		ctx.fillStyle = "red";    // Text color
+
+		// Draw the text
+		ctx.fillText("Hello, World!", 100, 100)
 		displayWelcome = false;
 	}
 	else {
@@ -721,7 +727,7 @@ iterateButton.addEventListener("click", debounce(function() {
 		return
 	}
 	stopIterating();  // Stops the iteration before doing a complete iteration
-	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
+	makeLog("Iterated to " + addIterations + " on Rule: " + ruleNum, logCanvas, messageQueue);
 	if (latticeArray.length == 1) {
 		clearResetButton.innerHTML = "Reset";
 	}
