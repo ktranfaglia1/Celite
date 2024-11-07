@@ -727,7 +727,7 @@ iterateButton.addEventListener("click", debounce(function() {
 		return
 	}
 	stopIterating();  // Stops the iteration before doing a complete iteration
-	makeLog("Iterated to " + addIterations + " on Rule: " + ruleNum, logCanvas, messageQueue);
+	makeLog("Iterated to " + addIterations + " Rule: " + ruleNum, logCanvas, messageQueue);
 	if (latticeArray.length == 1) {
 		clearResetButton.innerHTML = "Reset";
 	}

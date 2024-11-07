@@ -321,7 +321,7 @@ iterateButton.addEventListener("click", debounce(function() {
 			makeError("Iteration not set", logCanvas, messageQueue)
 			return
 		}
-	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
+		makeLog("Iterated to " + addIterations + " Rule: " + ruleNum, logCanvas, messageQueue);
 	if (latticeArray.length == 1) {
 		let bufferArr = new Array()
 		let latPlusBufferArr = new Array()
