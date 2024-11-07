@@ -715,6 +715,11 @@ randomFillButton.addEventListener("click", debounce(function() {
 
 // Iterates the iterations inputted
 iterateButton.addEventListener("click", debounce(function() {
+	if(addIterations == 0)
+	{
+		makeError("Iteration not set", logCanvas, messageQueue)
+		return
+	}
 	stopIterating();  // Stops the iteration before doing a complete iteration
 	makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
 	if (latticeArray.length == 1) {

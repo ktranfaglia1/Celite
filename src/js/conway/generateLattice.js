@@ -134,7 +134,7 @@ export function iterate() {
             }
         }
     }
-
+ 
     //latticeArray = newLat;
     createVis();
     //createVisInit();
