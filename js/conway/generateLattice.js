@@ -29,18 +29,54 @@ let bounds = new Array(visLatticeWidth + (2 * buffer), visLatticeHeight + (2 * b
 
 createInit();
 
-function incrementCell(x,y) {
+//incrementCell
+function alterNeighborCount(x, y, num) {
     //Checks if coordinates are within cell boundaries
-    if(x >= 0 && x < bounds[1] && y >= 0 && y < bounds[0])
-        bufferArray[x][y] += 1;
+    if(x >= 0 && x < bounds[1] && y >= 0 && y < bounds[0]) {
+        bufferArray[y][x] += num;
+    }
 }
 
 //EXPORTS
 export { visLatticeArray, visBounds, latticeArray, bounds };
 
+//This function alters the neighbor count of each neighboring cell should a cell switch states
+export function changeNeighbor(x, y, num) {
+    //Checks if coordinates are within cell boundaries
+    if(x >= 0 && x < bounds[1] && y >= 0 && y < bounds[0]) {
+        alterNeighborCount(x + 1, y + 1, num);
+        alterNeighborCount(x + 1, y - 1, num);
+        alterNeighborCount(x - 1, y + 1, num);
+        alterNeighborCount(x - 1, y - 1, num);
+        alterNeighborCount(x + 1, y, num);
+        alterNeighborCount(x - 1, y, num);
+        alterNeighborCount(x, y + 1, num);
+        alterNeighborCount(x, y - 1, num);
+    }
+}
+
+export function recountNeighbors(clear = false) {
+    for (let i = 0; i < bufferArray.length; i++) {
+        for (let f = 0; f < bufferArray[i].length; f++) {
+            bufferArray[i][f] = 0
+        }
+    }
+    if (!clear) {
+        for (let i = 0; i < latticeArray.length; i++) {
+            for (let f = 0; f < latticeArray[i].length; f++) {
+                if (latticeArray[i][f] == 1) {
+                    changeNeighbor(f, i, 1);
+                }
+            }
+        }
+    }
+}
+
 //This function creates the intitial lattice. This one is not made up of cell classes for storage purposes, a parallel structure
 //of cells will be made that displays a certain subset of this lattice using cells.
 export function createInit() {
+    latticeArray = new Array(new Array());
+    bufferArray = new Array(new Array());
     //Iterate over number of rows in the calculated array
     for (let i = 0; i < bounds[1]; i++) {
         let dummyArr = new Array();
@@ -93,37 +129,10 @@ export function createVis(xOffset = 0, yOffset = 0) {
 
 //This function updates the lattice array for each timestep.
 export function iterate() {
-    
+    let neighborInstructions = new Array();
     //If no iterations have happened yet, save the lattice so that reset button can bring lattice back to original state
     if (iterationCount == 0) {
         saveReset();
-    }
-    
-    //Clear buffer array of existing data
-    for (let i = 0; i < bounds[1]; i++) {
-        for (let f = 0; f < bounds[0]; f++) {
-            bufferArray[i][f] = 0;
-        }
-    }
-
-    //For each live cell, increment the buffer array of it's neighbors
-    for (let i = 0; i < bounds[1]; i++) {
-        for (let f = 0; f < bounds[0]; f++) {
-            //If the current cell is alive, increment the living neighbors count of each of it's neighbors
-            if(latticeArray[i][f] == 1)
-            {
-                incrementCell(i - 1, f - 1);
-                incrementCell(i, f - 1);
-                incrementCell(i + 1, f - 1);
-
-                incrementCell(i - 1, f);
-                incrementCell(i + 1, f);
-
-                incrementCell(i - 1, f + 1);
-                incrementCell(i, f + 1);
-                incrementCell(i + 1, f + 1);
-            }
-        }
     }
 
     //Use the number of living neighbors count in buffer array to determine what happens to each cell
@@ -134,16 +143,18 @@ export function iterate() {
     //Iterate over all cells applying these rules
     for (let i = 0; i < bounds[1]; i++) {
         for (let f = 0; f < bounds[0]; f++) {
-            if(bufferArray[i][f] == 3 && latticeArray[i][f] == 0) {
+            if(latticeArray[i][f] == 0 && bufferArray[i][f] == 3) {
                 latticeArray[i][f] = 1;
+                neighborInstructions.push(new Array(f, i, 1));
             }
-            else if((bufferArray[i][f] == 3 || bufferArray[i][f] == 2) && latticeArray[i][f] == 1) {
-                latticeArray[i][f] = 1;
-            }
-            else {
+            else if(latticeArray[i][f] == 1 && (bufferArray[i][f] < 2 || bufferArray[i][f] > 3)) {
                 latticeArray[i][f] = 0;
+                neighborInstructions.push(new Array(f, i, -1));
             }
         }
+    }
+    for (let i = 0; i < neighborInstructions.length; i++) {
+        changeNeighbor(neighborInstructions[i][0], neighborInstructions[i][1], neighborInstructions[i][2]);
     }
     createVis();
     return latticeArray;

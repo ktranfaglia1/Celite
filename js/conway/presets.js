@@ -4,7 +4,7 @@ Author: Dustin O'Brien
 */
 
 //IMPORTS
-import { latticeArray, visBounds } from './generateLattice.js';
+import { latticeArray, recountNeighbors, visBounds } from './generateLattice.js';
 import { createVis, visLatticeArray } from './generateLattice.js';
 import { displayLattice } from "./displayLattice.js";
 import { clear } from './UIFunctionality.js';
@@ -43,11 +43,10 @@ export function setLattice(newLattice) {
             }
         }
     }
-    //Iterates through every lattice and sets to the same value as the new lattice
+
+    recountNeighbors();
     createVis();
     displayLattice(visLatticeArray)
-
-    return latticeArray;
 }
 
 export function yCenter() { 

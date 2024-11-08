@@ -8,7 +8,7 @@
 */
 /* Import utility and variables from other JS files */
 import { canvas, ctx, displayLattice } from "./displayLattice.js";
-import { visLatticeArray, visBounds, latticeArray, iterate, createVisInit, boundaryCollide } from "./generateLattice.js";
+import { visLatticeArray, visBounds, latticeArray, iterate, createVisInit, boundaryCollide, recountNeighbors, changeNeighbor } from "./generateLattice.js";
 import { cell } from "./cellClass.js";
 import { build101, build295, build119, build1234, buildGlider, setLattice, buildGtoG, build60P, buildAK94, buildTrigger, buildSnail, buildTub } from "./presets.js";
 
@@ -216,6 +216,12 @@ canvas.addEventListener("mousedown", function(event) {
 				if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
 					visLatticeArray[i][j].flipColor();
 					visLatticeArray[i][j].drawCell(ctx);
+					if (latticeArray[i + visBounds[1]][j + visBounds[0]] == 1) {
+						changeNeighbor(j + visBounds[0], i + visBounds[1], -1);
+					}
+					else {
+						changeNeighbor(j + visBounds[0], i + visBounds[1], 1);
+					}
 					latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
 				}
 			}
@@ -240,6 +246,12 @@ canvas.addEventListener("mousedown", function(event) {
 					if ((visLatticeArray[i][j].insideCell(mouseX, mouseY)) && (visLatticeArray[i][j].getColor() == 0)) {
 						visLatticeArray[i][j].flipColor();
 						visLatticeArray[i][j].drawCell(ctx);
+						if (latticeArray[i + visBounds[1]][j + visBounds[0]] == 1) {
+							changeNeighbor(j + visBounds[0], i + visBounds[1], -1);
+						}
+						else {
+							changeNeighbor(j + visBounds[0], i + visBounds[1], 1);
+						}
 						latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
 					}
 				}
@@ -646,6 +658,7 @@ export function clear() {
 			latticeArray[i][j] = 0;
 		}
 	}
+	recountNeighbors(true);
 	createVisInit();
 	alterLattice(100 / 26);
 	redrawLattice();
