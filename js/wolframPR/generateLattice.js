@@ -1,20 +1,60 @@
-/*
-cellClass.js
-Authors: Timothy McKirgan and Dustin O'Brien
-Class: cell
-Functions: ruleNumToRule which takes in the ruleNum to generate a rule array to determine how new
-timesteps are generated.
-generateLattice which uses the rule array to determine the next timestep. This function takes as parameters
-the current timestep, the current rule array, the boundary condition, 1 for periodic and 0 for null, the
-current timestep number (rowIndex), and the size individual cells.
-*/
+/**
+ * generatesLattice.js
+ *
+ * Summary:
+ *   This script contains functions that handle the generation of lattice arrays based on cellular automaton rules
+ *   and boundary conditions. It includes functionality for periodic and non-periodic boundary conditions and updates
+ *   lattice cell states according to the specified rule.
+ *
+ * Features:
+ *   - Generates the next lattice based on the current lattice, rule, and boundary condition.
+ *   - Supports periodic and null boundary conditions for the simulation.
+ *   - Modifies lattice cell colors and properties based on user-defined settings.
+ *
+ * Functions:
+ *   - generateLattice(currentLattice, rule, boundaryCon, rowIndex, size):
+ *     Generates the next lattice based on the current lattice state and applies the rule to determine the color of each cell.
+ *   - updateLattice():
+ *     Updates the lattice for the next timestep based on the current settings and rule.
+ *
+ * Dependencies:
+ *   - rule, canvas, latSize from './displayLattice.js': Provide the lattice size, canvas, and rule array for generating the lattice.
+ *   - cell from './cellClass.js': Defines the cell class for creating and manipulating individual cells.
+ *   - alterRule from './displayLattice.js': Modifies the current rule array for cell state transitions.
+ *   - deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel from './displayLattice.js': Provide color and border settings for cells.
+ *
+ * Authors:
+ *   - Timmy McKirgan
+ *   - Dustin O'Brien
+ */
 
 import { rule, canvas, latSize } from "./displayLattice.js";
 import { cell } from "./cellClass.js";
 import { alterRule } from "./displayLattice.js";
 import { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel } from "./displayLattice.js";
 
-//Generates rule array based on input rule number.
+/**
+ * alterInf
+ *
+ * Summary:
+ *   Mutator function for modifying the `inf` array and handling related logic
+ *   for buffer settings and lattice size. This function updates the `inf` array
+ *   based on the provided values for `neoInf`, `bufferToggle`, and `bufferSize`.
+ *   It also modifies `latSize` based on certain conditions tied to the state of `inf`.
+ *
+ * Features:
+ *   - Modifies the `inf` array based on new values for `neoInf`, `bufferToggle`, and `bufferSize`.
+ *   - Adjusts the buffer state and lattice size (`latSize`) according to the state of `inf[0]`.
+ *   - Ensures that the buffer size is applied only when the buffer is enabled.
+ *
+ * @param {boolean} neoInf - The new value for `inf[0]`. If `inf[0]` changes state,
+ *   it may trigger additional logic related to the buffer and lattice size.
+ * @param {boolean} bufferToggle - The state for enabling or disabling the buffer.
+ * @param {number} bufferSize - The new buffer size to be applied if the buffer is enabled.
+ *
+ * @returns {void} - This function modifies the `inf` array and `latSize` in place;
+ *   it does not return any value.
+ */
 export function ruleNumToRule(ruleNum) {
   //Converts rule number to binary represented as an array of 0s and 1s.
   let neoRule = new Array();
@@ -27,7 +67,25 @@ export function ruleNumToRule(ruleNum) {
   return rule;
 }
 
-//Generates the next lattice based on the current one, the rule, and the boundary condition.
+/**
+ * generateLattice
+ *
+ *   Generates the next lattice based on the current lattice, the provided rule,
+ *   boundary conditions, and other relevant parameters. This function constructs
+ *   a new lattice where each cell's state is determined by its neighboring cells,
+ *   considering the boundary condition (periodic or null).
+ *
+ *
+ * @param {Array} currentLattice - The lattice from the current timestep. It contains cells that store their state.
+ * @param {Array} rule - The set of rules for calculating the new color based on neighboring cells' states.
+ * @param {number} boundaryCon - The type of boundary condition:
+ *   - `1` for periodic boundary conditions.
+ *   - `0` or other values for null boundary conditions.
+ * @param {number} rowIndex - The index of the row that this lattice belongs to, used for vertical positioning.
+ * @param {number} size - The size of each individual cell in the lattice.
+ *
+ * @returns {Array} newLattice - A new lattice with updated cells based on the rule and boundary condition.
+ */
 export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, size) {
   let newLattice = new Array();
   let startDif = (latSize[0] * size) / 2;
