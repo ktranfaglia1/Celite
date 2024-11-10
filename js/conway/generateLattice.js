@@ -88,12 +88,7 @@ let cellSize = canvasHeight / visLatticeHeight;
  * Defines the visible lattice boundaries with [xStart, yStart, xEnd, yEnd].
  * @type {number[]}
  */
-let visBounds = new Array(
-  buffer,
-  buffer,
-  buffer + visLatticeWidth,
-  buffer + visLatticeHeight
-);
+let visBounds = new Array(buffer, buffer, buffer + visLatticeWidth, buffer + visLatticeHeight);
 
 /**
  * Holds values of cells reachable by the user.
@@ -117,10 +112,7 @@ let bufferArray = new Array(new Array());
  * Holds length of the lattice boundaries (including buffer).
  * @type {number[]}
  */
-let bounds = new Array(
-  visLatticeWidth + 2 * buffer,
-  visLatticeHeight + 2 * buffer
-);
+let bounds = new Array(visLatticeWidth + 2 * buffer, visLatticeHeight + 2 * buffer);
 
 createInit();
 
@@ -251,8 +243,7 @@ export function createInit() {
  */
 export function createVisInit() {
   let newLat = new Array(new Array());
-  let xOffset =
-    (window.innerWidth * 0.9 - (visBounds[2] - visBounds[0]) * cellSize) / 2; //Calculates offset need to center canvas although size is hard coded
+  let xOffset = (window.innerWidth * 0.9 - (visBounds[2] - visBounds[0]) * cellSize) / 2; //Calculates offset need to center canvas although size is hard coded
   //Iterate over number of rows in the visible array
   for (let i = visBounds[1]; i < visBounds[3]; i++) {
     let posY = i - visBounds[1];
@@ -261,16 +252,7 @@ export function createVisInit() {
     //Create cells for visible lattice
     for (let f = visBounds[0]; f < visBounds[2]; f++) {
       let posX = f - visBounds[0];
-      dummyArr.push(
-        new cell(
-          cellSize,
-          cellSize,
-          posX * cellSize + xOffset,
-          posY * cellSize,
-          latticeArray[i][f],
-          true
-        )
-      );
+      dummyArr.push(new cell(cellSize, cellSize, posX * cellSize + xOffset, posY * cellSize, latticeArray[i][f], true));
     }
     newLat.push(dummyArr);
   }
@@ -296,9 +278,7 @@ export function createVis(xOffset = 0, yOffset = 0) {
     for (let f = 0; f < visBounds[2] - visBounds[0]; f++) {
       visLatticeArray[i][f].setXLoc(visLatticeArray[i][f].getXLoc() + xOffset);
       visLatticeArray[i][f].setYLoc(visLatticeArray[i][f].getYLoc() + yOffset);
-      visLatticeArray[i][f].setColor(
-        latticeArray[i + visBounds[1]][f + visBounds[0]]
-      );
+      visLatticeArray[i][f].setColor(latticeArray[i + visBounds[1]][f + visBounds[0]]);
     }
   }
 }
@@ -336,10 +316,7 @@ export function iterate() {
         neighborInstructions.push(new Array(f, i, 1));
       }
       // If the cell is alive and has less than 2 or more than 3 live neighbors, it dies
-      else if (
-        latticeArray[i][f] == 1 &&
-        (bufferArray[i][f] < 2 || bufferArray[i][f] > 3)
-      ) {
+      else if (latticeArray[i][f] == 1 && (bufferArray[i][f] < 2 || bufferArray[i][f] > 3)) {
         latticeArray[i][f] = 0;
         neighborInstructions.push(new Array(f, i, -1));
       }
@@ -348,11 +325,7 @@ export function iterate() {
 
   // Apply changes to each neighbor based on the instructions collected during iteration
   for (let i = 0; i < neighborInstructions.length; i++) {
-    changeNeighbor(
-      neighborInstructions[i][0],
-      neighborInstructions[i][1],
-      neighborInstructions[i][2]
-    );
+    changeNeighbor(neighborInstructions[i][0], neighborInstructions[i][1], neighborInstructions[i][2]);
   }
 
   // Update the visual representation of the lattice
@@ -370,19 +343,13 @@ export function boundaryCollide() {
   let collide = false;
   //Iterate over left and right edge to check for living cells. If there is a living cell, set collide to true
   for (let i = 0; i < bounds[0]; i++) {
-    if (
-      latticeArray[0][i] == 1 ||
-      latticeArray[latticeArray.length - 1][i] == 1
-    ) {
+    if (latticeArray[0][i] == 1 || latticeArray[latticeArray.length - 1][i] == 1) {
       collide = true;
     }
   }
   //Iterate over top and bottom edge to check for living cells. If there is a living cell, set collide to true
   for (let i = 0; i < bounds[1]; i++) {
-    if (
-      latticeArray[i][0] == 1 ||
-      latticeArray[i][latticeArray[i].length - 1] == 1
-    ) {
+    if (latticeArray[i][0] == 1 || latticeArray[i][latticeArray[i].length - 1] == 1) {
       collide = true;
     }
   }

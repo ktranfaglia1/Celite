@@ -38,11 +38,7 @@
  */
 
 //IMPORTS
-import {
-  latticeArray,
-  recountNeighbors,
-  visBounds,
-} from "./generateLattice.js";
+import { latticeArray, recountNeighbors, visBounds } from "./generateLattice.js";
 import { createVis, visLatticeArray } from "./generateLattice.js";
 import { displayLattice } from "./displayLattice.js";
 import { clear } from "./UIFunctionality.js";
@@ -81,10 +77,7 @@ export function createNewConfig() {
 export function setLattice(newLattice) {
   clear();
   //Iterates through every lattice and sets to the same value as the new lattice
-  if (
-    latticeArray.length == newLattice.length &&
-    latticeArray[0].length == newLattice[0].length
-  ) {
+  if (latticeArray.length == newLattice.length && latticeArray[0].length == newLattice[0].length) {
     for (let i = 0; i < newLattice.length; i++) {
       for (let j = 0; j < newLattice[0].length; j++) {
         latticeArray[i][j] = newLattice[i][j];

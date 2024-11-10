@@ -96,13 +96,7 @@ export class cell {
    */
   drawCell(ctx) {
     //Checks if the cell in question is within the current canvas. No need to run draw commands on anything outside canvas.
-    if (
-      this.XLocation + this.width > 0 &&
-      this.XLocation < ctx.canvas.width &&
-      this.YLocation + this.height > 0 &&
-      this.YLocation < ctx.canvas.height &&
-      (this.color || this.height > 10) /*&& (this.color || border)*/
-    ) {
+    if (this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && (this.color || this.height > 10) /*&& (this.color || border)*/) {
       let border = true;
       //If the height of the cell is less then or equal to ten, dont draw cell borders
       if (this.height <= 10) {
@@ -119,12 +113,7 @@ export class cell {
         }
 
         // Draws the main section outside of the square
-        ctx.fillRect(
-          this.XLocation,
-          this.YLocation,
-          this.width + 1,
-          this.height + 1
-        );
+        ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
       }
 
       //Sets color for the main part of the cell
@@ -136,19 +125,9 @@ export class cell {
 
       //Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
       if (border) {
-        ctx.fillRect(
-          this.XLocation + 1,
-          this.YLocation + 1,
-          this.width - 2,
-          this.height - 2
-        );
+        ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
       } else {
-        ctx.fillRect(
-          this.XLocation,
-          this.YLocation,
-          this.width + 1,
-          this.height + 1
-        );
+        ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
       }
     }
   }
@@ -178,12 +157,7 @@ export class cell {
    */
   insideCell(MouseX, MouseY) {
     // Tests if location is inside if cell
-    if (
-      MouseX >= this.XLocation &&
-      MouseX <= this.XLocation + this.width &&
-      MouseY >= this.YLocation &&
-      MouseY <= this.YLocation + this.height
-    ) {
+    if (MouseX >= this.XLocation && MouseX <= this.XLocation + this.width && MouseY >= this.YLocation && MouseY <= this.YLocation + this.height) {
       return true;
     } else {
       return false;
