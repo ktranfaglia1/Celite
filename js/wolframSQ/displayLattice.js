@@ -17,17 +17,16 @@ alter functions for:
   tempOrder : array that holds the order values provided by user before it saves  
 */
 
-
 //This is the various document stuff for selecting color
 const deadColorSel = document.getElementById("deadCell");
 const aliveColorSel = document.getElementById("aliveCell");
 const deadBorderSel = document.getElementById("deadBorder");
 const aliveBorderSel = document.getElementById("aliveBorder");
 
-deadColorSel.value = '#FFFFFF';
-aliveColorSel.value = '#000000';
-deadBorderSel.value = '#000000';
-aliveBorderSel.value = '#808080';
+deadColorSel.value = "#FFFFFF";
+aliveColorSel.value = "#000000";
+deadBorderSel.value = "#000000";
+aliveBorderSel.value = "#808080";
 
 //Mutator for orderArray
 export function alterOrder(neoOrderArray) {
@@ -97,14 +96,14 @@ This function pushes the initial timestep lattice of cells such that the user ca
 on or off
 */
 function LatticeDisplay(latticeArray) {
-	let startDif = (latSize * size) / 2;
-	let center = canvas.width / 2;
-	let startX = center - startDif;
-	
+  let startDif = (latSize * size) / 2;
+  let center = canvas.width / 2;
+  let startX = center - startDif;
+
   //Iterates over lattice size adding a new cell in top row.
-	for (let i = 0; i < latSize; i++) {
-		currentLattice.push(new cell (size, size, startX + i * size, 0, 0))
-	}
+  for (let i = 0; i < latSize; i++) {
+    currentLattice.push(new cell(size, size, startX + i * size, 0, 0));
+  }
   latticeArray.push(currentLattice);
   drawLattice(latticeArray);
 }
@@ -112,42 +111,37 @@ function LatticeDisplay(latticeArray) {
 //Draws lattices to the canvas
 export function drawLattice(latticeArray) {
   //Increases canvas size such that lattice can fit.
-  if ((latticeArray.length * size) > canvas.height) {
-    canvas.height = (latticeArray.length * size);
+  if (latticeArray.length * size > canvas.height) {
+    canvas.height = latticeArray.length * size;
     tickCanvas.height = canvas.height;
     //canvas.style.height = (latticeArray.length * size) + 'px';
   }
 
-    for (let i = 0; i < latticeArray.length; i++)
-    {
-      for (let j = 0; j < latticeArray[0].length; j++)
-      {
-        latticeArray[i][j].setBorder(border);
-      }
+  for (let i = 0; i < latticeArray.length; i++) {
+    for (let j = 0; j < latticeArray[0].length; j++) {
+      latticeArray[i][j].setBorder(border);
     }
-  
-    //This sets the top row to always have borders on so its easy to be able to click
-    if(latticeArray.length <= 1)
-      for (let i = 0 ; i < latticeArray[0].length; i++)
-      {
-        (latticeArray[0][i]).setBorder(true);
-      }
+  }
 
-  ctx.clearRect(0,0, canvas.width, canvas.height);
+  //This sets the top row to always have borders on so its easy to be able to click
+  if (latticeArray.length <= 1)
+    for (let i = 0; i < latticeArray[0].length; i++) {
+      latticeArray[0][i].setBorder(true);
+    }
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   //Iterates over each cell in each lattice in each timestep drawing them to the canvas.
   for (let j = 0; j < latticeArray.length; j++) {
     for (let i = 0; i < latticeArray[j].length; i++) {
-      (latticeArray[j][i]).drawCell(ctx);
+      latticeArray[j][i].drawCell(ctx);
     }
   }
 }
 
 //Creates next timestep lattice then sets the new timestep as the current one.
-export function updateLattice(){
-
+export function updateLattice() {
   //Iterates over each new iteration that needs to be added to the lattice array.
-  for(; currentIteration < numOfIterations; currentIteration++)
-  {
+  for (; currentIteration < numOfIterations; currentIteration++) {
     //Generate the next timestep using the current one, the existing rule, the boundary condition
     //the current iteration so that the cells are created in the right spot, and the size of each
     //individual cell to be created in the next timestep.
@@ -156,8 +150,8 @@ export function updateLattice(){
     currentLattice = nextLattice;
   }
   //Update lattice in canvas
-	drawLattice(latticeArray);
-	outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString();  // Display iteration count to HTML page upon update
+  drawLattice(latticeArray);
+  outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); // Display iteration count to HTML page upon update
 }
 
 //Set intial order then print to console for debugging purposes
@@ -168,47 +162,45 @@ export function createOrder() {
   }
 }
 
-export function alterTempOrder(neoTempOrder){
+export function alterTempOrder(neoTempOrder) {
   tempOrder = neoTempOrder;
 }
 
-export function getSetup()
-{return setup;}
+export function getSetup() {
+  return setup;
+}
 
-export function alterSetup(neoSetup)
-{
+export function alterSetup(neoSetup) {
   setup = neoSetup;
-  for(let i = 0; i < latticeArray[0].length;i++)
-  {
+  for (let i = 0; i < latticeArray[0].length; i++) {
     latticeArray[0][i].setSetup(neoSetup);
   }
 }
 
-import {cell} from "./cellClass.js"
-import {ruleNumToRule, generateLattice} from "./generateLattice.js";
+import { cell } from "./cellClass.js";
+import { ruleNumToRule, generateLattice } from "./generateLattice.js";
 
 //This variable holds the order that cells will be altered in.
-let orderArray = new Array()
+let orderArray = new Array();
 // The array that stores Order while its being modified
-let tempOrder = new Array()
+let tempOrder = new Array();
 //This Variable is used to store the full set of all the lattices
-let latticeArray = new Array ( new Array);
+let latticeArray = new Array(new Array());
 //this holds the lattice on the bottom of the array
-let currentLattice = new Array()
+let currentLattice = new Array();
 // Temporary storage holds the next lattice
-let nextLattice = new Array()
+let nextLattice = new Array();
 //This creates a rule array to set as the desired rule when ruleNumToRule is called.
-let rule = new Array()
+let rule = new Array();
 
 // Gets data on the canvas for displaying purposes
 let canvas = document.getElementById("latticeRegion");
 let ctx = canvas.getContext("2d"); // gets the lattice display region
 //Shows user what iteration we are currently on
-let outputIteration = document.getElementById("iterationOutput")
+let outputIteration = document.getElementById("iterationOutput");
 
 canvas.width = 1800;
 canvas.height = 400;
-
 
 // pulls in Canvas used to display the ticker
 const tickCanvas = document.getElementById("tickmarkRegion");
@@ -237,14 +229,13 @@ let latSize = 10;
 let numOfIterations = 1;
 let currentIteration = 0;
 
-for(let i =0; i < latSize; i++)
-{
-  tempOrder[i] = -1
+for (let i = 0; i < latSize; i++) {
+  tempOrder[i] = -1;
 }
 
 export let border = false; //Border = false by default
 //Creates setup variable and defaults to false
-let setup = false; 
+let setup = false;
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
 become/stay dead or alive. The boundary condition determines what happens when the rule accessed a value
@@ -256,10 +247,10 @@ let ruleNum = 90;
 let boundaryCon = 1;
 
 //Sends Variables to needed location
-export {ruleNum, boundaryCon, latSize, size, currentIteration};
-export {outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx};
-export {latticeArray, numOfIterations, currentLattice, orderArray, tempOrder};
-export {deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel};
+export { ruleNum, boundaryCon, latSize, size, currentIteration };
+export { outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx };
+export { latticeArray, numOfIterations, currentLattice, orderArray, tempOrder };
+export { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel };
 
 //Sets starting lattice to all dead
 //latticeArray[0] = currentLattice;
@@ -268,4 +259,3 @@ LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum);
 createOrder();
 updateLattice();
-;

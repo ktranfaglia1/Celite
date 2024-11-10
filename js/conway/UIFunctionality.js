@@ -42,31 +42,9 @@
 
 /* Import utility and variables from other JS files */
 import { canvas, ctx, displayLattice } from "./displayLattice.js";
-import {
-  visLatticeArray,
-  visBounds,
-  latticeArray,
-  iterate,
-  createVisInit,
-  boundaryCollide,
-  recountNeighbors,
-  changeNeighbor,
-} from "./generateLattice.js";
+import { visLatticeArray, visBounds, latticeArray, iterate, createVisInit, boundaryCollide, recountNeighbors, changeNeighbor } from "./generateLattice.js";
 import { cell } from "./cellClass.js";
-import {
-  build101,
-  build295,
-  build119,
-  build1234,
-  buildGlider,
-  setLattice,
-  buildGtoG,
-  build60P,
-  buildAK94,
-  buildTrigger,
-  buildSnail,
-  buildTub,
-} from "./presets.js";
+import { build101, build295, build119, build1234, buildGlider, setLattice, buildGtoG, build60P, buildAK94, buildTrigger, buildSnail, buildTub } from "./presets.js";
 
 //DECLARATIONS
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */
@@ -562,8 +540,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
               changeNeighbor(j + visBounds[0], i + visBounds[1], 1);
             }
-            latticeArray[i + visBounds[1]][j + visBounds[0]] =
-              !latticeArray[i + visBounds[1]][j + visBounds[0]];
+            latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
           }
         }
       }
@@ -597,10 +574,7 @@ document.addEventListener("DOMContentLoaded", function () {
     else if (scribble) {
       for (let i = 0; i < visLatticeArray.length; i++) {
         for (let j = 0; j < visLatticeArray[i].length; j++) {
-          if (
-            visLatticeArray[i][j].insideCell(mouseX, mouseY) &&
-            visLatticeArray[i][j].getColor() == 0
-          ) {
+          if (visLatticeArray[i][j].insideCell(mouseX, mouseY) && visLatticeArray[i][j].getColor() == 0) {
             visLatticeArray[i][j].flipColor();
             visLatticeArray[i][j].drawCell(ctx);
             if (latticeArray[i + visBounds[1]][j + visBounds[0]] == 1) {
@@ -608,8 +582,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
               changeNeighbor(j + visBounds[0], i + visBounds[1], 1);
             }
-            latticeArray[i + visBounds[1]][j + visBounds[0]] =
-              !latticeArray[i + visBounds[1]][j + visBounds[0]];
+            latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
           }
         }
       }
@@ -755,13 +728,9 @@ document.addEventListener("DOMContentLoaded", function () {
  */
 function inLattice(xLoc, yLoc) {
   let xMin = visLatticeArray[0][0].getXLoc();
-  let xMax =
-    visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() +
-    visLatticeArray[0][visLatticeArray[0].length - 1].getWidth();
+  let xMax = visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() + visLatticeArray[0][visLatticeArray[0].length - 1].getWidth();
   let yMin = visLatticeArray[0][0].getYLoc();
-  let yMax =
-    visLatticeArray[visLatticeArray.length - 1][0].getYLoc() +
-    visLatticeArray[visLatticeArray.length - 1][0].getHeight();
+  let yMax = visLatticeArray[visLatticeArray.length - 1][0].getYLoc() + visLatticeArray[visLatticeArray.length - 1][0].getHeight();
   if (xLoc >= xMin && xLoc <= xMax && yLoc >= yMin && yLoc <= yMax) {
     return true;
   } else {
@@ -980,9 +949,7 @@ function getMouseLocation(event) {
 
   // Calculates Height and Width cooresponding to CSS setting of Canvas
   let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue("width"));
-  let cssHeight = parseFloat(
-    getComputedStyle(canvas).getPropertyValue("height")
-  );
+  let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue("height"));
 
   //Calculates the width of the thin border that wraps around the canvas allowing for pixel perfect clicking
   let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
@@ -992,12 +959,8 @@ function getMouseLocation(event) {
   let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
 
   //calculates mouse X and mouse Y of the Mouse during click and then distorts and move the location to where it needs cooresponding
-  let mouseX =
-    ((event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width) /
-    cssWidth;
-  let mouseY =
-    ((event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height) /
-    cssHeight;
+  let mouseX = ((event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width) / cssWidth;
+  let mouseY = ((event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height) / cssHeight;
 
   return [mouseX, mouseY];
 }
@@ -1111,22 +1074,10 @@ export function redrawLattice(xOffset = 0, yOffset = 0) {
   let trueOffsetX = xOffset - shiftX;
   let trueOffsetY = yOffset - shiftY;
   if (trueOffsetX != 0 || trueOffsetY != 0) {
-    let maxOffsetX =
-      canvas.width -
-      (visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() +
-        visLatticeArray[0][visLatticeArray[0].length - 1].getWidth()) -
-      5 * visLatticeArray[0][0].getWidth();
-    let minOffsetX =
-      -1 *
-      (visLatticeArray[0][0].getXLoc() - 5 * visLatticeArray[0][0].getWidth());
-    let maxOffsetY =
-      canvas.height -
-      (visLatticeArray[visLatticeArray.length - 1][0].getYLoc() +
-        visLatticeArray[visLatticeArray.length - 1][0].getHeight()) -
-      5 * visLatticeArray[0][0].getHeight();
-    let minOffsetY =
-      -1 *
-      (visLatticeArray[0][0].getYLoc() - 5 * visLatticeArray[0][0].getHeight());
+    let maxOffsetX = canvas.width - (visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() + visLatticeArray[0][visLatticeArray[0].length - 1].getWidth()) - 5 * visLatticeArray[0][0].getWidth();
+    let minOffsetX = -1 * (visLatticeArray[0][0].getXLoc() - 5 * visLatticeArray[0][0].getWidth());
+    let maxOffsetY = canvas.height - (visLatticeArray[visLatticeArray.length - 1][0].getYLoc() + visLatticeArray[visLatticeArray.length - 1][0].getHeight()) - 5 * visLatticeArray[0][0].getHeight();
+    let minOffsetY = -1 * (visLatticeArray[0][0].getYLoc() - 5 * visLatticeArray[0][0].getHeight());
 
     if (trueOffsetX > 0) {
       if (trueOffsetX > minOffsetX) {
@@ -1155,14 +1106,7 @@ export function redrawLattice(xOffset = 0, yOffset = 0) {
     for (let f = 0; f < visLatticeArray[i].length; f++) {
       if (trueOffsetX != 0 || trueOffsetY != 0) {
         let curCell = visLatticeArray[i][f];
-        offSetLat[i][f] = new cell(
-          curCell.getHeight(),
-          curCell.getWidth(),
-          curCell.getXLoc() + trueOffsetX,
-          curCell.getYLoc() + trueOffsetY,
-          curCell.getColor(),
-          curCell.getBorder()
-        );
+        offSetLat[i][f] = new cell(curCell.getHeight(), curCell.getWidth(), curCell.getXLoc() + trueOffsetX, curCell.getYLoc() + trueOffsetY, curCell.getColor(), curCell.getBorder());
       }
       offSetLat[i][f].drawCell(ctx);
     }
@@ -1188,11 +1132,7 @@ export function redrawLattice(xOffset = 0, yOffset = 0) {
  * alterLattice(1.5);                // Scales all cells by a factor of 1.5, centered around the canvas center.
  * alterLattice(0.8, 200, 150);      // Scales all cells by a factor of 0.8, centered around (200, 150).
  */
-export function alterLattice(
-  scale,
-  mouseY = canvas.height / 2,
-  mouseX = canvas.width / 2
-) {
+export function alterLattice(scale, mouseY = canvas.height / 2, mouseX = canvas.width / 2) {
   for (let i = 0; i < visLatticeArray.length; i++) {
     for (let j = 0; j < visLatticeArray[i].length; j++) {
       alterCell(visLatticeArray[i][j], scale, mouseY, mouseX);
