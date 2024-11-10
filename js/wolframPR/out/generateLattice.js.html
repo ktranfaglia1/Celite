@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: generateLattice.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: generateLattice.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * generatesLattice.js
+ *
+ * Summary:
+ *   This script contains functions that handle the generation of lattice arrays based on cellular automaton rules
+ *   and boundary conditions. It includes functionality for periodic and non-periodic boundary conditions and updates
+ *   lattice cell states according to the specified rule.
+ *
+ * Features:
+ *   - Generates the next lattice based on the current lattice, rule, and boundary condition.
+ *   - Supports periodic and null boundary conditions for the simulation.
+ *   - Modifies lattice cell colors and properties based on user-defined settings.
+ *
+ * Functions:
+ *   - generateLattice(currentLattice, rule, boundaryCon, rowIndex, size):
+ *     Generates the next lattice based on the current lattice state and applies the rule to determine the color of each cell.
+ *   - updateLattice():
+ *     Updates the lattice for the next timestep based on the current settings and rule.
+ *
+ * Dependencies:
+ *   - rule, canvas, latSize from './displayLattice.js': Provide the lattice size, canvas, and rule array for generating the lattice.
+ *   - cell from './cellClass.js': Defines the cell class for creating and manipulating individual cells.
+ *   - alterRule from './displayLattice.js': Modifies the current rule array for cell state transitions.
+ *   - deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel from './displayLattice.js': Provide color and border settings for cells.
+ *
+ * Authors:
+ *   - Timmy McKirgan
+ *   - Dustin O'Brien
+ */
+
+import { rule, canvas, latSize } from "./displayLattice.js";
+import { cell } from "./cellClass.js";
+import { alterRule } from "./displayLattice.js";
+import { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel } from "./displayLattice.js";
+
+/**
+ * alterInf
+ *
+ * Summary:
+ *   Mutator function for modifying the `inf` array and handling related logic
+ *   for buffer settings and lattice size. This function updates the `inf` array
+ *   based on the provided values for `neoInf`, `bufferToggle`, and `bufferSize`.
+ *   It also modifies `latSize` based on certain conditions tied to the state of `inf`.
+ *
+ * Features:
+ *   - Modifies the `inf` array based on new values for `neoInf`, `bufferToggle`, and `bufferSize`.
+ *   - Adjusts the buffer state and lattice size (`latSize`) according to the state of `inf[0]`.
+ *   - Ensures that the buffer size is applied only when the buffer is enabled.
+ *
+ * @param {boolean} neoInf - The new value for `inf[0]`. If `inf[0]` changes state,
+ *   it may trigger additional logic related to the buffer and lattice size.
+ * @param {boolean} bufferToggle - The state for enabling or disabling the buffer.
+ * @param {number} bufferSize - The new buffer size to be applied if the buffer is enabled.
+ *
+ * @returns {void} - This function modifies the `inf` array and `latSize` in place;
+ *   it does not return any value.
+ */
+export function ruleNumToRule(ruleNum) {
+  //Converts rule number to binary represented as an array of 0s and 1s.
+  let neoRule = new Array();
+  let ruleNumCopy = ruleNum;
+  for (let i = 0; i &lt; 8; i++) {
+    neoRule[i] = ruleNumCopy % 2;
+    ruleNumCopy = Math.floor(ruleNumCopy / 2);
+  }
+  alterRule(neoRule);
+  return rule;
+}
+
+/**
+ * generateLattice
+ *
+ *   Generates the next lattice based on the current lattice, the provided rule,
+ *   boundary conditions, and other relevant parameters. This function constructs
+ *   a new lattice where each cell's state is determined by its neighboring cells,
+ *   considering the boundary condition (periodic or null).
+ *
+ *
+ * @param {Array} currentLattice - The lattice from the current timestep. It contains cells that store their state.
+ * @param {Array} rule - The set of rules for calculating the new color based on neighboring cells' states.
+ * @param {number} boundaryCon - The type of boundary condition:
+ *   - `1` for periodic boundary conditions.
+ *   - `0` or other values for null boundary conditions.
+ * @param {number} rowIndex - The index of the row that this lattice belongs to, used for vertical positioning.
+ * @param {number} size - The size of each individual cell in the lattice.
+ *
+ * @returns {Array} newLattice - A new lattice with updated cells based on the rule and boundary condition.
+ */
+export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, size) {
+  let newLattice = new Array();
+  let startDif = (latSize[0] * size) / 2;
+  let center = canvas.width / 2;
+  let startX = center - startDif;
+  //If boundary condition is periodic:
+  if (boundaryCon == 1) {
+    //Iterate over length of new lattice
+    for (let i = 0; i &lt; currentLattice.length; i++) {
+      newLattice.push(new cell(size, size, startX + i * size, rowIndex * size, 0));
+      //If this is the first cell, access the last cell from previous timestep
+      //If this is the last cell, access the first cell from previous timestep
+      //Otherwise, access the above three cells normally.
+      if (i == 0) {
+        newLattice[i].setColor(rule[currentLattice[currentLattice.length - 1].color * 4 + currentLattice[i].color * 2 + currentLattice[i + 1].color]);
+      } else if (i == currentLattice.length - 1) {
+        newLattice[i].setColor(rule[currentLattice[i - 1].color * 4 + currentLattice[i].color * 2 + currentLattice[0].color]);
+      } else {
+        newLattice[i].setColor(rule[currentLattice[i - 1].color * 4 + currentLattice[i].color * 2 + currentLattice[i + 1].color]);
+      }
+    }
+  }
+  //If boundary condition is null:
+  else {
+    //Iterate over length of new lattice
+    for (let i = 0; i &lt; currentLattice.length; i++) {
+      newLattice.push(new cell(size, size, startX + i * size, rowIndex * size, 0));
+      //If this is the first cell, value of cell to the left is considered 0
+      //If this is the last cell, value of cell to the right is considered 0
+      //Otherwise, access the above three cells normally.
+      if (i == 0) {
+        newLattice[i].setColor(rule[currentLattice[i].color * 2 + currentLattice[i + 1].color]);
+      } else if (i == currentLattice.length - 1) {
+        newLattice[i].setColor(rule[currentLattice[i - 1].color * 4 + currentLattice[i].color * 2]);
+      } else {
+        newLattice[i].setColor(rule[currentLattice[i - 1].color * 4 + currentLattice[i].color * 2 + currentLattice[i + 1].color]);
+      }
+    }
+  }
+
+  for (let i = 0; i &lt; newLattice.length; i++) {
+    newLattice[i].setDeadColor(deadColorSel.value);
+    newLattice[i].setAliveColor(aliveColorSel.value);
+    newLattice[i].setDeadBorder(deadBorderSel.value);
+    newLattice[i].setAliveBorder(aliveBorderSel.value);
+  }
+  return newLattice;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="%252520Parameters.html">- Parameters</a></li><li><a href="cell.html">cell</a></li><li><a href="logMessage.html">logMessage</a></li></ul><h3>Events</h3><ul><li><a href="global.html#event:click-Eventlistenerforclicksanywhereonthewindow.">click - Event listener for clicks anywhere on the window.</a></li><li><a href="global.html#event:click-Eventlistenerforthe%2522About%2522button.">click - Event listener for the "About" button.</a></li><li><a href="global.html#event:click-Eventlistenerforthe%2522DownloadPDF%2522button.">click - Event listener for the "Download PDF" button.</a></li><li><a href="global.html#event:click-Eventlistenerforthe%2522DownloadPNG%2522button.">click - Event listener for the "Download PNG" button.</a></li><li><a href="global.html#event:click-Eventlistenerfortheclickeventontheclosebuttonoftheoptionswindow.">click - Event listener for the click event on the close button of the options window.</a></li><li><a href="global.html#event:click-Eventlistenerfortheclickeventontheoptionsbutton.">click - Event listener for the click event on the options button.</a></li><li><a href="global.html#event:click-Eventlistenerfortheclosebuttoninthe%2522About%2522window.">click - Event listener for the close button in the "About" window.</a></li><li><a href="global.html#event:input-Eventlistenerfortheinputeventontheiterationspeedslider.">input - Event listener for the input event on the iteration speed slider.</a></li></ul><h3>Global</h3><ul><li><a href="global.html#LatticeDisplay">LatticeDisplay</a></li><li><a href="global.html#aboutButton">aboutButton</a></li><li><a href="global.html#aboutWindow">aboutWindow</a></li><li><a href="global.html#addIterations">addIterations</a></li><li><a href="global.html#aliveBorderSel">aliveBorderSel</a></li><li><a href="global.html#aliveColorSel">aliveColorSel</a></li><li><a href="global.html#alterBorder">alterBorder</a></li><li><a href="global.html#alterBoundaryCon">alterBoundaryCon</a></li><li><a href="global.html#alterCell">alterCell</a></li><li><a href="global.html#alterCurrentIteration">alterCurrentIteration</a></li><li><a href="global.html#alterCurrentLattice">alterCurrentLattice</a></li><li><a href="global.html#alterInf">alterInf</a></li><li><a href="global.html#alterLatSize">alterLatSize</a></li><li><a href="global.html#alterLatticeArray">alterLatticeArray</a></li><li><a href="global.html#alterNextLattice">alterNextLattice</a></li><li><a href="global.html#alterNumOfIterations">alterNumOfIterations</a></li><li><a href="global.html#alterRule">alterRule</a></li><li><a href="global.html#alterRuleNum">alterRuleNum</a></li><li><a href="global.html#alterSize">alterSize</a></li><li><a href="global.html#border">border</a></li><li><a href="global.html#borderToggle">borderToggle</a></li><li><a href="global.html#borderToggleButton">borderToggleButton</a></li><li><a href="global.html#borderToggleOption">borderToggleOption</a></li><li><a href="global.html#boundToggle">boundToggle</a></li><li><a href="global.html#boundToggleButton">boundToggleButton</a></li><li><a href="global.html#boundaryCon">boundaryCon</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#checkboxes">checkboxes</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#clearResetButton">clearResetButton</a></li><li><a href="global.html#clearResetToggle">clearResetToggle</a></li><li><a href="global.html#closeAbout">closeAbout</a></li><li><a href="global.html#closeOptions">closeOptions</a></li><li><a href="global.html#continouslyIterate">continouslyIterate</a></li><li><a href="global.html#ctx">ctx</a></li><li><a href="global.html#currentIteration">currentIteration</a></li><li><a href="global.html#currentLattice">currentLattice</a></li><li><a href="global.html#deadBorderSel">deadBorderSel</a></li><li><a href="global.html#deadColorSel">deadColorSel</a></li><li><a href="global.html#debounce">debounce</a></li><li><a href="global.html#displayLog">displayLog</a></li><li><a href="global.html#downloadPDFButton">downloadPDFButton</a></li><li><a href="global.html#downloadPNGButton">downloadPNGButton</a></li><li><a href="global.html#drawLattice">drawLattice</a></li><li><a href="global.html#generateLattice">generateLattice</a></li><li><a href="global.html#getBorder">getBorder</a></li><li><a href="global.html#getMouseLocation">getMouseLocation</a></li><li><a href="global.html#inLattice">inLattice</a></li><li><a href="global.html#inf">inf</a></li><li><a href="global.html#iterate">iterate</a></li><li><a href="global.html#iterateButton">iterateButton</a></li><li><a href="global.html#iterationInputBox">iterationInputBox</a></li><li><a href="global.html#iterationSpeedSlider">iterationSpeedSlider</a></li><li><a href="global.html#iterationSpeedValue">iterationSpeedValue</a></li><li><a href="global.html#iterationSubmit">iterationSubmit</a></li><li><a href="global.html#iterationTime">iterationTime</a></li><li><a href="global.html#iterationToggle">iterationToggle</a></li><li><a href="global.html#iterationToggleButton">iterationToggleButton</a></li><li><a href="global.html#iterationToggleOption">iterationToggleOption</a></li><li><a href="global.html#latSize">latSize</a></li><li><a href="global.html#latticeArray">latticeArray</a></li><li><a href="global.html#latticeFillButton">latticeFillButton</a></li><li><a href="global.html#latticeSizeBox">latticeSizeBox</a></li><li><a href="global.html#latticeSizeSubmit">latticeSizeSubmit</a></li><li><a href="global.html#lctx">lctx</a></li><li><a href="global.html#logCanvas">logCanvas</a></li><li><a href="global.html#makeError">makeError</a></li><li><a href="global.html#makeLog">makeLog</a></li><li><a href="global.html#makeTickBox">makeTickBox</a></li><li><a href="global.html#messageQueue">messageQueue</a></li><li><a href="global.html#mouseDown">mouseDown</a></li><li><a href="global.html#nextLattice">nextLattice</a></li><li><a href="global.html#nullCheckBox">nullCheckBox</a></li><li><a href="global.html#numOfIterations">numOfIterations</a></li><li><a href="global.html#optionsButton">optionsButton</a></li><li><a href="global.html#optionsWindow">optionsWindow</a></li><li><a href="global.html#outputIteration">outputIteration</a></li><li><a href="global.html#periodicCheckBox">periodicCheckBox</a></li><li><a href="global.html#randomFillButton">randomFillButton</a></li><li><a href="global.html#redrawLattice">redrawLattice</a></li><li><a href="global.html#revertCells">revertCells</a></li><li><a href="global.html#rule">rule</a></li><li><a href="global.html#ruleInputBox">ruleInputBox</a></li><li><a href="global.html#ruleNum">ruleNum</a></li><li><a href="global.html#ruleNumToRule">ruleNumToRule</a></li><li><a href="global.html#ruleSubmit">ruleSubmit</a></li><li><a href="global.html#run">run</a></li><li><a href="global.html#scale">scale</a></li><li><a href="global.html#setCells">setCells</a></li><li><a href="global.html#setDelay">setDelay</a></li><li><a href="global.html#setLatticeSize">setLatticeSize</a></li><li><a href="global.html#setRule">setRule</a></li><li><a href="global.html#shortDebounce">shortDebounce</a></li><li><a href="global.html#size">size</a></li><li><a href="global.html#startStopButton">startStopButton</a></li><li><a href="global.html#startStopToggle">startStopToggle</a></li><li><a href="global.html#stopIterating">stopIterating</a></li><li><a href="global.html#tctx">tctx</a></li><li><a href="global.html#tickCanvas">tickCanvas</a></li><li><a href="global.html#tickerToggle">tickerToggle</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#totalDelta">totalDelta</a></li><li><a href="global.html#updateLattice">updateLattice</a></li><li><a href="global.html#updateLatticeSize">updateLatticeSize</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Nov 10 2024 00:37:26 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
