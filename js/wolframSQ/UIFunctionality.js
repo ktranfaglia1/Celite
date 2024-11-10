@@ -1,12 +1,11 @@
-/** 
-* UIFunctionality.js
-* Authors: Kyle Tranfaglia, Timmy McKirgan, Dustin O'Brien
-* This file handles all user interface Functionality. It is the bulk of the program and handles all button clicks,
-* information inputs, mouse actions, lattice changes, cell changes, iterations, and updates/calculates information
-* for simulation modifications and communicates it with utility files
-* Last Updated: 03/11/24
-*/
-
+/**
+ * UIFunctionality.js
+ * Authors: Kyle Tranfaglia, Timmy McKirgan, Dustin O'Brien
+ * This file handles all user interface Functionality. It is the bulk of the program and handles all button clicks,
+ * information inputs, mouse actions, lattice changes, cell changes, iterations, and updates/calculates information
+ * for simulation modifications and communicates it with utility files
+ * Last Updated: 03/11/24
+ */
 
 import { latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder, alterOrder, tempOrder, alterTempOrder } from "./displayLattice.js";
 import { numOfIterations, currentIteration, size, latSize, ruleNum, orderArray } from "./displayLattice.js";
@@ -320,6 +319,50 @@ let displayWelcome = true; // Setup mode welcome message flag (only display on p
 let nSkip = 2; // Local variable nSkip needed for n-skip order setting
 
 /**
+ * Global variable to control the number of additional iterations.
+ * @type {number}
+ */
+let addIterations = 0; // Defaults iterations
+
+/**
+ * Global flag that tracks whether the iterations should continue running.
+ * @type {number}
+ */
+let run = 0; // Defaults to not keep running
+
+/**
+ * The time in milliseconds to wait before starting the next iteration.
+ * @type {number}
+ */
+let iterationTime = 750; // Time to wait before iterating again
+
+/**
+ * Flag that controls whether the row ticker is active or not.
+ * @type {number}
+ */
+let tickerToggle = 0; // Ticker toggle decides if row ticker will be on; defaults to off
+
+/**
+ * Stores the current scale value for zooming functionality.
+ * @type {number}
+ */
+let scale = 1; // Current scale for zooming, starting at normal size
+
+/**
+ * Keeps track of the total scroll delta to prevent excessive zooming in or out.
+ * @type {number}
+ */
+let totalDelta = 0; // Tracks scrolling to limit zoom out or in
+
+/**
+ * A queue to store messages for logging purposes.
+ * @type {Array}
+ */
+let messageQueue = []; // Stores the message log
+
+activateSetup();
+
+/**
  * setupButton Click Event Handler
  *
  * Summary:
@@ -336,7 +379,7 @@ let nSkip = 2; // Local variable nSkip needed for n-skip order setting
  *
  * @param {Event} event - The click event that triggers the setup functionality.
  *
- * @returns {void} - This function does not return any value. It modifies the lattice 
+ * @returns {void} - This function does not return any value. It modifies the lattice
  *   state, updates button visibility, and triggers a redraw of the lattice.
  */
 setupButton.addEventListener(
@@ -416,7 +459,7 @@ function activateSetup() {
  *   This event listener listens for a click on the `simulateButton` and triggers the
  *   transition from setup mode to simulation mode. It ensures that setup buttons are hidden,
  *   and standard simulation buttons are displayed. It also checks if the lattice has been ordered
- *   and updates the lattice order accordingly, either by applying the existing order or defaulting 
+ *   and updates the lattice order accordingly, either by applying the existing order or defaulting
  *   to a left-to-right ordering.
  *
  * Features:
@@ -465,7 +508,7 @@ simulateButton.addEventListener("click", function () {
  *
  * Summary:
  *   This event listener listens for a click on the `voidButton` and clears the lattice
- *   as well as the current order. It resets the lattice to an empty state and logs the 
+ *   as well as the current order. It resets the lattice to an empty state and logs the
  *   action of clearing the order.
  *
  * Features:
@@ -504,14 +547,14 @@ helpButton.addEventListener("click", function () {
  * closeHelp Click Event Handler
  *
  * Summary:
- *   This event listener listens for a click on the close button (`closeHelp`) in the top-right corner 
+ *   This event listener listens for a click on the close button (`closeHelp`) in the top-right corner
  *   of the help window. When clicked, it hides the help window by setting its display property to "none."
  *
  * Features:
  *   - Closes the help window when the `closeHelp` button is clicked.
  *   - Hides the help window by setting its display property to "none," effectively removing it from view.
  *
- * @returns {void} - This function does not return any value. It modifies the UI state 
+ * @returns {void} - This function does not return any value. It modifies the UI state
  *   by changing the display property of the help window to hide it.
  */
 closeHelp.addEventListener("click", function () {
@@ -564,9 +607,9 @@ libraryButton.addEventListener("click", function () {
  * randOrder Click Event Handler (Generate Random Sequence)
  *
  * Summary:
- *   This event listener listens for a click on the `randOrder` element and generates a random order 
- *   for the lattice array. It clears the lattice and order, generates a shuffled sequence, applies it 
- *   to the lattice, and updates the display. The library window is then hidden, and a log is generated 
+ *   This event listener listens for a click on the `randOrder` element and generates a random order
+ *   for the lattice array. It clears the lattice and order, generates a shuffled sequence, applies it
+ *   to the lattice, and updates the display. The library window is then hidden, and a log is generated
  *   indicating that the random order has been set.
  *
  * Features:
@@ -604,7 +647,25 @@ randOrder.addEventListener("click", function () {
   makeLog("Random Order Set", logCanvas, messageQueue);
 });
 
-
+/**
+ * left2right Click Event Handler (Generate Left to Right Sequence)
+ *
+ * Summary:
+ *   This event listener listens for a click on the `left2right` element and sets the lattice array
+ *   to a left-to-right order. It clears the lattice and order, applies a sequential order (from 0 to n-1),
+ *   updates the lattice display, and hides the library window. A log is generated indicating that the
+ *   left-to-right order has been set.
+ *
+ * Features:
+ *   - Clears the lattice and order before setting a new left-to-right order.
+ *   - Sets a sequential order for the lattice array elements (from 0 to n-1).
+ *   - Updates the lattice cells with the sequential order and redraws them.
+ *   - Hides the library window once the left-to-right order is set.
+ *   - Logs the action of setting the left-to-right order to the message queue and canvas.
+ *
+ * @returns {void} - This function does not return any value. It modifies the lattice array,
+ *   updates the display, and logs the action of setting the left-to-right order.
+ */
 left2right.addEventListener("click", function () {
   clear(latticeArray, false);
   clearOrder();
@@ -626,6 +687,26 @@ left2right.addEventListener("click", function () {
   makeLog("Left to Right Order Set", logCanvas, messageQueue);
 });
 
+/**
+ * right2left Click Event Handler (Generate Right to Left Sequence)
+ *
+ * Summary:
+ *   This event listener listens for a click on the `right2left` element and sets the lattice array
+ *   to a right-to-left order. It clears the lattice and order, applies a reverse sequential order
+ *   (from n-1 to 0), updates the lattice display, and hides the library window. A log is generated indicating that the
+ *   right-to-left order has been set.
+ *
+ * Features:
+ *   - Clears the lattice and order before setting a new right-to-left order.
+ *   - Sets a reverse sequential order for the lattice array elements (from n-1 to 0).
+ *   - Updates the lattice cells with the reverse sequential order and redraws them.
+ *   - Hides the library window once the right-to-left order is set.
+ *   - Logs the action of setting the right-to-left order to the message queue and canvas.
+ *
+ * @returns {void} - This function does not return any value. It modifies the lattice array,
+ *   updates the display, and logs the action of setting the right-to-left order.
+ */
+
 right2left.addEventListener("click", function () {
   clear(latticeArray, false);
   clearOrder();
@@ -646,6 +727,28 @@ right2left.addEventListener("click", function () {
   libraryWindow.style.display = "none";
   makeLog("Right to Left Order Set", logCanvas, messageQueue);
 });
+
+/**
+ * centerOut Click Event Handler (Generate Center Outward Sequence)
+ *
+ * Summary:
+ *   This event listener listens for a click on the `centerOut` element and sets the lattice array
+ *   to a center-outward order. It first clears the lattice and order, then arranges the lattice elements
+ *   in an alternating order starting from the center and expanding outward. Once the new order is applied,
+ *   the lattice is updated and redrawn. The library window is hidden, and a log is generated indicating
+ *   that the center-outward order has been set.
+ *
+ * Features:
+ *   - Clears the lattice and order before setting the new center-outward order.
+ *   - If the length of the lattice is even, elements are alternately placed from the center outwards.
+ *   - If the lattice length is odd, the center element is set first, then the surrounding elements alternate.
+ *   - Updates the lattice cells with the new center-outward order and redraws them.
+ *   - Hides the library window once the center-outward order is set.
+ *   - Logs the action of setting the center-outward order to the message queue and canvas.
+ *
+ * @returns {void} - This function does not return any value. It modifies the lattice array,
+ *   updates the display, and logs the action of setting the center-outward order.
+ */
 
 centerOut.addEventListener("click", function () {
   clear(latticeArray, false);
@@ -679,6 +782,31 @@ centerOut.addEventListener("click", function () {
   libraryWindow.style.display = "none";
   makeLog("Center Outward Order Set", logCanvas, messageQueue);
 });
+
+/**
+ * edgesIn Click Event Handler (Generate Edges Inward Sequence)
+ *
+ * Summary:
+ *   This event listener listens for a click on the `edgesIn` element and sets the lattice array
+ *   to an edges-inward order. The lattice is cleared and re-ordered such that the elements start from
+ *   the outer edges and gradually move inward. After the new order is applied, the lattice is updated
+ *   and redrawn. The library window is hidden, and a log is generated indicating that the edges-inward
+ *   order has been set.
+ *
+ * Features:
+ *   - Clears the lattice and order before setting the new edges-inward order.
+ *   - For even-length lattices, elements are placed in an alternating inward pattern starting from the edges.
+ *   - For odd-length lattices, the center element is placed first, followed by alternating elements
+ *     towards the edges.
+ *   - Reverses the order of the mock lattice to simulate inward movement, then swaps elements to match
+ *     the correct inward sequence.
+ *   - Updates the lattice cells with the new edges-inward order and redraws them.
+ *   - Hides the library window once the edges-inward order is set.
+ *   - Logs the action of setting the edges-inward order to the message queue and canvas.
+ *
+ * @returns {void} - This function does not return any value. It modifies the lattice array,
+ *   updates the display, and logs the action of setting the edges-inward order.
+ */
 
 edgesIn.addEventListener("click", function () {
   clear(latticeArray, false);
@@ -721,6 +849,28 @@ edgesIn.addEventListener("click", function () {
   makeLog("Edges Inward Order Set", logCanvas, messageQueue);
 });
 
+/**
+ * centerOutR Click Event Handler (Generate Center Out Reverse Sequence)
+ *
+ * Summary:
+ *   This event listener listens for a click on the `centerOutR` element and sets the lattice array
+ *   to a center-out reverse order. The lattice is cleared and re-ordered such that the elements are
+ *   arranged with the center element first, followed by alternating elements outward. After applying
+ *   the new order, the lattice is updated and redrawn. The library window is closed, and a log is created
+ *   indicating the center-out reverse order has been set.
+ *
+ * Features:
+ *   - Clears the lattice and order before setting the new center-out reverse order.
+ *   - For even-length lattices, elements are placed in a reversed alternating pattern starting from the center.
+ *   - For odd-length lattices, the center element is placed first, followed by alternating elements outward.
+ *   - Reverses the order of the mock lattice to simulate outward movement from the center.
+ *   - Updates the lattice cells with the new center-out reverse order and redraws them.
+ *   - Hides the library window once the center-out reverse order is applied.
+ *   - Logs the action of setting the center-out reverse order to the message queue and canvas.
+ *
+ * @returns {void} - This function does not return any value. It modifies the lattice array,
+ *   updates the display, and logs the action of setting the center-out reverse order.
+ */
 centerOutR.addEventListener("click", function () {
   clear(latticeArray, false);
   clearOrder();
@@ -759,6 +909,28 @@ centerOutR.addEventListener("click", function () {
   makeLog("Center Out Rev Order Set", logCanvas, messageQueue);
 });
 
+/**
+ * edgesInR Click Event Handler (Generate Edges In Reverse Sequence)
+ *
+ * Summary:
+ *   This event listener listens for a click on the `edgesInR` element and sets the lattice array
+ *   to an edges-in reverse order. The lattice is cleared and re-ordered such that the elements start
+ *   from the edges and move towards the center, with the order reversed. After applying the new order,
+ *   the lattice is updated and redrawn. The library window is closed, and a log is created indicating
+ *   the edges-in reverse order has been set.
+ *
+ * Features:
+ *   - Clears the lattice and order before setting the new edges-in reverse order.
+ *   - For even-length lattices, elements are placed starting from the edges and moved inward, reversed.
+ *   - For odd-length lattices, the center element is placed first, followed by alternating elements inward.
+ *   - The mock lattice array is reversed to simulate inward movement from the edges.
+ *   - Updates the lattice cells with the new edges-in reverse order and redraws them.
+ *   - Hides the library window once the edges-in reverse order is applied.
+ *   - Logs the action of setting the edges-in reverse order to the message queue and canvas, and outputs it to the console.
+ *
+ * @returns {void} - This function does not return any value. It modifies the lattice array,
+ *   updates the display, and logs the action of setting the edges-in reverse order.
+ */
 edgesInR.addEventListener("click", function () {
   clear(latticeArray, false);
   clearOrder();
@@ -796,6 +968,26 @@ edgesInR.addEventListener("click", function () {
   makeLog("Edges In Rev Order Set", logCanvas, messageQueue);
 });
 
+/**
+ * skip Click Event Handler (Generate N-Skip Sequence)
+ *
+ * Summary:
+ *   This event listener handles a click on the `skip` element and sets the lattice array to follow
+ *   an N-skip order. The lattice is cleared, and elements are set based on an N-skip pattern, where
+ *   elements are placed in a sequence with a skip interval defined by the `nSkip` value. After applying
+ *   the new order, the lattice is updated, redrawn, and a log is created indicating the N-skip order set.
+ *
+ * Features:
+ *   - Clears the lattice and order before setting the N-skip sequence.
+ *   - Loops through the lattice and places elements based on a skip interval defined by `nSkip`.
+ *   - The elements are filled with values starting from 0 and incrementing based on the skip interval.
+ *   - Updates the lattice cells with the N-skip order and redraws them.
+ *   - Hides the library window once the N-skip order is applied.
+ *   - Logs the action of setting the N-skip order to the message queue and canvas, including the skip value.
+ *
+ * @returns {void} - This function does not return any value. It modifies the lattice array,
+ *   updates the display, and logs the action of setting the N-skip order with the given skip value.
+ */
 skip.addEventListener("click", function () {
   clear(latticeArray, false);
   clearOrder();
@@ -826,12 +1018,41 @@ skip.addEventListener("click", function () {
   makeLog("N-Skip order set | N = " + nSkip, logCanvas, messageQueue);
 });
 
-// Close if x (close) button in top right of the window is clicked
+/**
+ * closeLibrary Click Event Handler (Close Library Window)
+ *
+ * Summary:
+ *   This event listener handles the click event on the close button (`closeLibrary`).
+ *   When the close button in the top-right corner of the window is clicked, it hides the library window
+ *   by setting its `display` style property to `"none"`.
+ *
+ * Features:
+ *   - Listens for a click on the `closeLibrary` button.
+ *   - When clicked, hides the library window by changing its display style to `"none"`.
+ *
+ * @returns {void} - This function does not return any value. It modifies the visibility of the `libraryWindow`.
+ */
+
 closeLibrary.addEventListener("click", function () {
   libraryWindow.style.display = "none";
 });
 
-// Close if any space outside of the about window is clicked
+/**
+ * window Click Event Handler (Close Library Window if clicked outside)
+ *
+ * Summary:
+ *   This event listener listens for any click event on the window. If the click occurs outside the library window (on the background),
+ *   the library window is hidden by setting its `display` style property to `"none"`.
+ *
+ * Features:
+ *   - Listens for a click anywhere on the window.
+ *   - Checks if the click target is the `libraryWindow` (meaning the background area was clicked).
+ *   - If true, hides the library window by setting `libraryWindow.style.display` to `"none"`.
+ *
+ * @param {Event} event - The event object representing the mouse click event.
+ * @returns {void} - This function does not return any value, it hides the `libraryWindow` based on the click target.
+ */
+
 window.addEventListener("click", function (event) {
   // Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
   if (event.target == libraryWindow) {
@@ -839,21 +1060,20 @@ window.addEventListener("click", function (event) {
   }
 });
 
-/* Global variables for iteration */
-let addIterations = 0; // Defaults iterations
-let run = 0; // Defaults to not keep running
-let iterationTime = 750; //Time to wait before iterating again
-let tickerToggle = 0; //Ticker toggle decides if row ticker will be on defaults to on
-
-//Stores current scrolling values to keep track of scrolling in or out and preventing user from scrolling too far out
-let scale = 1;
-let totalDelta = 0;
-
-let messageQueue = [];
-
-activateSetup();
-
-//Redraws the entire lattice array on the canvas
+/**
+ * Redraws the entire lattice array on the canvas.
+ *
+ * This function clears the canvas and then redraws the lattice by:
+ *   1. Filling the background with a selected dead color.
+ *   2. Redrawing each cell in the lattice array by calling the `drawCell` method for each cell.
+ *
+ * Features:
+ *   - Clears the entire canvas before redrawing (`ctx.clearRect`).
+ *   - Fills the background with the selected color (`deadColorSel.value`).
+ *   - Redraws the lattice by iterating through all the cells in `latticeArray` and calling `drawCell` for each one.
+ *
+ * @returns {void} - This function does not return anything, it performs visual updates on the canvas.
+ */
 function redrawLattice() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = deadColorSel.value;
@@ -865,7 +1085,24 @@ function redrawLattice() {
   }
 }
 
-//Determines if the mouse cursor is currently within the lattice. Returns true if cursor is in lattice, false otherwise.
+/**
+ * Determines if the mouse cursor is currently within the bounds of the lattice.
+ *
+ * This function checks whether the mouse cursor's X and Y positions are inside the lattice array's boundaries.
+ * It can handle both single-row and multi-row lattices, based on the `oneRow` parameter.
+ *
+ * Features:
+ *   - Checks the X position of the mouse against the boundaries of the first and last cells in the lattice row.
+ *   - If the lattice is multi-row, checks the Y position against the top and bottom bounds of the lattice.
+ *   - Returns `true` if the cursor is within the lattice; otherwise, returns `false`.
+ *
+ * @param {number} mouseX - The X-coordinate of the mouse pointer.
+ * @param {boolean} [oneRow=true] - A flag indicating whether the lattice is a single row or multiple rows. Default is `true` (single row).
+ * @param {number} [mouseY=0] - The Y-coordinate of the mouse pointer. Default is `0`.
+ *
+ * @returns {boolean} - `true` if the mouse is inside the lattice, `false` otherwise.
+ */
+
 function inLattice(mouseX, oneRow = true, mouseY = 0) {
   let inLat = false;
   //If the X position of the mouse is greater then the starting X of the first cell, continue.
@@ -889,7 +1126,19 @@ function inLattice(mouseX, oneRow = true, mouseY = 0) {
   return inLat;
 }
 
-//Returns the cell data to it's unscrolled form.
+/**
+ * Reverts the cell data to its original unscrolled form.
+ *
+ * This function resets the position and size of each cell in the lattice array. It recalculates the X and Y positions of each cell based on the original layout, as well as resets their height and width.
+ * The cells are adjusted to their default size and are positioned in a grid-like manner.
+ *
+ * Features:
+ *   - Sets the size of each cell back to the default `size`.
+ *   - Recalculates the X and Y coordinates to place the cells in their unscrolled positions, centering the grid.
+ *   - Updates the lattice array with the new positions and sizes.
+ *
+ * @returns {void} - This function does not return anything; it directly modifies the cell data in the lattice array.
+ */
 function revertCells() {
   let startX = canvas.width / 2 - (latSize * size) / 2;
   for (let i = 0; i < latticeArray.length; i++) {
@@ -902,6 +1151,23 @@ function revertCells() {
   }
 }
 
+/**
+ * Alters the position and size of a cell based on the mouse position and a scale factor.
+ *
+ * This function adjusts the dimensions and location of a given cell by calculating the new X and Y positions for its corners, based on the mouse coordinates and a scaling factor. The scaling factor modifies the distance between the mouse and the cell's corners, resulting in a resized and repositioned cell.
+ *
+ * Features:
+ *   - Calculates the new position for each corner of the cell based on the mouse location.
+ *   - Applies a scale factor to adjust the cell's size and position relative to the mouse cursor.
+ *   - Updates the cell's height, width, and coordinates with the newly calculated values.
+ *
+ * @param {number} mouseX - The X position of the mouse cursor.
+ * @param {object} cell - The cell object whose position and size are being altered.
+ * @param {number} scale - The scaling factor that determines how much the cell should be resized.
+ * @param {number} [mouseY=0] - The Y position of the mouse cursor (defaults to 0 if not provided).
+ *
+ * @returns {void} - This function modifies the given cell object, updating its dimensions and location.
+ */
 function alterCell(mouseX, cell, scale, mouseY = 0) {
   //Get the X and Y position of corner 0 of the cell, the X position of the corner 1 (to the right of corner 0)
   //and the Y position of corner 2 (below corner 0)
@@ -935,7 +1201,17 @@ function alterCell(mouseX, cell, scale, mouseY = 0) {
 
 /* THIS SECTION IS USED FOR COLOR PICKING */
 
-//Selects color for dead color
+/**
+ * Updates the dead color of all cells in the lattice based on user input.
+ *
+ * This function listens for an input change in the `deadColorSel` element and updates the color of each cell in the lattice to the selected dead color. It then redraws the lattice to reflect the new color.
+ *
+ * Features:
+ *   - Updates the dead color of every cell in the `latticeArray` by calling the `setDeadColor` method.
+ *   - Redraws the lattice after the color change by calling the `drawLattice` function.
+ *
+ * @returns {void} - This function modifies the color properties of the cells and triggers a redraw of the lattice.
+ */
 deadColorSel.addEventListener("input", function () {
   for (let i = 0; i < latticeArray.length; i++) {
     for (let j = 0; j < latticeArray[0].length; j++) {
@@ -945,7 +1221,17 @@ deadColorSel.addEventListener("input", function () {
   drawLattice(latticeArray);
 });
 
-//Selects color for alive
+/**
+ * Updates the alive color of all cells in the lattice based on user input.
+ *
+ * This function listens for an input change in the `aliveColorSel` element and updates the color of each cell in the lattice to the selected alive color. It then redraws the lattice to reflect the new color.
+ *
+ * Features:
+ *   - Updates the alive color of every cell in the `latticeArray` by calling the `setAliveColor` method.
+ *   - Redraws the lattice after the color change by calling the `drawLattice` function.
+ *
+ * @returns {void} - This function modifies the color properties of the cells and triggers a redraw of the lattice.
+ */
 aliveColorSel.addEventListener("input", function () {
   for (let i = 0; i < latticeArray.length; i++) {
     for (let j = 0; j < latticeArray[0].length; j++) {
@@ -955,7 +1241,17 @@ aliveColorSel.addEventListener("input", function () {
   drawLattice(latticeArray);
 });
 
-//Selects color for dead cells border
+/**
+ * Updates the border color for dead cells in the lattice based on user input.
+ *
+ * This function listens for an input change in the `deadBorderSel` element and updates the border color of each dead cell in the lattice. It then redraws the lattice to reflect the new border color.
+ *
+ * Features:
+ *   - Updates the border color of dead cells in the `latticeArray` by calling the `setDeadBorder` method.
+ *   - Redraws the lattice after the border color change by calling the `drawLattice` function.
+ *
+ * @returns {void} - This function modifies the border color properties of dead cells and triggers a redraw of the lattice.
+ */
 deadBorderSel.addEventListener("input", function () {
   for (let i = 0; i < latticeArray.length; i++) {
     for (let j = 0; j < latticeArray[0].length; j++) {
@@ -965,7 +1261,17 @@ deadBorderSel.addEventListener("input", function () {
   drawLattice(latticeArray);
 });
 
-//select cells for alive cells border
+/**
+ * Updates the border color for alive cells in the lattice based on user input.
+ *
+ * This function listens for an input change in the `aliveBorderSel` element and updates the border color of each alive cell in the lattice. It then redraws the lattice to reflect the new border color.
+ *
+ * Features:
+ *   - Updates the border color of alive cells in the `latticeArray` by calling the `setAliveBorder` method.
+ *   - Redraws the lattice after the border color change by calling the `drawLattice` function.
+ *
+ * @returns {void} - This function modifies the border color properties of alive cells and triggers a redraw of the lattice.
+ */
 aliveBorderSel.addEventListener("input", function () {
   for (let i = 0; i < latticeArray.length; i++) {
     for (let j = 0; j < latticeArray[0].length; j++) {
@@ -974,6 +1280,25 @@ aliveBorderSel.addEventListener("input", function () {
   }
   drawLattice(latticeArray);
 });
+
+/**
+ * Handles zooming of the lattice when the mouse wheel is scrolled.
+ *
+ * This function listens for a "wheel" event on the `tickCanvas` element and applies zooming to the lattice cells based on the user's mouse scroll direction and position.
+ * - For a single-row lattice, the function adjusts the size of the cells when zooming in or out, and keeps track of the zoom level with `totalDelta`.
+ * - For multi-row lattices, it allows zooming both horizontally and vertically.
+ * - The zoom factor changes based on scroll direction and the total accumulated scroll delta, with different zoom scales for efficiency.
+ *
+ * Features:
+ *   - Tracks mouse position to center zoom based on the cursor location.
+ *   - Adjusts cell size dynamically when zooming in or out.
+ *   - Limits zoom out if the total delta becomes negative, resetting the cells to their original size.
+ *   - Efficient zoom handling for large lattices, especially when there are many rows.
+ *
+ * @param {WheelEvent} event - The mouse wheel event that contains scroll delta and mouse position.
+ *
+ * @returns {void} - This function alters the lattice cells and triggers a redraw of the lattice.
+ */
 
 tickCanvas.addEventListener(
   "wheel",
@@ -1037,14 +1362,40 @@ tickCanvas.addEventListener(
   false
 );
 
-//Changes rule set
+/**
+ * Handles the rule set change when the "Submit" button is clicked.
+ *
+ * This function stops the current iteration, clears any reset toggles, and applies the selected rule by calling `setRule` with the current rule value.
+ *
+ * Features:
+ *   - Stops the ongoing iteration using `stopIterating` to ensure a clean transition when changing the rule.
+ *   - Clears any reset toggles to reset state before applying the new rule.
+ *   - Sets the new rule by calling `setRule` with the updated rule value.
+ *
+ * @returns {void} - This function alters the rule set and prepares the system for the next iteration with the new rule.
+ */
 ruleSubmit.addEventListener("click", function () {
   stopIterating(); // Stops the iteration before changing the rule number
   clearResetToggle();
   setRule(rule);
 });
 
-// Sets all starting lattices to alive
+/**
+ * Sets all starting lattices to alive when the "Fill Lattice" button is clicked.
+ *
+ * This function stops the current iteration, clears any reset toggles, and fills the first row of the lattice with "alive" cells.
+ * It then redraws the lattice and logs the action.
+ *
+ * Features:
+ *   - Stops the ongoing iteration with `stopIterating` to ensure no interference while filling the lattice.
+ *   - Clears any reset toggles to reset state before making changes.
+ *   - Sets the lattice size and clears the current lattice array.
+ *   - Fills the first row of the lattice by setting each cell's color to "alive".
+ *   - Redraws the updated lattice using `drawLattice`.
+ *   - Logs the action of filling the lattice to the log canvas with `makeLog`.
+ *
+ * @returns {void} - This function updates the lattice to be fully filled with alive cells and logs the action.
+ */
 latticeFillButton.addEventListener("click", function () {
   stopIterating(); // Stops the iteration before completely filling the lattice
   clearResetToggle();
@@ -1057,7 +1408,23 @@ latticeFillButton.addEventListener("click", function () {
   makeLog("Filled Lattice", logCanvas, messageQueue);
 });
 
-// Sets random states to all cells in starting lattice
+/**
+ * Sets random states to all cells in the starting lattice when the "Random Fill" button is clicked.
+ *
+ * This function stops the current iteration, clears any reset toggles, and randomly sets the state (alive or dead) for all cells in the first row of the lattice.
+ * It then redraws the lattice and logs the action.
+ *
+ * Features:
+ *   - Stops the ongoing iteration with `stopIterating` to ensure no interference while filling the lattice.
+ *   - Clears any reset toggles to reset state before making changes.
+ *   - Sets the lattice size and clears the current lattice array.
+ *   - Randomly sets the color of each cell in the first row, choosing between two states (alive or dead).
+ *   - Redraws the updated lattice using `drawLattice`.
+ *   - Logs the action of randomizing the lattice to the log canvas with `makeLog`.
+ *   - Uses `debounce` to ensure the function is not called repeatedly in quick succession.
+ *
+ * @returns {void} - This function updates the lattice with randomly set cell states and logs the action.
+ */
 randomFillButton.addEventListener(
   "click",
   debounce(function () {
@@ -1073,7 +1440,23 @@ randomFillButton.addEventListener(
   })
 );
 
-// Iterates the iterations inputted
+/**
+ * Initiates the iteration process based on the user-defined number of iterations when the "Iterate" button is clicked.
+ *
+ * This function first checks if the number of iterations is set correctly, and if not, it logs an error. If the iterations are set,
+ * it stops the ongoing iteration, logs the action, and then begins iterating through the lattice based on the current and desired number of iterations.
+ * Additionally, it adjusts the button label for resetting the lattice depending on the lattice configuration.
+ *
+ * Features:
+ *   - Checks if the number of iterations is greater than 0 before starting the iteration process.
+ *   - Stops any ongoing iterations using `stopIterating` to prevent interference.
+ *   - Logs the iteration action and the current rule number to the log canvas.
+ *   - Updates the label of the reset button depending on the lattice's structure.
+ *   - Calls the `iterate` function to carry out the specified number of iterations.
+ *   - Uses `debounce` to prevent multiple rapid clicks from triggering multiple iterations.
+ *
+ * @returns {void} - This function manages the iteration process and logs relevant information to the log canvas.
+ */
 iterateButton.addEventListener(
   "click",
   debounce(function () {
@@ -1090,6 +1473,21 @@ iterateButton.addEventListener(
   })
 );
 
+/**
+ * Clears or resets the lattice based on its configuration when the "Clear/Reset" button is clicked.
+ *
+ * This function stops any ongoing iterations and clears or resets the lattice array depending on its structure. If the lattice consists
+ * of only one row, it clears the lattice without any special conditions. If there are multiple rows, it clears the lattice with specific
+ * parameters (likely affecting how the clearing operation is done). Additionally, the reset toggle is cleared, and the debounce function
+ * ensures that rapid clicks don't trigger multiple resets.
+ *
+ * Features:
+ *   - Stops any ongoing iterations to prevent interference with the clearing process.
+ *   - Resets or clears the lattice based on its row count (single-row or multi-row configurations).
+ *   - Uses `debounce` to prevent multiple clicks from triggering the reset or clear operation too quickly.
+ *
+ * @returns {void} - This function clears or resets the lattice and its associated states.
+ */
 clearResetButton.addEventListener(
   "click",
   debounce(function () {
@@ -1105,6 +1503,22 @@ clearResetButton.addEventListener(
 
 /* Connect UI Functionality to a prebuilt function */
 
+/**
+ * Toggles the iteration process on or off when the "Iteration Toggle" button is clicked.
+ *
+ * This function toggles the state of the `tickerToggle` variable (indicating whether the iteration is active or paused), clears the
+ * `tickCanvas` to remove any visual artifacts from the previous iteration, and then calls the `iterationToggleOption` function to
+ * update the UI and behavior accordingly. The debounce function ensures that rapid consecutive clicks do not trigger multiple iterations
+ * or UI updates.
+ *
+ * Features:
+ *   - Toggles the iteration state by flipping the `tickerToggle` boolean.
+ *   - Clears the `tickCanvas` to refresh the iteration visuals.
+ *   - Calls `iterationToggleOption` to apply the necessary updates based on the new iteration state.
+ *   - Uses `debounce` to limit the frequency of function calls in case of multiple quick clicks.
+ *
+ * @returns {void} - This function updates the iteration state and the related UI accordingly.
+ */
 iterationToggleButton.addEventListener(
   "click",
   debounce(function () {
@@ -1114,6 +1528,22 @@ iterationToggleButton.addEventListener(
   })
 );
 
+/**
+ * Toggles the border visibility for cells in the lattice when the "Border Toggle" button is clicked.
+ *
+ * This function alters the border visibility by calling `alterBorder` with the opposite value of the current border state (as determined
+ * by the `getBorder` function). After updating the border state, the lattice is redrawn by calling `drawLattice` to reflect the changes
+ * visually. Finally, the `borderToggleOption` function is called to update any UI elements or settings related to the border toggle.
+ * The debounce function ensures that multiple quick clicks do not cause excessive updates.
+ *
+ * Features:
+ *   - Toggles the border visibility for cells based on the current state.
+ *   - Redraws the lattice to reflect the updated border state.
+ *   - Calls `borderToggleOption` to apply necessary changes to the UI or settings.
+ *   - Uses `debounce` to prevent rapid multiple executions of the function from occurring.
+ *
+ * @returns {void} - This function updates the border visibility and the related UI accordingly.
+ */
 borderToggleButton.addEventListener(
   "click",
   debounce(function () {
@@ -1123,11 +1553,38 @@ borderToggleButton.addEventListener(
   })
 );
 
+/**
+ * Handles the "Iteration Submit" button click event to stop ongoing iterations and set the lattice size.
+ *
+ * This function first calls `stopIterating` to ensure that any ongoing iterations are stopped before changing the iteration amount.
+ * It then calls `setLatticeSize` to adjust the lattice size according to the current settings.
+ *
+ * Features:
+ *   - Stops any ongoing iteration by calling `stopIterating`.
+ *   - Updates the lattice size by calling `setLatticeSize`.
+ *
+ * @returns {void} - This function updates the iteration state and lattice size without returning any value.
+ */
 iterationSubmit.addEventListener("click", function () {
   stopIterating(); // Stops the iteration before changing the iteration amount
   setLatticeSize();
 });
-//Sets the number of cells in a lattice
+
+/**
+ * Handles the "Lattice Size Submit" button click event to update the lattice size.
+ *
+ * This function first stops any ongoing iterations by calling `stopIterating` to ensure the lattice size can be safely updated.
+ * It clears any reset toggles and checks if the setup is complete. If not, it triggers the setup by clicking the `setupButton`.
+ * Finally, it updates the lattice size by calling `updateLatticeSize` with the current canvas.
+ *
+ * Features:
+ *   - Stops any ongoing iteration by calling `stopIterating`.
+ *   - Clears reset toggles with `clearResetToggle`.
+ *   - Triggers setup if not already completed.
+ *   - Updates lattice size by calling `updateLatticeSize` with the canvas.
+ *
+ * @returns {void} - This function updates the lattice size without returning any value.
+ */
 latticeSizeSubmit.addEventListener("click", function () {
   //clearOrder();
   stopIterating(); // Stops the iteration before changing the lattice size
@@ -1135,10 +1592,38 @@ latticeSizeSubmit.addEventListener("click", function () {
   if (!getSetup()) setupButton.click();
   updateLatticeSize(canvas);
 });
+
+/**
+ * Handles the "N Submit" button click event to set the value of N.
+ *
+ * This function calls `setN` to update the value of N when the button is clicked.
+ *
+ * Features:
+ *   - Updates the value of N by calling `setN`.
+ *
+ * @returns {void} - This function updates the value of N without returning any value.
+ */
 nSubmit.addEventListener("click", function () {
   setN();
 });
 
+/**
+ * Handles the "Start/Stop Button" click event for toggling the iteration process.
+ *
+ * When clicked, this function checks if the `run` variable is set to `1` (indicating that the iteration is running).
+ * If `run` is not equal to `1`, it starts the iteration process:
+ *   - Sets `run` to `1` to start the iterations.
+ *   - Calls `startStopToggle()` to update the UI accordingly.
+ *   - If the lattice has only one row (`latticeArray.length == 1`) and there are iterations to be added (`addIterations` is truthy),
+ *     it changes the text of `clearResetButton` to "Reset".
+ *   - Calls `continouslyIterate()` to begin the iteration process with the specified `iterationTime`.
+ *
+ * If `run` is already set to `1`, the function stops the iteration:
+ *   - Sets `run` to `0` to stop the iterations.
+ *   - Calls `startStopToggle()` to update the UI accordingly.
+ *
+ * @returns {void} - This function toggles the iteration process without returning any value.
+ */
 startStopButton.addEventListener(
   "click",
   debounce(function () {
@@ -1158,11 +1643,29 @@ startStopButton.addEventListener(
   })
 );
 
-//Continously Checks where the mouse is on the Canvas too allow tick box to next to it
+/**
+ * Handles the "mousemove" event on the tickCanvas to update the position of the tick box.
+ *
+ * This function is triggered whenever the mouse moves over the canvas.
+ * It calculates the mouse's position and calls the `makeTickBox()` function to display the tick box at the correct location.
+ *
+ * @param {Event} event - The mousemove event containing information about the mouse's position.
+ * @returns {void} - This function updates the tick box location without returning any value.
+ */
 tickCanvas.addEventListener("mousemove", function (event) {
   makeTickBox(event, tctx);
 });
-// Runs program to flips squares if Clicked
+
+/**
+ * Handles the "mousedown" event on the tickCanvas to flip squares when clicked.
+ *
+ * This function is triggered whenever the user clicks on the canvas.
+ * It disables text selection to avoid unintended text highlight, calculates the mouse click position,
+ * and calls the `setCells()` function to flip the cell based on the clicked location.
+ *
+ * @param {Event} event - The mousedown event containing information about the mouse's position.
+ * @returns {void} - This function flips the cells without returning any value.
+ */
 tickCanvas.addEventListener(
   "mousedown",
   debounce(function (event) {
@@ -1188,7 +1691,18 @@ tickCanvas.addEventListener(
   })
 );
 
-// Recognize a keydown event, as in keyboard key press, then check and hnadle key presses. Used for keyboard shortcuts
+/**
+ * Handles keyboard shortcut events for controlling the UI.
+ *
+ * This function listens for the "keydown" event to execute specific actions based on key presses.
+ * When the ALT key is held, it allows quick actions for UI elements like starting/stopping the process,
+ * iterating, clearing the canvas, or downloading files. When ALT is not held, it triggers different actions
+ * like simulating the process, opening the library, or displaying help. Additionally, the Enter key is handled
+ * to submit input fields based on the currently active element.
+ *
+ * @param {Event} event - The keydown event containing information about the pressed key.
+ * @returns {void} - This function triggers specific UI actions based on key presses.
+ */
 document.addEventListener("keydown", function (event) {
   // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
   if (event.altKey) {
@@ -1295,7 +1809,18 @@ document.addEventListener("keydown", function (event) {
   }
 });
 
-// Updates the number of cells in a lattice and resizes cells to coorespond with new size
+/**
+ * Updates the size of the lattice based on user input and resizes cells accordingly.
+ *
+ * This function reads the value entered in the lattice size input box, checks if it's a valid number
+ * within the allowed range, and adjusts the lattice size and cell dimensions. If the value is valid,
+ * it updates the lattice size, logs the change, and resizes the cells. If the value is invalid, it logs
+ * an error message. Additionally, it ensures that cell size does not exceed a maximum limit (45).
+ *
+ * @param {HTMLCanvasElement} canvas - The canvas element where the lattice is drawn.
+ * @returns {void} - Updates the lattice size and cell size based on the input.
+ */
+
 function updateLatticeSize(canvas) {
   let newCellNum = parseInt(latticeSizeBox.value);
 
@@ -1318,7 +1843,17 @@ function updateLatticeSize(canvas) {
   clear(latticeArray); //emptys out canvas and redraws
 }
 
-//generates the tick box in its proper location
+/**
+ * Generates a tick box at the location of the mouse cursor, displaying the row and column of the lattice cell.
+ *
+ * This function is triggered by the mousemove event and checks if the mouse is inside the lattice bounds.
+ * If it is, it calculates the row and column number, and draws a tick box near the mouse pointer with
+ * the row and column number displayed. The tick box is only drawn when the tickerToggle is enabled.
+ *
+ * @param {MouseEvent} event - The mouse event containing the mouse position.
+ * @returns {void} - Draws the tick box at the proper location based on mouse position.
+ */
+
 function makeTickBox(event) {
   if (tickerToggle == 1) {
     let [mouseX, mouseY] = getMouseLocation(event); //Gets the mouse Location
@@ -1370,12 +1905,30 @@ function makeTickBox(event) {
   }
 }
 
-// Set the delay until generating next lattice when running
+/**
+ * Sets the delay between iterations when running the lattice simulation.
+ *
+ * This function updates the `iterationTime` variable to control how long the program waits before generating the next lattice.
+ * It is typically used to adjust the speed of the iteration process.
+ *
+ * @param {number} newDelay - The new delay time in milliseconds before the next lattice is generated.
+ * @returns {void} - Updates the `iterationTime` to the specified delay.
+ */
+
 function setDelay(newDelay) {
   iterationTime = newDelay;
 }
 
-//repeatly iterates while run is true
+/**
+ * Continuously iterates the lattice while the `run` flag is set to true.
+ *
+ * This function sets up a loop using `setTimeout`, where each iteration of the lattice is triggered after a delay defined by `iterationTime`.
+ * If the `run` flag is still true after each iteration, it will recursively call itself to keep iterating. If `run` is false, the iteration stops.
+ *
+ * @param {number} iterationTime - The time delay between iterations, in milliseconds.
+ * @returns {void} - Continuously runs the iteration as long as `run` is true. If `run` is false, it stops.
+ */
+
 function continouslyIterate(iterationTime) {
   //Checks if Run is activate
   if (run) {
@@ -1391,6 +1944,14 @@ function continouslyIterate(iterationTime) {
   }
 }
 
+/**
+ * Sets the value of `nSkip` based on user input for the N-value.
+ *
+ * This function retrieves the value from the input field `nInputBox`, checks if it is a valid number within the range of 2 and the lattice size (`latSize`),
+ * and updates the `nSkip` variable accordingly. If the input is invalid, it logs an error message.
+ *
+ * @returns {void} - Updates `nSkip` and logs the appropriate message if valid or an error if invalid.
+ */
 function setN() {
   let newN = parseInt(nInputBox.value);
   if (!isNaN(newN) && newN >= 2 && newN <= latSize) {
@@ -1401,6 +1962,15 @@ function setN() {
   }
 }
 
+/**
+ * Sets the cellular automaton rule based on user input.
+ *
+ * This function retrieves the rule number from the `ruleInputBox` input field, checks if it's a valid integer
+ * within the range of 0 to 255, and then updates the rule accordingly. If the rule is valid, it alters the rule number
+ * and the corresponding rule, logs the success message, and clears the lattice. If the rule is invalid, it logs an error.
+ *
+ * @returns {void} - Updates the rule and clears the lattice if valid or logs an error if invalid.
+ */
 function setRule() {
   let newRule = parseInt(ruleInputBox.value); //Turns input in rule input box into a number
   run = 0; //Tells continous to not run
@@ -1415,7 +1985,15 @@ function setRule() {
   }
 }
 
-//sets Number of Lattice arrays to have
+/**
+ * Sets the number of iterations for the lattice based on user input.
+ *
+ * This function retrieves the iteration value from the `iterationInputBox` input field, checks if it's a valid integer
+ * within the range of 0 to 10,000, and updates the `addIterations` variable. If the value is valid, it clears the lattice
+ * and logs the success message. If the value is invalid, it logs an error.
+ *
+ * @returns {number} - The updated number of iterations (addIterations) if valid.
+ */
 function setLatticeSize() {
   let newValue = parseInt(iterationInputBox.value); //Turns the iteration input to an integerpopTime
   if (!isNaN(newValue) && newValue >= 0 && newValue <= 10000) {
@@ -1428,7 +2006,18 @@ function setLatticeSize() {
   return addIterations;
 }
 
-// Gets rid of all arays except the first and sets all cells to dead (white) unless specified to keep initial lattice
+/**
+ * Clears all lattice arrays except the first one and sets all cells to dead (white),
+ * with an option to retain the initial lattice configuration.
+ *
+ * This function resets the lattice by clearing the current array, setting all cells to a default "dead" state,
+ * and reinitializes the lattice with new cells. If the `keepInit` flag is true, it preserves the color states
+ * of the initial lattice configuration. It also resets iteration values, updates the lattice, and redraws the canvas.
+ *
+ * @param {Array} latticeArray - The lattice array to be cleared and reset.
+ * @param {boolean} [keepInit=false] - Whether to preserve the initial cell states (default is false).
+ */
+
 function clear(latticeArray, keepInit = false) {
   totalDelta = 0;
   canvas.height = 400;
@@ -1490,7 +2079,19 @@ export function clearOrder() {
   alterTempOrder(tempTempOrder);
 }
 
-//Takes Coordinates of mouseClick and calculates properly where it is in relation to the canvas
+/**
+ * Takes the mouse click coordinates and calculates where it is in relation to the canvas,
+ * updating the lattice array based on the interaction.
+ *
+ * This function checks which cell the mouse clicked on and, based on whether the mouse is down or not,
+ * either flips the color of the cell or sets the color to a specific value. Additionally, it handles setup clicking
+ * by adding or removing the clicked cell from a temporary order list.
+ *
+ * @param {Array} latticeArray - The lattice array representing the grid of cells.
+ * @param {number} mouseX - The x-coordinate of the mouse click.
+ * @param {number} mouseY - The y-coordinate of the mouse click.
+ * @param {boolean} [mouseDown=false] - Whether the mouse is currently pressed (default is false).
+ */
 function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
   let neoLatticeArray = latticeArray;
   if (latticeArray.length == 1) {
@@ -1531,6 +2132,15 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
   }
 }
 
+/**
+ * Calculates the mouse position relative to the canvas, considering padding, border, and CSS scaling.
+ *
+ * This function returns the mouse coordinates in the canvas' coordinate system, accounting for potential differences
+ * in CSS styling (like padding, border, and scaling) and ensuring pixel-perfect accuracy for user interactions.
+ *
+ * @param {MouseEvent} event - The mouse event object, which provides the clientX and clientY coordinates of the mouse.
+ * @returns {Array} - An array containing the x and y coordinates of the mouse within the canvas.
+ */
 function getMouseLocation(event) {
   //Gets the posistion of the edges of canvas
   let bounds = canvas.getBoundingClientRect();
@@ -1553,6 +2163,17 @@ function getMouseLocation(event) {
   return [mouseX, mouseY];
 }
 
+/**
+ * Iterates the lattice for a specified number of iterations.
+ *
+ * This function manages the iteration process, checking if the number of iterations exceeds the allowed limit.
+ * It updates the lattice array by removing extra iterations and applies the new iteration count.
+ * After each iteration, the lattice is updated and displayed.
+ *
+ * @param {number} currentIteration - The current iteration count before the function runs.
+ * @param {number} newIterations - The number of new iterations to add during this call.
+ * @returns {number} - Returns the updated iteration count after the function completes.
+ */
 function iterate(currentIteration, newIterations) {
   setTimeout(function () {
     if (numOfIterations + newIterations > addIterations) {
@@ -1572,6 +2193,15 @@ function iterate(currentIteration, newIterations) {
   }, 5);
 }
 
+/**
+ * Stops the iteration process by setting the run flag to false.
+ *
+ * This function checks if the iteration process is currently running, and if so, it stops it by setting
+ * the `run` variable to 0. This halts any continuous iteration until explicitly started again.
+ *
+ * @returns {void}
+ */
+
 function stopIterating() {
   if (run) {
     run = 0;
@@ -1586,11 +2216,14 @@ export function toggleCheckbox() {
   clear(latticeArray, true);
 }
 
-/* Initialize toggle buttons to x position 0px to enable x translation in functions */
-iterationToggle.style.transform = "translateX(0px)";
-borderToggle.style.transform = "translateX(0px)";
-
-// Handle when iteration toggle button is activated
+/**
+ * Handles the activation of the bound toggle button: animates the button, displays checkboxes, and selects the first checkbox.
+ *
+ * This function toggles the checkbox selection when the button is activated, ensuring that the first checkbox is checked
+ * and the second checkbox is unchecked. It also clears the lattice array and resets the lattice state if necessary.
+ *
+ * @returns {void}
+ */
 function iterationToggleOption() {
   // Toggle the position of the button
   if (iterationToggle.style.transform == "translateX(0px)") {
@@ -1602,7 +2235,14 @@ function iterationToggleOption() {
   }
 }
 
-// Handle when border toggle button is activated
+/**
+ * Handles the activation of the border toggle button, switching between the on and off states.
+ *
+ * This function toggles the position of the button to visually indicate whether the border is enabled or disabled.
+ * It also logs the current state of the border (on or off) to the message queue.
+ *
+ * @returns {void}
+ */
 function borderToggleOption() {
   // Toggle the position of the button
   if (borderToggle.style.transform === "translateX(0px)") {
@@ -1614,17 +2254,15 @@ function borderToggleOption() {
   }
 }
 
-// function outputError(text) {
-// 	errorContext.font = "12px Arial";
-// 	errorContext.fillStyle = "red";
-
-// 	errorContext.fillText(text, 5, 25)
-// 		setTimeout(function(){
-
-// 	}, 750);
-// }
-
-// Handle switching GUI for Start/Stop Button upon click
+/**
+ * Toggles the Start/Stop button's appearance and functionality based on the current state.
+ *
+ * This function checks if the button is currently in the "start" or "stop" state. If it is in the "start" state,
+ * it changes the button to "stop", and if it is in the "stop" state, it switches back to "start". It also logs
+ * the current state (starting or stopping iterations) to the message queue.
+ *
+ * @returns {void}
+ */
 function startStopToggle() {
   // If the button is in start state, change it to stop state and vice versa
   if (startStopButton.classList.contains("start_button") && run) {
@@ -1639,7 +2277,16 @@ function startStopToggle() {
     makeLog("Stopping Iterations", logCanvas, messageQueue);
   }
 }
-// Handle switching GUI for Start/Stop Button upon click
+
+/**
+ * Toggles the Clear/Reset button's label and logs the corresponding action.
+ *
+ * This function checks if the Clear/Reset button is currently labeled "Reset". If it is, the label is changed
+ * to "Clear" and a log message for resetting the canvas is generated. If it is labeled "Clear", a log message
+ * for clearing the canvas is generated instead.
+ *
+ * @returns {void}
+ */
 function clearResetToggle() {
   if (clearResetButton.innerHTML.includes("Reset")) {
     clearResetButton.innerHTML = "Clear";
@@ -1648,7 +2295,16 @@ function clearResetToggle() {
     makeLog("Canvas Cleared", logCanvas, messageQueue);
   }
 }
-// Set boundary condition and ensure one and only one checkbox can be checked at a time upon checkbox click
+
+/**
+ * Handles checkbox change events for boundary condition settings and ensures only one checkbox can be checked at a time.
+ *
+ * This function listens for changes on the boundary condition checkboxes. When a checkbox is checked, it unchecks the other checkbox
+ * and sets the boundary condition accordingly. If the first checkbox is selected, the boundary condition is set to Periodic (1),
+ * and if the second checkbox is selected, it is set to Null (0). It also stops the iterations before changing the condition and clears the canvas.
+ *
+ * @returns {void}
+ */
 checkboxes.forEach(function (checkbox) {
   checkboxes[0].checked = true;
   checkbox.addEventListener("change", function () {
@@ -1680,23 +2336,51 @@ checkboxes.forEach(function (checkbox) {
   });
 });
 
-// Adds an error to message log
+/**
+ * Adds an error message to the log with a red color indicator.
+ *
+ * This function creates a log message with the given error message, sets its color to red,
+ * and then adds it to the message queue. The log is then displayed on the log canvas.
+ *
+ * @param {string} errorMessage - The error message to be logged.
+ * @param {HTMLElement} logCanvas - The HTML element representing the log canvas where the message will be displayed.
+ * @param {Array} messageQueue - The queue that holds the log messages to be displayed.
+ * @returns {void}
+ */
 function makeError(errorMessage, logCanvas, messageQueue) {
   let tempLog = new logMessage(errorMessage, "red", logCanvas);
   messageQueue.unshift(tempLog);
   displayLog(messageQueue, logCanvas);
-  //setPopLogTimer(messageQueue, logCanvas)
 }
 
-// Adds an log to message log
+/**
+ * Adds a log message to the message log with a black color indicator.
+ *
+ * This function creates a log message with the provided message, sets its color to black,
+ * and adds it to the message queue. The log is then displayed on the log canvas.
+ *
+ * @param {string} errorMessage - The log message to be displayed.
+ * @param {HTMLElement} logCanvas - The HTML element representing the log canvas where the message will be shown.
+ * @param {Array} messageQueue - The queue that holds the log messages to be displayed.
+ * @returns {void}
+ */
 function makeLog(errorMessage, logCanvas, messageQueue) {
   let tempLog = new logMessage(errorMessage, "black", logCanvas);
   messageQueue.unshift(tempLog);
   displayLog(messageQueue, logCanvas);
-  //setPopLogTimer(messageQueue, logCanvas)
 }
 
-//outputs correct elements of the message log
+/**
+ * Outputs the correct elements of the message log to the canvas.
+ *
+ * This function clears the canvas using a dummy message and then displays all messages
+ * in the message queue on the log canvas by iterating through the queue and calling
+ * the display method on each log message.
+ *
+ * @param {Array} messageQueue - The queue holding the log messages to be displayed.
+ * @param {HTMLElement} logCanvas - The HTML element representing the log canvas where the messages will be shown.
+ * @returns {void}
+ */
 function displayLog(messageQueue, logCanvas) {
   let dummyMessage = new logMessage("God Bless Ronald Reagan", "red", logCanvas); //Message used to just clear canvas
   dummyMessage.clearCanvas();
@@ -1705,7 +2389,17 @@ function displayLog(messageQueue, logCanvas) {
   }
 }
 
-// Capture canvas as a PDF upon clickling the 'Download PDF" button
+/**
+ * Handles the download of the canvas content as a PDF when the download button is clicked.
+ *
+ * This function extracts the image data from the canvas, calculates the correct aspect ratio for both the canvas 
+ * and the PDF, and adjusts the image size to fit the PDF page. It then centers the image on the page and saves the 
+ * PDF with a filename that includes the number of iterations, rule number, and lattice size. 
+ * Afterward, a log message is added to the message queue indicating that the canvas has been downloaded.
+ *
+ * @param {MouseEvent} event - The event triggered when the download button is clicked.
+ * @returns {void}
+ */
 downloadPDFButton.addEventListener("click", function () {
   let imgData = canvas.toDataURL("image/png"); // Get the image data from the canvas
   let pdf = new jsPDF("p", "pt", [canvas.width, canvas.height]); // Create a new PDF document with the canvas dimensions as page size
@@ -1737,7 +2431,17 @@ downloadPDFButton.addEventListener("click", function () {
   makeLog("Downloaded Canvas", logCanvas, messageQueue);
 });
 
-// Capture canvas as a PNG upon clickling the 'Download PNG" button
+/**
+ * Captures the canvas content as a PNG and downloads it when the 'Download PNG' button is clicked.
+ *
+ * This function retrieves the image data from the canvas in PNG format, creates an anchor element, 
+ * sets the download URL to the image data, and automatically triggers the download by simulating a click. 
+ * The file is saved with a filename that includes the number of iterations, rule number, and lattice size. 
+ * After the download, a log message is added to the message queue indicating that the canvas has been downloaded.
+ *
+ * @param {MouseEvent} event - The event triggered when the 'Download PNG' button is clicked.
+ * @returns {void}
+ */
 downloadPNGButton.addEventListener("click", function () {
   let image = canvas.toDataURL(); // Get the image data from the canvas. Default is png
   let link = document.createElement("a"); // Create a new anchor element to create a downloadable link
@@ -1747,8 +2451,17 @@ downloadPNGButton.addEventListener("click", function () {
   makeLog("Downloaded Canvas", logCanvas, messageQueue);
 });
 
-/* Handle open and closing of options window */
-// Options button is clicked, display options window
+/**
+ * Toggles the visibility of the options window when the options button is clicked.
+ *
+ * This function checks the current display state of the options window. If the window is visible, 
+ * it hides the window by setting the `display` style to "none". If the window is hidden, 
+ * it makes the window visible by setting the `display` style to "block". 
+ * This allows the user to open or close the options window using the options button.
+ *
+ * @param {MouseEvent} event - The event triggered when the options button is clicked.
+ * @returns {void}
+ */
 optionsButton.addEventListener("click", function () {
   // If options window is displayed, hide it; if hidden, display it
   if (optionsWindow.style.display == "block") {
@@ -1758,17 +2471,45 @@ optionsButton.addEventListener("click", function () {
   }
 });
 
-// Close if x (close) button in top right of the window is clicked
+/**
+ * Closes the options window when the close button (x) in the top right is clicked.
+ *
+ * This function sets the `display` style of the options window to "none", 
+ * effectively hiding it when the close button is clicked. 
+ * It ensures that the options window is closed by the user interaction with the close button.
+ *
+ * @param {MouseEvent} event - The event triggered when the close button is clicked.
+ * @returns {void}
+ */
 closeOptions.addEventListener("click", function () {
   optionsWindow.style.display = "none";
 });
 
-// Update the current iteration speed slider value upon drag
+/**
+ * Updates the current iteration speed value and sets the delay based on the slider value.
+ *
+ * This function updates the displayed iteration speed value whenever the slider is dragged, 
+ * and adjusts the iteration delay based on the new slider value. The `setDelay` function 
+ * is called to apply the updated speed.
+ *
+ * @param {InputEvent} event - The event triggered when the slider value changes.
+ * @returns {void}
+ */
 iterationSpeedSlider.oninput = function () {
   iterationSpeedValue.innerHTML = this.value;
   setDelay(this.value);
 };
 
+/**
+ * Debounces a function call to ensure it is only triggered after a specified delay.
+ *
+ * This function ensures that the `callback` function is only called once after a specified 
+ * delay (25ms) has passed since the last invocation. It clears any previous timeouts 
+ * to prevent multiple rapid calls to the callback within a short time span.
+ *
+ * @param {Function} callback - The function to be debounced, which will be executed after the delay.
+ * @returns {Function} - A debounced version of the callback function that accepts an event object.
+ */
 function debounce(callback) {
   let timeoutId;
 
@@ -1780,7 +2521,16 @@ function debounce(callback) {
   };
 }
 
-//This is a debounce designed for slide since temp array needs to update before next cell can be clicked
+/**
+ * A short debounce function for sliding events to update a temporary array before the next cell can be clicked.
+ *
+ * This function ensures that the `callback` is executed only after a small delay (5ms) has passed 
+ * since the last event, allowing the temporary array to be updated without firing too many function calls 
+ * in quick succession during sliding actions.
+ *
+ * @param {Function} callback - The function to be debounced, executed after the short delay.
+ * @returns {Function} - A debounced version of the callback function that accepts an event object.
+ */
 function shortDebounce(callback) {
   let timeoutId;
 
@@ -1792,5 +2542,8 @@ function shortDebounce(callback) {
   };
 }
 
+/* Initialize toggle buttons to x position 0px to enable x translation in functions */
+iterationToggle.style.transform = "translateX(0px)";
+borderToggle.style.transform = "translateX(0px)";
 iterationSpeedValue.innerHTML = 750; // Sets displayed default iteration speed value
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
