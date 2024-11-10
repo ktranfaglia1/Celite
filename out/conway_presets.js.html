@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: conway/presets.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: conway/presets.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * presets.js
+ *
+ * Summary:
+ *   This script provides a set of functions for manipulating and updating the lattice grid for the Game of Life (GOL) simulation.
+ *   It includes functions to create initial configurations, update the lattice, and build specific GOL patterns, such as gliders and oscillators.
+ *
+ * Features:
+ *   - Supports the creation of various Game of Life patterns, such as gliders, 101, and others.
+ *   - Provides functions for lattice grid manipulation, including setting cell values and recalculating neighbors.
+ *   - Allows updating the visual grid based on changes in the lattice configuration.
+ *
+ * Functions:
+ *   - createNewConfig: Creates and returns a new lattice configuration for the Game of Life.
+ *   - setLattice: Updates the visual lattice with a new lattice configuration.
+ *   - xCenter: Calculates and returns the center X coordinate of the visible lattice bounds.
+ *   - yCenter: Calculates and returns the center Y coordinate of the visible lattice bounds.
+ *   - buildGlider: Creates a simple glider pattern in the lattice configuration.
+ *   - build101: Builds a "101" pattern in the lattice configuration.
+ *   - build119: Builds a "119" pattern in the lattice configuration.
+ *   - build1234: Builds a "1234" pattern in the lattice configuration.
+ *   - build295: Builds a "295" pattern in the lattice configuration.
+ *   - buildGtoG: Builds a "GtoG" pattern in the lattice configuration.
+ *   - build60P: Builds a "60P" pattern in the lattice configuration.
+ *   - buildAK94: Builds an "AK94" pattern in the lattice configuration.
+ *   - buildTrigger: Builds a "Trigger" pattern in the lattice configuration.
+ *   - buildSnail: Builds a "Snail" pattern in the lattice configuration.
+ *   - buildTub: Builds a "Tub" pattern in the lattice configuration.
+ *
+ * Dependencies:
+ *   - latticeArray, recountNeighbors, visBounds from './generateLattice.js'
+ *   - createVis, visLatticeArray from './generateLattice.js'
+ *   - displayLattice from './displayLattice.js'
+ *   - clear from './UIFunctionality.js'
+ *
+ * Authors:
+ *   - Dustin O'Brien
+ */
+
+//IMPORTS
+import { latticeArray, recountNeighbors, visBounds } from "./generateLattice.js";
+import { createVis, visLatticeArray } from "./generateLattice.js";
+import { displayLattice } from "./displayLattice.js";
+import { clear } from "./UIFunctionality.js";
+
+//EXPORTS
+/**
+ * Creates an initial configuration array (lattice) based on visible bounds,
+ * used for setting up the grid with a default state.
+ *
+ * @function createNewConfig
+ * @returns {Array&lt;Array&lt;number>>} - Returns a 2D array (lattice) initialized to 0s,
+ * representing the initial configuration of cells.
+ */
+export function createNewConfig() {
+  let newLattice = new Array(new Array());
+  //Create new lattice to correspond to visible lattice
+  for (let i = 0; i &lt; visBounds[3] - visBounds[1]; i++) {
+    let dummyArr = new Array();
+    for (let f = 0; f &lt; visBounds[2] - visBounds[0]; f++) {
+      dummyArr.push(0);
+    }
+    newLattice.push(dummyArr);
+  }
+  newLattice.shift();
+  return newLattice;
+}
+
+/**
+ * Sets the visual lattice to a new lattice configuration and updates the display.
+ * Clears the current lattice, updates cell states to match `newLattice`, and refreshes the view.
+ *
+ * @function setLattice
+ * @param {Array&lt;Array&lt;number>>} newLattice - The new lattice configuration, a 2D array with each cell's state.
+ * @returns {void}
+ */
+export function setLattice(newLattice) {
+  clear();
+  //Iterates through every lattice and sets to the same value as the new lattice
+  if (latticeArray.length == newLattice.length &amp;&amp; latticeArray[0].length == newLattice[0].length) {
+    for (let i = 0; i &lt; newLattice.length; i++) {
+      for (let j = 0; j &lt; newLattice[0].length; j++) {
+        latticeArray[i][j] = newLattice[i][j];
+      }
+    }
+  } else {
+    for (let i = 0; i &lt; newLattice.length; i++) {
+      for (let j = 0; j &lt; newLattice[0].length; j++) {
+        latticeArray[i + visBounds[0]][j + visBounds[1]] = newLattice[i][j];
+      }
+    }
+  }
+
+  recountNeighbors();
+  createVis();
+  displayLattice(visLatticeArray);
+}
+
+/**
+ * Returns the horizontal center of the visible lattice bounds.
+ * Calculates the center based on the difference between the right and left bounds.
+ *
+ * @function xCenter
+ * @returns {number} The horizontal center of the visible lattice area.
+ */
+export function xCenter() {
+  return Math.floor((visBounds[2] - visBounds[0]) / 2);
+}
+
+/**
+ * Returns the vertical center of the visible lattice bounds.
+ * Calculates the center based on the difference between the bottom and top bounds.
+ *
+ * @function yCenter
+ * @returns {number} The vertical center of the visible lattice area.
+ */
+export function yCenter() {
+  return Math.floor((visBounds[3] - visBounds[1]) / 2);
+}
+
+//All the following functions are to create library presets
+
+/**
+ * Creates a simple Glider pattern in the Game of Life.
+ * Initializes a blank lattice and then sets the appropriate cells to form the Glider pattern.
+ *
+ * A Glider is a small, moving pattern in Conway's Game of Life that "glides" across the grid.
+ * The specific pattern is a 3x3 set of cells arranged to form a diagonal movement.
+ *
+ * @function buildGlider
+ * @returns {void}
+ */
+export function buildGlider() {
+  //Makes the intial blank Lattice
+  let newLattice = createNewConfig();
+
+  //Sets each of the indexes of the new lattice
+  newLattice[yCenter() + 1][xCenter()] = 1;
+  newLattice[yCenter()][xCenter() + 1] = 1;
+  newLattice[yCenter() + 1][xCenter() + 1] = 1;
+  newLattice[yCenter() + 1][xCenter() - 1] = 1;
+  newLattice[yCenter() - 1][xCenter()] = 1;
+  //sets display lattice to new lattice
+  setLattice(newLattice);
+}
+
+/**
+ * Creates a "101" pattern in the Game of Life based on an existing configuration.
+ * This pattern typically consists of a specific arrangement of cells that forms a recognizable
+ * shape in Conway's Game of Life. It is often used as a starting point or an intermediary
+ * structure in simulations.
+ *
+ * @function build101
+ * @returns {void}
+ */
+export function build101() {
+  //Makes the intial blank Lattice
+  let newLattice = createNewConfig();
+
+  //Sets each of the indexes of the new lattice
+  // The O
+  newLattice[yCenter() + 1][xCenter()] = 1;
+  newLattice[yCenter()][xCenter() + 1] = 1;
+  newLattice[yCenter() + 1][xCenter + 1] = 1;
+  newLattice[yCenter() + 1][xCenter() - 1] = 1;
+  newLattice[yCenter() - 1][xCenter() + 1] = 1;
+  newLattice[yCenter() - 2][xCenter()] = 1;
+  newLattice[yCenter() - 2][xCenter() - 1] = 1;
+  newLattice[yCenter() - 1][xCenter() - 2] = 1;
+  newLattice[yCenter()][xCenter() - 2] = 1;
+
+  // Left |
+  newLattice[yCenter() - 1][xCenter() - 4] = 1;
+  newLattice[yCenter() - 2][xCenter() - 4] = 1;
+  newLattice[yCenter()][xCenter() - 4] = 1;
+  newLattice[yCenter() + 1][xCenter() - 4] = 1;
+
+  // Right |
+  newLattice[yCenter() - 1][xCenter() + 3] = 1;
+  newLattice[yCenter() - 2][xCenter() + 3] = 1;
+  newLattice[yCenter()][xCenter() + 3] = 1;
+  newLattice[yCenter() + 1][xCenter() + 3] = 1;
+
+  // Left {
+  //Top Left &lt;
+  newLattice[yCenter() - 5][xCenter() - 4] = 1;
+  newLattice[yCenter() - 6][xCenter() - 4] = 1;
+  newLattice[yCenter() - 6][xCenter() - 5] = 1;
+
+  //Right |
+  newLattice[yCenter() - 5][xCenter() - 6] = 1;
+  newLattice[yCenter() - 4][xCenter() - 6] = 1;
+  newLattice[yCenter() - 3][xCenter() - 6] = 1;
+  newLattice[yCenter() - 2][xCenter() - 6] = 1;
+  newLattice[yCenter() - 1][xCenter() - 6] = 1;
+  newLattice[yCenter() - 0][xCenter() - 6] = 1;
+  newLattice[yCenter() + 1][xCenter() - 6] = 1;
+  newLattice[yCenter() + 2][xCenter() - 6] = 1;
+  newLattice[yCenter() + 3][xCenter() - 6] = 1;
+  newLattice[yCenter() + 4][xCenter() - 6] = 1;
+
+  //Bottom Right &lt;
+  newLattice[yCenter() + 4][xCenter() - 4] = 1;
+  newLattice[yCenter() + 5][xCenter() - 4] = 1;
+  newLattice[yCenter() + 5][xCenter() - 5] = 1;
+
+  //Top Left []
+  newLattice[yCenter() - 3][xCenter() - 8] = 1;
+  newLattice[yCenter() - 2][xCenter() - 8] = 1;
+  newLattice[yCenter() - 3][xCenter() - 9] = 1;
+  newLattice[yCenter() - 2][xCenter() - 9] = 1;
+
+  //Bottom Left []
+  newLattice[yCenter() + 1][xCenter() - 8] = 1;
+  newLattice[yCenter() + 2][xCenter() - 8] = 1;
+  newLattice[yCenter() + 1][xCenter() - 9] = 1;
+  newLattice[yCenter() + 2][xCenter() - 9] = 1;
+
+  // Right }
+  //Top Left >
+  newLattice[yCenter() - 5][xCenter() + 3] = 1;
+  newLattice[yCenter() - 6][xCenter() + 3] = 1;
+  newLattice[yCenter() - 6][xCenter() + 4] = 1;
+
+  //Left |
+  newLattice[yCenter() - 5][xCenter() + 5] = 1;
+  newLattice[yCenter() - 4][xCenter() + 5] = 1;
+  newLattice[yCenter() - 2][xCenter() + 5] = 1;
+  newLattice[yCenter() - 3][xCenter() + 5] = 1;
+  newLattice[yCenter() - 1][xCenter() + 5] = 1;
+  newLattice[yCenter() - 0][xCenter() + 5] = 1;
+  newLattice[yCenter() + 1][xCenter() + 5] = 1;
+  newLattice[yCenter() + 2][xCenter() + 5] = 1;
+  newLattice[yCenter() + 3][xCenter() + 5] = 1;
+  newLattice[yCenter() + 4][xCenter() + 5] = 1;
+
+  //Bottom Left &lt;
+  newLattice[yCenter() + 4][xCenter() + 3] = 1;
+  newLattice[yCenter() + 5][xCenter() + 3] = 1;
+  newLattice[yCenter() + 5][xCenter() + 4] = 1;
+
+  //Top Right []
+  newLattice[yCenter() - 3][xCenter() + 7] = 1;
+  newLattice[yCenter() - 2][xCenter() + 7] = 1;
+  newLattice[yCenter() - 3][xCenter() + 8] = 1;
+  newLattice[yCenter() - 2][xCenter() + 8] = 1;
+
+  //Bottom Right []
+  newLattice[yCenter() + 1][xCenter() + 7] = 1;
+  newLattice[yCenter() + 2][xCenter() + 7] = 1;
+  newLattice[yCenter() + 1][xCenter() + 8] = 1;
+  newLattice[yCenter() + 2][xCenter() + 8] = 1;
+  setLattice(newLattice);
+}
+
+/**
+ * Creates a "119" pattern in the Game of Life.
+ * The "119" pattern is a specific configuration of cells that evolves according to the rules of Conway's Game of Life.
+ * This function sets up the initial state of the "119" pattern, which can be used in simulations or experiments.
+ *
+ * @function build119
+ * @returns {void}
+ */
+export function build119() {
+  let newLattice = createNewConfig();
+
+  //Makes cap &lt;
+  newLattice[yCenter()][xCenter() - 28] = 1;
+  newLattice[yCenter() + 1][xCenter() - 27] = 1;
+  newLattice[yCenter() - 1][xCenter() - 27] = 1;
+  newLattice[yCenter() + 2][xCenter() - 27] = 1;
+  newLattice[yCenter() - 2][xCenter() - 27] = 1;
+
+  //Makes Head [
+  //Top Ear
+  newLattice[yCenter() - 2][xCenter() - 24] = 1;
+  newLattice[yCenter() - 3][xCenter() - 24] = 1;
+  newLattice[yCenter() - 1][xCenter() - 24] = 1;
+  newLattice[yCenter() - 3][xCenter() - 23] = 1;
+  newLattice[yCenter() - 2][xCenter() - 23] = 1;
+
+  //Bottom Ear
+  newLattice[yCenter() + 3][xCenter() - 24] = 1;
+  newLattice[yCenter() + 2][xCenter() - 24] = 1;
+  newLattice[yCenter() + 1][xCenter() - 24] = 1;
+  newLattice[yCenter() + 3][xCenter() - 23] = 1;
+  newLattice[yCenter() + 2][xCenter() - 23] = 1;
+
+  //Makes Shoulders
+  //Top Shoulder
+  newLattice[yCenter() + 5][xCenter() - 22] = 1;
+  newLattice[yCenter() + 6][xCenter() - 22] = 1;
+  newLattice[yCenter() + 7][xCenter() - 22] = 1;
+
+  //Bottom Shoulder
+  newLattice[yCenter() - 5][xCenter() - 22] = 1;
+  newLattice[yCenter() - 6][xCenter() - 22] = 1;
+  newLattice[yCenter() - 7][xCenter() - 22] = 1;
+
+  //Fingers
+  newLattice[yCenter() - 7][xCenter() - 20] = 1;
+  newLattice[yCenter() + 7][xCenter() - 20] = 1;
+
+  //Makes Chest
+  //Top Rib
+  newLattice[yCenter() - 5][xCenter() - 20] = 1;
+  newLattice[yCenter() - 5][xCenter() - 19] = 1;
+  newLattice[yCenter() - 4][xCenter() - 19] = 1;
+  newLattice[yCenter() - 5][xCenter() - 18] = 1;
+  newLattice[yCenter() - 5][xCenter() - 17] = 1;
+  newLattice[yCenter() - 5][xCenter() - 16] = 1;
+  newLattice[yCenter() - 5][xCenter() - 15] = 1;
+  newLattice[yCenter() - 6][xCenter() - 17] = 1;
+  newLattice[yCenter() - 5][xCenter() - 14] = 1;
+  newLattice[yCenter() - 5][xCenter() - 13] = 1;
+  newLattice[yCenter() - 4][xCenter() - 13] = 1;
+
+  //Bottom Rib
+  newLattice[yCenter() + 5][xCenter() - 20] = 1;
+  newLattice[yCenter() + 5][xCenter() - 19] = 1;
+  newLattice[yCenter() + 4][xCenter() - 19] = 1;
+  newLattice[yCenter() + 5][xCenter() - 18] = 1;
+  newLattice[yCenter() + 5][xCenter() - 17] = 1;
+  newLattice[yCenter() + 5][xCenter() - 16] = 1;
+  newLattice[yCenter() + 5][xCenter() - 15] = 1;
+  newLattice[yCenter() + 6][xCenter() - 17] = 1;
+  newLattice[yCenter() + 5][xCenter() - 14] = 1;
+  newLattice[yCenter() + 5][xCenter() - 13] = 1;
+  newLattice[yCenter() + 4][xCenter() - 13] = 1;
+
+  //Pecs
+  newLattice[yCenter() - 2][xCenter() - 15] = 1;
+  newLattice[yCenter() - 2][xCenter() - 14] = 1;
+  newLattice[yCenter() + 2][xCenter() - 14] = 1;
+  newLattice[yCenter() + 2][xCenter() - 15] = 1;
+
+  //Makes Hands
+  newLattice[yCenter() - 6][xCenter() - 12] = 1;
+  newLattice[yCenter() - 7][xCenter() - 13] = 1;
+  newLattice[yCenter() - 8][xCenter() - 12] = 1;
+
+  newLattice[yCenter() + 6][xCenter() - 12] = 1;
+  newLattice[yCenter() + 7][xCenter() - 13] = 1;
+  newLattice[yCenter() + 8][xCenter() - 12] = 1;
+
+  //Makes Hips
+  //Top Hip
+  newLattice[yCenter() - 6][xCenter() - 10] = 1;
+  newLattice[yCenter() - 6][xCenter() - 9] = 1;
+  newLattice[yCenter() - 6][xCenter() - 8] = 1;
+  newLattice[yCenter() - 6][xCenter() - 7] = 1;
+  newLattice[yCenter() - 7][xCenter() - 7] = 1;
+  newLattice[yCenter() - 7][xCenter() - 6] = 1;
+  newLattice[yCenter() - 6][xCenter() - 6] = 1;
+  newLattice[yCenter() - 6][xCenter() - 5] = 1;
+
+  //Bottom Hip
+  newLattice[yCenter() + 6][xCenter() - 10] = 1;
+  newLattice[yCenter() + 6][xCenter() - 9] = 1;
+  newLattice[yCenter() + 6][xCenter() - 8] = 1;
+  newLattice[yCenter() + 6][xCenter() - 7] = 1;
+  newLattice[yCenter() + 7][xCenter() - 7] = 1;
+  newLattice[yCenter() + 7][xCenter() - 6] = 1;
+  newLattice[yCenter() + 6][xCenter() - 6] = 1;
+  newLattice[yCenter() + 6][xCenter() - 5] = 1;
+
+  //Makes Quads
+  //Top Quad
+  newLattice[yCenter() - 4][xCenter() - 5] = 1;
+  newLattice[yCenter() - 3][xCenter() - 5] = 1;
+  newLattice[yCenter() - 2][xCenter() - 5] = 1;
+  newLattice[yCenter() - 4][xCenter() - 4] = 1;
+  newLattice[yCenter() - 3][xCenter() - 4] = 1;
+  newLattice[yCenter() - 2][xCenter() - 4] = 1;
+  newLattice[yCenter() - 4][xCenter() - 3] = 1;
+  newLattice[yCenter() - 3][xCenter() - 3] = 1;
+  newLattice[yCenter() - 4][xCenter() - 2] = 1;
+  newLattice[yCenter() - 5][xCenter() - 2] = 1;
+  newLattice[yCenter() - 3][xCenter() - 1] = 1;
+
+  //Bottom Quad
+  newLattice[yCenter() + 4][xCenter() - 5] = 1;
+  newLattice[yCenter() + 3][xCenter() - 5] = 1;
+  newLattice[yCenter() + 2][xCenter() - 5] = 1;
+  newLattice[yCenter() + 4][xCenter() - 4] = 1;
+  newLattice[yCenter() + 3][xCenter() - 4] = 1;
+  newLattice[yCenter() + 2][xCenter() - 4] = 1;
+  newLattice[yCenter() + 4][xCenter() - 3] = 1;
+  newLattice[yCenter() + 3][xCenter() - 3] = 1;
+  newLattice[yCenter() + 4][xCenter() - 2] = 1;
+  newLattice[yCenter() + 5][xCenter() - 2] = 1;
+  newLattice[yCenter() + 3][xCenter() - 1] = 1;
+
+  //Makes Legs
+  //Knee caps
+  newLattice[yCenter() - 6][xCenter()] = 1;
+  newLattice[yCenter() - 6][xCenter() + 1] = 1;
+  newLattice[yCenter() - 5][xCenter() + 1] = 1;
+
+  newLattice[yCenter() + 6][xCenter()] = 1;
+  newLattice[yCenter() + 6][xCenter() + 1] = 1;
+  newLattice[yCenter() + 5][xCenter() + 1] = 1;
+
+  //Top Heel
+  newLattice[yCenter() - 5][xCenter() + 3] = 1;
+  newLattice[yCenter() - 4][xCenter() + 3] = 1;
+  newLattice[yCenter() - 5][xCenter() + 4] = 1;
+  newLattice[yCenter() - 4][xCenter() + 4] = 1;
+  newLattice[yCenter() - 5][xCenter() + 5] = 1;
+  newLattice[yCenter() - 4][xCenter() + 5] = 1;
+
+  //Bottom Heel
+  newLattice[yCenter() + 5][xCenter() + 3] = 1;
+  newLattice[yCenter() + 4][xCenter() + 3] = 1;
+  newLattice[yCenter() + 5][xCenter() + 4] = 1;
+  newLattice[yCenter() + 4][xCenter() + 4] = 1;
+  newLattice[yCenter() + 5][xCenter() + 5] = 1;
+  newLattice[yCenter() + 4][xCenter() + 5] = 1;
+
+  //Toes
+  newLattice[yCenter() - 7][xCenter() + 3] = 1;
+  newLattice[yCenter() - 8][xCenter() + 4] = 1;
+  newLattice[yCenter() - 9][xCenter() + 5] = 1;
+  newLattice[yCenter() - 8][xCenter() + 6] = 1;
+
+  newLattice[yCenter() + 7][xCenter() + 3] = 1;
+  newLattice[yCenter() + 8][xCenter() + 4] = 1;
+  newLattice[yCenter() + 9][xCenter() + 5] = 1;
+  newLattice[yCenter() + 8][xCenter() + 6] = 1;
+  setLattice(newLattice);
+}
+
+/**
+ * Creates a "1234" pattern in the Game of Life.
+ * The "1234" pattern is a specific configuration of cells that evolves according to the rules of Conway's Game of Life.
+ * This function sets up the initial state of the "1234" pattern, which can be used in simulations or experiments.
+ *
+ * @function build1234
+ * @returns {void}
+ */
+export function build1234() {
+  let newLattice = createNewConfig();
+
+  //Windows
+  newLattice[yCenter()][xCenter()] = 1;
+  newLattice[yCenter() - 2][xCenter()] = 1;
+
+  //Top
+  newLattice[yCenter() - 3][xCenter() - 1] = 1;
+  newLattice[yCenter() - 3][xCenter() - 1] = 1;
+  newLattice[yCenter() - 4][xCenter()] = 1;
+  newLattice[yCenter() - 3][xCenter() + 1] = 1;
+
+  //Walls
+  //Left Wall
+  newLattice[yCenter() - 2][xCenter() - 2] = 1;
+  newLattice[yCenter() - 1][xCenter() - 2] = 1;
+  newLattice[yCenter() - 0][xCenter() - 2] = 1;
+
+  //Right Wall
+  newLattice[yCenter() - 0][xCenter() + 2] = 1;
+  newLattice[yCenter() - 2][xCenter() + 2] = 1;
+  newLattice[yCenter() - 1][xCenter() + 2] = 1;
+
+  //Wings
+  //Left Fin
+  newLattice[yCenter() + 1][xCenter() - 3] = 1;
+  newLattice[yCenter()][xCenter() - 4] = 1;
+  newLattice[yCenter()][xCenter() - 5] = 1;
+  newLattice[yCenter() + 1][xCenter() - 5] = 1;
+
+  //Right Fin
+  newLattice[yCenter() + 1][xCenter() + 3] = 1;
+  newLattice[yCenter() + 0][xCenter() + 4] = 1;
+  newLattice[yCenter() + 0][xCenter() + 5] = 1;
+  newLattice[yCenter() + 1][xCenter() + 5] = 1;
+
+  //Bottom Sail
+  newLattice[yCenter() + 2][xCenter() + 2] = 1;
+  newLattice[yCenter() + 2][xCenter() + 1] = 1;
+  newLattice[yCenter() + 2][xCenter() + 0] = 1;
+  newLattice[yCenter() + 2][xCenter() - 1] = 1;
+  newLattice[yCenter() + 2][xCenter() - 2] = 1;
+
+  //Bottom Booper
+  newLattice[yCenter() + 4][xCenter()] = 1;
+  newLattice[yCenter() + 6][xCenter()] = 1;
+  newLattice[yCenter() + 5][xCenter() - 1] = 1;
+  newLattice[yCenter() + 5][xCenter() + 1] = 1;
+  setLattice(newLattice);
+}
+
+/**
+ * Creates a "295" pattern in the Game of Life.
+ * The "295" pattern is a specific configuration of cells that follows the rules of Conway's Game of Life.
+ * This function initializes the "295" pattern, which can be used for simulations or experiments.
+ *
+ * @function build295
+ * @returns {void}
+ */
+export function build295() {
+  let newLattice = createNewConfig();
+
+  //Hat
+  newLattice[yCenter() - 20][xCenter() - 20] = 1;
+  newLattice[yCenter() - 19][xCenter() - 20] = 1;
+  newLattice[yCenter() - 20][xCenter() - 19] = 1;
+
+  newLattice[yCenter() - 21][xCenter() - 19] = 1;
+  newLattice[yCenter() - 21][xCenter() - 18] = 1;
+  newLattice[yCenter() - 21][xCenter() - 17] = 1;
+  newLattice[yCenter() - 22][xCenter() - 17] = 1;
+  newLattice[yCenter() - 22][xCenter() - 18] = 1;
+
+  newLattice[yCenter() - 19][xCenter() - 21] = 1;
+  newLattice[yCenter() - 18][xCenter() - 21] = 1;
+  newLattice[yCenter() - 17][xCenter() - 21] = 1;
+  newLattice[yCenter() - 18][xCenter() - 22] = 1;
+  newLattice[yCenter() - 17][xCenter() - 22] = 1;
+
+  //Beetle
+  //Left Beetle Head
+  newLattice[yCenter() - 17][xCenter() - 19] = 1;
+  newLattice[yCenter() - 16][xCenter() - 19] = 1;
+  newLattice[yCenter() - 15][xCenter() - 18] = 1;
+  newLattice[yCenter() - 15][xCenter() - 17] = 1;
+  newLattice[yCenter() - 15][xCenter() - 16] = 1;
+  newLattice[yCenter() - 14][xCenter() - 16] = 1;
+  newLattice[yCenter() - 14][xCenter() - 17] = 1;
+  newLattice[yCenter() - 13][xCenter() - 17] = 1;
+  newLattice[yCenter() - 12][xCenter() - 17] = 1;
+
+  //Right Beetle Head
+  newLattice[yCenter() - 16][xCenter() - 15] = 1;
+  newLattice[yCenter() - 16][xCenter() - 14] = 1;
+  newLattice[yCenter() - 17][xCenter() - 15] = 1;
+  newLattice[yCenter() - 17][xCenter() - 14] = 1;
+  newLattice[yCenter() - 18][xCenter() - 15] = 1;
+  newLattice[yCenter() - 17][xCenter() - 13] = 1;
+  newLattice[yCenter() - 17][xCenter() - 12] = 1;
+  newLattice[yCenter() - 19][xCenter() - 16] = 1;
+  newLattice[yCenter() - 19][xCenter() - 17] = 1;
+
+  //Left Beetle Body
+  newLattice[yCenter() - 11][xCenter() - 16] = 1;
+  newLattice[yCenter() - 11][xCenter() - 15] = 1;
+  newLattice[yCenter() - 11][xCenter() - 14] = 1;
+  newLattice[yCenter() - 11][xCenter() - 13] = 1;
+  newLattice[yCenter() - 11][xCenter() - 12] = 1;
+  newLattice[yCenter() - 12][xCenter() - 14] = 1;
+
+  //Right Beetle Body
+  newLattice[yCenter() - 12][xCenter() - 11] = 1;
+  newLattice[yCenter() - 13][xCenter() - 11] = 1;
+  newLattice[yCenter() - 14][xCenter() - 11] = 1;
+  newLattice[yCenter() - 15][xCenter() - 11] = 1;
+  newLattice[yCenter() - 16][xCenter() - 11] = 1;
+  newLattice[yCenter() - 14][xCenter() - 12] = 1;
+
+  //Left Beetle Foot
+  newLattice[yCenter() - 10][xCenter() - 16] = 1;
+  newLattice[yCenter() - 9][xCenter() - 15] = 1;
+  newLattice[yCenter() - 8][xCenter() - 14] = 1;
+  newLattice[yCenter() - 8][xCenter() - 16] = 1;
+
+  //Right Beetle Foot
+  newLattice[yCenter() - 16][xCenter() - 10] = 1;
+  newLattice[yCenter() - 15][xCenter() - 9] = 1;
+  newLattice[yCenter() - 14][xCenter() - 8] = 1;
+  newLattice[yCenter() - 16][xCenter() - 8] = 1;
+
+  //Wings
+  //Left Wing
+  newLattice[yCenter() - 12][xCenter() - 19] = 1;
+  newLattice[yCenter() - 12][xCenter() - 20] = 1;
+  newLattice[yCenter() - 12][xCenter() - 21] = 1;
+  newLattice[yCenter() - 12][xCenter() - 22] = 1;
+
+  newLattice[yCenter() - 11][xCenter() - 20] = 1;
+  newLattice[yCenter() - 11][xCenter() - 21] = 1;
+  newLattice[yCenter() - 11][xCenter() - 22] = 1;
+
+  newLattice[yCenter() - 9][xCenter() - 21] = 1;
+  newLattice[yCenter() - 10][xCenter() - 21] = 1;
+  newLattice[yCenter() - 10][xCenter() - 23] = 1;
+  newLattice[yCenter() - 9][xCenter() - 22] = 1;
+  newLattice[yCenter() - 9][xCenter() - 23] = 1;
+
+  //Left Glitter
+  newLattice[yCenter() - 9][xCenter() - 19] = 1;
+  newLattice[yCenter() - 7][xCenter() - 22] = 1;
+
+  //Right Wing
+  newLattice[yCenter() + -22][xCenter() + -11] = 1;
+  newLattice[yCenter() + -21][xCenter() + -11] = 1;
+  newLattice[yCenter() + -20][xCenter() + -11] = 1;
+  newLattice[yCenter() + -23][xCenter() + -10] = 1;
+  newLattice[yCenter() + -23][xCenter() + -9] = 1;
+  newLattice[yCenter() + -22][xCenter() + -9] = 1;
+  newLattice[yCenter() + -21][xCenter() + -9] = 1;
+  newLattice[yCenter() + -21][xCenter() + -10] = 1;
+  newLattice[yCenter() + -22][xCenter() + -7] = 1;
+  newLattice[yCenter() + -19][xCenter() + -9] = 1;
+
+  newLattice[yCenter() + -19][xCenter() + -12] = 1;
+  newLattice[yCenter() + -20][xCenter() + -12] = 1;
+  newLattice[yCenter() + -21][xCenter() + -12] = 1;
+  newLattice[yCenter() + -22][xCenter() + -12] = 1;
+  newLattice[yCenter() + -7][xCenter() + -18] = 1;
+  newLattice[yCenter() + -6][xCenter() + -19] = 1;
+  newLattice[yCenter() + -5][xCenter() + -20] = 1;
+  newLattice[yCenter() + -4][xCenter() + -18] = 1;
+  newLattice[yCenter() + -3][xCenter() + -18] = 1;
+  newLattice[yCenter() + -18][xCenter() + -7] = 1;
+  newLattice[yCenter() + -19][xCenter() + -6] = 1;
+  newLattice[yCenter() + -20][xCenter() + -5] = 1;
+  newLattice[yCenter() + -18][xCenter() + -4] = 1;
+  newLattice[yCenter() + -18][xCenter() + -3] = 1;
+
+  newLattice[yCenter() + -9][xCenter() + -11] = 1;
+  newLattice[yCenter() + -8][xCenter() + -11] = 1;
+  newLattice[yCenter() + -7][xCenter() + -11] = 1;
+  newLattice[yCenter() + -6][xCenter() + -11] = 1;
+  newLattice[yCenter() + -5][xCenter() + -11] = 1;
+  newLattice[yCenter() + -4][xCenter() + -11] = 1;
+  newLattice[yCenter() + -3][xCenter() + -11] = 1;
+  newLattice[yCenter() + -7][xCenter() + -12] = 1;
+  newLattice[yCenter() + -2][xCenter() + -10] = 1;
+  newLattice[yCenter() + -1][xCenter() + -10] = 1;
+  newLattice[yCenter() + -1][xCenter() + -11] = 1;
+  newLattice[yCenter() + -5][xCenter() + -10] = 1;
+  newLattice[yCenter() + -5][xCenter() + -9] = 1;
+  newLattice[yCenter() + -4][xCenter() + -9] = 1;
+  newLattice[yCenter() + -3][xCenter() + -9] = 1;
+  newLattice[yCenter() + -3][xCenter() + -8] = 1;
+  newLattice[yCenter() + -2][xCenter() + -8] = 1;
+  newLattice[yCenter() + -2][xCenter() + -7] = 1;
+  newLattice[yCenter() + -2][xCenter() + -6] = 1;
+  newLattice[yCenter() + -2][xCenter() + -5] = 1;
+  newLattice[yCenter() + -1][xCenter() + -7] = 1;
+  newLattice[yCenter() + -1][xCenter() + -6] = 1;
+  newLattice[yCenter() + 0][xCenter() + -6] = 1;
+  newLattice[yCenter() + -1][xCenter() + -4] = 1;
+  newLattice[yCenter() + -3][xCenter() + -4] = 1;
+  newLattice[yCenter() + -4][xCenter() + -3] = 1;
+  newLattice[yCenter() + -5][xCenter() + -2] = 1;
+  newLattice[yCenter() + -6][xCenter() + -2] = 1;
+  newLattice[yCenter() + -7][xCenter() + -2] = 1;
+  newLattice[yCenter() + -8][xCenter() + -2] = 1;
+  newLattice[yCenter() + -7][xCenter() + -1] = 1;
+  newLattice[yCenter() + -6][xCenter() + -1] = 1;
+  newLattice[yCenter() + -6][xCenter() + 0] = 1;
+  newLattice[yCenter() + -4][xCenter() + -1] = 1;
+  newLattice[yCenter() + -8][xCenter() + -3] = 1;
+  newLattice[yCenter() + -9][xCenter() + -3] = 1;
+  newLattice[yCenter() + -9][xCenter() + -4] = 1;
+  newLattice[yCenter() + -9][xCenter() + -5] = 1;
+  newLattice[yCenter() + -10][xCenter() + -5] = 1;
+  newLattice[yCenter() + -11][xCenter() + -3] = 1;
+  newLattice[yCenter() + -11][xCenter() + -4] = 1;
+  newLattice[yCenter() + -11][xCenter() + -5] = 1;
+  newLattice[yCenter() + -11][xCenter() + -6] = 1;
+  newLattice[yCenter() + -11][xCenter() + -7] = 1;
+  newLattice[yCenter() + -11][xCenter() + -8] = 1;
+  newLattice[yCenter() + -11][xCenter() + -9] = 1;
+  newLattice[yCenter() + -12][xCenter() + -7] = 1;
+  newLattice[yCenter() + -10][xCenter() + -2] = 1;
+  newLattice[yCenter() + -10][xCenter() + -1] = 1;
+  newLattice[yCenter() + -11][xCenter() + -1] = 1;
+  newLattice[yCenter() + -2][xCenter() + -1] = 1;
+  newLattice[yCenter() + 1][xCenter() + -3] = 1;
+  newLattice[yCenter() + -3][xCenter() + 1] = 1;
+  newLattice[yCenter() + 2][xCenter() + -6] = 1;
+  newLattice[yCenter() + 2][xCenter() + -7] = 1;
+  newLattice[yCenter() + 3][xCenter() + -5] = 1;
+  newLattice[yCenter() + 4][xCenter() + -7] = 1;
+  newLattice[yCenter() + 4][xCenter() + -6] = 1;
+  newLattice[yCenter() + 5][xCenter() + -6] = 1;
+  newLattice[yCenter() + 6][xCenter() + -6] = 1;
+  newLattice[yCenter() + -5][xCenter() + 3] = 1;
+  newLattice[yCenter() + -6][xCenter() + 2] = 1;
+  newLattice[yCenter() + -7][xCenter() + 2] = 1;
+  newLattice[yCenter() + -7][xCenter() + 4] = 1;
+  newLattice[yCenter() + -6][xCenter() + 4] = 1;
+  newLattice[yCenter() + -6][xCenter() + 5] = 1;
+  newLattice[yCenter() + -6][xCenter() + 6] = 1;
+  newLattice[yCenter() + 2][xCenter() + -1] = 1;
+  newLattice[yCenter() + 1][xCenter() + 0] = 1;
+  newLattice[yCenter() + 0][xCenter() + 1] = 1;
+  newLattice[yCenter() + -1][xCenter() + 2] = 1;
+  newLattice[yCenter() + 2][xCenter() + 2] = 1;
+  newLattice[yCenter() + -1][xCenter() + -2] = 1;
+  newLattice[yCenter() + 4][xCenter() + -1] = 1;
+  newLattice[yCenter() + 5][xCenter() + -1] = 1;
+  newLattice[yCenter() + 6][xCenter() + -1] = 1;
+  newLattice[yCenter() + 6][xCenter() + 0] = 1;
+  newLattice[yCenter() + 5][xCenter() + 0] = 1;
+  newLattice[yCenter() + 4][xCenter() + 0] = 1;
+  newLattice[yCenter() + 5][xCenter() + -2] = 1;
+  newLattice[yCenter() + 8][xCenter() + -2] = 1;
+  newLattice[yCenter() + 7][xCenter() + 1] = 1;
+  newLattice[yCenter() + 8][xCenter() + 1] = 1;
+  newLattice[yCenter() + 0][xCenter() + 4] = 1;
+  newLattice[yCenter() + -1][xCenter() + 4] = 1;
+  newLattice[yCenter() + -1][xCenter() + 5] = 1;
+  newLattice[yCenter() + -1][xCenter() + 6] = 1;
+  newLattice[yCenter() + 0][xCenter() + 6] = 1;
+  newLattice[yCenter() + 0][xCenter() + 5] = 1;
+  newLattice[yCenter() + -2][xCenter() + 5] = 1;
+  newLattice[yCenter() + 1][xCenter() + 7] = 1;
+  newLattice[yCenter() + 1][xCenter() + 8] = 1;
+  newLattice[yCenter() + -2][xCenter() + 8] = 1;
+  newLattice[yCenter() + 0][xCenter() + 10] = 1;
+  newLattice[yCenter() + 0][xCenter() + 11] = 1;
+  newLattice[yCenter() + 0][xCenter() + 12] = 1;
+  newLattice[yCenter() + 3][xCenter() + 9] = 1;
+  newLattice[yCenter() + 4][xCenter() + 9] = 1;
+  newLattice[yCenter() + 5][xCenter() + 9] = 1;
+  newLattice[yCenter() + 6][xCenter() + 9] = 1;
+  newLattice[yCenter() + 7][xCenter() + 10] = 1;
+  newLattice[yCenter() + 8][xCenter() + 10] = 1;
+  newLattice[yCenter() + 9][xCenter() + 3] = 1;
+  newLattice[yCenter() + 9][xCenter() + 4] = 1;
+  newLattice[yCenter() + 9][xCenter() + 5] = 1;
+  newLattice[yCenter() + 9][xCenter() + 6] = 1;
+  newLattice[yCenter() + 10][xCenter() + 7] = 1;
+  newLattice[yCenter() + 10][xCenter() + 8] = 1;
+  newLattice[yCenter() + 10][xCenter() + 0] = 1;
+  newLattice[yCenter() + 11][xCenter() + 0] = 1;
+  newLattice[yCenter() + 12][xCenter() + 0] = 1;
+  newLattice[yCenter() + 14][xCenter() + 2] = 1;
+  newLattice[yCenter() + 13][xCenter() + 2] = 1;
+  newLattice[yCenter() + 13][xCenter() + 3] = 1;
+  newLattice[yCenter() + 13][xCenter() + 5] = 1;
+  newLattice[yCenter() + 11][xCenter() + 5] = 1;
+  newLattice[yCenter() + 5][xCenter() + 11] = 1;
+  newLattice[yCenter() + 5][xCenter() + 13] = 1;
+  newLattice[yCenter() + 3][xCenter() + 13] = 1;
+  newLattice[yCenter() + 2][xCenter() + 13] = 1;
+  newLattice[yCenter() + 2][xCenter() + 14] = 1;
+  newLattice[yCenter() + 15][xCenter() + 5] = 1;
+  newLattice[yCenter() + 15][xCenter() + 6] = 1;
+  newLattice[yCenter() + 15][xCenter() + 7] = 1;
+  newLattice[yCenter() + 14][xCenter() + 7] = 1;
+  newLattice[yCenter() + 13][xCenter() + 7] = 1;
+  newLattice[yCenter() + 16][xCenter() + 6] = 1;
+  newLattice[yCenter() + 15][xCenter() + 9] = 1;
+  newLattice[yCenter() + 16][xCenter() + 9] = 1;
+  newLattice[yCenter() + 16][xCenter() + 10] = 1;
+  newLattice[yCenter() + 15][xCenter() + 10] = 1;
+  newLattice[yCenter() + 16][xCenter() + 12] = 1;
+  newLattice[yCenter() + 15][xCenter() + 13] = 1;
+  newLattice[yCenter() + 13][xCenter() + 15] = 1;
+  newLattice[yCenter() + 12][xCenter() + 16] = 1;
+  newLattice[yCenter() + 10][xCenter() + 16] = 1;
+  newLattice[yCenter() + 10][xCenter() + 15] = 1;
+  newLattice[yCenter() + 9][xCenter() + 15] = 1;
+  newLattice[yCenter() + 9][xCenter() + 16] = 1;
+  newLattice[yCenter() + 7][xCenter() + 13] = 1;
+  newLattice[yCenter() + 7][xCenter() + 14] = 1;
+  newLattice[yCenter() + 7][xCenter() + 15] = 1;
+  newLattice[yCenter() + 6][xCenter() + 15] = 1;
+  newLattice[yCenter() + 5][xCenter() + 15] = 1;
+  newLattice[yCenter() + 6][xCenter() + 16] = 1;
+  newLattice[yCenter() + 18][xCenter() + 11] = 1;
+  newLattice[yCenter() + 20][xCenter() + 10] = 1;
+  newLattice[yCenter() + 20][xCenter() + 9] = 1;
+  newLattice[yCenter() + 19][xCenter() + 8] = 1;
+  newLattice[yCenter() + 11][xCenter() + 18] = 1;
+  newLattice[yCenter() + 10][xCenter() + 20] = 1;
+  newLattice[yCenter() + 9][xCenter() + 20] = 1;
+  newLattice[yCenter() + 8][xCenter() + 19] = 1;
+  newLattice[yCenter() + 18][xCenter() + 13] = 1;
+  newLattice[yCenter() + 18][xCenter() + 14] = 1;
+  newLattice[yCenter() + 19][xCenter() + 14] = 1;
+  newLattice[yCenter() + 17][xCenter() + 14] = 1;
+  newLattice[yCenter() + 17][xCenter() + 15] = 1;
+  newLattice[yCenter() + 18][xCenter() + 16] = 1;
+  newLattice[yCenter() + 18][xCenter() + 17] = 1;
+  newLattice[yCenter() + 17][xCenter() + 18] = 1;
+  newLattice[yCenter() + 16][xCenter() + 18] = 1;
+  newLattice[yCenter() + 18][xCenter() + 19] = 1;
+  newLattice[yCenter() + 19][xCenter() + 18] = 1;
+  newLattice[yCenter() + 15][xCenter() + 17] = 1;
+  newLattice[yCenter() + 14][xCenter() + 17] = 1;
+  newLattice[yCenter() + 14][xCenter() + 18] = 1;
+  newLattice[yCenter() + 14][xCenter() + 19] = 1;
+  newLattice[yCenter() + 13][xCenter() + 18] = 1;
+  newLattice[yCenter() + 15][xCenter() + 21] = 1;
+  newLattice[yCenter() + 16][xCenter() + 22] = 1;
+  newLattice[yCenter() + 17][xCenter() + 22] = 1;
+  newLattice[yCenter() + 18][xCenter() + 22] = 1;
+  newLattice[yCenter() + 18][xCenter() + 23] = 1;
+  newLattice[yCenter() + 15][xCenter() + 23] = 1;
+  newLattice[yCenter() + 15][xCenter() + 24] = 1;
+  newLattice[yCenter() + 16][xCenter() + 25] = 1;
+  newLattice[yCenter() + 20][xCenter() + 23] = 1;
+  newLattice[yCenter() + 20][xCenter() + 24] = 1;
+  newLattice[yCenter() + 21][xCenter() + 24] = 1;
+  newLattice[yCenter() + 21][xCenter() + 23] = 1;
+  newLattice[yCenter() + 22][xCenter() + 23] = 1;
+  newLattice[yCenter() + 22][xCenter() + 22] = 1;
+  newLattice[yCenter() + 23][xCenter() + 22] = 1;
+  newLattice[yCenter() + 23][xCenter() + 21] = 1;
+  newLattice[yCenter() + 23][xCenter() + 20] = 1;
+  newLattice[yCenter() + 24][xCenter() + 21] = 1;
+  newLattice[yCenter() + 24][xCenter() + 20] = 1;
+  newLattice[yCenter() + 23][xCenter() + 18] = 1;
+  newLattice[yCenter() + 22][xCenter() + 18] = 1;
+  newLattice[yCenter() + 22][xCenter() + 17] = 1;
+  newLattice[yCenter() + 22][xCenter() + 16] = 1;
+  newLattice[yCenter() + 23][xCenter() + 15] = 1;
+  newLattice[yCenter() + 24][xCenter() + 15] = 1;
+  newLattice[yCenter() + 25][xCenter() + 16] = 1;
+  newLattice[yCenter() + 21][xCenter() + 15] = 1;
+  newLattice[yCenter() + 26][xCenter() + 19] = 1;
+  newLattice[yCenter() + 27][xCenter() + 18] = 1;
+  newLattice[yCenter() + 28][xCenter() + 19] = 1;
+  newLattice[yCenter() + 28][xCenter() + 20] = 1;
+  newLattice[yCenter() + 26][xCenter() + 22] = 1;
+  newLattice[yCenter() + 22][xCenter() + 26] = 1;
+  newLattice[yCenter() + 19][xCenter() + 26] = 1;
+  newLattice[yCenter() + 18][xCenter() + 27] = 1;
+  newLattice[yCenter() + 19][xCenter() + 28] = 1;
+  newLattice[yCenter() + 20][xCenter() + 28] = 1;
+  setLattice(newLattice);
+}
+
+/**
+ * Creates a "GtoG" pattern in the Game of Life.
+ * The "GtoG" pattern is a specific configuration of cells in Conway's Game of Life.
+ * This function initializes the "GtoG" pattern, which can be used for simulations or experiments.
+ *
+ * @function buildGtoG
+ * @returns {void}
+ */
+export function buildGtoG() {
+  let newLattice = createNewConfig();
+
+  newLattice[yCenter() + 19][xCenter() + 24] = 1;
+  newLattice[yCenter() + 17][xCenter() + 23] = 1;
+  newLattice[yCenter() + 18][xCenter() + 23] = 1;
+  newLattice[yCenter() + 18][xCenter() + 22] = 1;
+  newLattice[yCenter() + 19][xCenter() + 22] = 1;
+  newLattice[yCenter() + 18][xCenter() + 1] = 1;
+  newLattice[yCenter() + 17][xCenter() + 2] = 1;
+  newLattice[yCenter() + 18][xCenter() + 0] = 1;
+  newLattice[yCenter() + 17][xCenter() + 0] = 1;
+  newLattice[yCenter() + 16][xCenter() + 0] = 1;
+  newLattice[yCenter() + 17][xCenter() + -3] = 1;
+  newLattice[yCenter() + 16][xCenter() + -3] = 1;
+  newLattice[yCenter() + 15][xCenter() + -3] = 1;
+  newLattice[yCenter() + 17][xCenter() + -4] = 1;
+  newLattice[yCenter() + 16][xCenter() + -5] = 1;
+  newLattice[yCenter() + -8][xCenter() + -18] = 1;
+  newLattice[yCenter() + -9][xCenter() + -18] = 1;
+  newLattice[yCenter() + -8][xCenter() + -19] = 1;
+  newLattice[yCenter() + -7][xCenter() + -19] = 1;
+  newLattice[yCenter() + -9][xCenter() + -20] = 1;
+  setLattice(newLattice);
+}
+
+/**
+ * Creates a "60P" pattern in the Game of Life.
+ * The "60P" pattern is a specific configuration of cells in Conway's Game of Life.
+ * This function initializes the "60P" pattern, which can be used for simulations or experiments.
+ *
+ * @function build60P
+ * @returns {void}
+ */
+export function build60P() {
+  let newLattice = createNewConfig();
+
+  newLattice[yCenter() + -3][xCenter() + -26] = 1;
+  newLattice[yCenter() + -2][xCenter() + -25] = 1;
+  newLattice[yCenter() + -3][xCenter() + -25] = 1;
+  newLattice[yCenter() + -2][xCenter() + -26] = 1;
+  newLattice[yCenter() + 0][xCenter() + -20] = 1;
+  newLattice[yCenter() + -1][xCenter() + -20] = 1;
+  newLattice[yCenter() + -1][xCenter() + -19] = 1;
+  newLattice[yCenter() + -1][xCenter() + -18] = 1;
+  newLattice[yCenter() + 0][xCenter() + -17] = 1;
+  newLattice[yCenter() + -12][xCenter() + -20] = 1;
+  newLattice[yCenter() + -13][xCenter() + -21] = 1;
+  newLattice[yCenter() + -14][xCenter() + -21] = 1;
+  newLattice[yCenter() + -15][xCenter() + -20] = 1;
+  newLattice[yCenter() + -14][xCenter() + -19] = 1;
+  newLattice[yCenter() + -13][xCenter() + -19] = 1;
+  newLattice[yCenter() + -14][xCenter() + -3] = 1;
+  newLattice[yCenter() + -15][xCenter() + -4] = 1;
+  newLattice[yCenter() + -16][xCenter() + -4] = 1;
+  newLattice[yCenter() + -17][xCenter() + -4] = 1;
+  newLattice[yCenter() + -17][xCenter() + -3] = 1;
+  newLattice[yCenter() + -22][xCenter() + -5] = 1;
+  newLattice[yCenter() + -23][xCenter() + -5] = 1;
+  newLattice[yCenter() + -23][xCenter() + -6] = 1;
+  newLattice[yCenter() + -22][xCenter() + -6] = 1;
+  newLattice[yCenter() + -17][xCenter() + 4] = 1;
+  newLattice[yCenter() + -18][xCenter() + 5] = 1;
+  newLattice[yCenter() + -18][xCenter() + 6] = 1;
+  newLattice[yCenter() + -17][xCenter() + 7] = 1;
+  newLattice[yCenter() + -16][xCenter() + 6] = 1;
+  newLattice[yCenter() + -16][xCenter() + 5] = 1;
+  newLattice[yCenter() + -5][xCenter() + 6] = 1;
+  newLattice[yCenter() + -4][xCenter() + 7] = 1;
+  newLattice[yCenter() + -4][xCenter() + 8] = 1;
+  newLattice[yCenter() + -4][xCenter() + 9] = 1;
+  newLattice[yCenter() + -5][xCenter() + 9] = 1;
+  newLattice[yCenter() + -3][xCenter() + 14] = 1;
+  newLattice[yCenter() + -2][xCenter() + 15] = 1;
+  newLattice[yCenter() + -3][xCenter() + 15] = 1;
+  newLattice[yCenter() + -2][xCenter() + 14] = 1;
+  newLattice[yCenter() + 7][xCenter() + 9] = 1;
+  newLattice[yCenter() + 8][xCenter() + 8] = 1;
+  newLattice[yCenter() + 9][xCenter() + 8] = 1;
+  newLattice[yCenter() + 10][xCenter() + 9] = 1;
+  newLattice[yCenter() + 9][xCenter() + 10] = 1;
+  newLattice[yCenter() + 8][xCenter() + 10] = 1;
+
+  newLattice[yCenter() + 11][xCenter() + -17] = 1;
+  newLattice[yCenter() + 11][xCenter() + -16] = 1;
+  newLattice[yCenter() + 12][xCenter() + -18] = 1;
+  newLattice[yCenter() + 13][xCenter() + -17] = 1;
+  newLattice[yCenter() + 13][xCenter() + -16] = 1;
+  newLattice[yCenter() + 12][xCenter() + -15] = 1;
+  newLattice[yCenter() + 12][xCenter() + -8] = 1;
+  newLattice[yCenter() + 12][xCenter() + -7] = 1;
+  newLattice[yCenter() + 11][xCenter() + -7] = 1;
+  newLattice[yCenter() + 10][xCenter() + -7] = 1;
+  newLattice[yCenter() + 9][xCenter() + -8] = 1;
+  newLattice[yCenter() + 17][xCenter() + -6] = 1;
+  newLattice[yCenter() + 18][xCenter() + -6] = 1;
+  newLattice[yCenter() + 18][xCenter() + -5] = 1;
+  newLattice[yCenter() + 17][xCenter() + -5] = 1;
+  setLattice(newLattice);
+}
+
+/**
+ * Creates an "AK94" pattern in the Game of Life.
+ * The "AK94" pattern is a specific configuration of cells in Conway's Game of Life.
+ * This function initializes the "AK94" pattern, which can be used for simulations or experiments.
+ *
+ * @function buildAK94
+ * @returns {void}
+ */
+export function buildAK94() {
+  let newLattice = createNewConfig();
+
+  newLattice[yCenter() + 14][xCenter() + 1] = 1;
+  newLattice[yCenter() + 13][xCenter() + 0] = 1;
+  newLattice[yCenter() + 13][xCenter() + 2] = 1;
+  newLattice[yCenter() + 12][xCenter() + -1] = 1;
+  newLattice[yCenter() + 11][xCenter() + -1] = 1;
+  newLattice[yCenter() + 10][xCenter() + -1] = 1;
+  newLattice[yCenter() + 9][xCenter() + 0] = 1;
+  newLattice[yCenter() + 8][xCenter() + 1] = 1;
+  newLattice[yCenter() + 9][xCenter() + 2] = 1;
+  newLattice[yCenter() + 10][xCenter() + 3] = 1;
+  newLattice[yCenter() + 11][xCenter() + 3] = 1;
+  newLattice[yCenter() + 12][xCenter() + 3] = 1;
+  newLattice[yCenter() + 17][xCenter() + 3] = 1;
+  newLattice[yCenter() + 16][xCenter() + 3] = 1;
+  newLattice[yCenter() + 16][xCenter() + 4] = 1;
+  newLattice[yCenter() + 18][xCenter() + 4] = 1;
+  newLattice[yCenter() + 18][xCenter() + 5] = 1;
+  newLattice[yCenter() + 18][xCenter() + 6] = 1;
+  newLattice[yCenter() + 19][xCenter() + 6] = 1;
+  newLattice[yCenter() + 18][xCenter() - 3] = 1;
+  newLattice[yCenter() + 18][xCenter() - 2] = 1;
+  newLattice[yCenter() + 19][xCenter() - 2] = 1;
+  newLattice[yCenter() + 19][xCenter() - 3] = 1;
+
+  newLattice[yCenter() + 15][xCenter() + -9] = 1;
+  newLattice[yCenter() + 14][xCenter() + -9] = 1;
+  newLattice[yCenter() + 15][xCenter() + -10] = 1;
+  newLattice[yCenter() + 14][xCenter() + -11] = 1;
+  newLattice[yCenter() + 13][xCenter() + -12] = 1;
+  newLattice[yCenter() + 13][xCenter() + -13] = 1;
+  newLattice[yCenter() + 12][xCenter() + -13] = 1;
+  newLattice[yCenter() + 11][xCenter() + -13] = 1;
+  newLattice[yCenter() + 10][xCenter() + -13] = 1;
+  newLattice[yCenter() + 9][xCenter() + -14] = 1;
+  newLattice[yCenter() + 11][xCenter() + -15] = 1;
+  newLattice[yCenter() + 11][xCenter() + -16] = 1;
+  newLattice[yCenter() + 10][xCenter() + -16] = 1;
+  newLattice[yCenter() + 14][xCenter() + -14] = 1;
+  newLattice[yCenter() + 14][xCenter() + -15] = 1;
+  newLattice[yCenter() + 15][xCenter() + -16] = 1;
+  newLattice[yCenter() + 15][xCenter() + -13] = 1;
+  newLattice[yCenter() + 16][xCenter() + -15] = 1;
+  newLattice[yCenter() + 16][xCenter() + -14] = 1;
+  newLattice[yCenter() + 9][xCenter() + -11] = 1;
+  newLattice[yCenter() + 10][xCenter() + -11] = 1;
+  newLattice[yCenter() + 10][xCenter() + -10] = 1;
+  newLattice[yCenter() + 9][xCenter() + -10] = 1;
+  newLattice[yCenter() + 9][xCenter() + -13] = 1;
+
+  newLattice[yCenter() + 5][xCenter() + -8] = 1;
+  newLattice[yCenter() + 5][xCenter() + -9] = 1;
+  newLattice[yCenter() + 4][xCenter() + -8] = 1;
+  newLattice[yCenter() + 3][xCenter() + -9] = 1;
+  newLattice[yCenter() + 3][xCenter() + -10] = 1;
+  newLattice[yCenter() + 3][xCenter() + -11] = 1;
+  newLattice[yCenter() + 2][xCenter() + -11] = 1;
+
+  newLattice[yCenter() + -2][xCenter() + -7] = 1;
+  newLattice[yCenter() + -2][xCenter() + -6] = 1;
+  newLattice[yCenter() + -3][xCenter() + -6] = 1;
+  newLattice[yCenter() + -4][xCenter() + -7] = 1;
+  newLattice[yCenter() + -4][xCenter() + -8] = 1;
+  newLattice[yCenter() + -4][xCenter() + -9] = 1;
+  newLattice[yCenter() + -5][xCenter() + -9] = 1;
+
+  newLattice[yCenter() + -4][xCenter() + -1] = 1;
+  newLattice[yCenter() + -5][xCenter() + -1] = 1;
+  newLattice[yCenter() + -4][xCenter() + 0] = 1;
+  newLattice[yCenter() + -4][xCenter() + 1] = 1;
+  newLattice[yCenter() + -3][xCenter() + 2] = 1;
+  newLattice[yCenter() + -2][xCenter() + 2] = 1;
+  newLattice[yCenter() + -2][xCenter() + 1] = 1;
+
+  newLattice[yCenter() + -4][xCenter() + 7] = 1;
+  newLattice[yCenter() + -4][xCenter() + 8] = 1;
+  newLattice[yCenter() + -5][xCenter() + 8] = 1;
+  newLattice[yCenter() + -5][xCenter() + 7] = 1;
+
+  newLattice[yCenter() + -1][xCenter() + 14] = 1;
+  newLattice[yCenter() + 0][xCenter() + 14] = 1;
+  newLattice[yCenter() + -1][xCenter() + 15] = 1;
+  newLattice[yCenter() + 0][xCenter() + 16] = 1;
+  newLattice[yCenter() + 1][xCenter() + 17] = 1;
+  newLattice[yCenter() + 1][xCenter() + 18] = 1;
+  newLattice[yCenter() + 2][xCenter() + 18] = 1;
+  newLattice[yCenter() + 3][xCenter() + 18] = 1;
+  newLattice[yCenter() + 4][xCenter() + 18] = 1;
+  newLattice[yCenter() + 5][xCenter() + 18] = 1;
+  newLattice[yCenter() + 5][xCenter() + 19] = 1;
+  newLattice[yCenter() + 3][xCenter() + 20] = 1;
+  newLattice[yCenter() + 3][xCenter() + 21] = 1;
+  newLattice[yCenter() + 4][xCenter() + 21] = 1;
+  newLattice[yCenter() + 4][xCenter() + 16] = 1;
+  newLattice[yCenter() + 5][xCenter() + 16] = 1;
+  newLattice[yCenter() + 5][xCenter() + 15] = 1;
+  newLattice[yCenter() + 4][xCenter() + 15] = 1;
+  newLattice[yCenter() + 0][xCenter() + 19] = 1;
+  newLattice[yCenter() + 0][xCenter() + 20] = 1;
+  newLattice[yCenter() + -1][xCenter() + 21] = 1;
+  newLattice[yCenter() + -2][xCenter() + 20] = 1;
+  newLattice[yCenter() + -2][xCenter() + 19] = 1;
+  newLattice[yCenter() + -1][xCenter() + 18] = 1;
+
+  newLattice[yCenter() + 9][xCenter() + 14] = 1;
+  newLattice[yCenter() + 9][xCenter() + 13] = 1;
+  newLattice[yCenter() + 10][xCenter() + 13] = 1;
+  newLattice[yCenter() + 11][xCenter() + 14] = 1;
+  newLattice[yCenter() + 11][xCenter() + 15] = 1;
+  newLattice[yCenter() + 11][xCenter() + 16] = 1;
+  newLattice[yCenter() + 12][xCenter() + 16] = 1;
+  setLattice(newLattice);
+}
+
+/**
+ * Creates a "Trigger" pattern in the Game of Life.
+ * The "Trigger" pattern is a specific configuration of cells that can be used in Game of Life simulations.
+ * This function sets up the Trigger pattern to be used in experiments or as part of a larger structure.
+ *
+ * @function buildTrigger
+ * @returns {void}
+ */
+export function buildTrigger() {
+  let newLattice = createNewConfig();
+
+  newLattice[yCenter() + 19][xCenter() + -22] = 1;
+  newLattice[yCenter() + 18][xCenter() + -21] = 1;
+  newLattice[yCenter() + 17][xCenter() + -22] = 1;
+  newLattice[yCenter() + 18][xCenter() + -23] = 1;
+  newLattice[yCenter() + 17][xCenter() + -24] = 1;
+  newLattice[yCenter() + 16][xCenter() + -24] = 1;
+  newLattice[yCenter() + 16][xCenter() + -23] = 1;
+  newLattice[yCenter() + 11][xCenter() + -17] = 1;
+  newLattice[yCenter() + 11][xCenter() + -16] = 1;
+  newLattice[yCenter() + 10][xCenter() + -16] = 1;
+  newLattice[yCenter() + 9][xCenter() + -17] = 1;
+  newLattice[yCenter() + 10][xCenter() + -18] = 1;
+
+  newLattice[yCenter() + 10][xCenter() + -13] = 1;
+  newLattice[yCenter() + 11][xCenter() + -12] = 1;
+  newLattice[yCenter() + 11][xCenter() + -11] = 1;
+  newLattice[yCenter() + 10][xCenter() + -11] = 1;
+  newLattice[yCenter() + 9][xCenter() + -12] = 1;
+
+  newLattice[yCenter() + 23][xCenter() + -11] = 1;
+  newLattice[yCenter() + 24][xCenter() + -11] = 1;
+  newLattice[yCenter() + 24][xCenter() + -12] = 1;
+  newLattice[yCenter() + 25][xCenter() + -12] = 1;
+  newLattice[yCenter() + 25][xCenter() + -10] = 1;
+
+  newLattice[yCenter() + 4][xCenter() + 3] = 1;
+  newLattice[yCenter() + 4][xCenter() + 4] = 1;
+  newLattice[yCenter() + 3][xCenter() + 4] = 1;
+  newLattice[yCenter() + 2][xCenter() + 3] = 1;
+  newLattice[yCenter() + 3][xCenter() + 2] = 1;
+
+  newLattice[yCenter() + -1][xCenter() + 3] = 1;
+  newLattice[yCenter() + -1][xCenter() + 4] = 1;
+  newLattice[yCenter() + -2][xCenter() + 4] = 1;
+  newLattice[yCenter() + -3][xCenter() + 3] = 1;
+  newLattice[yCenter() + -2][xCenter() + 2] = 1;
+
+  newLattice[yCenter() + -19][xCenter() + 11] = 1;
+  newLattice[yCenter() + -20][xCenter() + 11] = 1;
+  newLattice[yCenter() + -19][xCenter() + 10] = 1;
+  newLattice[yCenter() + -20][xCenter() + 9] = 1;
+  newLattice[yCenter() + -21][xCenter() + 10] = 1;
+
+  newLattice[yCenter() + -24][xCenter() + 11] = 1;
+  newLattice[yCenter() + -25][xCenter() + 11] = 1;
+  newLattice[yCenter() + -24][xCenter() + 10] = 1;
+  newLattice[yCenter() + -25][xCenter() + 9] = 1;
+  newLattice[yCenter() + -26][xCenter() + 10] = 1;
+
+  newLattice[yCenter() + -28][xCenter() + 16] = 1;
+  newLattice[yCenter() + -29][xCenter() + 17] = 1;
+  newLattice[yCenter() + -29][xCenter() + 16] = 1;
+  newLattice[yCenter() + -28][xCenter() + 17] = 1;
+
+  newLattice[yCenter() + -24][xCenter() + 22] = 1;
+  newLattice[yCenter() + -23][xCenter() + 23] = 1;
+  newLattice[yCenter() + -24][xCenter() + 24] = 1;
+  newLattice[yCenter() + -25][xCenter() + 24] = 1;
+  newLattice[yCenter() + -25][xCenter() + 23] = 1;
+
+  newLattice[yCenter() + -26][xCenter() + 27] = 1;
+  newLattice[yCenter() + -27][xCenter() + 27] = 1;
+  newLattice[yCenter() + -27][xCenter() + 28] = 1;
+  newLattice[yCenter() + -25][xCenter() + 28] = 1;
+  newLattice[yCenter() + -24][xCenter() + 29] = 1;
+
+  newLattice[yCenter() + -26][xCenter() + 29] = 1;
+  newLattice[yCenter() + -25][xCenter() + 30] = 1;
+
+  newLattice[yCenter() + -21][xCenter() + 29] = 1;
+  newLattice[yCenter() + -21][xCenter() + 30] = 1;
+  newLattice[yCenter() + -21][xCenter() + 28] = 1;
+  newLattice[yCenter() + -20][xCenter() + 28] = 1;
+  newLattice[yCenter() + -19][xCenter() + 29] = 1;
+
+  newLattice[yCenter() + -34][xCenter() + 28] = 1;
+  newLattice[yCenter() + -35][xCenter() + 29] = 1;
+  newLattice[yCenter() + -34][xCenter() + 29] = 1;
+  newLattice[yCenter() + -35][xCenter() + 28] = 1;
+
+  newLattice[yCenter() + -34][xCenter() + 25] = 1;
+  newLattice[yCenter() + -34][xCenter() + 24] = 1;
+  newLattice[yCenter() + -33][xCenter() + 25] = 1;
+  newLattice[yCenter() + -33][xCenter() + 24] = 1;
+  setLattice(newLattice);
+}
+
+/**
+ * Creates a "Snail" pattern in the Game of Life.
+ * The "Snail" is a specific configuration of cells that forms a repeating pattern in the Game of Life.
+ * This function sets up the Snail pattern, which can be used for experiments or incorporated into larger simulations.
+ *
+ * @function buildSnail
+ * @returns {void}
+ */
+export function buildSnail() {
+  let newLattice = createNewConfig();
+
+  newLattice[yCenter() + -10][xCenter() + -15] = 1;
+  newLattice[yCenter() + -9][xCenter() + -15] = 1;
+  newLattice[yCenter() + -8][xCenter() + -16] = 1;
+  newLattice[yCenter() + -7][xCenter() + -15] = 1;
+  newLattice[yCenter() + -7][xCenter() + -14] = 1;
+  newLattice[yCenter() + -6][xCenter() + -14] = 1;
+  newLattice[yCenter() + -6][xCenter() + -15] = 1;
+  newLattice[yCenter() + -7][xCenter() + -13] = 1;
+  newLattice[yCenter() + -6][xCenter() + -12] = 1;
+  newLattice[yCenter() + -5][xCenter() + -14] = 1;
+  newLattice[yCenter() + -3][xCenter() + -13] = 1;
+  newLattice[yCenter() + -2][xCenter() + -13] = 1;
+  newLattice[yCenter() + -2][xCenter() + -12] = 1;
+  newLattice[yCenter() + -2][xCenter() + -10] = 1;
+  newLattice[yCenter() + -3][xCenter() + -10] = 1;
+  newLattice[yCenter() + -4][xCenter() + -10] = 1;
+  newLattice[yCenter() + -3][xCenter() + -8] = 1;
+  newLattice[yCenter() + -3][xCenter() + -7] = 1;
+  newLattice[yCenter() + -3][xCenter() + -6] = 1;
+  newLattice[yCenter() + -1][xCenter() + -7] = 1;
+  newLattice[yCenter() + -1][xCenter() + -5] = 1;
+  newLattice[yCenter() + -1][xCenter() + -4] = 1;
+  newLattice[yCenter() + -1][xCenter() + -3] = 1;
+  newLattice[yCenter() + -1][xCenter() + -2] = 1;
+  newLattice[yCenter() + -1][xCenter() + -1] = 1;
+  newLattice[yCenter() + -1][xCenter() + 0] = 1;
+  newLattice[yCenter() + -1][xCenter() + 1] = 1;
+  newLattice[yCenter() + -2][xCenter() + -4] = 1;
+  newLattice[yCenter() + -2][xCenter() + 2] = 1;
+  newLattice[yCenter() + -3][xCenter() + -2] = 1;
+  newLattice[yCenter() + -3][xCenter() + -1] = 1;
+  newLattice[yCenter() + -4][xCenter() + -3] = 1;
+  newLattice[yCenter() + -5][xCenter() + -2] = 1;
+  newLattice[yCenter() + -5][xCenter() + -1] = 1;
+  newLattice[yCenter() + -6][xCenter() + -2] = 1;
+  newLattice[yCenter() + -5][xCenter() + 1] = 1;
+  newLattice[yCenter() + -4][xCenter() + 1] = 1;
+  newLattice[yCenter() + -6][xCenter() + 2] = 1;
+  newLattice[yCenter() + -4][xCenter() + 3] = 1;
+  newLattice[yCenter() + -6][xCenter() + 4] = 1;
+  newLattice[yCenter() + -7][xCenter() + 5] = 1;
+  newLattice[yCenter() + -7][xCenter() + 6] = 1;
+  newLattice[yCenter() + -7][xCenter() + 7] = 1;
+
+  newLattice[yCenter() + -5][xCenter() + 9] = 1;
+  newLattice[yCenter() + -4][xCenter() + 7] = 1;
+  newLattice[yCenter() + -4][xCenter() + 8] = 1;
+  newLattice[yCenter() + -3][xCenter() + 9] = 1;
+  newLattice[yCenter() + -4][xCenter() + 10] = 1;
+  newLattice[yCenter() + -6][xCenter() + 11] = 1;
+  newLattice[yCenter() + -7][xCenter() + 11] = 1;
+  newLattice[yCenter() + -7][xCenter() + 12] = 1;
+  newLattice[yCenter() + -7][xCenter() + 13] = 1;
+  newLattice[yCenter() + -6][xCenter() + 13] = 1;
+  newLattice[yCenter() + -6][xCenter() + 12] = 1;
+  newLattice[yCenter() + -5][xCenter() + 14] = 1;
+  newLattice[yCenter() + -5][xCenter() + 15] = 1;
+  newLattice[yCenter() + -5][xCenter() + 16] = 1;
+  newLattice[yCenter() + -5][xCenter() + 17] = 1;
+  newLattice[yCenter() + -4][xCenter() + 16] = 1;
+  newLattice[yCenter() + -4][xCenter() + 17] = 1;
+  newLattice[yCenter() + -3][xCenter() + 18] = 1;
+  newLattice[yCenter() + -3][xCenter() + 19] = 1;
+  newLattice[yCenter() + -2][xCenter() + 20] = 1;
+  newLattice[yCenter() + -3][xCenter() + 21] = 2;
+  /**/
+  newLattice[yCenter() + 1][xCenter() + -7] = 1;
+  newLattice[yCenter() + 1][xCenter() + -5] = 1;
+  newLattice[yCenter() + 1][xCenter() + -4] = 1;
+  newLattice[yCenter() + 1][xCenter() + -3] = 1;
+  newLattice[yCenter() + 1][xCenter() + -2] = 1;
+  newLattice[yCenter() + 1][xCenter() + -1] = 1;
+  newLattice[yCenter() + 1][xCenter() + 0] = 1;
+  newLattice[yCenter() + 1][xCenter() + 1] = 1;
+  newLattice[yCenter() + 2][xCenter() + 2] = 1;
+  newLattice[yCenter() + 2][xCenter() + -4] = 1;
+  newLattice[yCenter() + 3][xCenter() + -8] = 1;
+  newLattice[yCenter() + 3][xCenter() + -7] = 1;
+  newLattice[yCenter() + 3][xCenter() + -6] = 1;
+  newLattice[yCenter() + 3][xCenter() + -1] = 1;
+  newLattice[yCenter() + 3][xCenter() + -2] = 1;
+  newLattice[yCenter() + 4][xCenter() + -3] = 1;
+  newLattice[yCenter() + 6][xCenter() + -2] = 1;
+  newLattice[yCenter() + 5][xCenter() + -2] = 1;
+  newLattice[yCenter() + 5][xCenter() + -1] = 1;
+  newLattice[yCenter() + 2][xCenter() + -10] = 1;
+  newLattice[yCenter() + 3][xCenter() + -10] = 1;
+  newLattice[yCenter() + 4][xCenter() + -10] = 1;
+  newLattice[yCenter() + 2][xCenter() + -12] = 1;
+  newLattice[yCenter() + 2][xCenter() + -13] = 1;
+  newLattice[yCenter() + 3][xCenter() + -13] = 1;
+  newLattice[yCenter() + 5][xCenter() + -14] = 1;
+  newLattice[yCenter() + 6][xCenter() + -14] = 1;
+  newLattice[yCenter() + 7][xCenter() + -14] = 1;
+  newLattice[yCenter() + 6][xCenter() + -15] = 1;
+  newLattice[yCenter() + 7][xCenter() + -15] = 1;
+  newLattice[yCenter() + 7][xCenter() + -13] = 1;
+  newLattice[yCenter() + 6][xCenter() + -12] = 1;
+  newLattice[yCenter() + 8][xCenter() + -16] = 1;
+  newLattice[yCenter() + 9][xCenter() + -15] = 1;
+  newLattice[yCenter() + 10][xCenter() + -15] = 1;
+
+  newLattice[yCenter() + 4][xCenter() + 1] = 1;
+  newLattice[yCenter() + 5][xCenter() + 1] = 1;
+  newLattice[yCenter() + 6][xCenter() + 2] = 1;
+  newLattice[yCenter() + 4][xCenter() + 3] = 1;
+  newLattice[yCenter() + 6][xCenter() + 4] = 1;
+  newLattice[yCenter() + 7][xCenter() + 5] = 1;
+  newLattice[yCenter() + 7][xCenter() + 6] = 1;
+  newLattice[yCenter() + 7][xCenter() + 7] = 1;
+  newLattice[yCenter() + 5][xCenter() + 9] = 1;
+
+  newLattice[yCenter() + 4][xCenter() + 8] = 1;
+  newLattice[yCenter() + 4][xCenter() + 7] = 1;
+  newLattice[yCenter() + 3][xCenter() + 9] = 1;
+  newLattice[yCenter() + 4][xCenter() + 10] = 1;
+  newLattice[yCenter() + 6][xCenter() + 11] = 1;
+  newLattice[yCenter() + 7][xCenter() + 11] = 1;
+  newLattice[yCenter() + 7][xCenter() + 12] = 1;
+  newLattice[yCenter() + 7][xCenter() + 13] = 1;
+  newLattice[yCenter() + 6][xCenter() + 13] = 1;
+  newLattice[yCenter() + 6][xCenter() + 12] = 1;
+  newLattice[yCenter() + 5][xCenter() + 14] = 1;
+  newLattice[yCenter() + 5][xCenter() + 15] = 1;
+  newLattice[yCenter() + 5][xCenter() + 16] = 1;
+  newLattice[yCenter() + 5][xCenter() + 17] = 1;
+  newLattice[yCenter() + 4][xCenter() + 16] = 1;
+  newLattice[yCenter() + 4][xCenter() + 17] = 1;
+  newLattice[yCenter() + 3][xCenter() + 18] = 1;
+  newLattice[yCenter() + 3][xCenter() + 19] = 1;
+  newLattice[yCenter() + 2][xCenter() + 20] = 1;
+
+  newLattice[yCenter() + -3][xCenter() + 21] = 1;
+  newLattice[yCenter() + 2][xCenter() + 20] = 1;
+  newLattice[yCenter() + 3][xCenter() + 21] = 1;
+  setLattice(newLattice);
+}
+
+/**
+ * Creates a "Tub" pattern in the Game of Life.
+ * The "Tub" is a still life pattern, meaning it remains unchanged over time when simulated.
+ * This function initializes the Tub pattern within the grid, providing a stable configuration for experiments or use in larger simulations.
+ *
+ * @function buildTub
+ * @returns {void}
+ */
+export function buildTub() {
+  let newLattice = createNewConfig();
+  newLattice[yCenter() + 4][xCenter() + 6] = 1;
+  newLattice[yCenter() + 5][xCenter() + 5] = 1;
+  newLattice[yCenter() + 6][xCenter() + 6] = 1;
+  newLattice[yCenter() + 5][xCenter() + 7] = 1;
+  newLattice[yCenter() + 2][xCenter() + 4] = 1;
+  newLattice[yCenter() + 1][xCenter() + 4] = 1;
+  newLattice[yCenter() + 1][xCenter() + 3] = 1;
+  newLattice[yCenter() + 0][xCenter() + 1] = 1;
+  newLattice[yCenter() + -1][xCenter() + 0] = 1;
+  newLattice[yCenter() + -2][xCenter() + 0] = 1;
+  newLattice[yCenter() + -2][xCenter() + 1] = 1;
+  newLattice[yCenter() + -2][xCenter() + 2] = 1;
+  newLattice[yCenter() + 5][xCenter() + 2] = 1;
+  newLattice[yCenter() + 4][xCenter() + 2] = 1;
+  newLattice[yCenter() + 4][xCenter() + 1] = 1;
+  newLattice[yCenter() + 5][xCenter() + 1] = 1;
+  newLattice[yCenter() + 6][xCenter() + 2] = 1;
+  newLattice[yCenter() + 6][xCenter() + 0] = 1;
+  newLattice[yCenter() + 7][xCenter() + 0] = 1;
+  newLattice[yCenter() + 7][xCenter() + -1] = 1;
+  newLattice[yCenter() + 8][xCenter() + 1] = 1;
+  newLattice[yCenter() + 8][xCenter() + -1] = 1;
+  newLattice[yCenter() + 8][xCenter() + -2] = 1;
+  newLattice[yCenter() + 8][xCenter() + -3] = 1;
+  newLattice[yCenter() + 8][xCenter() + -4] = 1;
+  newLattice[yCenter() + 9][xCenter() + -3] = 1;
+  newLattice[yCenter() + 9][xCenter() + -2] = 1;
+  newLattice[yCenter() + 7][xCenter() + -6] = 1;
+  newLattice[yCenter() + 6][xCenter() + -7] = 1;
+  newLattice[yCenter() + 5][xCenter() + -7] = 1;
+  newLattice[yCenter() + 5][xCenter() + -6] = 1;
+  newLattice[yCenter() + 5][xCenter() + -5] = 1;
+  setLattice(newLattice);
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="%252525252520Parameters.html">- Parameters</a></li><li><a href="cell.html">cell</a></li><li><a href="logMessage.html">logMessage</a></li></ul><h3>Events</h3><ul><li><a href="document.html#event:DOMContentLoaded">DOMContentLoaded</a></li><li><a href="global.html#event:click-Eventlistenerforclicksanywhereonthewindow.">click - Event listener for clicks anywhere on the window.</a></li><li><a href="global.html#event:click-Eventlistenerforthe%2522About%2522button.">click - Event listener for the "About" button.</a></li><li><a href="global.html#event:click-Eventlistenerforthe%2522DownloadPDF%2522button.">click - Event listener for the "Download PDF" button.</a></li><li><a href="global.html#event:click-Eventlistenerforthe%2522DownloadPNG%2522button.">click - Event listener for the "Download PNG" button.</a></li><li><a href="global.html#event:click-Eventlistenerfortheclickeventontheclosebuttonoftheoptionswindow.">click - Event listener for the click event on the close button of the options window.</a></li><li><a href="global.html#event:click-Eventlistenerfortheclickeventontheoptionsbutton.">click - Event listener for the click event on the options button.</a></li><li><a href="global.html#event:click-Eventlistenerfortheclosebuttoninthe%2522About%2522window.">click - Event listener for the close button in the "About" window.</a></li><li><a href="global.html#event:input-Eventlistenerfortheinputeventontheiterationspeedslider.">input - Event listener for the input event on the iteration speed slider.</a></li></ul><h3>Global</h3><ul><li><a href="global.html#LatticeDisplay">LatticeDisplay</a></li><li><a href="global.html#aboutButton">aboutButton</a></li><li><a href="global.html#aboutWindow">aboutWindow</a></li><li><a href="global.html#activateSetup">activateSetup</a></li><li><a href="global.html#addIterations">addIterations</a></li><li><a href="global.html#aliveBorderSel">aliveBorderSel</a></li><li><a href="global.html#aliveColorSel">aliveColorSel</a></li><li><a href="global.html#alterBorder">alterBorder</a></li><li><a href="global.html#alterBoundaryCon">alterBoundaryCon</a></li><li><a href="global.html#alterCell">alterCell</a></li><li><a href="global.html#alterCurrentIteration">alterCurrentIteration</a></li><li><a href="global.html#alterCurrentLattice">alterCurrentLattice</a></li><li><a href="global.html#alterInf">alterInf</a></li><li><a href="global.html#alterLatSize">alterLatSize</a></li><li><a href="global.html#alterLattice">alterLattice</a></li><li><a href="global.html#alterLatticeArray">alterLatticeArray</a></li><li><a href="global.html#alterNeighborCount">alterNeighborCount</a></li><li><a href="global.html#alterNextLattice">alterNextLattice</a></li><li><a href="global.html#alterNumOfIterations">alterNumOfIterations</a></li><li><a href="global.html#alterOrder">alterOrder</a></li><li><a href="global.html#alterRule">alterRule</a></li><li><a href="global.html#alterRuleNum">alterRuleNum</a></li><li><a href="global.html#alterSetup">alterSetup</a></li><li><a href="global.html#alterSize">alterSize</a></li><li><a href="global.html#alterTempOrder">alterTempOrder</a></li><li><a href="global.html#border">border</a></li><li><a href="global.html#borderToggle">borderToggle</a></li><li><a href="global.html#borderToggleButton">borderToggleButton</a></li><li><a href="global.html#borderToggleOption">borderToggleOption</a></li><li><a href="global.html#boundToggle">boundToggle</a></li><li><a href="global.html#boundToggleButton">boundToggleButton</a></li><li><a href="global.html#boundaryCollide">boundaryCollide</a></li><li><a href="global.html#boundaryCon">boundaryCon</a></li><li><a href="global.html#bounds">bounds</a></li><li><a href="global.html#buffer">buffer</a></li><li><a href="global.html#bufferArray">bufferArray</a></li><li><a href="global.html#build101">build101</a></li><li><a href="global.html#build119">build119</a></li><li><a href="global.html#build1234">build1234</a></li><li><a href="global.html#build295">build295</a></li><li><a href="global.html#build60P">build60P</a></li><li><a href="global.html#buildAK94">buildAK94</a></li><li><a href="global.html#buildGlider">buildGlider</a></li><li><a href="global.html#buildGtoG">buildGtoG</a></li><li><a href="global.html#buildSnail">buildSnail</a></li><li><a href="global.html#buildTrigger">buildTrigger</a></li><li><a href="global.html#buildTub">buildTub</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#canvasHeight">canvasHeight</a></li><li><a href="global.html#canvasWidth">canvasWidth</a></li><li><a href="global.html#cellSize">cellSize</a></li><li><a href="global.html#centerOut">centerOut</a></li><li><a href="global.html#centerOutR">centerOutR</a></li><li><a href="global.html#changeNeighbor">changeNeighbor</a></li><li><a href="global.html#checkboxes">checkboxes</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#clearResetButton">clearResetButton</a></li><li><a href="global.html#clearResetToggle">clearResetToggle</a></li><li><a href="global.html#closeAbout">closeAbout</a></li><li><a href="global.html#closeHelp">closeHelp</a></li><li><a href="global.html#closeLibrary">closeLibrary</a></li><li><a href="global.html#closeOptions">closeOptions</a></li><li><a href="global.html#continouslyIterate">continouslyIterate</a></li><li><a href="global.html#createInit">createInit</a></li><li><a href="global.html#createNewConfig">createNewConfig</a></li><li><a href="global.html#createOrderInitializesandpopulatestheorderArraywithvaluesfrom0tolatSize-1forthepurposeofcontrollingtheorderofoperations.">createOrderInitializes and populates the orderArray with values from 0 to latSize-1 for the purpose of controlling the order of operations.</a></li><li><a href="global.html#createVis">createVis</a></li><li><a href="global.html#createVisInit">createVisInit</a></li><li><a href="global.html#ctx">ctx</a></li><li><a href="global.html#currentDelay">currentDelay</a></li><li><a href="global.html#currentIteration">currentIteration</a></li><li><a href="global.html#currentLattice">currentLattice</a></li><li><a href="global.html#currentReset">currentReset</a></li><li><a href="global.html#deadBorderSel">deadBorderSel</a></li><li><a href="global.html#deadColorSel">deadColorSel</a></li><li><a href="global.html#debounce">debounce</a></li><li><a href="global.html#displayLattice">displayLattice</a></li><li><a href="global.html#displayLog">displayLog</a></li><li><a href="global.html#displayWelcome">displayWelcome</a></li><li><a href="global.html#downloadPDFButton">downloadPDFButton</a></li><li><a href="global.html#downloadPNGButton">downloadPNGButton</a></li><li><a href="global.html#drawLattice">drawLattice</a></li><li><a href="global.html#edgesIn">edgesIn</a></li><li><a href="global.html#edgesInR">edgesInR</a></li><li><a href="global.html#generateLattice">generateLattice</a></li><li><a href="global.html#getBorder">getBorder</a></li><li><a href="global.html#getMouseLocation">getMouseLocation</a></li><li><a href="global.html#getSetup">getSetup</a></li><li><a href="global.html#helpButton">helpButton</a></li><li><a href="global.html#helpWindow">helpWindow</a></li><li><a href="global.html#inLattice">inLattice</a></li><li><a href="global.html#inf">inf</a></li><li><a href="global.html#intialCanvas">intialCanvas</a></li><li><a href="global.html#iterate">iterate</a></li><li><a href="global.html#iterateButton">iterateButton</a></li><li><a href="global.html#iterationCount">iterationCount</a></li><li><a href="global.html#iterationInputBox">iterationInputBox</a></li><li><a href="global.html#iterationSpeedSlider">iterationSpeedSlider</a></li><li><a href="global.html#iterationSpeedValue">iterationSpeedValue</a></li><li><a href="global.html#iterationSubmit">iterationSubmit</a></li><li><a href="global.html#iterationTime">iterationTime</a></li><li><a href="global.html#iterationToggle">iterationToggle</a></li><li><a href="global.html#iterationToggleButton">iterationToggleButton</a></li><li><a href="global.html#iterationToggleOption">iterationToggleOption</a></li><li><a href="global.html#latSize">latSize</a></li><li><a href="global.html#latticeArray">latticeArray</a></li><li><a href="global.html#latticeFillButton">latticeFillButton</a></li><li><a href="global.html#latticeSizeBox">latticeSizeBox</a></li><li><a href="global.html#latticeSizeSubmit">latticeSizeSubmit</a></li><li><a href="global.html#lctx">lctx</a></li><li><a href="global.html#left2right">left2right</a></li><li><a href="global.html#libraries">libraries</a></li><li><a href="global.html#library101">library101</a></li><li><a href="global.html#library119P4H1V0">library119P4H1V0</a></li><li><a href="global.html#library1234">library1234</a></li><li><a href="global.html#library295P5H1V1">library295P5H1V1</a></li><li><a href="global.html#library4gto5gReaction">library4gto5gReaction</a></li><li><a href="global.html#library60P312">library60P312</a></li><li><a href="global.html#libraryAK94Gun">libraryAK94Gun</a></li><li><a href="global.html#libraryButton">libraryButton</a></li><li><a href="global.html#librarySnail">librarySnail</a></li><li><a href="global.html#libraryTrigger">libraryTrigger</a></li><li><a href="global.html#libraryTubstretcher">libraryTubstretcher</a></li><li><a href="global.html#libraryWindow">libraryWindow</a></li><li><a href="global.html#logCanvas">logCanvas</a></li><li><a href="global.html#makeError">makeError</a></li><li><a href="global.html#makeLog">makeLog</a></li><li><a href="global.html#makeTickBox">makeTickBox</a></li><li><a href="global.html#messageQueue">messageQueue</a></li><li><a href="global.html#mouseDown">mouseDown</a></li><li><a href="global.html#mouseXPos">mouseXPos</a></li><li><a href="global.html#mouseYPos">mouseYPos</a></li><li><a href="global.html#nInputBox">nInputBox</a></li><li><a href="global.html#nSkip">nSkip</a></li><li><a href="global.html#nSubmit">nSubmit</a></li><li><a href="global.html#nextLattice">nextLattice</a></li><li><a href="global.html#nullCheckBox">nullCheckBox</a></li><li><a href="global.html#numOfIterations">numOfIterations</a></li><li><a href="global.html#optionsButton">optionsButton</a></li><li><a href="global.html#optionsWindow">optionsWindow</a></li><li><a href="global.html#outputIteration">outputIteration</a></li><li><a href="global.html#periodicCheckBox">periodicCheckBox</a></li><li><a href="global.html#randOrder">randOrder</a></li><li><a href="global.html#randomFillButton">randomFillButton</a></li><li><a href="global.html#recountNeighbors">recountNeighbors</a></li><li><a href="global.html#redrawLattice">redrawLattice</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#resetLattice">resetLattice</a></li><li><a href="global.html#reverse">reverse</a></li><li><a href="global.html#revertCells">revertCells</a></li><li><a href="global.html#right2left">right2left</a></li><li><a href="global.html#rule">rule</a></li><li><a href="global.html#ruleInputBox">ruleInputBox</a></li><li><a href="global.html#ruleNum">ruleNum</a></li><li><a href="global.html#ruleNumToRule">ruleNumToRule</a></li><li><a href="global.html#ruleSubmit">ruleSubmit</a></li><li><a href="global.html#run">run</a></li><li><a href="global.html#saveReset">saveReset</a></li><li><a href="global.html#scale">scale</a></li><li><a href="global.html#scribble">scribble</a></li><li><a href="global.html#setCells">setCells</a></li><li><a href="global.html#setDelay">setDelay</a></li><li><a href="global.html#setLattice">setLattice</a></li><li><a href="global.html#setLatticeSize">setLatticeSize</a></li><li><a href="global.html#setN">setN</a></li><li><a href="global.html#setRule">setRule</a></li><li><a href="global.html#setupButton">setupButton</a></li><li><a href="global.html#setupItems">setupItems</a></li><li><a href="global.html#shift">shift</a></li><li><a href="global.html#shiftX">shiftX</a></li><li><a href="global.html#shiftY">shiftY</a></li><li><a href="global.html#shortDebounce">shortDebounce</a></li><li><a href="global.html#simulateButton">simulateButton</a></li><li><a href="global.html#size">size</a></li><li><a href="global.html#skip">skip</a></li><li><a href="global.html#standardItems">standardItems</a></li><li><a href="global.html#startStopButton">startStopButton</a></li><li><a href="global.html#startStopToggle">startStopToggle</a></li><li><a href="global.html#stopIterating">stopIterating</a></li><li><a href="global.html#tctx">tctx</a></li><li><a href="global.html#tickCanvas">tickCanvas</a></li><li><a href="global.html#tickerToggle">tickerToggle</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#totalDelta">totalDelta</a></li><li><a href="global.html#updateLattice">updateLattice</a></li><li><a href="global.html#updateLatticeUpdatesthesimulationbygeneratingthenexttimesteplatticeforeachiteration,applyingthecurrentruleandboundarycondition,andthenredrawingtheupdatedlatticeonthecanvas.">updateLatticeUpdates the simulation by generating the next timestep lattice for each iteration, applying thecurrent rule and boundary condition, and then redrawing the updated lattice on the canvas.</a></li><li><a href="global.html#updateLatticeSize">updateLatticeSize</a></li><li><a href="global.html#updateOutput">updateOutput</a></li><li><a href="global.html#visBounds">visBounds</a></li><li><a href="global.html#visLatticeArray">visLatticeArray</a></li><li><a href="global.html#visLatticeHeight">visLatticeHeight</a></li><li><a href="global.html#visLatticeWidth">visLatticeWidth</a></li><li><a href="global.html#voidButton">voidButton</a></li><li><a href="global.html#xCenter">xCenter</a></li><li><a href="global.html#yCenter">yCenter</a></li><li><a href="global.html#zoomSlider">zoomSlider</a></li><li><a href="global.html#zoomValue">zoomValue</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Nov 10 2024 03:01:57 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
