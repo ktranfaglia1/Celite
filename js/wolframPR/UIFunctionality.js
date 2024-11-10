@@ -2,8 +2,8 @@
  * UIFunctionality.js
  *
  * Summary:
- *   This script handles all user interface functionality for the simulation. It processes button clicks, user inputs, 
- *   mouse actions, and updates to the lattice and cell states. It also manages iterations, simulation modifications, 
+ *   This script handles all user interface functionality for the simulation. It processes button clicks, user inputs,
+ *   mouse actions, and updates to the lattice and cell states. It also manages iterations, simulation modifications,
  *   and communicates with utility files.
  *
  * Features:
@@ -46,7 +46,6 @@
  *   - Timmy McKirgan
  *   - Dustin O'Brien
  */
-
 
 import { latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice } from "./displayLattice.js";
 import { numOfIterations, currentIteration, size, latSize, ruleNum, inf } from "./displayLattice.js";
@@ -1791,7 +1790,6 @@ function startStopToggle() {
   }
 }
 
-
 /**
  * Toggles the Clear/Reset button state and logs the appropriate message.
  *
@@ -2025,7 +2023,7 @@ closeAbout.addEventListener("click", function () {
 
 /**
  * Closes the "About" window if any area outside of it is clicked.
- * - If the click event target is the about window itself (excluding the content area), 
+ * - If the click event target is the about window itself (excluding the content area),
  *   the window is hidden by setting its display style to "none".
  *
  * @event click - Event listener for clicks anywhere on the window.
@@ -2040,7 +2038,6 @@ window.addEventListener("click", function (event) {
 });
 
 /* Handle open and closing of options window */
-
 
 /**
  * Toggles the visibility of the options window when the options button is clicked.
@@ -2082,7 +2079,7 @@ iterationSpeedSlider.oninput = function () {
 };
 
 /**
- * Creates a debounced version of a function, ensuring it is called only after a delay 
+ * Creates a debounced version of a function, ensuring it is called only after a delay
  * once the event handler stops being triggered.
  *
  * @param {Function} callback - The function to be executed after the debounce delay.

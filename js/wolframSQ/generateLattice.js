@@ -9,7 +9,7 @@ the current timestep, the current rule array, the boundary condition, 1 for peri
 current timestep number (rowIndex), and the size individual cells.
 */
 
-import { rule, canvas, latSize, orderArray, getSetup, alterSetup, latticeArray } from "./displayLattice.js";
+import { rule, canvas, latSize, orderArray, getSetup } from "./displayLattice.js";
 import { cell } from "./cellClass.js";
 import { alterRule } from "./displayLattice.js";
 import { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel, border, currentIteration } from "./displayLattice.js";
