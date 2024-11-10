@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: wolframSQ/logClass.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: wolframSQ/logClass.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * logClass.js
+ *
+ * Summary:
+ *   Defines the logMessage class, which handles the creation, display, and management of log messages
+ *   on a canvas. The class allows for updating, clearing, and positioning log messages in a specified area.
+ *
+ * Features:
+ *   - Creates and displays log messages on a canvas.
+ *   - Allows for adjusting the position of messages based on index.
+ *   - Provides methods for clearing the canvas and updating the displayed messages.
+ *   - Handles the color of messages for different log types (e.g., error or info).
+ *
+ * Class:
+ *   - logMessage: Represents a log message with methods for displaying and updating it on a canvas.
+ *
+ * Functions:
+ *   - Constructor: Initializes the logMessage with a message, color, and canvas element.
+ *   - changeIndex: Updates the index of the message, affecting its position in the log.
+ *   - clearCanvas: Clears the canvas to remove previously displayed messages.
+ *   - displayMessage: Displays the message at a given index, ensuring it doesn't overlap other messages.
+ *
+ * Authors:
+ *   - Dustin O'Brien
+ */
+
+export class logMessage {
+  /**
+   * Constructor for creating a log message object that can be displayed on a canvas.
+   * This constructor sets up the message, its color, and the canvas on which it will be rendered.
+   *
+   * @constructor
+   *
+   * - Parameters
+   * @param {string} message - The message text to be displayed in the log.
+   * @param {string} color - The color of the message text (e.g., 'red', 'green').
+   * @param {HTMLCanvasElement} canvas - The canvas element where the message will be displayed.
+   */
+  constructor(message, color, canvas) {
+    this.message = message; // Stores the message text
+    this.color = color; // Stores the color of the message
+    this.canvas = canvas; // Stores the canvas element where the message will be drawn
+    this.context = canvas.getContext("2d"); // Gets the 2D rendering context of the canvas
+  }
+
+  /**
+   * Changes the index for the log message to adjust its position in the log.
+   * This allows the message to move up as new messages are added.
+   *
+   * @param {number} newIndex - The new index to move the message to.
+   * @returns {void}
+   */
+  changeIndex(newIndex) {
+    this.index = newIndex; // Updates the index of the message
+  }
+
+  /**
+   * Clears the canvas, removing any previously displayed messages.
+   * This is used to refresh the log area before displaying new messages.
+   *
+   * @returns {void}
+   */
+  clearCanvas() {
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clears the entire canvas
+  }
+
+  /**
+   * Displays the log message on the canvas at the given index.
+   * The message is drawn with the specified color and positioned to avoid overlap.
+   *
+   * @param {number} index - The index position to place the message on the canvas.
+   * @returns {void}
+   */
+  displayMessage(index) {
+    this.context.font = "13px Arial"; // Sets the font for the message
+    this.context.fillStyle = this.color; // Sets the color for the message text
+
+    if (index &lt; 3) {
+      // Prevents the display of more than 3 messages by limiting the index
+      this.context.fillText(this.message, 5, (index * this.canvas.height) / 3 + 10.2); // Displays the message at the calculated position
+    }
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="%252525252520Parameters.html">- Parameters</a></li><li><a href="cell.html">cell</a></li><li><a href="logMessage.html">logMessage</a></li></ul><h3>Events</h3><ul><li><a href="document.html#event:DOMContentLoaded">DOMContentLoaded</a></li><li><a href="global.html#event:click-Eventlistenerforclicksanywhereonthewindow.">click - Event listener for clicks anywhere on the window.</a></li><li><a href="global.html#event:click-Eventlistenerforthe%2522About%2522button.">click - Event listener for the "About" button.</a></li><li><a href="global.html#event:click-Eventlistenerforthe%2522DownloadPDF%2522button.">click - Event listener for the "Download PDF" button.</a></li><li><a href="global.html#event:click-Eventlistenerforthe%2522DownloadPNG%2522button.">click - Event listener for the "Download PNG" button.</a></li><li><a href="global.html#event:click-Eventlistenerfortheclickeventontheclosebuttonoftheoptionswindow.">click - Event listener for the click event on the close button of the options window.</a></li><li><a href="global.html#event:click-Eventlistenerfortheclickeventontheoptionsbutton.">click - Event listener for the click event on the options button.</a></li><li><a href="global.html#event:click-Eventlistenerfortheclosebuttoninthe%2522About%2522window.">click - Event listener for the close button in the "About" window.</a></li><li><a href="global.html#event:input-Eventlistenerfortheinputeventontheiterationspeedslider.">input - Event listener for the input event on the iteration speed slider.</a></li></ul><h3>Global</h3><ul><li><a href="global.html#LatticeDisplay">LatticeDisplay</a></li><li><a href="global.html#aboutButton">aboutButton</a></li><li><a href="global.html#aboutWindow">aboutWindow</a></li><li><a href="global.html#activateSetup">activateSetup</a></li><li><a href="global.html#addIterations">addIterations</a></li><li><a href="global.html#aliveBorderSel">aliveBorderSel</a></li><li><a href="global.html#aliveColorSel">aliveColorSel</a></li><li><a href="global.html#alterBorder">alterBorder</a></li><li><a href="global.html#alterBoundaryCon">alterBoundaryCon</a></li><li><a href="global.html#alterCell">alterCell</a></li><li><a href="global.html#alterCurrentIteration">alterCurrentIteration</a></li><li><a href="global.html#alterCurrentLattice">alterCurrentLattice</a></li><li><a href="global.html#alterInf">alterInf</a></li><li><a href="global.html#alterLatSize">alterLatSize</a></li><li><a href="global.html#alterLattice">alterLattice</a></li><li><a href="global.html#alterLatticeArray">alterLatticeArray</a></li><li><a href="global.html#alterNeighborCount">alterNeighborCount</a></li><li><a href="global.html#alterNextLattice">alterNextLattice</a></li><li><a href="global.html#alterNumOfIterations">alterNumOfIterations</a></li><li><a href="global.html#alterOrder">alterOrder</a></li><li><a href="global.html#alterRule">alterRule</a></li><li><a href="global.html#alterRuleNum">alterRuleNum</a></li><li><a href="global.html#alterSetup">alterSetup</a></li><li><a href="global.html#alterSize">alterSize</a></li><li><a href="global.html#alterTempOrder">alterTempOrder</a></li><li><a href="global.html#border">border</a></li><li><a href="global.html#borderToggle">borderToggle</a></li><li><a href="global.html#borderToggleButton">borderToggleButton</a></li><li><a href="global.html#borderToggleOption">borderToggleOption</a></li><li><a href="global.html#boundToggle">boundToggle</a></li><li><a href="global.html#boundToggleButton">boundToggleButton</a></li><li><a href="global.html#boundaryCollide">boundaryCollide</a></li><li><a href="global.html#boundaryCon">boundaryCon</a></li><li><a href="global.html#bounds">bounds</a></li><li><a href="global.html#buffer">buffer</a></li><li><a href="global.html#bufferArray">bufferArray</a></li><li><a href="global.html#build101">build101</a></li><li><a href="global.html#build119">build119</a></li><li><a href="global.html#build1234">build1234</a></li><li><a href="global.html#build295">build295</a></li><li><a href="global.html#build60P">build60P</a></li><li><a href="global.html#buildAK94">buildAK94</a></li><li><a href="global.html#buildGlider">buildGlider</a></li><li><a href="global.html#buildGtoG">buildGtoG</a></li><li><a href="global.html#buildSnail">buildSnail</a></li><li><a href="global.html#buildTrigger">buildTrigger</a></li><li><a href="global.html#buildTub">buildTub</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#canvasHeight">canvasHeight</a></li><li><a href="global.html#canvasWidth">canvasWidth</a></li><li><a href="global.html#cellSize">cellSize</a></li><li><a href="global.html#centerOut">centerOut</a></li><li><a href="global.html#centerOutR">centerOutR</a></li><li><a href="global.html#changeNeighbor">changeNeighbor</a></li><li><a href="global.html#checkboxes">checkboxes</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#clearResetButton">clearResetButton</a></li><li><a href="global.html#clearResetToggle">clearResetToggle</a></li><li><a href="global.html#closeAbout">closeAbout</a></li><li><a href="global.html#closeHelp">closeHelp</a></li><li><a href="global.html#closeLibrary">closeLibrary</a></li><li><a href="global.html#closeOptions">closeOptions</a></li><li><a href="global.html#continouslyIterate">continouslyIterate</a></li><li><a href="global.html#createInit">createInit</a></li><li><a href="global.html#createNewConfig">createNewConfig</a></li><li><a href="global.html#createOrderInitializesandpopulatestheorderArraywithvaluesfrom0tolatSize-1forthepurposeofcontrollingtheorderofoperations.">createOrderInitializes and populates the orderArray with values from 0 to latSize-1 for the purpose of controlling the order of operations.</a></li><li><a href="global.html#createVis">createVis</a></li><li><a href="global.html#createVisInit">createVisInit</a></li><li><a href="global.html#ctx">ctx</a></li><li><a href="global.html#currentDelay">currentDelay</a></li><li><a href="global.html#currentIteration">currentIteration</a></li><li><a href="global.html#currentLattice">currentLattice</a></li><li><a href="global.html#currentReset">currentReset</a></li><li><a href="global.html#deadBorderSel">deadBorderSel</a></li><li><a href="global.html#deadColorSel">deadColorSel</a></li><li><a href="global.html#debounce">debounce</a></li><li><a href="global.html#displayLattice">displayLattice</a></li><li><a href="global.html#displayLog">displayLog</a></li><li><a href="global.html#displayWelcome">displayWelcome</a></li><li><a href="global.html#downloadPDFButton">downloadPDFButton</a></li><li><a href="global.html#downloadPNGButton">downloadPNGButton</a></li><li><a href="global.html#drawLattice">drawLattice</a></li><li><a href="global.html#edgesIn">edgesIn</a></li><li><a href="global.html#edgesInR">edgesInR</a></li><li><a href="global.html#generateLattice">generateLattice</a></li><li><a href="global.html#getBorder">getBorder</a></li><li><a href="global.html#getMouseLocation">getMouseLocation</a></li><li><a href="global.html#getSetup">getSetup</a></li><li><a href="global.html#helpButton">helpButton</a></li><li><a href="global.html#helpWindow">helpWindow</a></li><li><a href="global.html#inLattice">inLattice</a></li><li><a href="global.html#inf">inf</a></li><li><a href="global.html#intialCanvas">intialCanvas</a></li><li><a href="global.html#iterate">iterate</a></li><li><a href="global.html#iterateButton">iterateButton</a></li><li><a href="global.html#iterationCount">iterationCount</a></li><li><a href="global.html#iterationInputBox">iterationInputBox</a></li><li><a href="global.html#iterationSpeedSlider">iterationSpeedSlider</a></li><li><a href="global.html#iterationSpeedValue">iterationSpeedValue</a></li><li><a href="global.html#iterationSubmit">iterationSubmit</a></li><li><a href="global.html#iterationTime">iterationTime</a></li><li><a href="global.html#iterationToggle">iterationToggle</a></li><li><a href="global.html#iterationToggleButton">iterationToggleButton</a></li><li><a href="global.html#iterationToggleOption">iterationToggleOption</a></li><li><a href="global.html#latSize">latSize</a></li><li><a href="global.html#latticeArray">latticeArray</a></li><li><a href="global.html#latticeFillButton">latticeFillButton</a></li><li><a href="global.html#latticeSizeBox">latticeSizeBox</a></li><li><a href="global.html#latticeSizeSubmit">latticeSizeSubmit</a></li><li><a href="global.html#lctx">lctx</a></li><li><a href="global.html#left2right">left2right</a></li><li><a href="global.html#libraries">libraries</a></li><li><a href="global.html#library101">library101</a></li><li><a href="global.html#library119P4H1V0">library119P4H1V0</a></li><li><a href="global.html#library1234">library1234</a></li><li><a href="global.html#library295P5H1V1">library295P5H1V1</a></li><li><a href="global.html#library4gto5gReaction">library4gto5gReaction</a></li><li><a href="global.html#library60P312">library60P312</a></li><li><a href="global.html#libraryAK94Gun">libraryAK94Gun</a></li><li><a href="global.html#libraryButton">libraryButton</a></li><li><a href="global.html#librarySnail">librarySnail</a></li><li><a href="global.html#libraryTrigger">libraryTrigger</a></li><li><a href="global.html#libraryTubstretcher">libraryTubstretcher</a></li><li><a href="global.html#libraryWindow">libraryWindow</a></li><li><a href="global.html#logCanvas">logCanvas</a></li><li><a href="global.html#makeError">makeError</a></li><li><a href="global.html#makeLog">makeLog</a></li><li><a href="global.html#makeTickBox">makeTickBox</a></li><li><a href="global.html#messageQueue">messageQueue</a></li><li><a href="global.html#mouseDown">mouseDown</a></li><li><a href="global.html#mouseXPos">mouseXPos</a></li><li><a href="global.html#mouseYPos">mouseYPos</a></li><li><a href="global.html#nInputBox">nInputBox</a></li><li><a href="global.html#nSkip">nSkip</a></li><li><a href="global.html#nSubmit">nSubmit</a></li><li><a href="global.html#nextLattice">nextLattice</a></li><li><a href="global.html#nullCheckBox">nullCheckBox</a></li><li><a href="global.html#numOfIterations">numOfIterations</a></li><li><a href="global.html#optionsButton">optionsButton</a></li><li><a href="global.html#optionsWindow">optionsWindow</a></li><li><a href="global.html#outputIteration">outputIteration</a></li><li><a href="global.html#periodicCheckBox">periodicCheckBox</a></li><li><a href="global.html#randOrder">randOrder</a></li><li><a href="global.html#randomFillButton">randomFillButton</a></li><li><a href="global.html#recountNeighbors">recountNeighbors</a></li><li><a href="global.html#redrawLattice">redrawLattice</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#resetLattice">resetLattice</a></li><li><a href="global.html#reverse">reverse</a></li><li><a href="global.html#revertCells">revertCells</a></li><li><a href="global.html#right2left">right2left</a></li><li><a href="global.html#rule">rule</a></li><li><a href="global.html#ruleInputBox">ruleInputBox</a></li><li><a href="global.html#ruleNum">ruleNum</a></li><li><a href="global.html#ruleNumToRule">ruleNumToRule</a></li><li><a href="global.html#ruleSubmit">ruleSubmit</a></li><li><a href="global.html#run">run</a></li><li><a href="global.html#saveReset">saveReset</a></li><li><a href="global.html#scale">scale</a></li><li><a href="global.html#scribble">scribble</a></li><li><a href="global.html#setCells">setCells</a></li><li><a href="global.html#setDelay">setDelay</a></li><li><a href="global.html#setLattice">setLattice</a></li><li><a href="global.html#setLatticeSize">setLatticeSize</a></li><li><a href="global.html#setN">setN</a></li><li><a href="global.html#setRule">setRule</a></li><li><a href="global.html#setupButton">setupButton</a></li><li><a href="global.html#setupItems">setupItems</a></li><li><a href="global.html#shift">shift</a></li><li><a href="global.html#shiftX">shiftX</a></li><li><a href="global.html#shiftY">shiftY</a></li><li><a href="global.html#shortDebounce">shortDebounce</a></li><li><a href="global.html#simulateButton">simulateButton</a></li><li><a href="global.html#size">size</a></li><li><a href="global.html#skip">skip</a></li><li><a href="global.html#standardItems">standardItems</a></li><li><a href="global.html#startStopButton">startStopButton</a></li><li><a href="global.html#startStopToggle">startStopToggle</a></li><li><a href="global.html#stopIterating">stopIterating</a></li><li><a href="global.html#tctx">tctx</a></li><li><a href="global.html#tickCanvas">tickCanvas</a></li><li><a href="global.html#tickerToggle">tickerToggle</a></li><li><a href="global.html#toggleCheckbox">toggleCheckbox</a></li><li><a href="global.html#totalDelta">totalDelta</a></li><li><a href="global.html#updateLattice">updateLattice</a></li><li><a href="global.html#updateLatticeUpdatesthesimulationbygeneratingthenexttimesteplatticeforeachiteration,applyingthecurrentruleandboundarycondition,andthenredrawingtheupdatedlatticeonthecanvas.">updateLatticeUpdates the simulation by generating the next timestep lattice for each iteration, applying thecurrent rule and boundary condition, and then redrawing the updated lattice on the canvas.</a></li><li><a href="global.html#updateLatticeSize">updateLatticeSize</a></li><li><a href="global.html#updateOutput">updateOutput</a></li><li><a href="global.html#visBounds">visBounds</a></li><li><a href="global.html#visLatticeArray">visLatticeArray</a></li><li><a href="global.html#visLatticeHeight">visLatticeHeight</a></li><li><a href="global.html#visLatticeWidth">visLatticeWidth</a></li><li><a href="global.html#voidButton">voidButton</a></li><li><a href="global.html#xCenter">xCenter</a></li><li><a href="global.html#yCenter">yCenter</a></li><li><a href="global.html#zoomSlider">zoomSlider</a></li><li><a href="global.html#zoomValue">zoomValue</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Nov 10 2024 02:41:34 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
