@@ -1,42 +1,16 @@
-/**
- * cellClass.js
- *
- * Summary:
- *   Defines the Cell class, which represents individual cells in a grid-based system. The class provides
- *   functionalities for drawing cells, checking if a position is within a cell, setting colors, and toggling
- *   states (e.g., alive or dead).
- *
- * Features:
- *   - Draws cells to the canvas based on provided context.
- *   - Detects if a given position (such as the mouse) is inside the cell.
- *   - Allows setting and flipping of cell colors to represent states.
- *   - Provides accessor for retrieving cell color.
- *
- * Class:
- *   - Cell: Represents a cell with methods to draw, set, and toggle its state.
- *
- *  Functions:
- *   - Constructor: Initializes the cell with height, width, X and Y location, color, and border properties.
- *   - drawCell: Draws the cell on the canvas, requires a canvas context (`ctx`) as a parameter.
- *   - setBorder: Updates the cell’s border color.
- *   - getBorder: Returns the current border color of the cell.
- *   - insideCell: Checks if a given (X, Y) position is inside the cell (e.g., for mouse interactions).
- *   - setColor: Sets a new color for the cell.
- *   - flipColor: Toggles the cell color between "alive" and "dead".
- *   - getColor: Gets the current color of the cell.
- *   - getHeight / setHeight: Accessor and mutator for the cell’s height.
- *   - getWidth / setWidth: Accessor and mutator for the cell’s width.
- *   - getXLoc / setXLoc: Accessor and mutator for the cell’s X-axis location.
- *   - getYLoc / setYLoc: Accessor and mutator for the cell’s Y-axis location.
- *   - setDeadColor: Sets the color for dead cells.
- *   - setDeadBorder: Sets the border color for dead cells.
- *   - setAliveColor: Sets the color for alive cells.
- *   - setAliveBorder: Sets the border color for alive cells.
- *
- * Authors:
- *   - Dustin O'Brien
- */
+/*
+cellClass.js
+Authors: Dustin O'Brien
+Class: cell
+Functions: Constructor that takes in height, width, X Location and Y Location of top corner, and color.
+drawCell which draws in individual cell to the canvas and takes ctx as parameter.
+insideCell which takes in mouse position to determine if the mouse in inside of a cell.
+setColor which sets a new color for the cell that takes new color as parameter.
+flipColor swaps a cell visually from dead to alive and vice versa
+getColor is an accessor for cell color.
+*/
 
+import { latSize } from "./displayLattice.js";
 /**
  * - Class Properties
  * @property {number} height - The height of the cell.
@@ -49,6 +23,8 @@
  * @property {string} deadBord - Default border color for dead cells (black).
  * @property {string} aliveCell - Default color for alive cells (black).
  * @property {string} aliveBord - Default border color for alive cells (grey).
+ * @property {boolean} setupMode - determines whether the program will display as if it were in setup mode
+ * @property {number} number - Number stored and displayed when in setup mode
  */
 export class cell {
   /**
@@ -66,9 +42,10 @@ export class cell {
    * @param {number} YLocation - The Y-axis location of the cell.
    * @param {string} color - The color of the cell (e.g., 'black' or 'white').
    * @param {string} border - The color of the border around the cell.
+   * @param {boolean} setupMode - determines whether the program will display as if it were in setup mode
    *
    */
-  constructor(height, width, XLocation, YLocation, color, border) {
+  constructor(height, width, XLocation, YLocation, color, border, setupMode) {
     //holds the height and width of the cell this should be the same but can allow for rectangles if needed
     this.height = height;
     this.width = width;
@@ -79,13 +56,15 @@ export class cell {
     this.color = color;
     this.border = border;
 
-    //Sets Dead Cell Colors
     this.deadCell = "#FFFFFF";
     this.deadBord = "#000000";
 
-    //Sets Alive Cell Colors
     this.aliveCell = "#000000";
     this.aliveBord = "#808080";
+
+    this.setupMode = setupMode;
+
+    this.number = -2; //Displays one above this number
   }
 
   // Function used to draw the cell in its proper location
@@ -95,39 +74,55 @@ export class cell {
    * @returns {void}
    */
   drawCell(ctx) {
-    //Checks if the cell in question is within the current canvas. No need to run draw commands on anything outside canvas.
     if (this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && (this.color || this.height > 10) /*&& (this.color || border)*/) {
-      let border = true;
-      //If the height of the cell is less then or equal to ten, dont draw cell borders
-      if (this.height <= 10) {
-        border = false;
-      }
-
       //Draws the Box Outline as long as Cells arent too small
-      if (border) {
+      if (this.height >= 15 && this.border) {
         //Sets outline to be inverse of color of cell so you can see it
-        if (this.color == 1) {
-          ctx.fillStyle = this.aliveBord;
+        if (!this.setupMode) {
+          if (this.color == 1) {
+            ctx.fillStyle = this.aliveBord;
+          } else {
+            ctx.fillStyle = this.deadBord;
+          }
         } else {
-          ctx.fillStyle = this.deadBord;
+          if (this.color == 1) {
+            ctx.fillStyle = "#000000";
+          } else {
+            ctx.fillStyle = "#000000";
+          }
         }
-
         // Draws the main section outside of the square
-        ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
+        ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 2);
       }
-
       //Sets color for the main part of the cell
-      if (this.color == 1) {
-        ctx.fillStyle = this.aliveCell;
+      if (!this.setupMode) {
+        if (this.color == 1) {
+          ctx.fillStyle = this.aliveCell;
+        } else {
+          ctx.fillStyle = this.deadCell;
+        }
       } else {
-        ctx.fillStyle = this.deadCell;
+        if (this.color == 1) {
+          ctx.fillStyle = "#808080";
+        } else {
+          ctx.fillStyle = "#FFFFFF";
+        }
       }
 
       //Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
-      if (border) {
+      if (this.height >= 10 && this.border) {
         ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
       } else {
         ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
+      }
+
+      if (this.color == 1 && this.setupMode) {
+        if (Math.trunc(Math.log(latSize) / Math.log(10)) + 1 >= 2) ctx.font = this.height / ((Math.trunc(Math.log(latSize) / Math.log(10)) + 1) * 0.54) - 2 + "px Arial";
+        else ctx.font = this.height / (Math.trunc(Math.log(latSize) / Math.log(10)) + 1) + "px Arial";
+
+        ctx.fillStyle = "black";
+
+        ctx.fillText(this.number + 1, this.XLocation, this.YLocation + this.height); //Plus 1 to stop 0 indexing
       }
     }
   }
@@ -192,7 +187,6 @@ export class cell {
   getColor() {
     return this.color;
   }
-
   /**
    * Gets the height of the cell.
    * @returns {number} - The height of the cell.
@@ -295,5 +289,32 @@ export class cell {
    */
   setAliveBorder(color) {
     this.aliveBord = color;
+  }
+
+  /**
+   * Updates the current Mode of a cell.
+   * @param {string} color - The new border color for alive cells.
+   * @returns {void}
+   */
+  setSetup(setup) {
+    this.setupMode = setup;
+  }
+
+  /**
+   * Sets the visible Number of a cell for use in setup mode
+   * @param {string} color - The new border color for alive cells.
+   * @returns {void}
+   */
+  setNumber(num) {
+    this.number = num;
+  }
+
+  /**
+   * Returns the number contained in the cell for setup mode
+   * @param {string} color - The new border color for alive cells.
+   * @returns {void}
+   */
+  getNumber() {
+    return this.number;
   }
 }

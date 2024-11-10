@@ -1,11 +1,13 @@
-/*
+/** 
 * UIFunctionality.js
 * Authors: Kyle Tranfaglia, Timmy McKirgan, Dustin O'Brien
 * This file handles all user interface Functionality. It is the bulk of the program and handles all button clicks,
-  information inputs, mouse actions, lattice changes, cell changes, iterations, and updates/calculates information
-  for simulation modifications and communicates it with utility files
+* information inputs, mouse actions, lattice changes, cell changes, iterations, and updates/calculates information
+* for simulation modifications and communicates it with utility files
 * Last Updated: 03/11/24
 */
+
+
 import { latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder, alterOrder, tempOrder, alterTempOrder } from "./displayLattice.js";
 import { numOfIterations, currentIteration, size, latSize, ruleNum, orderArray } from "./displayLattice.js";
 import { alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder } from "./displayLattice.js";
@@ -24,72 +26,319 @@ Reset Perspective Button
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */
 
-//Input Box Constants
+// Input Box Constants
+/**
+ * Input box for the number of iterations.
+ * @type {HTMLInputElement}
+ */
 const iterationInputBox = document.getElementById("iterationInputBox");
+
+/**
+ * Input box for the rule to be applied.
+ * @type {HTMLInputElement}
+ */
 const ruleInputBox = document.getElementById("ruleInputBox");
+
+/**
+ * Input box for the lattice size.
+ * @type {HTMLInputElement}
+ */
 const latticeSizeBox = document.getElementById("latticeSizeBox");
+
+/**
+ * Input box for the value of n.
+ * @type {HTMLInputElement}
+ */
 const nInputBox = document.getElementById("nInputBox");
 
-//Submit Button Constants
+// Submit Button Constants
+/**
+ * Submit button for the number of iterations.
+ * @type {HTMLButtonElement}
+ */
 const iterationSubmit = document.getElementById("iterationSubmit");
+
+/**
+ * Submit button for the rule input.
+ * @type {HTMLButtonElement}
+ */
 const ruleSubmit = document.getElementById("ruleSubmit");
+
+/**
+ * Submit button for the lattice size input.
+ * @type {HTMLButtonElement}
+ */
 const latticeSizeSubmit = document.getElementById("latticeSizeSubmit");
+
+/**
+ * Submit button for the value of n input.
+ * @type {HTMLButtonElement}
+ */
 const nSubmit = document.getElementById("nSubmit");
 
-//Main Buttons Constants
+// Main Buttons Constants
+/**
+ * Button to start or stop the simulation.
+ * @type {HTMLButtonElement}
+ */
 const startStopButton = document.getElementById("startStopButton");
+
+/**
+ * Button to iterate through steps of the simulation.
+ * @type {HTMLButtonElement}
+ */
 const iterateButton = document.getElementById("iterateButton");
+
+/**
+ * Button to clear or reset the simulation.
+ * @type {HTMLButtonElement}
+ */
 const clearResetButton = document.getElementById("clearResetButton");
+
+/**
+ * Button to download the simulation as a PDF.
+ * @type {HTMLButtonElement}
+ */
 const downloadPDFButton = document.getElementById("downloadPDFButton");
+
+/**
+ * Button to download the simulation as a PNG image.
+ * @type {HTMLButtonElement}
+ */
 const downloadPNGButton = document.getElementById("downloadPNGButton");
+
+/**
+ * Button to open options for the simulation.
+ * @type {HTMLButtonElement}
+ */
 const optionsButton = document.getElementById("optionsButton");
+
+/**
+ * Button to fill the lattice with a predefined pattern.
+ * @type {HTMLButtonElement}
+ */
 const latticeFillButton = document.getElementById("latticeFillButton");
+
+/**
+ * Button to randomly fill the lattice.
+ * @type {HTMLButtonElement}
+ */
 const randomFillButton = document.getElementById("randomFillButton");
+
+/**
+ * Button to set up the initial conditions of the simulation.
+ * @type {HTMLButtonElement}
+ */
 const setupButton = document.getElementById("setupButton");
+
+/**
+ * Button to start the simulation.
+ * @type {HTMLButtonElement}
+ */
 const simulateButton = document.getElementById("simulateButton");
+
+/**
+ * Button to reset the simulation without clearing data.
+ * @type {HTMLButtonElement}
+ */
 const voidButton = document.getElementById("voidButton");
+
+/**
+ * Button to open the library for saved configurations.
+ * @type {HTMLButtonElement}
+ */
 const libraryButton = document.getElementById("libraryButton");
+
+/**
+ * Button to open help or instructions for the simulation.
+ * @type {HTMLButtonElement}
+ */
 const helpButton = document.getElementById("helpButton");
 
-//Library Option Constants
+// Library Option Constants
+/**
+ * Option for random order selection in the library.
+ * @type {HTMLInputElement}
+ */
 const randOrder = document.getElementById("random");
+
+/**
+ * Option for left-to-right order selection in the library.
+ * @type {HTMLInputElement}
+ */
 const left2right = document.getElementById("left2right");
+
+/**
+ * Option for right-to-left order selection in the library.
+ * @type {HTMLInputElement}
+ */
 const right2left = document.getElementById("right2left");
+
+/**
+ * Option for center-outward order selection in the library.
+ * @type {HTMLInputElement}
+ */
 const centerOut = document.getElementById("centerOutward");
+
+/**
+ * Option for edges-inward order selection in the library.
+ * @type {HTMLInputElement}
+ */
 const edgesIn = document.getElementById("edgesInward");
+
+/**
+ * Option for center-outward reverse order selection in the library.
+ * @type {HTMLInputElement}
+ */
 const centerOutR = document.getElementById("centerOutwardR");
+
+/**
+ * Option for edges-inward reverse order selection in the library.
+ * @type {HTMLInputElement}
+ */
 const edgesInR = document.getElementById("edgesInwardR");
+
+/**
+ * Input box for the number of skips in the library selection.
+ * @type {HTMLInputElement}
+ */
 const skip = document.getElementById("nSkip");
 
-//Toggle Switches Constants
+// Toggle Switches Constants
+/**
+ * Toggle button for the iteration switch.
+ * @type {HTMLInputElement}
+ */
 const iterationToggleButton = document.getElementById("iterationToggle");
+
+/**
+ * Toggle button for the border visibility switch.
+ * @type {HTMLInputElement}
+ */
 const borderToggleButton = document.getElementById("borderToggle");
 
-//Side Windows Constants
+// Side Windows Constants
+/**
+ * Container for the options side window.
+ * @type {HTMLElement}
+ */
 const optionsWindow = document.getElementById("optionsContainer");
+
+/**
+ * Container for the library side window.
+ * @type {HTMLElement}
+ */
 const libraryWindow = document.getElementById("libraryContainer");
+
+/**
+ * Container for the help side window.
+ * @type {HTMLElement}
+ */
 const helpWindow = document.getElementById("helpContainer");
 
-//iteration Slider Constants
+// Iteration Slider Constants
+/**
+ * Slider for adjusting the iteration speed.
+ * @type {HTMLInputElement}
+ */
 const iterationSpeedSlider = document.getElementById("iterationSpeedSlider");
+
+/**
+ * Display element for showing the iteration speed value.
+ * @type {HTMLSpanElement}
+ */
 const iterationSpeedValue = document.getElementById("iterationSpeedValue");
 
-/* Global constants connecting HTML/CSS features to JS by class name to impliment functionality */
+/* Global constants connecting HTML/CSS features to JS by class name to implement functionality */
+
+/**
+ * NodeList of checkbox elements for selection.
+ * @type {NodeListOf<HTMLInputElement>}
+ */
 const checkboxes = document.querySelectorAll(".checkbox_select");
+
+/**
+ * Toggle button for iteration functionality, located within the iteration toggle element.
+ * @type {HTMLElement}
+ */
 const iterationToggle = document.querySelector("#iterationToggle .toggle_button");
+
+/**
+ * Toggle button for border visibility functionality, located within the border toggle element.
+ * @type {HTMLElement}
+ */
 const borderToggle = document.querySelector("#borderToggle .toggle_button");
+
+/**
+ * Close button for the options content window.
+ * @type {HTMLElement}
+ */
 const closeOptions = document.querySelector("#optionsContent .close");
+
+/**
+ * NodeList of setup button elements for initializing or configuring the simulation.
+ * @type {NodeListOf<HTMLElement>}
+ */
 const setupItems = document.querySelectorAll(".setup_button");
+
+/**
+ * NodeList of standard buttons for general simulation actions, including start and simulation-related buttons.
+ * @type {NodeListOf<HTMLElement>}
+ */
 const standardItems = document.querySelectorAll(".simulation_button, .start_button");
+
+/**
+ * Close button for the library content window.
+ * @type {HTMLElement}
+ */
 const closeLibrary = document.querySelector("#libraryContent .close");
+
+/**
+ * Close button for the help content window.
+ * @type {HTMLElement}
+ */
 const closeHelp = document.querySelector("#helpContent .close");
 
+// State variables for interaction and setup modes
+
+/**
+ * Flag to track whether the mouse is currently pressed down.
+ * @type {boolean}
+ */
 let mouseDown = false;
+
+/**
+ * Flag to control whether the setup mode welcome message is displayed on page load.
+ * @type {boolean}
+ */
 let displayWelcome = true; // Setup mode welcome message flag (only display on page load)
 
+/**
+ * Local variable for the n-skip order setting in the simulation.
+ * @type {number}
+ */
 let nSkip = 2; // Local variable nSkip needed for n-skip order setting
 
-// Display setup buttons and hide standard buttons upon setup button click
+/**
+ * setupButton Click Event Handler
+ *
+ * Summary:
+ *   This event listener listens for a click on the `setupButton` and triggers
+ *   the setup mode by displaying setup buttons and hiding standard simulation
+ *   buttons. It also processes and updates the lattice and its color/number
+ *   assignments based on a predefined order array.
+ *
+ * Features:
+ *   - Displays setup buttons and hides standard buttons when the setup button is clicked.
+ *   - Updates the lattice colors and numbers based on the `orderArray` and the current lattice state.
+ *   - Alters the lattice order and redraws it after modifications.
+ *   - Calls a debounce function to prevent multiple rapid executions of the event.
+ *
+ * @param {Event} event - The click event that triggers the setup functionality.
+ *
+ * @returns {void} - This function does not return any value. It modifies the lattice 
+ *   state, updates button visibility, and triggers a redraw of the lattice.
+ */
 setupButton.addEventListener(
   "click",
   debounce(function () {
@@ -103,6 +352,26 @@ setupButton.addEventListener(
     //clearOrder();
   })
 );
+
+/**
+ * activateSetup
+ *
+ * Summary:
+ *   This function activates setup mode by displaying relevant messages and toggling
+ *   the visibility of UI elements. It handles the display of setup buttons, disables
+ *   standard simulation buttons, and ensures that the options window is hidden during setup.
+ *   It also logs messages and displays a "Hello, World!" greeting upon first activation.
+ *
+ * Features:
+ *   - Displays a welcome message on the first activation, including a "Hello, World!" greeting.
+ *   - Logs messages to the canvas about entering setup mode and providing instructions.
+ *   - Hides the options window and disables standard simulation buttons during setup mode.
+ *   - Enables setup-related UI elements and updates the lattice.
+ *   - Calls functions to clear the lattice, alter setup functionality, and redraw the lattice.
+ *
+ * @returns {void} - This function does not return any value. It modifies the UI state,
+ *   triggers logging, and updates the lattice display based on setup mode.
+ */
 
 function activateSetup() {
   if (displayWelcome) {
@@ -138,14 +407,27 @@ function activateSetup() {
   clear(latticeArray, false);
   alterSetup(1); // Turns on setup functionality
   redrawLattice();
-
-  /*for (let i = 0; i < latticeArray[0].length; i++)
-	{
-		tempOrder[i] = -1;
-	}*/
 }
 
-// Hide setup buttons and display standard buttons upon setup button click
+/**
+ * simulateButton Click Event Handler
+ *
+ * Summary:
+ *   This event listener listens for a click on the `simulateButton` and triggers the
+ *   transition from setup mode to simulation mode. It ensures that setup buttons are hidden,
+ *   and standard simulation buttons are displayed. It also checks if the lattice has been ordered
+ *   and updates the lattice order accordingly, either by applying the existing order or defaulting 
+ *   to a left-to-right ordering.
+ *
+ * Features:
+ *   - Toggles visibility of setup and standard simulation buttons when the simulate button is clicked.
+ *   - Checks if the lattice cells have been ordered, and either applies the existing order or defaults to left-to-right.
+ *   - Logs the transition to simulate mode and displays relevant messages based on the state of the lattice order.
+ *   - Clears and updates the lattice after applying changes to the order and setup functionality.
+ *
+ * @returns {void} - This function does not return any value. It modifies the UI state, updates the lattice,
+ *   and logs relevant messages based on the ordering and mode transition.
+ */
 simulateButton.addEventListener("click", function () {
   // Loop through the standard secondary toolbar elements and enable display
   standardItems.forEach((item) => {
@@ -178,24 +460,81 @@ simulateButton.addEventListener("click", function () {
   redrawLattice();
 });
 
+/**
+ * voidButton Click Event Handler
+ *
+ * Summary:
+ *   This event listener listens for a click on the `voidButton` and clears the lattice
+ *   as well as the current order. It resets the lattice to an empty state and logs the 
+ *   action of clearing the order.
+ *
+ * Features:
+ *   - Clears the lattice array, removing any existing values or states.
+ *   - Clears the current order, resetting the order to its initial state.
+ *   - Logs the action of clearing the order to the message queue and canvas.
+ *
+ * @returns {void} - This function does not return any value. It modifies the lattice state
+ *   and logs the clearing action.
+ */
 voidButton.addEventListener("click", function () {
   clear(latticeArray, false);
   clearOrder();
   makeLog("Order Cleared", logCanvas, messageQueue);
 });
 
-/* Handle open and closing of help and library window */
-// About button is clicked, display about window
+/**
+ * helpButton Click Event Handler
+ *
+ * Summary:
+ *   This event listener listens for a click on the `helpButton` and displays the help window.
+ *   When clicked, the help window's display is set to "block," making it visible to the user.
+ *
+ * Features:
+ *   - Displays the help window when the `helpButton` is clicked.
+ *   - Ensures that the help window is shown by setting its display property to "block."
+ *
+ * @returns {void} - This function does not return any value. It modifies the UI state
+ *   by changing the display property of the help window.
+ */
 helpButton.addEventListener("click", function () {
   helpWindow.style.display = "block";
 });
 
-// Close if x (close) button in top right of the window is clicked
+/**
+ * closeHelp Click Event Handler
+ *
+ * Summary:
+ *   This event listener listens for a click on the close button (`closeHelp`) in the top-right corner 
+ *   of the help window. When clicked, it hides the help window by setting its display property to "none."
+ *
+ * Features:
+ *   - Closes the help window when the `closeHelp` button is clicked.
+ *   - Hides the help window by setting its display property to "none," effectively removing it from view.
+ *
+ * @returns {void} - This function does not return any value. It modifies the UI state 
+ *   by changing the display property of the help window to hide it.
+ */
 closeHelp.addEventListener("click", function () {
   helpWindow.style.display = "none";
 });
 
-// Close if any space outside of the about window is clicked
+/**
+ * window Click Event Handler (Close Help Window Outside Click)
+ *
+ * Summary:
+ *   This event listener listens for a click anywhere on the window. If the click occurs
+ *   outside of the help window (i.e., on the background), it hides the help window by setting
+ *   its display property to "none."
+ *
+ * Features:
+ *   - Closes the help window if the user clicks outside of it.
+ *   - Ensures that the help window is hidden by checking if the clicked target is the help window.
+ *
+ * @param {Event} event - The click event that triggered the function.
+ *
+ * @returns {void} - This function does not return any value. It modifies the UI state
+ *   by changing the display property of the help window to hide it when clicked outside.
+ */
 window.addEventListener("click", function (event) {
   // Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
   if (event.target == helpWindow) {
@@ -203,13 +542,43 @@ window.addEventListener("click", function (event) {
   }
 });
 
-/* Handle open and closing of help and library window */
-// About button is clicked, display about window
+/**
+ * libraryButton Click Event Handler
+ *
+ * Summary:
+ *   This event listener listens for a click on the `libraryButton` and displays the library window.
+ *   When clicked, the library window's display is set to "block," making it visible to the user.
+ *
+ * Features:
+ *   - Displays the library window when the `libraryButton` is clicked.
+ *   - Ensures that the library window is shown by setting its display property to "block."
+ *
+ * @returns {void} - This function does not return any value. It modifies the UI state
+ *   by changing the display property of the library window.
+ */
 libraryButton.addEventListener("click", function () {
   libraryWindow.style.display = "block";
 });
 
-/* Handles generation of certain sequence presets */
+/**
+ * randOrder Click Event Handler (Generate Random Sequence)
+ *
+ * Summary:
+ *   This event listener listens for a click on the `randOrder` element and generates a random order 
+ *   for the lattice array. It clears the lattice and order, generates a shuffled sequence, applies it 
+ *   to the lattice, and updates the display. The library window is then hidden, and a log is generated 
+ *   indicating that the random order has been set.
+ *
+ * Features:
+ *   - Clears the lattice and order before generating a new random order.
+ *   - Creates a shuffled sequence for the lattice array elements using the Fisher-Yates shuffle.
+ *   - Updates the lattice cells with the shuffled sequence and redraws them.
+ *   - Hides the library window once the random order is set.
+ *   - Logs the action of setting the random order to the message queue and canvas.
+ *
+ * @returns {void} - This function does not return any value. It modifies the lattice array,
+ *   updates the display, and logs the action of setting the random order.
+ */
 randOrder.addEventListener("click", function () {
   clear(latticeArray, false);
   clearOrder();
@@ -234,6 +603,7 @@ randOrder.addEventListener("click", function () {
   libraryWindow.style.display = "none";
   makeLog("Random Order Set", logCanvas, messageQueue);
 });
+
 
 left2right.addEventListener("click", function () {
   clear(latticeArray, false);
@@ -1393,15 +1763,11 @@ closeOptions.addEventListener("click", function () {
   optionsWindow.style.display = "none";
 });
 
-iterationSpeedValue.innerHTML = 750; // Sets displayed default iteration speed value
-
 // Update the current iteration speed slider value upon drag
 iterationSpeedSlider.oninput = function () {
   iterationSpeedValue.innerHTML = this.value;
   setDelay(this.value);
 };
-
-outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
 
 function debounce(callback) {
   let timeoutId;
@@ -1425,3 +1791,6 @@ function shortDebounce(callback) {
     }, 5);
   };
 }
+
+iterationSpeedValue.innerHTML = 750; // Sets displayed default iteration speed value
+outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page

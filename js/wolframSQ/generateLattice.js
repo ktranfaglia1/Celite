@@ -1,13 +1,36 @@
-/*
-cellClass.js
-Authors: Timothy McKirgan and Dustin O'Brien
-Class: cell
-Functions: ruleNumToRule which takes in the ruleNum to generate a rule array to determine how new
-timesteps are generated.
-generateLattice which uses the rule array to determine the next timestep. This function takes as parameters
-the current timestep, the current rule array, the boundary condition, 1 for periodic and 0 for null, the
-current timestep number (rowIndex), and the size individual cells.
-*/
+/**
+ * generateLattice.js
+ *
+ * Summary:
+ *   Defines the `cell` class and utility functions to manage and simulate cellular automata. The class handles
+ *   cell properties such as color, size, and position, while the utility functions provide methods for generating
+ *   the rule array from a rule number and updating the lattice based on the current state and boundary conditions.
+ *   
+ * Features:
+ *   - Converts a rule number into a rule array to define cell behavior.
+ *   - Generates the next timestep of the lattice based on the current state, rule array, and boundary conditions.
+ *   - Supports two types of boundary conditions: periodic and null.
+ *   - Allows customization of cell properties like colors and borders based on user input.
+ *   
+ * Class:
+ *   - `cell`: Represents a single cell with properties such as size, color, and location. Provides methods to
+ *     update and retrieve cell properties.
+ *
+ * Functions:
+ *   - `ruleNumToRule`: Converts a rule number into a binary rule array to guide cell state changes.
+ *   - `generateLattice`: Generates the next timestep lattice based on the current lattice, rule array, boundary
+ *     conditions, and other parameters such as cell size and current iteration.
+ *   
+ * Dependencies:
+ *   - `cell` (from `cellClass.js`): Represents individual cells in the lattice, providing methods to update cell properties.
+ *   - `rule` (from `displayLattice.js`): The array representing the current rule for the lattice.
+ *   - `orderArray` (from `displayLattice.js`): The sequence in which cells are updated.
+ *   - `getSetup` (from `displayLattice.js`): Retrieves the current setup for initializing cell properties.
+ *
+ * Authors:
+ *   - Timothy McKirgan
+ *   - Dustin O'Brien
+ */
 
 import { rule, canvas, latSize, orderArray, getSetup } from "./displayLattice.js";
 import { cell } from "./cellClass.js";

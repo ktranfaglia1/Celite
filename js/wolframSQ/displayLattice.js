@@ -380,6 +380,7 @@ export function getSetup() {
 export function alterSetup(neoSetup) {
   setup = neoSetup;
   for (let i = 0; i < latticeArray[0].length; i++) {
+    console.log(latticeArray[0][i])
     latticeArray[0][i].setSetup(neoSetup);
   }
 }
