@@ -1,100 +1,265 @@
-/*
-UIFunctionality.js
-Authors: Timmy McKirgan, Dustin O'Brien
-Functions:
+/**
+ * UIFunctionality.js
+ *
+ * Summary:
+ *   Handles the user interface functionality for the Game of Life simulation. This script contains functions
+ *   to manage user inputs, update the lattice and its cells, control iterations, and communicate with other
+ *   utility files. It also manages the setup and configuration of various simulation parameters.
+ *
+ * Features:
+ *   - Alters the size and configuration of the lattice and cells.
+ *   - Manages the iteration process and updates the lattice over time.
+ *   - Allows the user to modify rules and boundary conditions for the simulation.
+ *   - Provides functions for setting up and altering cell orders.
+ *   - Interfaces with the display system to render the lattice on the canvas.
+ *
+ * Functions:
+ *   - alterLatSize: Alters the size of the lattice.
+ *   - alterSize: Alters the size of the individual cells.
+ *   - alterLatticeArray: Alters the 2D array of cells displayed on the lattice.
+ *   - alterCurrentLattice: Alters the current lattice being displayed.
+ *   - alterNextLattice: Alters the next lattice to be used.
+ *   - alterRule: Alters the rule number used to determine cell states.
+ *   - alterNumOfIterations: Alters the number of iterations to run in the simulation.
+ *   - alterCurrentIteration: Alters the current iteration being processed.
+ *   - alterOrder: Alters the order in which cells are updated.
+ *   - alterTempOrder: Alters the temporary order values provided by the user.
+ *   - alterSetup: Alters the setup configuration and applies it to the first row of the lattice.
+ *   - getSetup: Retrieves the current setup configuration.
+ *   - getBorder: Retrieves the current border settings.
+ *   - alterBoundaryCon: Alters the boundary conditions used in the simulation.
+ *
+ *
+ *  Dependencies:
+ *   - cell (from cellClass.js): Represents individual cells in the lattice.
+ *   - ruleNumToRule (from generateLattice.js): Converts rule number to actual rule function.
+ *   - generateLattice (from generateLattice.js): Generates the next timestep of the lattice.
+ *
+ * Authors:
+ *   - Timmy McKirgan
+ *   - Dustin O'Brien
+ */
 
-alter functions for:
+import { cell } from "./cellClass.js";
+import { ruleNumToRule, generateLattice } from "./generateLattice.js";
 
-  latSize :: Number of Cells in a lattice
-  size : Cell Size
-  latticeArray : 2D Cell Aray that is Displayed
-  currentLattice : Lattice Array at the Bottom of the canvas
-  nextLattice : Lattice the Next Index will be set too
-  rule : This is the Rule number for generating how it will work
-  numOfIterations : Holds number of Iterations to Create
-  currentIteration : array that holds the bottom of the array
-  orderArray : array that holds the sequential order that cells should be changed in
-  tempOrder : array that holds the order values provided by user before it saves  
-*/
-
-//This is the various document stuff for selecting color
+/**
+ * Color selector for dead cells.
+ * @type {HTMLInputElement}
+ */
 const deadColorSel = document.getElementById("deadCell");
+
+/**
+ * Color selector for alive cells.
+ * @type {HTMLInputElement}
+ */
 const aliveColorSel = document.getElementById("aliveCell");
+
+/**
+ * Color selector for the border of dead cells.
+ * @type {HTMLInputElement}
+ */
 const deadBorderSel = document.getElementById("deadBorder");
+
+/**
+ * Color selector for the border of alive cells.
+ * @type {HTMLInputElement}
+ */
 const aliveBorderSel = document.getElementById("aliveBorder");
 
+//Intialize each variables Default Values
 deadColorSel.value = "#FFFFFF";
 aliveColorSel.value = "#000000";
 deadBorderSel.value = "#000000";
 aliveBorderSel.value = "#808080";
 
-//Mutator for orderArray
+/**
+ * Alters the order of the `orderArray` to a new array.
+ * This function updates the global `orderArray` to match the provided `neoOrderArray`.
+ *
+ * @param {Array} neoOrderArray - The new array to replace the existing `orderArray`.
+ * @returns {void} This function does not return a value; it modifies the global `orderArray`.
+ *
+ * @example
+ * alterOrder([1, 2, 3, 4]); // Updates the orderArray to [1, 2, 3, 4]
+ */
 export function alterOrder(neoOrderArray) {
   orderArray = neoOrderArray;
 }
 
-//Mutator for latSize
+/**
+ * Alters the `latSize` to a new value.
+ * This function updates the global `latSize` to the provided `neoLatSize`, which determines the dimensions of the lattice.
+ *
+ * @param {Array} neoLatSize - The new dimensions for the lattice, typically an array with width and height.
+ *                            Defaults to the current `latSize` if no value is provided.
+ * @returns {void} This function does not return a value; it modifies the global `latSize`.
+ *
+ * @example
+ * alterLatSize([50, 50]); // Updates the latSize to [50, 50]
+ */
 export function alterLatSize(neoLatSize = latSize) {
   latSize = neoLatSize;
 }
 
-//Mutator for size
+/**
+ * Alters the `size` to a new value.
+ * This function updates the global `size` variable, which represents the scale or size of individual cells within the lattice.
+ *
+ * @param {number} neoSize - The new size value for the cells in the lattice. Defaults to the current `size` if no value is provided.
+ * @returns {void} This function does not return a value; it modifies the global `size`.
+ *
+ * @example
+ * alterSize(20); // Updates the size of the cells to 20
+ */
 export function alterSize(neoSize = size) {
   size = neoSize;
 }
 
-//Mutator for latticeArray
+/**
+ * Alters the `latticeArray` to a new value.
+ * This function updates the global `latticeArray`, which represents the state of the cells in the lattice.
+ *
+ * @param {Array} neoLatticeArray - The new lattice array, containing the updated state of all cells in the lattice.
+ * @returns {void} This function does not return a value; it modifies the global `latticeArray`.
+ *
+ * @example
+ * alterLatticeArray(newLatticeArray); // Updates the lattice array to the new state
+ */
 export function alterLatticeArray(neoLatticeArray) {
   latticeArray = neoLatticeArray;
 }
 
-//Mutator for currentLattice
+/**
+ * Alters the `currentLattice` to a new value.
+ * This function updates the global `currentLattice`, which represents the current configuration of cells in the lattice.
+ *
+ * @param {Array} neoCurrentLattice - The new lattice, representing the current state of all cells in the lattice.
+ * @returns {void} This function does not return a value; it modifies the global `currentLattice`.
+ *
+ * @example
+ * alterCurrentLattice(newCurrentLattice); // Updates the current lattice to the new state
+ */
 export function alterCurrentLattice(neoCurrentLattice) {
   currentLattice = neoCurrentLattice;
 }
 
-//Mutator for nextLattice
+/**
+ * Alters the `nextLattice` to a new value.
+ * This function updates the global `nextLattice`, which represents the next state of all cells in the lattice.
+ *
+ * @param {Array} neoNextLattice - The new lattice, representing the next state of all cells in the lattice.
+ * @returns {void} This function does not return a value; it modifies the global `nextLattice`.
+ *
+ * @example
+ * alterNextLattice(newNextLattice); // Updates the next lattice to the new state
+ */
+
 export function alterNextLattice(neoNextLattice) {
   nextLattice = neoNextLattice;
 }
 
-//Mutator for rule
+/**
+ * Alters the `rule` to a new value.
+ * This function updates the global `rule`, which determines the logic for cell transitions in the simulation.
+ *
+ * @param {Object} neoRule - The new rule, typically an object or array that defines the cell transition logic.
+ * @returns {void} This function does not return a value; it modifies the global `rule`.
+ *
+ * @example
+ * alterRule(newRule); // Updates the rule to the new transition logic
+ */
 export function alterRule(neoRule) {
   rule = neoRule;
 }
 
-//Mutator for numOfIterations
+/**
+ * Alters the `numOfIterations` to a new value.
+ * This function updates the global `numOfIterations`, which controls how many iterations the simulation will run.
+ *
+ * @param {number} neoNumOfIterations - The new number of iterations for the simulation.
+ * @returns {void} This function does not return a value; it modifies the global `numOfIterations`.
+ *
+ * @example
+ * alterNumOfIterations(100); // Sets the number of iterations to 100
+ */
 export function alterNumOfIterations(neoNumOfIterations) {
   numOfIterations = neoNumOfIterations;
 }
 
-//Mutator for currentIteration
+/**
+ * Alters the `currentIteration` to a new value.
+ * This function updates the global `currentIteration`, which tracks the current iteration of the simulation.
+ *
+ * @param {number} neoCurrentIteration - The new current iteration for the simulation.
+ * @returns {void} This function does not return a value; it modifies the global `currentIteration`.
+ *
+ * @example
+ * alterCurrentIteration(5); // Sets the current iteration to 5
+ */
 export function alterCurrentIteration(neoCurrentIteration) {
   currentIteration = neoCurrentIteration;
 }
 
-//Mutator for ruleNum
+/**
+ * Alters the `ruleNum` to a new value.
+ * This function updates the global `ruleNum`, which defines the rule number used in the simulation.
+ *
+ * @param {number} neoRuleNum - The new rule number to be set for the simulation.
+ * @returns {void} This function does not return a value; it modifies the global `ruleNum`.
+ *
+ * @example
+ * alterRuleNum(30); // Sets the rule number to 30
+ */
 export function alterRuleNum(neoRuleNum) {
   ruleNum = neoRuleNum;
 }
 
-//Mutator for boundaryCon
+/**
+ * Alters the `boundaryCon` to a new value.
+ * This function updates the global `boundaryCon`, which controls the boundary condition of the lattice.
+ *
+ * @param {boolean} neoBoundaryCon - The new boundary condition to be set for the lattice.
+ * @returns {void} This function does not return a value; it modifies the global `boundaryCon`.
+ *
+ * @example
+ * alterBoundaryCon(true); // Sets the boundary condition to true
+ */
 export function alterBoundaryCon(neoBoundaryCon) {
   boundaryCon = neoBoundaryCon;
 }
 
+/**
+ * Alters the `border` to a new value.
+ * This function updates the global `border`, which controls the border settings of the lattice.
+ *
+ * @param {boolean} neoBorder - The new border style to be set for the lattice.
+ * @returns {void} This function does not return a value; it modifies the global `border`.
+ *
+ */
 export function alterBorder(neoBorder) {
   border = neoBorder;
 }
+
+/**
+ * Returns the current value of the `border`.
+ * This function retrieves the global `border` setting used for the lattice.
+ *
+ * @returns {boolean} The current border setting for the lattice.
+ */
 
 export function getBorder() {
   return border;
 }
 
-/*
-This function pushes the initial timestep lattice of cells such that the user can select what cells they want
-on or off
-*/
+/**
+ * Initializes and displays the lattice for the simulation at the start timestep.
+ * The user can select which cells are on or off by interacting with the displayed lattice.
+ *
+ * @param {Array} latticeArray - The array containing the lattice cells.
+ * This function creates the first row of cells based on the lattice size and size parameters,
+ * positioning them so that they are centered on the canvas.
+ */
 function LatticeDisplay(latticeArray) {
   let startDif = (latSize * size) / 2;
   let center = canvas.width / 2;
@@ -108,7 +273,15 @@ function LatticeDisplay(latticeArray) {
   drawLattice(latticeArray);
 }
 
-//Draws lattices to the canvas
+/**
+ * Draws the lattice grid onto the canvas, updating the visual representation of the simulation.
+ * The function ensures the canvas size is adjusted to fit the lattice, applies borders to cells,
+ * and draws each cell in the lattice at the correct position.
+ *
+ * @param {Array} latticeArray - The array of lattice cells to be drawn.
+ * This function updates the canvas size to accommodate the lattice, applies borders to the cells,
+ * and draws them in the appropriate positions based on their state.
+ */
 export function drawLattice(latticeArray) {
   //Increases canvas size such that lattice can fit.
   if (latticeArray.length * size > canvas.height) {
@@ -138,7 +311,16 @@ export function drawLattice(latticeArray) {
   }
 }
 
-//Creates next timestep lattice then sets the new timestep as the current one.
+/**
+ * Generates the next timestep of the lattice based on the current lattice, rule, boundary condition,
+ * and iteration count, then updates the lattice array and the displayed iteration count.
+ * The current lattice is updated to the newly generated lattice, and the lattice is redrawn on the canvas.
+ *
+ * @function updateLattice
+ * Updates the simulation by generating the next timestep lattice for each iteration, applying the
+ * current rule and boundary condition, and then redrawing the updated lattice on the canvas.
+ */
+
 export function updateLattice() {
   //Iterates over each new iteration that needs to be added to the lattice array.
   for (; currentIteration < numOfIterations; currentIteration++) {
@@ -154,7 +336,13 @@ export function updateLattice() {
   outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); // Display iteration count to HTML page upon update
 }
 
-//Set intial order then print to console for debugging purposes
+/**
+ * Initializes the orderArray with a sequence of numbers from 0 to latSize-1.
+ * This function resets the orderArray before filling it with values and prints it to the console for debugging purposes.
+ *
+ * @function createOrder
+ * Initializes and populates the orderArray with values from 0 to latSize-1 for the purpose of controlling the order of operations.
+ */
 export function createOrder() {
   orderArray.length = 0;
   for (let i = 0; i < latSize; i++) {
@@ -162,23 +350,39 @@ export function createOrder() {
   }
 }
 
+/**
+ * Alters the tempOrder array with the provided new value.
+ * This function updates the tempOrder to a new array as specified by the input.
+ *
+ * @param {Array} neoTempOrder - The new array to replace the existing tempOrder.
+ */
 export function alterTempOrder(neoTempOrder) {
   tempOrder = neoTempOrder;
 }
+
+/**
+ * Returns the current setup value.
+ * This function retrieves the value of the setup and returns it.
+ *
+ * @returns {boolean} The current value of the setup.
+ */
 
 export function getSetup() {
   return setup;
 }
 
+/**
+ * Updates the setup value and applies it to the first row of the lattice.
+ * This function changes the setup to a new value and applies this setup to the first row of the lattice cells.
+ *
+ * @param {any} neoSetup - The new setup value to be applied.
+ */
 export function alterSetup(neoSetup) {
   setup = neoSetup;
   for (let i = 0; i < latticeArray[0].length; i++) {
     latticeArray[0][i].setSetup(neoSetup);
   }
 }
-
-import { cell } from "./cellClass.js";
-import { ruleNumToRule, generateLattice } from "./generateLattice.js";
 
 //This variable holds the order that cells will be altered in.
 let orderArray = new Array();
@@ -246,12 +450,6 @@ latice.
 let ruleNum = 90;
 let boundaryCon = 1;
 
-//Sends Variables to needed location
-export { ruleNum, boundaryCon, latSize, size, currentIteration };
-export { outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx };
-export { latticeArray, numOfIterations, currentLattice, orderArray, tempOrder };
-export { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel };
-
 //Sets starting lattice to all dead
 //latticeArray[0] = currentLattice;
 latticeArray = [];
@@ -259,3 +457,9 @@ LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum);
 createOrder();
 updateLattice();
+
+//Sends Variables to needed location
+export { ruleNum, boundaryCon, latSize, size, currentIteration };
+export { outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx };
+export { latticeArray, numOfIterations, currentLattice, orderArray, tempOrder };
+export { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel };
