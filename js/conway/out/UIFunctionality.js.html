@@ -1,4 +1,32 @@
-/** 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: UIFunctionality.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: UIFunctionality.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** 
  * UIFunctionality.js
  * 
  * Summary:
@@ -196,7 +224,7 @@ const libraryTubstretcher = document.getElementById('libraryTubstretcher');
  * Each object in the array contains a button element and the build function 
  * that should be executed when the button is clicked.
  * 
- * @type {Array<{element: HTMLElement, build: Function}>}
+ * @type {Array&lt;{element: HTMLElement, build: Function}>}
  */
 const libraries = [
 	{ element: library101, build: build101 },
@@ -334,7 +362,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	 */
 	iterateButton.addEventListener("click", debounce(function() {
 		//If iterations are not happening continuously and no boundary collisions exist, iterate one timestep
-		if(!run && !boundaryCollide()) {
+		if(!run &amp;&amp; !boundaryCollide()) {
 			clearResetToggle(true);
 			iterate();
 			updateOutput(true);
@@ -453,7 +481,7 @@ document.addEventListener('keydown', function(event) {
 		setTimeout(function() {
 			if (!shift) {
 				shift = true;
-				if (scribble && shift) {
+				if (scribble &amp;&amp; shift) {
 					[mouseXPos, mouseYPos] = getMouseLocation(event);
 				}
 			}
@@ -526,8 +554,8 @@ canvas.addEventListener("mousedown", function(event) {
 	[mouseX, mouseY] = getMouseLocation(event);
 	//When shift is true, the user should be able to click and drag across canvas, so draw on canvas when false.
 	if (!shift) {
-		for (let i = 0; i < visLatticeArray.length; i++) {
-			for (let j = 0; j < visLatticeArray[i].length; j++) {
+		for (let i = 0; i &lt; visLatticeArray.length; i++) {
+			for (let j = 0; j &lt; visLatticeArray[i].length; j++) {
 				//If the mouse click was inside of this cell, flip the cell's status
 				if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
 					visLatticeArray[i][j].flipColor();
@@ -563,16 +591,16 @@ canvas.addEventListener("mousedown", function(event) {
 		let mouseX, mouseY;
 		[mouseX, mouseY] = getMouseLocation(event);
 		//If the shift key is being held down and scribble is active, shift across canvas
-		if (scribble && shift) {
+		if (scribble &amp;&amp; shift) {
 			let offSetX = mouseX - mouseXPos;
 			let offsetY = mouseY - mouseYPos;
 			redrawLattice(offSetX, offsetY);
 		}
 		//If just scribble is active, keep track of mouse location and flip cell colors over cursor
 		else if (scribble) {
-			for (let i = 0; i < visLatticeArray.length; i++) {
-				for (let j = 0; j < visLatticeArray[i].length; j++) {
-					if ((visLatticeArray[i][j].insideCell(mouseX, mouseY)) && (visLatticeArray[i][j].getColor() == 0)) {
+			for (let i = 0; i &lt; visLatticeArray.length; i++) {
+				for (let j = 0; j &lt; visLatticeArray[i].length; j++) {
+					if ((visLatticeArray[i][j].insideCell(mouseX, mouseY)) &amp;&amp; (visLatticeArray[i][j].getColor() == 0)) {
 						visLatticeArray[i][j].flipColor();
 						visLatticeArray[i][j].drawCell(ctx);
 						if (latticeArray[i + visBounds[1]][j + visBounds[0]] == 1) {
@@ -609,7 +637,7 @@ canvas.addEventListener("mousedown", function(event) {
 			if (!scribble) {
 				scribble = true;
 				//If scribble and shift are true, get initial mouse location so that there is a reference point for canvas movement calculations
-				if (scribble && shift) {
+				if (scribble &amp;&amp; shift) {
 					[mouseXPos, mouseYPos] = getMouseLocation(event);
 				}
 			}
@@ -669,12 +697,12 @@ canvas.addEventListener("mousedown", function(event) {
 			let delta = event.deltaY; //Get delta from mouse scroll.
 			let change = false;
 			let currentScale = 100 / reverse[zoomSlider.value - 1];
-			if (delta < 0 && zoomSlider.value < 100) {
+			if (delta &lt; 0 &amp;&amp; zoomSlider.value &lt; 100) {
 				zoomSlider.value++;
 				zoomValue.innerHTML++;
 				change = true;
 			}
-			else if (delta > 0 && zoomSlider.value > 1) {
+			else if (delta > 0 &amp;&amp; zoomSlider.value > 1) {
 				zoomSlider.value--;
 				zoomValue.innerHTML--;
 				change = true;
@@ -726,7 +754,7 @@ function inLattice(xLoc, yLoc) {
 	let xMax = visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() + visLatticeArray[0][visLatticeArray[0].length - 1].getWidth();
 	let yMin = visLatticeArray[0][0].getYLoc();
 	let yMax = visLatticeArray[visLatticeArray.length - 1][0].getYLoc() + visLatticeArray[visLatticeArray.length - 1][0].getHeight();
-	if (xLoc >= xMin && xLoc <= xMax && yLoc >= yMin && yLoc <= yMax) {
+	if (xLoc >= xMin &amp;&amp; xLoc &lt;= xMax &amp;&amp; yLoc >= yMin &amp;&amp; yLoc &lt;= yMax) {
 		return true;
 	}
 	else {
@@ -745,7 +773,7 @@ function inLattice(xLoc, yLoc) {
  */
 function startStopToggle() {
 	// If the button is in start state, change it to stop state and vice versa
-	if (startStopButton.classList.contains("start_button") && !run) {
+	if (startStopButton.classList.contains("start_button") &amp;&amp; !run) {
 		startStopButton.innerHTML = "Stop";
 		startStopButton.classList.remove("start_button");
 		startStopButton.classList.add("stop_button");
@@ -973,7 +1001,7 @@ function getMouseLocation(event) {
 function continouslyIterate() {
 	if (run) {
 		setTimeout(function() { // puts a wait before iterating again
-			if (run && !(shift && scribble) && !boundaryCollide()) {
+			if (run &amp;&amp; !(shift &amp;&amp; scribble) &amp;&amp; !boundaryCollide()) {
 				iterate();
 				updateOutput(true);
 				ctx.clearRect(0,0, canvas.width, canvas.height);
@@ -1088,7 +1116,7 @@ export function redrawLattice(xOffset = 0, yOffset = 0) {
 			}
 		}
 		else {
-			if (trueOffsetX < maxOffsetX) {
+			if (trueOffsetX &lt; maxOffsetX) {
 				trueOffsetX = maxOffsetX;
 			}
 		}
@@ -1098,7 +1126,7 @@ export function redrawLattice(xOffset = 0, yOffset = 0) {
 			}
 		}
 		else {
-			if (trueOffsetY < maxOffsetY) {
+			if (trueOffsetY &lt; maxOffsetY) {
 				trueOffsetY = maxOffsetY;
 			}
 		}
@@ -1107,8 +1135,8 @@ export function redrawLattice(xOffset = 0, yOffset = 0) {
 	ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 	let offSetLat = visLatticeArray;
-	for (let i = 0; i < visLatticeArray.length; i++) {
-		for (let f = 0; f < visLatticeArray[i].length; f++) {
+	for (let i = 0; i &lt; visLatticeArray.length; i++) {
+		for (let f = 0; f &lt; visLatticeArray[i].length; f++) {
 			if (trueOffsetX != 0 || trueOffsetY != 0) {
 				let curCell = visLatticeArray[i][f];
 				offSetLat[i][f] = new cell(curCell.getHeight(), curCell.getWidth(), curCell.getXLoc() + trueOffsetX, curCell.getYLoc() + trueOffsetY, curCell.getColor(), curCell.getBorder());
@@ -1138,8 +1166,8 @@ export function redrawLattice(xOffset = 0, yOffset = 0) {
  * alterLattice(0.8, 200, 150);      // Scales all cells by a factor of 0.8, centered around (200, 150).
  */
 export function alterLattice(scale, mouseY = canvas.height / 2, mouseX = canvas.width / 2) {
-	for (let i = 0; i < visLatticeArray.length; i++) {
-		for (let j = 0; j < visLatticeArray[i].length; j++) {
+	for (let i = 0; i &lt; visLatticeArray.length; i++) {
+		for (let j = 0; j &lt; visLatticeArray[i].length; j++) {
 			alterCell(visLatticeArray[i][j], scale, mouseY, mouseX);
 		}
 	}
@@ -1159,10 +1187,10 @@ export function alterLattice(scale, mouseY = canvas.height / 2, mouseX = canvas.
  */
 export function saveReset(){
 	resetLattice.length = 0; //Javascript is insane man
-	for(let i = 0; i < latticeArray.length; i++)
+	for(let i = 0; i &lt; latticeArray.length; i++)
 	{
 		let tempRow = new Array();
-		for(let j = 0; j < latticeArray[0].length; j++)
+		for(let j = 0; j &lt; latticeArray[0].length; j++)
 		{
 			tempRow.push(latticeArray[i][j]);
 		}
@@ -1184,8 +1212,8 @@ export function saveReset(){
  */
 export function clear() {
 	updateOutput();
-	for (let i = 0; i < latticeArray.length; i++) {
-		for (let j = 0; j < latticeArray[0].length; j++) {
+	for (let i = 0; i &lt; latticeArray.length; i++) {
+		for (let j = 0; j &lt; latticeArray[0].length; j++) {
 			latticeArray[i][j] = 0;
 		}
 	}
@@ -1200,4 +1228,26 @@ export function clear() {
 }
 
 updateOutput(); // Display initial count of 0
-export {iterationCount}
+export {iterationCount}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="%2520Parameters.html">- Parameters</a></li><li><a href="cell.html">cell</a></li></ul><h3>Events</h3><ul><li><a href="document.html#event:DOMContentLoaded">DOMContentLoaded</a></li></ul><h3>Global</h3><ul><li><a href="global.html#aboutButton">aboutButton</a></li><li><a href="global.html#aboutWindow">aboutWindow</a></li><li><a href="global.html#alterCell">alterCell</a></li><li><a href="global.html#alterLattice">alterLattice</a></li><li><a href="global.html#alterNeighborCount">alterNeighborCount</a></li><li><a href="global.html#boundaryCollide">boundaryCollide</a></li><li><a href="global.html#bounds">bounds</a></li><li><a href="global.html#buffer">buffer</a></li><li><a href="global.html#bufferArray">bufferArray</a></li><li><a href="global.html#build101">build101</a></li><li><a href="global.html#build119">build119</a></li><li><a href="global.html#build1234">build1234</a></li><li><a href="global.html#build295">build295</a></li><li><a href="global.html#build60P">build60P</a></li><li><a href="global.html#buildAK94">buildAK94</a></li><li><a href="global.html#buildGlider">buildGlider</a></li><li><a href="global.html#buildGtoG">buildGtoG</a></li><li><a href="global.html#buildSnail">buildSnail</a></li><li><a href="global.html#buildTrigger">buildTrigger</a></li><li><a href="global.html#buildTub">buildTub</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#canvasHeight">canvasHeight</a></li><li><a href="global.html#canvasWidth">canvasWidth</a></li><li><a href="global.html#cellSize">cellSize</a></li><li><a href="global.html#changeNeighbor">changeNeighbor</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#clearResetButton">clearResetButton</a></li><li><a href="global.html#clearResetToggle">clearResetToggle</a></li><li><a href="global.html#closeAbout">closeAbout</a></li><li><a href="global.html#closeLibrary">closeLibrary</a></li><li><a href="global.html#continouslyIterate">continouslyIterate</a></li><li><a href="global.html#createInit">createInit</a></li><li><a href="global.html#createNewConfig">createNewConfig</a></li><li><a href="global.html#createVis">createVis</a></li><li><a href="global.html#createVisInit">createVisInit</a></li><li><a href="global.html#ctx">ctx</a></li><li><a href="global.html#currentDelay">currentDelay</a></li><li><a href="global.html#currentReset">currentReset</a></li><li><a href="global.html#debounce">debounce</a></li><li><a href="global.html#displayLattice">displayLattice</a></li><li><a href="global.html#getMouseLocation">getMouseLocation</a></li><li><a href="global.html#inLattice">inLattice</a></li><li><a href="global.html#intialCanvas">intialCanvas</a></li><li><a href="global.html#iterate">iterate</a></li><li><a href="global.html#iterateButton">iterateButton</a></li><li><a href="global.html#iterationCount">iterationCount</a></li><li><a href="global.html#iterationSpeedSlider">iterationSpeedSlider</a></li><li><a href="global.html#iterationSpeedValue">iterationSpeedValue</a></li><li><a href="global.html#latticeArray">latticeArray</a></li><li><a href="global.html#libraries">libraries</a></li><li><a href="global.html#library101">library101</a></li><li><a href="global.html#library119P4H1V0">library119P4H1V0</a></li><li><a href="global.html#library1234">library1234</a></li><li><a href="global.html#library295P5H1V1">library295P5H1V1</a></li><li><a href="global.html#library4gto5gReaction">library4gto5gReaction</a></li><li><a href="global.html#library60P312">library60P312</a></li><li><a href="global.html#libraryAK94Gun">libraryAK94Gun</a></li><li><a href="global.html#libraryButton">libraryButton</a></li><li><a href="global.html#librarySnail">librarySnail</a></li><li><a href="global.html#libraryTrigger">libraryTrigger</a></li><li><a href="global.html#libraryTubstretcher">libraryTubstretcher</a></li><li><a href="global.html#libraryWindow">libraryWindow</a></li><li><a href="global.html#mouseXPos">mouseXPos</a></li><li><a href="global.html#mouseYPos">mouseYPos</a></li><li><a href="global.html#outputIteration">outputIteration</a></li><li><a href="global.html#recountNeighbors">recountNeighbors</a></li><li><a href="global.html#redrawLattice">redrawLattice</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#resetLattice">resetLattice</a></li><li><a href="global.html#reverse">reverse</a></li><li><a href="global.html#run">run</a></li><li><a href="global.html#saveReset">saveReset</a></li><li><a href="global.html#scribble">scribble</a></li><li><a href="global.html#setDelay">setDelay</a></li><li><a href="global.html#setLattice">setLattice</a></li><li><a href="global.html#shift">shift</a></li><li><a href="global.html#shiftX">shiftX</a></li><li><a href="global.html#shiftY">shiftY</a></li><li><a href="global.html#startStopButton">startStopButton</a></li><li><a href="global.html#startStopToggle">startStopToggle</a></li><li><a href="global.html#updateOutput">updateOutput</a></li><li><a href="global.html#visBounds">visBounds</a></li><li><a href="global.html#visLatticeArray">visLatticeArray</a></li><li><a href="global.html#visLatticeHeight">visLatticeHeight</a></li><li><a href="global.html#visLatticeWidth">visLatticeWidth</a></li><li><a href="global.html#xCenter">xCenter</a></li><li><a href="global.html#yCenter">yCenter</a></li><li><a href="global.html#zoomSlider">zoomSlider</a></li><li><a href="global.html#zoomValue">zoomValue</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Nov 09 2024 22:00:52 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

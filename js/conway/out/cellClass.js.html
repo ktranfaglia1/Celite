@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: cellClass.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: cellClass.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * cellClass.js
+ *
+ * Summary:
+ *   Defines the Cell class, which represents individual cells in a grid-based system. The class provides
+ *   functionalities for drawing cells, checking if a position is within a cell, setting colors, and toggling
+ *   states (e.g., alive or dead).
+ *
+ * Features:
+ *   - Draws cells to the canvas based on provided context.
+ *   - Detects if a given position (such as the mouse) is inside the cell.
+ *   - Allows setting and flipping of cell colors to represent states.
+ *   - Provides accessor for retrieving cell color.
+ *
+ * Class:
+ *   - Cell: Represents a cell with methods to draw, set, and toggle its state.
+ *
+ *  Functions:
+ *   - Constructor: Initializes the cell with height, width, X and Y location, color, and border properties.
+ *   - drawCell: Draws the cell on the canvas, requires a canvas context (`ctx`) as a parameter.
+ *   - setBorder: Updates the cell’s border color.
+ *   - getBorder: Returns the current border color of the cell.
+ *   - insideCell: Checks if a given (X, Y) position is inside the cell (e.g., for mouse interactions).
+ *   - setColor: Sets a new color for the cell.
+ *   - flipColor: Toggles the cell color between "alive" and "dead".
+ *   - getColor: Gets the current color of the cell.
+ *   - getHeight / setHeight: Accessor and mutator for the cell’s height.
+ *   - getWidth / setWidth: Accessor and mutator for the cell’s width.
+ *   - getXLoc / setXLoc: Accessor and mutator for the cell’s X-axis location.
+ *   - getYLoc / setYLoc: Accessor and mutator for the cell’s Y-axis location.
+ *   - setDeadColor: Sets the color for dead cells.
+ *   - setDeadBorder: Sets the border color for dead cells.
+ *   - setAliveColor: Sets the color for alive cells.
+ *   - setAliveBorder: Sets the border color for alive cells.
+ *
+ * Authors:
+ *   - Dustin O'Brien
+ */
+
+/**
+* - Class Properties
+* @property {number} height - The height of the cell.
+* @property {number} width - The width of the cell.
+* @property {number} XLocation - The X-axis location of the cell.
+* @property {number} YLocation - The Y-axis location of the cell.
+* @property {string} color - The color of the cell (black for alive, white for dead).
+* @property {string} border - The color of the border around the cell.
+* @property {string} deadCell - Default color for dead cells (white).
+* @property {string} deadBord - Default border color for dead cells (black).
+* @property {string} aliveCell - Default color for alive cells (black).
+* @property {string} aliveBord - Default border color for alive cells (grey).
+*/
+export class cell {
+
+	/**
+	*  Basic constructor for creating a cell object with specific dimensions, location, color, and border.
+	* This constructor is used to define the properties of individual cells in a grid, such as their size, 
+	* position on the grid, color (alive or dead), and border color. The cell can represent a state in a 
+	* simulation or grid-based system.
+	* 
+	* @constructor
+	* 
+	* - Parameters
+	* @param {number} height - The height of the cell.
+	* @param {number} width - The width of the cell.
+	* @param {number} XLocation - The X-axis location of the cell.
+	* @param {number} YLocation - The Y-axis location of the cell.
+	* @param {string} color - The color of the cell (e.g., 'black' or 'white').
+	* @param {string} border - The color of the border around the cell.
+	* 
+	 */
+	constructor(height, width, XLocation, YLocation, color, border) {
+		//holds the height and width of the cell this should be the same but can allow for rectangles if needed
+		this.height = height;
+		this.width = width;
+		//Holds location of the cell based on X and Y
+		this.XLocation = XLocation;
+		this.YLocation = YLocation;
+		//Sets the color of the cell to black or white
+		this.color = color;
+		this.border = border;
+
+		//Sets Dead Cell Colors
+		this.deadCell = '#FFFFFF';
+		this.deadBord = '#000000';
+
+		//Sets Alive Cell Colors
+		this.aliveCell = '#000000';
+		this.aliveBord = '#808080';
+
+	}
+
+	// Function used to draw the cell in its proper location
+ /**
+  * Draws the Cell onto Canvas
+  * @param {CanvasRenderingContext2D} ctx
+  * @returns {void}
+  */
+	drawCell(ctx) {
+		//Checks if the cell in question is within the current canvas. No need to run draw commands on anything outside canvas.
+		if(this.XLocation + this.width > 0 &amp;&amp; this.XLocation &lt; ctx.canvas.width &amp;&amp; this.YLocation + this.height > 0 &amp;&amp; this.YLocation &lt; ctx.canvas.height &amp;&amp; (this.color || this.height > 10 )/*&amp;&amp; (this.color || border)*/) {
+			let border = true;
+			//If the height of the cell is less then or equal to ten, dont draw cell borders
+			if(this.height &lt;= 10) {
+				border = false;
+			}
+
+			//Draws the Box Outline as long as Cells arent too small
+			if(border) {
+				//Sets outline to be inverse of color of cell so you can see it
+				if(this.color == 1) {
+					ctx.fillStyle = this.aliveBord;
+				}
+				else {
+					ctx.fillStyle = this.deadBord;
+				}
+
+				// Draws the main section outside of the square
+				ctx.fillRect(this.XLocation, this.YLocation , this.width + 1, this.height + 1);
+			}
+
+			//Sets color for the main part of the cell
+			if(this.color == 1) {
+				ctx.fillStyle = this.aliveCell;
+			}
+			else {
+				ctx.fillStyle = this.deadCell;
+			}
+			
+			//Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
+			if(border) {
+				ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
+			}
+			else {
+				ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
+			}
+		}
+	}
+
+	/**
+	 * Sets the border status for the cell.
+	 * @param {boolean} newBorder - The new border status for the cell (true or false).
+	 * @returns {void}
+	 */
+	setBorder(newBorder) {
+		this.border = newBorder;
+	}
+
+	/**
+	 * Gets the current border status of the cell.
+	 * @returns {boolean} - Returns the current border status (true if border is on, false if off).
+	 */
+	getBorder() {
+		return this.border;
+	}
+
+	/**
+	 * Checks if the given mouse coordinates are inside the cell boundaries.
+	 * @param {number} MouseX - The X coordinate of the mouse position.
+	 * @param {number} MouseY - The Y coordinate of the mouse position.
+	 * @returns {boolean} - Returns true if the mouse is inside the cell; otherwise, false.
+	 */
+	insideCell(MouseX, MouseY) {
+		// Tests if location is inside if cell
+		if ((MouseX >= this.XLocation &amp;&amp; MouseX &lt;= this.XLocation + this.width) &amp;&amp; (MouseY >= this.YLocation &amp;&amp; MouseY &lt;= this.YLocation + this.height)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+		/**
+	 * Sets the cell color to a specified value.
+	 * @param {string} color - New color for the cell (e.g., 'black' or 'white' or a numeric value).
+	 * @returns {void}
+	 */
+		setColor(color) {
+			this.color = color;
+		}
+	
+		/**
+		 * Toggles the color of the cell between "alive" and "dead" states.
+		 * @returns {void}
+		 */
+		flipColor() {
+			if (this.color == 1) {
+				this.color = 0;
+			} else {
+				this.color = 1;
+			}
+		}
+	
+		/**
+		 * Retrieves the current color of the cell.
+		 * @returns {string} - The current color of the cell.
+		 */
+		getColor() {
+			return this.color;
+		}
+	
+		/**
+		 * Gets the height of the cell.
+		 * @returns {number} - The height of the cell.
+		 */
+		getHeight() {
+			return this.height;
+		}
+	
+		/**
+		 * Sets the height of the cell.
+		 * @param {number} Val - The new height of the cell.
+		 * @returns {void}
+		 */
+		setHeight(Val) {
+			this.height = Val;
+		}
+	
+		/**
+		 * Gets the width of the cell.
+		 * @returns {number} - The width of the cell.
+		 */
+		getWidth() {
+			return this.width;
+		}
+	
+		/**
+		 * Sets the width of the cell.
+		 * @param {number} Val - The new width of the cell.
+		 * @returns {void}
+		 */
+		setWidth(Val) {
+			this.width = Val;
+		}
+	
+		/**
+		 * Gets the X location of the top left corner of the cell.
+		 * @returns {number} - The X location of the cell.
+		 */
+		getXLoc() {
+			return this.XLocation;
+		}
+	
+		/**
+		 * Sets the X location of the top left corner of the cell.
+		 * @param {number} Val - The new X location of the cell.
+		 * @returns {void}
+		 */
+		setXLoc(Val) {
+			this.XLocation = Val;
+		}
+	
+		/**
+		 * Gets the Y location of the top left corner of the cell.
+		 * @returns {number} - The Y location of the cell.
+		 */
+		getYLoc() {
+			return this.YLocation;
+		}
+	
+		/**
+		 * Sets the Y location of the top left corner of the cell.
+		 * @param {number} Val - The new Y location of the cell.
+		 * @returns {void}
+		 */
+		setYLoc(Val) {
+			this.YLocation = Val;
+		}
+	
+		/**
+		 * Sets the color of a dead cell.
+		 * @param {string} color - The new color for dead cells.
+		 * @returns {void}
+		 */
+		setDeadColor(color) {
+			this.deadCell = color;
+		}
+	
+		/**
+		 * Sets the border color of a dead cell.
+		 * @param {string} color - The new border color for dead cells.
+		 * @returns {void}
+		 */
+		setDeadBorder(color) {
+			this.deadBord = color;
+		}
+	
+		/**
+		 * Sets the color of an alive cell.
+		 * @param {string} color - The new color for alive cells.
+		 * @returns {void}
+		 */
+		setAliveColor(color) {
+			this.aliveCell = color;
+		}
+	
+		/**
+		 * Sets the border color of an alive cell.
+		 * @param {string} color - The new border color for alive cells.
+		 * @returns {void}
+		 */
+		setAliveBorder(color) {
+			this.aliveBord = color;
+		}
+	
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="%2520Parameters.html">- Parameters</a></li><li><a href="cell.html">cell</a></li></ul><h3>Events</h3><ul><li><a href="document.html#event:DOMContentLoaded">DOMContentLoaded</a></li></ul><h3>Global</h3><ul><li><a href="global.html#aboutButton">aboutButton</a></li><li><a href="global.html#aboutWindow">aboutWindow</a></li><li><a href="global.html#alterCell">alterCell</a></li><li><a href="global.html#alterLattice">alterLattice</a></li><li><a href="global.html#alterNeighborCount">alterNeighborCount</a></li><li><a href="global.html#boundaryCollide">boundaryCollide</a></li><li><a href="global.html#bounds">bounds</a></li><li><a href="global.html#buffer">buffer</a></li><li><a href="global.html#bufferArray">bufferArray</a></li><li><a href="global.html#build101">build101</a></li><li><a href="global.html#build119">build119</a></li><li><a href="global.html#build1234">build1234</a></li><li><a href="global.html#build295">build295</a></li><li><a href="global.html#build60P">build60P</a></li><li><a href="global.html#buildAK94">buildAK94</a></li><li><a href="global.html#buildGlider">buildGlider</a></li><li><a href="global.html#buildGtoG">buildGtoG</a></li><li><a href="global.html#buildSnail">buildSnail</a></li><li><a href="global.html#buildTrigger">buildTrigger</a></li><li><a href="global.html#buildTub">buildTub</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#canvasHeight">canvasHeight</a></li><li><a href="global.html#canvasWidth">canvasWidth</a></li><li><a href="global.html#cellSize">cellSize</a></li><li><a href="global.html#changeNeighbor">changeNeighbor</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#clearResetButton">clearResetButton</a></li><li><a href="global.html#clearResetToggle">clearResetToggle</a></li><li><a href="global.html#closeAbout">closeAbout</a></li><li><a href="global.html#closeLibrary">closeLibrary</a></li><li><a href="global.html#continouslyIterate">continouslyIterate</a></li><li><a href="global.html#createInit">createInit</a></li><li><a href="global.html#createNewConfig">createNewConfig</a></li><li><a href="global.html#createVis">createVis</a></li><li><a href="global.html#createVisInit">createVisInit</a></li><li><a href="global.html#ctx">ctx</a></li><li><a href="global.html#currentDelay">currentDelay</a></li><li><a href="global.html#currentReset">currentReset</a></li><li><a href="global.html#debounce">debounce</a></li><li><a href="global.html#displayLattice">displayLattice</a></li><li><a href="global.html#getMouseLocation">getMouseLocation</a></li><li><a href="global.html#inLattice">inLattice</a></li><li><a href="global.html#intialCanvas">intialCanvas</a></li><li><a href="global.html#iterate">iterate</a></li><li><a href="global.html#iterateButton">iterateButton</a></li><li><a href="global.html#iterationCount">iterationCount</a></li><li><a href="global.html#iterationSpeedSlider">iterationSpeedSlider</a></li><li><a href="global.html#iterationSpeedValue">iterationSpeedValue</a></li><li><a href="global.html#latticeArray">latticeArray</a></li><li><a href="global.html#libraries">libraries</a></li><li><a href="global.html#library101">library101</a></li><li><a href="global.html#library119P4H1V0">library119P4H1V0</a></li><li><a href="global.html#library1234">library1234</a></li><li><a href="global.html#library295P5H1V1">library295P5H1V1</a></li><li><a href="global.html#library4gto5gReaction">library4gto5gReaction</a></li><li><a href="global.html#library60P312">library60P312</a></li><li><a href="global.html#libraryAK94Gun">libraryAK94Gun</a></li><li><a href="global.html#libraryButton">libraryButton</a></li><li><a href="global.html#librarySnail">librarySnail</a></li><li><a href="global.html#libraryTrigger">libraryTrigger</a></li><li><a href="global.html#libraryTubstretcher">libraryTubstretcher</a></li><li><a href="global.html#libraryWindow">libraryWindow</a></li><li><a href="global.html#mouseXPos">mouseXPos</a></li><li><a href="global.html#mouseYPos">mouseYPos</a></li><li><a href="global.html#outputIteration">outputIteration</a></li><li><a href="global.html#recountNeighbors">recountNeighbors</a></li><li><a href="global.html#redrawLattice">redrawLattice</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#resetLattice">resetLattice</a></li><li><a href="global.html#reverse">reverse</a></li><li><a href="global.html#run">run</a></li><li><a href="global.html#saveReset">saveReset</a></li><li><a href="global.html#scribble">scribble</a></li><li><a href="global.html#setDelay">setDelay</a></li><li><a href="global.html#setLattice">setLattice</a></li><li><a href="global.html#shift">shift</a></li><li><a href="global.html#shiftX">shiftX</a></li><li><a href="global.html#shiftY">shiftY</a></li><li><a href="global.html#startStopButton">startStopButton</a></li><li><a href="global.html#startStopToggle">startStopToggle</a></li><li><a href="global.html#updateOutput">updateOutput</a></li><li><a href="global.html#visBounds">visBounds</a></li><li><a href="global.html#visLatticeArray">visLatticeArray</a></li><li><a href="global.html#visLatticeHeight">visLatticeHeight</a></li><li><a href="global.html#visLatticeWidth">visLatticeWidth</a></li><li><a href="global.html#xCenter">xCenter</a></li><li><a href="global.html#yCenter">yCenter</a></li><li><a href="global.html#zoomSlider">zoomSlider</a></li><li><a href="global.html#zoomValue">zoomValue</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Nov 09 2024 22:00:52 GMT-0500 (Eastern Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
