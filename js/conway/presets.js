@@ -1,7 +1,42 @@
-/*
-presets is used to store the  functionality for drawing library configurations on canvas
-Author: Dustin O'Brien
-*/
+/** 
+ * presets.js
+ * 
+ * Summary:
+ *   This script provides a set of functions for manipulating and updating the lattice grid for the Game of Life (GOL) simulation. 
+ *   It includes functions to create initial configurations, update the lattice, and build specific GOL patterns, such as gliders and oscillators.
+ * 
+ * Features:
+ *   - Supports the creation of various Game of Life patterns, such as gliders, 101, and others.
+ *   - Provides functions for lattice grid manipulation, including setting cell values and recalculating neighbors.
+ *   - Allows updating the visual grid based on changes in the lattice configuration.
+ * 
+ * Functions:
+ *   - createNewConfig: Creates and returns a new lattice configuration for the Game of Life.
+ *   - setLattice: Updates the visual lattice with a new lattice configuration.
+ *   - xCenter: Calculates and returns the center X coordinate of the visible lattice bounds.
+ *   - yCenter: Calculates and returns the center Y coordinate of the visible lattice bounds.
+ *   - buildGlider: Creates a simple glider pattern in the lattice configuration.
+ *   - build101: Builds a "101" pattern in the lattice configuration.
+ *   - build119: Builds a "119" pattern in the lattice configuration.
+ *   - build1234: Builds a "1234" pattern in the lattice configuration.
+ *   - build295: Builds a "295" pattern in the lattice configuration.
+ *   - buildGtoG: Builds a "GtoG" pattern in the lattice configuration.
+ *   - build60P: Builds a "60P" pattern in the lattice configuration.
+ *   - buildAK94: Builds an "AK94" pattern in the lattice configuration.
+ *   - buildTrigger: Builds a "Trigger" pattern in the lattice configuration.
+ *   - buildSnail: Builds a "Snail" pattern in the lattice configuration.
+ *   - buildTub: Builds a "Tub" pattern in the lattice configuration.
+ * 
+ * Dependencies:
+ *   - latticeArray, recountNeighbors, visBounds from './generateLattice.js'
+ *   - createVis, visLatticeArray from './generateLattice.js'
+ *   - displayLattice from './displayLattice.js'
+ *   - clear from './UIFunctionality.js'
+ * 
+ * Authors:
+ *   - Dustin O'Brien
+ */
+
 
 //IMPORTS
 import { latticeArray, recountNeighbors, visBounds } from './generateLattice.js';
@@ -10,7 +45,14 @@ import { displayLattice } from "./displayLattice.js";
 import { clear } from './UIFunctionality.js';
 
 //EXPORTS
-//This function creates the intitial configuration array to be used for setting
+/**
+ * Creates an initial configuration array (lattice) based on visible bounds, 
+ * used for setting up the grid with a default state.
+ * 
+ * @function createNewConfig
+ * @returns {Array<Array<number>>} - Returns a 2D array (lattice) initialized to 0s, 
+ * representing the initial configuration of cells.
+ */
 export function createNewConfig() {
     let newLattice = new Array(new Array());
     //Create new lattice to correspond to visible lattice
@@ -25,7 +67,14 @@ export function createNewConfig() {
     return newLattice;
 }
 
-//Sets the visual lattice to the new lattice you created and displays it
+/**
+ * Sets the visual lattice to a new lattice configuration and updates the display.
+ * Clears the current lattice, updates cell states to match `newLattice`, and refreshes the view.
+ * 
+ * @function setLattice
+ * @param {Array<Array<number>>} newLattice - The new lattice configuration, a 2D array with each cell's state.
+ * @returns {void}
+ */
 export function setLattice(newLattice) {
     clear();
     //Iterates through every lattice and sets to the same value as the new lattice
@@ -49,17 +98,40 @@ export function setLattice(newLattice) {
     displayLattice(visLatticeArray)
 }
 
-export function yCenter() { 
-    return Math.floor((visBounds[3] - visBounds[1]) / 2); 
-}
-
+/**
+ * Returns the horizontal center of the visible lattice bounds.
+ * Calculates the center based on the difference between the right and left bounds.
+ * 
+ * @function xCenter
+ * @returns {number} The horizontal center of the visible lattice area.
+ */
 export function xCenter() { 
     return Math.floor((visBounds[2] - visBounds[0]) / 2); 
 }
 
+/**
+ * Returns the vertical center of the visible lattice bounds.
+ * Calculates the center based on the difference between the bottom and top bounds.
+ * 
+ * @function yCenter
+ * @returns {number} The vertical center of the visible lattice area.
+ */
+export function yCenter() { 
+    return Math.floor((visBounds[3] - visBounds[1]) / 2); 
+}
+
 //All the following functions are to create library presets
 
-//Makes a Simple Glider
+/**
+ * Creates a simple Glider pattern in the Game of Life.
+ * Initializes a blank lattice and then sets the appropriate cells to form the Glider pattern.
+ * 
+ * A Glider is a small, moving pattern in Conway's Game of Life that "glides" across the grid.
+ * The specific pattern is a 3x3 set of cells arranged to form a diagonal movement.
+ * 
+ * @function buildGlider
+ * @returns {void}
+ */
 export function buildGlider() {
     //Makes the intial blank Lattice
     let newLattice = createNewConfig();
@@ -74,7 +146,15 @@ export function buildGlider() {
     setLattice(newLattice);
 }
 
-//Makes a 101 from another GOL
+/**
+ * Creates a "101" pattern in the Game of Life based on an existing configuration.
+ * This pattern typically consists of a specific arrangement of cells that forms a recognizable 
+ * shape in Conway's Game of Life. It is often used as a starting point or an intermediary 
+ * structure in simulations.
+ * 
+ * @function build101
+ * @returns {void}
+ */
 export function build101() {
     //Makes the intial blank Lattice
     let newLattice = createNewConfig();
@@ -176,7 +256,14 @@ export function build101() {
     setLattice(newLattice);
 }
 
-//Builds 
+/**
+ * Creates a "119" pattern in the Game of Life.
+ * The "119" pattern is a specific configuration of cells that evolves according to the rules of Conway's Game of Life.
+ * This function sets up the initial state of the "119" pattern, which can be used in simulations or experiments.
+ * 
+ * @function build119
+ * @returns {void}
+ */
 export function build119() {
     let newLattice = createNewConfig();
 
@@ -349,6 +436,14 @@ export function build119() {
     setLattice(newLattice);
 }
 
+/**
+ * Creates a "1234" pattern in the Game of Life.
+ * The "1234" pattern is a specific configuration of cells that evolves according to the rules of Conway's Game of Life.
+ * This function sets up the initial state of the "1234" pattern, which can be used in simulations or experiments.
+ * 
+ * @function build1234
+ * @returns {void}
+ */
 export function build1234() {
     let newLattice = createNewConfig();
 
@@ -401,6 +496,14 @@ export function build1234() {
     setLattice(newLattice);
 }
 
+/**
+ * Creates a "295" pattern in the Game of Life.
+ * The "295" pattern is a specific configuration of cells that follows the rules of Conway's Game of Life.
+ * This function initializes the "295" pattern, which can be used for simulations or experiments.
+ * 
+ * @function build295
+ * @returns {void}
+ */
 export function build295() {
     let newLattice = createNewConfig();
 
@@ -730,6 +833,14 @@ export function build295() {
     setLattice(newLattice);
 }
 
+/**
+ * Creates a "GtoG" pattern in the Game of Life.
+ * The "GtoG" pattern is a specific configuration of cells in Conway's Game of Life.
+ * This function initializes the "GtoG" pattern, which can be used for simulations or experiments.
+ * 
+ * @function buildGtoG
+ * @returns {void}
+ */
 export function buildGtoG() {
     let newLattice = createNewConfig();
 
@@ -757,6 +868,14 @@ export function buildGtoG() {
 
 }
 
+/**
+ * Creates a "60P" pattern in the Game of Life.
+ * The "60P" pattern is a specific configuration of cells in Conway's Game of Life.
+ * This function initializes the "60P" pattern, which can be used for simulations or experiments.
+ * 
+ * @function build60P
+ * @returns {void}
+ */
 export function build60P() {
     let newLattice = createNewConfig();
 
@@ -824,6 +943,14 @@ export function build60P() {
     setLattice(newLattice);
 }
 
+/**
+ * Creates an "AK94" pattern in the Game of Life.
+ * The "AK94" pattern is a specific configuration of cells in Conway's Game of Life.
+ * This function initializes the "AK94" pattern, which can be used for simulations or experiments.
+ * 
+ * @function buildAK94
+ * @returns {void}
+ */
 export function buildAK94() {
     let newLattice = createNewConfig();
 
@@ -943,7 +1070,14 @@ export function buildAK94() {
     setLattice(newLattice);
 }
 
-
+/**
+ * Creates a "Trigger" pattern in the Game of Life.
+ * The "Trigger" pattern is a specific configuration of cells that can be used in Game of Life simulations.
+ * This function sets up the Trigger pattern to be used in experiments or as part of a larger structure.
+ * 
+ * @function buildTrigger
+ * @returns {void}
+ */
 export function buildTrigger() {
     let newLattice = createNewConfig();
 
@@ -1037,7 +1171,14 @@ export function buildTrigger() {
     setLattice(newLattice);
 }
 
-
+/**
+ * Creates a "Snail" pattern in the Game of Life.
+ * The "Snail" is a specific configuration of cells that forms a repeating pattern in the Game of Life.
+ * This function sets up the Snail pattern, which can be used for experiments or incorporated into larger simulations.
+ * 
+ * @function buildSnail
+ * @returns {void}
+ */
 export function buildSnail() {
     let newLattice = createNewConfig();
 
@@ -1180,7 +1321,14 @@ export function buildSnail() {
     setLattice(newLattice);
 }
 
-
+/**
+ * Creates a "Tub" pattern in the Game of Life.
+ * The "Tub" is a still life pattern, meaning it remains unchanged over time when simulated.
+ * This function initializes the Tub pattern within the grid, providing a stable configuration for experiments or use in larger simulations.
+ * 
+ * @function buildTub
+ * @returns {void}
+ */
 export function buildTub(){
     let newLattice = createNewConfig()
     newLattice[ yCenter() + 4 ][ xCenter() + 6 ] = 1; 
