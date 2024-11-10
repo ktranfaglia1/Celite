@@ -1,10 +1,42 @@
 /**
  * UIFunctionality.js
- * Authors: Kyle Tranfaglia, Timmy McKirgan, Dustin O'Brien
- * This file handles all user interface Functionality. It is the bulk of the program and handles all button clicks,
- * information inputs, mouse actions, lattice changes, cell changes, iterations, and updates/calculates information
- * for simulation modifications and communicates it with utility files
- * Last Updated: 03/11/24
+ *
+ * Summary:
+ *   This file handles all user interface functionality for the program. It is responsible for managing
+ *   user interactions, including button clicks, information inputs, and mouse actions. The file also 
+ *   handles lattice and cell updates, manages iterations, and calculates modifications to the simulation. 
+ *   It communicates with utility files to ensure the correct handling of all interactions and updates.
+ *
+ * Features:
+ *   - Manages button clicks and user inputs to modify the simulation.
+ *   - Handles mouse actions to interact with the lattice and cells.
+ *   - Manages the iteration process and adjusts simulation parameters.
+ *   - Coordinates updates and calculations related to the simulation state.
+ *   - Communicates with utility files to ensure smooth functionality.
+ *
+ * Dependencies:
+ *   - displayLattice.js: 
+ *     - `latticeArray`: The array representing the current state of the lattice.
+ *     - `rule`: The rule used to update the lattice.
+ *     - `canvas`, `ctx`: The main canvas and its context used for rendering.
+ *     - `outputIteration`: Function for updating the iteration output.
+ *     - `alterRuleNum`, `alterLatSize`, `alterSize`, `alterLatticeArray`, `alterCurrentLattice`, `alterNextLattice`, `alterBorder`: Functions to modify simulation parameters and lattice data.
+ *     - `updateLattice`: Function to update the lattice based on the current state.
+ *     - `deadColorSel`, `aliveColorSel`, `deadBorderSel`, `aliveBorderSel`: Variables for selecting cell colors and borders.
+ *   - generateLattice.js: 
+ *     - `ruleNumToRule`: Function for converting rule numbers to corresponding rules.
+ *   - cellClass.js: 
+ *     - `cell`: Class representing an individual cell in the lattice.
+ *   - logClass.js: 
+ *     - `logMessage`: Class for managing log messages and displaying them on the canvas.
+ *
+ * Authors:
+ *   - Kyle Tranfaglia
+ *   - Timmy McKirgan
+ *   - Dustin O'Brien
+ * 
+ * Last Updated:
+ *   - 03/11/24
  */
 
 import { latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder, alterOrder, tempOrder, alterTempOrder } from "./displayLattice.js";
