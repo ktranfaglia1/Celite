@@ -3,8 +3,8 @@
  *
  * Summary:
  *   This file handles all user interface functionality for the program. It is responsible for managing
- *   user interactions, including button clicks, information inputs, and mouse actions. The file also 
- *   handles lattice and cell updates, manages iterations, and calculates modifications to the simulation. 
+ *   user interactions, including button clicks, information inputs, and mouse actions. The file also
+ *   handles lattice and cell updates, manages iterations, and calculates modifications to the simulation.
  *   It communicates with utility files to ensure the correct handling of all interactions and updates.
  *
  * Features:
@@ -15,7 +15,7 @@
  *   - Communicates with utility files to ensure smooth functionality.
  *
  * Dependencies:
- *   - displayLattice.js: 
+ *   - displayLattice.js:
  *     - `latticeArray`: The array representing the current state of the lattice.
  *     - `rule`: The rule used to update the lattice.
  *     - `canvas`, `ctx`: The main canvas and its context used for rendering.
@@ -23,18 +23,18 @@
  *     - `alterRuleNum`, `alterLatSize`, `alterSize`, `alterLatticeArray`, `alterCurrentLattice`, `alterNextLattice`, `alterBorder`: Functions to modify simulation parameters and lattice data.
  *     - `updateLattice`: Function to update the lattice based on the current state.
  *     - `deadColorSel`, `aliveColorSel`, `deadBorderSel`, `aliveBorderSel`: Variables for selecting cell colors and borders.
- *   - generateLattice.js: 
+ *   - generateLattice.js:
  *     - `ruleNumToRule`: Function for converting rule numbers to corresponding rules.
- *   - cellClass.js: 
+ *   - cellClass.js:
  *     - `cell`: Class representing an individual cell in the lattice.
- *   - logClass.js: 
+ *   - logClass.js:
  *     - `logMessage`: Class for managing log messages and displaying them on the canvas.
  *
  * Authors:
  *   - Kyle Tranfaglia
  *   - Timmy McKirgan
  *   - Dustin O'Brien
- * 
+ *
  * Last Updated:
  *   - 03/11/24
  */
@@ -2424,9 +2424,9 @@ function displayLog(messageQueue, logCanvas) {
 /**
  * Handles the download of the canvas content as a PDF when the download button is clicked.
  *
- * This function extracts the image data from the canvas, calculates the correct aspect ratio for both the canvas 
- * and the PDF, and adjusts the image size to fit the PDF page. It then centers the image on the page and saves the 
- * PDF with a filename that includes the number of iterations, rule number, and lattice size. 
+ * This function extracts the image data from the canvas, calculates the correct aspect ratio for both the canvas
+ * and the PDF, and adjusts the image size to fit the PDF page. It then centers the image on the page and saves the
+ * PDF with a filename that includes the number of iterations, rule number, and lattice size.
  * Afterward, a log message is added to the message queue indicating that the canvas has been downloaded.
  *
  * @param {MouseEvent} event - The event triggered when the download button is clicked.
@@ -2466,9 +2466,9 @@ downloadPDFButton.addEventListener("click", function () {
 /**
  * Captures the canvas content as a PNG and downloads it when the 'Download PNG' button is clicked.
  *
- * This function retrieves the image data from the canvas in PNG format, creates an anchor element, 
- * sets the download URL to the image data, and automatically triggers the download by simulating a click. 
- * The file is saved with a filename that includes the number of iterations, rule number, and lattice size. 
+ * This function retrieves the image data from the canvas in PNG format, creates an anchor element,
+ * sets the download URL to the image data, and automatically triggers the download by simulating a click.
+ * The file is saved with a filename that includes the number of iterations, rule number, and lattice size.
  * After the download, a log message is added to the message queue indicating that the canvas has been downloaded.
  *
  * @param {MouseEvent} event - The event triggered when the 'Download PNG' button is clicked.
@@ -2486,9 +2486,9 @@ downloadPNGButton.addEventListener("click", function () {
 /**
  * Toggles the visibility of the options window when the options button is clicked.
  *
- * This function checks the current display state of the options window. If the window is visible, 
- * it hides the window by setting the `display` style to "none". If the window is hidden, 
- * it makes the window visible by setting the `display` style to "block". 
+ * This function checks the current display state of the options window. If the window is visible,
+ * it hides the window by setting the `display` style to "none". If the window is hidden,
+ * it makes the window visible by setting the `display` style to "block".
  * This allows the user to open or close the options window using the options button.
  *
  * @param {MouseEvent} event - The event triggered when the options button is clicked.
@@ -2506,8 +2506,8 @@ optionsButton.addEventListener("click", function () {
 /**
  * Closes the options window when the close button (x) in the top right is clicked.
  *
- * This function sets the `display` style of the options window to "none", 
- * effectively hiding it when the close button is clicked. 
+ * This function sets the `display` style of the options window to "none",
+ * effectively hiding it when the close button is clicked.
  * It ensures that the options window is closed by the user interaction with the close button.
  *
  * @param {MouseEvent} event - The event triggered when the close button is clicked.
@@ -2520,8 +2520,8 @@ closeOptions.addEventListener("click", function () {
 /**
  * Updates the current iteration speed value and sets the delay based on the slider value.
  *
- * This function updates the displayed iteration speed value whenever the slider is dragged, 
- * and adjusts the iteration delay based on the new slider value. The `setDelay` function 
+ * This function updates the displayed iteration speed value whenever the slider is dragged,
+ * and adjusts the iteration delay based on the new slider value. The `setDelay` function
  * is called to apply the updated speed.
  *
  * @param {InputEvent} event - The event triggered when the slider value changes.
@@ -2535,8 +2535,8 @@ iterationSpeedSlider.oninput = function () {
 /**
  * Debounces a function call to ensure it is only triggered after a specified delay.
  *
- * This function ensures that the `callback` function is only called once after a specified 
- * delay (25ms) has passed since the last invocation. It clears any previous timeouts 
+ * This function ensures that the `callback` function is only called once after a specified
+ * delay (25ms) has passed since the last invocation. It clears any previous timeouts
  * to prevent multiple rapid calls to the callback within a short time span.
  *
  * @param {Function} callback - The function to be debounced, which will be executed after the delay.
@@ -2556,8 +2556,8 @@ function debounce(callback) {
 /**
  * A short debounce function for sliding events to update a temporary array before the next cell can be clicked.
  *
- * This function ensures that the `callback` is executed only after a small delay (5ms) has passed 
- * since the last event, allowing the temporary array to be updated without firing too many function calls 
+ * This function ensures that the `callback` is executed only after a small delay (5ms) has passed
+ * since the last event, allowing the temporary array to be updated without firing too many function calls
  * in quick succession during sliding actions.
  *
  * @param {Function} callback - The function to be debounced, executed after the short delay.
