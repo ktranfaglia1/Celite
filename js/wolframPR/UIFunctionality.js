@@ -1,11 +1,53 @@
-/*
-* UIFunctionality.js
-* Authors: Kyle Tranfaglia, Timmy McKirgan, Dustin O'Brien
-* This file handles all user interface Functionality. It is the bulk of the program and handles all button clicks,
-  information inputs, mouse actions, lattice changes, cell changes, iterations, and updates/calculates information
-  for simulation modifications and communicates it with utility files
-* Last Updated: 03/11/24
-*/
+/**
+ * UIFunctionality.js
+ *
+ * Summary:
+ *   This script handles all user interface functionality for the simulation. It processes button clicks, user inputs, 
+ *   mouse actions, and updates to the lattice and cell states. It also manages iterations, simulation modifications, 
+ *   and communicates with utility files.
+ *
+ * Features:
+ *   - Manages user interactions with the simulation, such as button clicks and mouse actions.
+ *   - Updates the lattice and cell configurations based on UI changes.
+ *   - Controls iteration flow and updates the display accordingly.
+ *   - Interacts with other modules to modify simulation parameters.
+ *
+ * Functions:
+ *   - borderToggleOption(): Toggles the visibility of the border in the simulation.
+ *   - startStopToggle(): Toggles the simulation between running and stopped.
+ *   - clearResetToggle(): Clears the canvas or resets the simulation state.
+ *   - handleCheckboxChange(): Updates the boundary conditions based on checkbox selections.
+ *   - makeError(errorMessage, logCanvas, messageQueue): Logs an error message to the message queue.
+ *   - makeLog(errorMessage, logCanvas, messageQueue): Logs a standard message to the message queue.
+ *   - displayLog(messageQueue, logCanvas): Displays messages from the log queue onto the canvas.
+ *   - downloadPDFButton.addEventListener(): Captures the canvas as a PDF and triggers a download.
+ *   - downloadPNGButton.addEventListener(): Captures the canvas as a PNG and triggers a download.
+ *   - aboutButton.addEventListener(): Displays the about window.
+ *   - closeAbout.addEventListener(): Closes the about window.
+ *   - optionsButton.addEventListener(): Displays the options window or toggles its visibility.
+ *   - closeOptions.addEventListener(): Closes the options window.
+ *   - iterationSpeedSlider.oninput: Updates the iteration speed based on slider input.
+ *   - debounce(callback): Limits the frequency of function calls, typically used for handling UI input events.
+ *   - shortDebounce(callback): A faster debounce function for handling slider inputs.
+ *
+ * Dependencies:
+ *   - latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice from './displayLattice.js'
+ *   - numOfIterations, currentIteration, size, latSize, ruleNum, inf from './displayLattice.js'
+ *   - alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder from './displayLattice.js'
+ *   - alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, alterInf, getBorder from './displayLattice.js'
+ *   - updateLattice from './displayLattice.js'
+ *   - deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel from './displayLattice.js'
+ *   - ruleNumToRule from './generateLattice.js'
+ *   - cell from './cellClass.js'
+ *   - logMessage from './logClass.js'
+ *
+ * Authors:
+ *   - Kyle Tranfaglia
+ *   - Timmy McKirgan
+ *   - Dustin O'Brien
+ */
+
+
 import { latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice } from "./displayLattice.js";
 import { numOfIterations, currentIteration, size, latSize, ruleNum, inf } from "./displayLattice.js";
 import { alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder } from "./displayLattice.js";

@@ -1,45 +1,85 @@
-/*
+/**
  * logClass.js
  *
- * Authors: Dustin O'Brien,
+ * Summary:
+ *   Defines the logMessage class, which handles the creation, display, and management of log messages
+ *   on a canvas. The class allows for updating, clearing, and positioning log messages in a specified area.
+ *
+ * Features:
+ *   - Creates and displays log messages on a canvas.
+ *   - Allows for adjusting the position of messages based on index.
+ *   - Provides methods for clearing the canvas and updating the displayed messages.
+ *   - Handles the color of messages for different log types (e.g., error or info).
+ *
+ * Class:
+ *   - logMessage: Represents a log message with methods for displaying and updating it on a canvas.
  *
  * Functions:
- * constructor
- * changeIndex
- * clearCanvas
- * displayMessage
+ *   - Constructor: Initializes the logMessage with a message, color, and canvas element.
+ *   - changeIndex: Updates the index of the message, affecting its position in the log.
+ *   - clearCanvas: Clears the canvas to remove previously displayed messages.
+ *   - displayMessage: Displays the message at a given index, ensuring it doesn't overlap other messages.
+ *
+ * Authors:
+ *   - Dustin O'Brien
  */
+
+
 export class logMessage {
-  constructor(
-    message,
-    color,
-    canvas //Constructor for a message
-  ) {
-    this.message = message;
-    this.color = color;
-    //this.index = index;
-    this.canvas = canvas;
-    this.context = canvas.getContext("2d");
+	/**
+	 * Constructor for creating a log message object that can be displayed on a canvas.
+	 * This constructor sets up the message, its color, and the canvas on which it will be rendered.
+	 *
+	 * @constructor
+	 *
+	 * - Parameters
+	 * @param {string} message - The message text to be displayed in the log.
+	 * @param {string} color - The color of the message text (e.g., 'red', 'green').
+	 * @param {HTMLCanvasElement} canvas - The canvas element where the message will be displayed.
+	 */
+	constructor(message, color, canvas) {
+	  this.message = message;  // Stores the message text
+	  this.color = color;      // Stores the color of the message
+	  this.canvas = canvas;    // Stores the canvas element where the message will be drawn
+	  this.context = canvas.getContext("2d");  // Gets the 2D rendering context of the canvas
+	}
+  
+	/**
+	 * Changes the index for the log message to adjust its position in the log.
+	 * This allows the message to move up as new messages are added.
+	 *
+	 * @param {number} newIndex - The new index to move the message to.
+	 * @returns {void}
+	 */
+	changeIndex(newIndex) {
+	  this.index = newIndex;  // Updates the index of the message
+	}
+  
+	/**
+	 * Clears the canvas, removing any previously displayed messages.
+	 * This is used to refresh the log area before displaying new messages.
+	 *
+	 * @returns {void}
+	 */
+	clearCanvas() {
+	  this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);  // Clears the entire canvas
+	}
+  
+	/**
+	 * Displays the log message on the canvas at the given index.
+	 * The message is drawn with the specified color and positioned to avoid overlap.
+	 *
+	 * @param {number} index - The index position to place the message on the canvas.
+	 * @returns {void}
+	 */
+	displayMessage(index) {
+	  this.context.font = "13px Arial";        // Sets the font for the message
+	  this.context.fillStyle = this.color;    // Sets the color for the message text
+  
+	  if (index < 3) {
+		// Prevents the display of more than 3 messages by limiting the index
+		this.context.fillText(this.message, 5, (index * this.canvas.height) / 3 + 10.2);  // Displays the message at the calculated position
+	  }
+	}
   }
-
-  changeIndex(
-    newIndex //Allows for changing indexes so the messages can move up as they age
-  ) {
-    this.index = newIndex;
-  }
-
-  clearCanvas() { //used to erase the log box canvas so that we dont have to include context as a parameter to remove it
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  }
-
-  displayMessage(index) {
-    // this.context.height = "100%";
-    this.context.font = "13px Arial"; //sets font
-    this.context.fillStyle = this.color; //sets color to be error color or default color
-
-    if (index < 3) {
-      //Doesnt print over 3 messages so dont print after this point
-      this.context.fillText(this.message, 5, (index * this.canvas.height) / 3 + 10.2); //outputs text and arranges the y to stop overrlap
-    }
-  }
-}
+  
