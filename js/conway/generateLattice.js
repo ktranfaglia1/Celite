@@ -11,7 +11,7 @@ import { iterationCount } from "./UIFunctionality.js"
 
 //DECLARATIONS
 const canvas = document.getElementById('latticeRegion');
-const buffer = 160;
+const buffer = 0;
 intialCanvas();
 
 // Calculates Height and Width cooresponding to CSS setting of Canvas
@@ -32,7 +32,7 @@ createInit();
 //incrementCell
 function alterNeighborCount(x, y, num) {
     //Checks if coordinates are within cell boundaries
-    if(x >= 0 && x < bounds[1] && y >= 0 && y < bounds[0]) {
+    if(x >= 0 && x < bounds[0] && y >= 0 && y < bounds[1]) {
         bufferArray[y][x] += num;
     }
 }
@@ -43,7 +43,7 @@ export { visLatticeArray, visBounds, latticeArray, bounds };
 //This function alters the neighbor count of each neighboring cell should a cell switch states
 export function changeNeighbor(x, y, num) {
     //Checks if coordinates are within cell boundaries
-    if(x >= 0 && x < bounds[1] && y >= 0 && y < bounds[0]) {
+    if(x >= 0 && x < bounds[0] && y >= 0 && y < bounds[1]) {
         alterNeighborCount(x + 1, y + 1, num);
         alterNeighborCount(x + 1, y - 1, num);
         alterNeighborCount(x - 1, y + 1, num);
