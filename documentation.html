@@ -163,7 +163,7 @@
         </div>
         <h6 id="WNNalgorithm"> Algorithm Rule </h6>
         <div class="p3"> 
-          The Wolfram Nearest Neighbor algorithm works by updating the state of each cell, which can either be dead (0) or alive (1), in a one-dimensional lattice based on the state of that cell and its immediate neighbors (left and right). For each cell in the lattice, we consider it together with its left and right neighbors as a triplet. For example, if the left cell is 1, the current cell is 0, and the right cell is 1, the triplet is 101. The key idea is that each triplet of cells (left, current, right) forms a 3-bit binary number, which is used to determine the next state of the current cell according to a rule. The rule outcomes are determined by the binary conversion of the rule number such that the possible outcomes in a state change table (read top to bottom) stem from the binary digits of the 8-bit binary representation (read left to right). The 8-bit binary representation of the rule number allows for eight possible outcomes and also restricts rule numbers to be within 2^8 [0, 255]. The rule is essentially a lookup table that specifies the next state of the current cell based on the triplet. The algorithm determines the next state of the current cell by looking at the triplet with its neighbors and using the rule table to map that triplet to a new state. <br> <br> 
+          The Wolfram Nearest Neighbor algorithm works by updating the state of each cell, which can either be dead (0) or alive (1), in a one-dimensional lattice based on the state of that cell and its immediate neighbors (left and right). For each cell in the lattice, we consider it together with its left and right neighbors as a triplet. For example, if the left cell is 1, the current cell is 0, and the right cell is 1, the triplet is 101. The key idea is that each triplet of cells (left, current, right) forms a 3-bit binary number, which is used to determine the next state of the current cell according to a rule. The rule outcomes are determined by the binary conversion of the rule number such that the possible outcomes in a state change table (read top to bottom) stem from the binary digits of the 8-bit binary representation (read left-to-right). The 8-bit binary representation of the rule number allows for eight possible outcomes and also restricts rule numbers to be within 2^8 [0, 255]. The rule is essentially a lookup table that specifies the next state of the current cell based on the triplet. The algorithm determines the next state of the current cell by looking at the triplet with its neighbors and using the rule table to map that triplet to a new state. <br> <br> 
           For example, here is the state change table for rule 30: <br> 
           If the left cell is 1, the current cell is 1, and the right cell is 1 (111), the next state of the current cell is 0. <br>
           If the left cell is 1, the current cell is 1, and the right cell is 0 (110), the next state of the current cell is 0. <br>
@@ -173,7 +173,7 @@
           If the left cell is 0, the current cell is 1, and the right cell is 0 (010), the next state of the current cell is 1. <br>
           If the left cell is 0, the current cell is 0, and the right cell is 1 (001), the next state of the current cell is 1. <br>
           If the left cell is 0, the current cell is 0, and the right cell is 0 (000), the next state of the current cell is 0. <br> 
-          <i> *Notice that this example uses rule 30, which has an 8-bit binary number of 00011110. The binary number from left to right is the output of the state table above, read top down. This is the case for all possible rule numbers 0 - 255, as the 8-bit binary representation of the rule number determines the state change table output. </i> <br> <br>
+          <i> *Notice that this example uses rule 30, which has an 8-bit binary number of 00011110. The binary number from left-to-right is the output of the state table above, read top down. This is the case for all possible rule numbers 0 - 255, as the 8-bit binary representation of the rule number determines the state change table output. </i> <br> <br>
           The algorithm follows the steps: <br>
           1. Initialize the lattice with an initial configuration. <br>
           2. For each time step and cell in the lattice, identify the left neighbor, the current cell, and the right neighbor, form the triplet and convert it to a binary number, then use the rule table to determine the next state of the current cell. <br>
@@ -191,7 +191,7 @@
           <i> Keyboard Shortcut: </i> ALT + J
         </div>
         <div class="p3">
-          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, the rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current time step, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). The three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary number. The value at the given index is the new state of the cell. The rule is applied as a parallel update, meaning every cell in the lattice is updated simutaneously upon each iteration.
+          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, the rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current time step, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). The three binary numbers are read left-to-right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary number. The value at the given index is the new state of the cell. The rule is applied as a parallel update, meaning every cell in the lattice is updated simutaneously upon each iteration.
         </div> 
         <div class="p4"> 
           <i> Input Restrictions: </i> Non-negative real numbers in range [0, 255]. Decimal values will be truncated. <br>
@@ -294,7 +294,7 @@
           <i> Keyboard Shortcut: </i> ALT + J
         </div>
         <div class="p3">
-          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, the rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current time step, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). The three binary numbers are read left to right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary number. The value at the given index is the new state of the cell. The rule is applied as a parallel update, meaning every cell in the lattice is updated simutaneously upon each iteration.
+          <u>Rule Input Box</u>: Enter a rule number to determine the behavior of the cellular automaton. The rule number encodes the transition rules for each cell based on its neighborhood configuration. Upon input, the rule numbers are converted into eight digit binary numbers, then the binary number is reversed and indexed. For a current time step, the cell and its direct neighbors are taken in as a binary representation (Dead - White - 0, Alive - Black - 1). The three binary numbers are read left-to-right and converted to decimal, and the decimal value (range [0,7]) corresponds to an index in the reversed binary number. The value at the given index is the new state of the cell. The rule is applied as a parallel update, meaning every cell in the lattice is updated simutaneously upon each iteration.
         </div> 
         <div class="p4"> 
           <i> Input Restrictions: </i> Non-negative real numbers in range [0, 255]. Decimal values will be truncated. <br>
@@ -339,7 +339,7 @@
         </div>
         <h6 id="setupmode"> Setup Mode </h6>
         <div class="p3">
-          <u>Simulate Button</u>: Click "Simulate" to switch out of setup mode and into simulate mode. In simulate mode, the dead and alive cells for sequential simulation may be selected. Click, or click and drag, the cells to toggle them between dead and alive. After switching to simulate mode, the configured cell ordering will automatically save, meaning that starting a simulation will use the selected ordering for the sequential algorithm. Note that if all cells were not ordered in setup mode, the cell ordering will default to Left to Right.
+          <u>Simulate Button</u>: Click "Simulate" to switch out of setup mode and into simulate mode. In simulate mode, the dead and alive cells for sequential simulation may be selected. Click, or click and drag, the cells to toggle them between dead and alive. After switching to simulate mode, the configured cell ordering will automatically save, meaning that starting a simulation will use the selected ordering for the sequential algorithm. Note that if all cells were not ordered in setup mode, the cell ordering will default to a left-to-right order.
         </div>
         <div class="p4"> 
           <i> Keyboard Shortcut: </i> ALT + ENTER
@@ -503,56 +503,56 @@
           In this new state, a horizontal line of living cells has formed, showing the transformation from a vertical line of alive cells to a horizontal line after one iteration.
         </div> <br> <br>
         <h2 class="head"> Insights & FAQS </h2>
-        <h6 id="faqs"> Frequently Asked Questions </h6> <br>
-        <div class="p3"> 
-          <i>Why is the cell oder not saving?</i>
-        </div> <br>
-        <div class="p4"> 
-          Answer: SKILL ISSUE!
-        </div> 
-        <div class="p3"> 
-          <i>What is the difference between sequential and parallel for Wolfram's Nearest Neighbor?</i>
-        </div> <br>
-        <div class="p4"> 
-          Answer: SKILL ISSUE!
-        </div>
-        <div class="p3"> 
-          <i>Why does the Game of Life simulation abruptly terminate and disable 'start' and 'iterate'?</i>
-        </div> <br>
-        <div class="p4"> 
-          Answer: SKILL ISSUE!
-        </div>
-        <div class="p3"> 
-          <i>Why are the inputted values in the textboxes not being used?</i>
-        </div> <br>
-        <div class="p4"> 
-          Answer: SKILL ISSUE!
-        </div>
-        <div class="p3"> 
-          <i>Why does the mode switch to 'setup' when the button was not clicked?</i>
-        </div> <br>
-        <div class="p4"> 
-          Answer: SKILL ISSUE!
-        </div>
-        <div class="p3"> 
-          <i>What is the prupose of the 'setup' and 'simulate' buttons and why are they distinguished colors?</i>
-        </div> <br>
-        <div class="p4"> 
-          Answer: SKILL ISSUE!
-        </div>
-        <div class="p3"> 
-          <i>What are the rule numbers and why are there 256 rules? </i>
-        </div> <br>
-        <div class="p4"> 
-          Answer: SKILL ISSUE!
-        </div>
+        <h6 id="faqs"> Frequently Asked Questions </h6> 
         <div class="p3"> 
           <i>What is the difference between infinite and finite simulation and periodic and null boundary conditions? </i>
         </div> <br>
         <div class="p4"> 
-          Answer: SKILL ISSUE!
-        </div>
-        <h6 id="keyboardShortcuts"> Keyboard Shortcuts </h6> <br>
+          Infinite simulation conceptually and visibly extends the lattice in a horizontal direction.Upon iteration, the lattice expands to the left and right side in order to simulate an infinitely sized lattice, as in, a lattice with infinite dead cells (white, 0). Since a cells state depends on its left and right neighbor, the infinite simulation expands on the edges per iteration so that the edge cells always have a left and right neighbor. For finite simulation, the lattice has a fixed size such that the cells at the edges of the lattice do not have neighbors beyond the boundaries. Therefore, there must be a method to handle the edge cells such as a periodic or null boundary conditions. Note that infinite simulation is only available in Sequential Wolfram's Nearest Neighbor. With the periodic boundary, the lattice is treated as if it were wrapped around, forming a torus-like shape. When a cell reaches the edge of the lattice, its neighbors on the opposite side of the lattice are considered as its direct neighbors. This creates a seamless continuity in the behavior as if the lattice repeats itself indefinitely. As for the null boundary condition, it imposes a fixed value zero for cells beyond the edges of the lattice. Thus, every edge cell with an out of bounds neighbor considers the neighbor to be dead (white, 0) and will use it in the next cell state calculation. This effectively creates a "wall" at the edges of the lattice.
+        </div> <br>
+        <div class="p3"> 
+          <i>Why does the Game of Life simulation abruptly terminate and disable the 'start' and 'iterate' buttons?</i>
+        </div> <br>
+        <div class="p4"> 
+          The Game of Life algorithm will come to a force halt and disable further iterations when the computational boundary is met by a dead cell (Black, 1). Since the Game of Life requires an infinite grid size, as in, no boundary, but there is a computational limit to what can be effectively simulated, a computational boundary was set. The computational boundary is located well beyond the visable canvas boundary and was implemented to allow for a seemingly infinite simulation space as objects can go off the visible grid and come back into the visible canvas region. Once the computational boundary for the grid is reached, further iterations can not occur, so to continue simulating the 'Reset' or 'Clear' button must be used to remove the dead cell from the computational boundary region and enable iterations.
+        </div> <br>
+        <div class="p3"> 
+          <i>What is the prupose of the 'setup' and 'simulate' buttons, and why are they distinguished colors?</i>
+        </div> <br>
+        <div class="p4"> 
+          'Setup' and 'Simulate' are mode switch buttons. They switch between the standard simulation mode where the algorithm is applied to the lattice upon iteration, and the pre-simulation (setup) mode where a cell ordering is configured to prepare for simulation. These buttons are different colors, compared to the standard feature buttons, as they are not features, but mode switches that change the available features. The distinguishing colors are used to indicate the significance of the buttons and to seperate them from the simulation/pre-simulation features.  
+        </div> <br>
+        <div class="p3"> 
+          <i>What is the difference between sequential and parallel for Wolfram's Nearest Neighbor?</i>
+        </div> <br>
+        <div class="p4"> 
+          In Wolfram's Nearest Neighbor, the parallel (synchronous) model updates all cells at once, creating patterns based on the entire grid's current state, which keeps each update consistent across cells. This parallel updating can produce symmetrical and often stable or repeating patterns. In contrast, the sequential (asynchronous) model updates cells one at a time in a set order, meaning each cell's update immediately influences the next. This can lead to unique, sometimes chaotic patterns that diverge from the parallel model due to the cumulative effect of each cell's change. Thus, parallel updating leads to consistent evolution, while sequential updating can introduce variations and complex transitions.
+        </div> <br>
+        <div class="p3"> 
+          <i>Why does the mode switch to 'Setup' when the button is not clicked?</i>
+        </div> <br>
+        <div class="p4"> 
+          The program automatically switches from 'Simulate' to 'Setup' mode whenever the lattice size changes. This is because altering the lattice size affects the number and arrangement of cells, and the sequential simulation requires a specific cell order. Without reconfiguring the cell order for the new lattice size, the program cannot correctly simulate the sequential algorithm. Therefore, switching to 'setup' mode ensures that a new configuration is established to support accurate simulation.
+        </div> <br>
+        <div class="p3"> 
+          <i>Why are the values written in the input boxes not being used?</i>
+        </div> <br>
+        <div class="p4"> 
+          The values entered in the input boxes may not be applied in the simulation for two reasons. First, they might fall outside the accepted range specified in the simulation documentation (found in the primary toolbar). More commonly, the issue arises if the 'Submit' button is not clicked after entering new values. For changes to take effect, either click the 'Submit' button or press the ENTER key. Pressing ENTER while an input box is selected will submit only that value, while pressing ENTER with no box selected will submit all entered values.
+        </div> <br>
+        <div class="p3"> 
+          <i>What are the rule numbers and why are there 256 rules? </i>
+        </div> <br>
+        <div class="p4"> 
+          The rule numbers (0-255) in Wolfram's Nearest Neighbor model represent the 256 possible rules for updating each cell based on its current state and the states of its two neighbors. Each rule defines a unique way for a cell to transition between alive and dead based on the neighbor combinations. Since there are three cells in each neighborhood (the cell itself and its two neighbors), there are 2^3 = 8 possible configurations of neighbor states, and each configuration can result in either a 0 (dead) or 1 (alive) outcome. This gives 2^8 = 256 possible rules in total, each represented by a unique number from 0 to 255.
+        </div> <br>
+        <div class="p3"> 
+          <i>Why is the cell order not saving?</i>
+        </div> <br>
+        <div class="p4"> 
+          The cell order configuration will only be saved when all cells in the lattice are fully ordered. For the sequential simulation to work accurately, each cell must have a specific position in the sequence. If the configuration leaves any cells unordered, clicking 'Simulate' will instead apply a default left-to-right ordering across the lattice. To ensure the custom order is saved, verify that every cell is assigned a position before starting the simulation.
+        </div> <br> <br>
+        <h6 id="keyboardShortcuts"> Keyboard Shortcuts </h6>
         <div class="shortcut_container">
           <div class="p3 flex_item"> 
             <u>Sequential Wolfram's Nearest Neighbor</u> <br>
