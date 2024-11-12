@@ -95,6 +95,23 @@
       </div>
        <!-- All documentation content -->
       <div class="doc_content">
+        <h2 class="head"> Welcome to Celite </h2>
+        <h6> Overview </h6>
+        <div class="p3"> 
+          Celite is a collection of three cellular automaton simulators: Parallel Wolfram's Nearest Neighbor, Sequential Wolfram's Nearest Neighbor, and Game of Life. Each of these simulators serves as an educational and research tool to assist the exploration of emergent behaviors, computational universality, and mathematical insights within cellular automata. The program allows users to experiment with distinct rulesets, from Conway's Game of Life, which illustrates complex behavior through simple birth and survival rules, to Wolfram's Nearest Neighbor models that explore pattern formation and complexity using rule-based evolution. The Sequential Wolfram model updates cells one at a time, while the Parallel Wolfram model updates all cells simultaneously, showcasing the impact of synchronous versus asynchronous evolution. The goal of the program is to be an interactive platform for studying behavioral diversity in cellular automata, encouraging insights into the foundations of computation and the dynamics of self-organizing systems.
+        </div>
+        <h6> Parallel Wolfram's Nearest Neighbor </h6>
+        <div class="p3"> 
+          Wolfram's Nearest Neighbor cellular automata, developed by Stephen Wolfram, are simple rule-based systems where each cell in a 1D grid updates its state based on its current state and the states of its two immediate neighbors. The Parallel Wolfram model, specifically, updates all cells simultaneously at each step, following a predetermined rule number (0-255) that dictates how states transition. These rules give rise to various patterns, ranging from stable, repeating forms to chaotic, complex behavior, making the Parallel Wolfram model an ideal tool for exploring fundamental concepts in pattern formation, symmetry, and computational complexity.
+        </div>
+        <h6> Sequential Wolfram's Nearest Neighbor </h6>
+        <div class="p3"> 
+          The Sequential Wolfram Nearest Neighbor model, like the parallel version, operates on a 1D grid where each cell's new state depends on its own state and those of its two neighbors according to a specific rule (0-255). However, in the Sequential model, cells update one at a time in a configured order, creating a distinct dynamic as each update immediately affects subsequent cells. This asynchronous updating introduces unique patterns and transitional behavior that highlight the effects of sequential processing, making it useful for studying the role of update order in cellular automata and the emergence of complex, non-repetitive patterns.
+        </div>
+        <h6> Game of Life </h6>
+        <div class="p3"> 
+          Conway's Game of Life, created by mathematician John Conway in 1970, is a cellular automaton that simulates evolving cell patterns on a 2D grid through simple rules. Each cell is either alive or dead, and transitions based on the states of its neighbors: live cells survive with two or three live neighbors, while overpopulation or underpopulation leads to death, and dead cells with exactly three neighbors become alive. From simple initial configurations, the game produces complex and often unpredictable patterns, including static shapes, oscillators, and spaceships that move across the grid. The Game of Life, known for its Turing completeness, serves as a model for studying complexity, computation, and emergent behaviors, making it a popular tool for exploring mathematical and computational concepts.
+        </div> <br> <br>
         <h2 class="head"> General Wolfram's Nearest Neighbor </h2>
         <h6 id="boundaryConditions"> Boundary Conditions </h6>
         <div class="p3"> 
@@ -487,12 +504,54 @@
         </div> <br> <br>
         <h2 class="head"> Insights & FAQS </h2>
         <h6 id="faqs"> Frequently Asked Questions </h6> <br>
-        <div class="p4"> 
-          <i>Question?</i>
-        </div> <br>
         <div class="p3"> 
-          Answer!
+          <i>Why is the cell oder not saving?</i>
+        </div> <br>
+        <div class="p4"> 
+          Answer: SKILL ISSUE!
         </div> 
+        <div class="p3"> 
+          <i>What is the difference between sequential and parallel for Wolfram's Nearest Neighbor?</i>
+        </div> <br>
+        <div class="p4"> 
+          Answer: SKILL ISSUE!
+        </div>
+        <div class="p3"> 
+          <i>Why does the Game of Life simulation abruptly terminate and disable 'start' and 'iterate'?</i>
+        </div> <br>
+        <div class="p4"> 
+          Answer: SKILL ISSUE!
+        </div>
+        <div class="p3"> 
+          <i>Why are the inputted values in the textboxes not being used?</i>
+        </div> <br>
+        <div class="p4"> 
+          Answer: SKILL ISSUE!
+        </div>
+        <div class="p3"> 
+          <i>Why does the mode switch to 'setup' when the button was not clicked?</i>
+        </div> <br>
+        <div class="p4"> 
+          Answer: SKILL ISSUE!
+        </div>
+        <div class="p3"> 
+          <i>What is the prupose of the 'setup' and 'simulate' buttons and why are they distinguished colors?</i>
+        </div> <br>
+        <div class="p4"> 
+          Answer: SKILL ISSUE!
+        </div>
+        <div class="p3"> 
+          <i>What are the rule numbers and why are there 256 rules? </i>
+        </div> <br>
+        <div class="p4"> 
+          Answer: SKILL ISSUE!
+        </div>
+        <div class="p3"> 
+          <i>What is the difference between infinite and finite simulation and periodic and null boundary conditions? </i>
+        </div> <br>
+        <div class="p4"> 
+          Answer: SKILL ISSUE!
+        </div>
         <h6 id="keyboardShortcuts"> Keyboard Shortcuts </h6> <br>
         <div class="shortcut_container">
           <div class="p3 flex_item"> 
