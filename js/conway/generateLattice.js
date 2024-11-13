@@ -131,7 +131,7 @@ createInit();
  */
 function alterNeighborCount(x, y, num) {
   // Checks if coordinates are within cell boundaries
-  if (x >= 0 && x < bounds[1] && y >= 0 && y < bounds[0]) {
+  if (x >= 0 && x < bounds[0] && y >= 0 && y < bounds[1]) {
     bufferArray[y][x] += num; // Alters the neighbor count for the specified cell
   }
 }
@@ -154,7 +154,7 @@ function alterNeighborCount(x, y, num) {
  */
 export function changeNeighbor(x, y, num) {
   //Checks if coordinates are within cell boundaries
-  if (x >= 0 && x < bounds[1] && y >= 0 && y < bounds[0]) {
+  if (x >= 0 && x < bounds[0] && y >= 0 && y < bounds[1]) {
     alterNeighborCount(x + 1, y + 1, num);
     alterNeighborCount(x + 1, y - 1, num);
     alterNeighborCount(x - 1, y + 1, num);
