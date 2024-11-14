@@ -1,4 +1,9 @@
-/* Global styles page linked to entire website */
+/* 
+    File: global.css
+    Author: Kyle Tranfaglia
+    Purpose: Styling for the shared elements across the entire webpage
+    Last Updated: 11/13/24
+*/
 /* General formatting */
 header {
   display: flex;

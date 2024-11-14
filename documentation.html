@@ -1,4 +1,9 @@
-<!-- Documentation page to explain the features of the simulators -->
+<!-- 
+    File: documentation.html
+    Author: Kyle Tranfaglia
+    Purpose: HTML structure for the Documentation page to explain the features of the simulators
+    Last Updated: 11/13/24
+-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -181,7 +186,7 @@
           4. Repeat for the desired number of time steps (iteration amount). <br> <br>
           For parallel simulation (synchronous updating), all the cells in the lattice are updated at the same time based on the current state of the system. This means that the next state for each cell is computed based on the neighbors' values before any updates happen. All cells are updated simultaneously in a single time step. For sequential simulation (asynchronous updating), the cells are updated one at a time in some configured sequence. This means that by the time a given cell is updated, some of its neighbors might have already been updated, while others have not. The next state of each cell is computed based on the most recent available states of its neighbors, which could include updated cells.
         </div> <br> <br>
-        <h2 class="head"> Parallel Wolfram's Nearest Neighbor </h2>
+        <h2 class="head" id="ParallelWNN"> Parallel Wolfram's Nearest Neighbor </h2>
         <h6 id="primaryToolbar1"> Primary Toolbar </h6>
         <div class="p3">
           <u>Iteration Input Box</u>: Enter the number of iterations to complete. Manipulating the iteration amount will change emerging patterns by limiting or expanding the application of a rule. The iteration amount is inclusive such that it goes the entered number of iterations beyond the starting iteration (starting state, index = 0). Using the "Start" or "Iterate" buttons will simulate up to the entered iteration amount.
@@ -284,7 +289,7 @@
         <div class="p3">
           <u>Cell Color Boxes</u>: Click any of the four color boxes labeled "Alive Cell," "Dead Cell," "Alive Border," and "Dead Border" to open a color picker window. In the window, depending on the web-browser, there is a color selector that allows for full color customization for the selected region. The color picker uses a RGB based GUI built into HTML that allows for precise color selection, then applies the color to the specified cell region.
         </div> <br> <br>
-        <h2 class="head"> Sequential Wolfram's Nearest Neighbor </h2>
+        <h2 class="head" id="SequentialWNN"> Sequential Wolfram's Nearest Neighbor </h2>
         <h6 id="primaryToolbar2"> Primary Toolbar </h6>
         <div class="p3">
           <u>Iteration Input Box</u>: Enter the number of iterations to complete. Manipulating the iteration amount will change emerging patterns by limiting or expanding the application of a rule. The iteration amount is inclusive such that it goes the entered number of iterations beyond the starting iteration (starting state, index = 0). Using the "Start" or "Iterate" buttons will simulate up to the entered iteration amount.
@@ -412,7 +417,7 @@
         <div class="p3">
           <u>Cell Color Boxes</u>: Click any of the four color boxes labeled "Alive Cell," "Dead Cell," "Alive Border," and "Dead Border" to open a color picker window. In the window, depending on the web-browser, there is a color selector that allows for full color customization for the selected region. The color picker uses a RGB based GUI built into HTML that allows for precise color selection, then applies the color to the specified cell region.
         </div> <br> <br>
-        <h2 class="head"> Game of Life </h2>
+        <h2 class="head" id="GameofLife"> Game of Life </h2>
         <h6 id="primaryToolbar3"> Primary Toolbar </h6>
         <div class="p3">
           <u>Start/Stop Button</u>: Click "Start" to incrementally iterate, one iteration at a time, until stopped. The iterations will complete at the delay rate, defaulted to 250 ms. Upon green "Start" button click, the button will convert to a red "Stop" button. Clicking the "Stop" button will pause the simulation such that the iterations will stop. The button will then convert back to a "Start" button and, if clicked, will resume iterating by one until stopped.
