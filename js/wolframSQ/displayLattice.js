@@ -459,6 +459,13 @@ rule = ruleNumToRule(ruleNum);
 createOrder();
 updateLattice();
 
+ctx.font = "30px Arial"; // Font size and style
+    ctx.fillStyle = "red"; // Text color
+
+    // The Setup text
+    ctx.fillText("Hello, World!", 100, 100);
+    console.log("Write Message");
+
 //Sends Variables to needed location
 export { ruleNum, boundaryCon, latSize, size, currentIteration };
 export { outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx };

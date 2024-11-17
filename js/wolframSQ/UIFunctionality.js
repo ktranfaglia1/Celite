@@ -392,7 +392,7 @@ let totalDelta = 0; // Tracks scrolling to limit zoom out or in
  */
 let messageQueue = []; // Stores the message log
 
-activateSetup();
+
 
 /**
  * setupButton Click Event Handler
@@ -454,12 +454,8 @@ function activateSetup() {
     makeLog("Please Select Order", logCanvas, messageQueue);
     makeLog("Welcome to Setup Mode", logCanvas, messageQueue);
     // Set font properties
-    ctx.font = "30px Arial"; // Font size and style
-    ctx.fillStyle = "red"; // Text color
-
-    // Draw the text
-    ctx.fillText("Hello, World!", 100, 100);
-    displayWelcome = false;
+    
+    
   } else {
     makeLog("Entered Setup Mode", logCanvas, messageQueue);
   }
@@ -482,6 +478,26 @@ function activateSetup() {
   clear(latticeArray, false);
   alterSetup(1); // Turns on setup functionality
   redrawLattice();
+
+  //Section Devoted to Displaying Setup Mode Message
+  if(displayWelcome){
+    ctx.font = "50px Georgia"; // Font size and style
+    ctx.fillStyle = "red"; // Text color
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+
+    const centerX = canvas.width / 2;
+
+    // The Setup text
+    ctx.fillText("SETUP MODE: Click the cells or use the library to configure ", centerX, 100);
+    ctx.fillText("a cell ordering for the sequential algorithm. \n", centerX, 150);
+    ctx.fillText("This is required to prepare for the simulation.", centerX, 200);
+    ctx.fillText("All cells must be ordered;", centerX, 250);
+    ctx.fillText("otherwise, the default left to right ordering will be used", centerX, 300);
+     
+    displayWelcome = false;
+  }
 }
 
 /**
@@ -1115,6 +1131,7 @@ function redrawLattice() {
       latticeArray[i][f].drawCell(ctx);
     }
   }
+  console.log("Redraw Lattice Called");
 }
 
 /**
@@ -2579,3 +2596,5 @@ iterationToggle.style.transform = "translateX(0px)";
 borderToggle.style.transform = "translateX(0px)";
 iterationSpeedValue.innerHTML = 750; // Sets displayed default iteration speed value
 outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
+
+activateSetup();
