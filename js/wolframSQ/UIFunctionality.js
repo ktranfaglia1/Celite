@@ -497,6 +497,11 @@ function activateSetup() {
     ctx.fillText("otherwise, the default left to right ordering will be used", centerX, 300);
      
     displayWelcome = false;
+
+    ctx.font = "10px sans-serif"; // Default font in most browsers
+    ctx.fillStyle = "black"; // Default text color
+    ctx.textAlign = "start"; // Default alignment
+    ctx.textBaseline = "alphabetic"; 
   }
 }
 
