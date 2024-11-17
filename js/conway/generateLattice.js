@@ -46,6 +46,12 @@ import { iterationCount } from "./UIFunctionality.js";
 const canvas = document.getElementById("latticeRegion");
 
 /**
+ * Canvas Context: Allows for interaction with the canvas to draw elements.
+ * @type {CanvasRenderingContext2D}
+ */
+const ctx = canvas.getContext("2d");
+
+/**
  * The buffer size (in cells) used to expand the lattice for display.
  * @type {number}
  */
@@ -266,7 +272,7 @@ export function createVis(xOffset = 0, yOffset = 0) {
             for (let f = 0; f < visBounds[2] - visBounds[0]; f++) {
       visLatticeArray[i][f].setXLoc(visLatticeArray[i][f].getXLoc() + xOffset);
       visLatticeArray[i][f].setYLoc(visLatticeArray[i][f].getYLoc() + yOffset);
-      visLatticeArray[i][f].setColor(latticeArray[i + visBounds[1]][f + visBounds[0]]);
+      visLatticeArray[i][f].setColor(latticeArray[i + visBounds[1]][f + visBounds[0]],ctx);
     }
   }
 }

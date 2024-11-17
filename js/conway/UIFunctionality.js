@@ -520,8 +520,8 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let i = 0; i < visLatticeArray.length; i++) {
         for (let j = 0; j < visLatticeArray[i].length; j++) {
                     if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
-            visLatticeArray[i][j].flipColor();
-            visLatticeArray[i][j].drawCell(ctx);
+            visLatticeArray[i][j].flipColor(ctx);
+            visLatticeArray[i][j].drawCell(ctx, true);
             if (latticeArray[i + visBounds[1]][j + visBounds[0]] == 1) {
               changeNeighbor(j + visBounds[0], i + visBounds[1], -1);
             } else {
@@ -560,8 +560,8 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let i = 0; i < visLatticeArray.length; i++) {
         for (let j = 0; j < visLatticeArray[i].length; j++) {
           if (visLatticeArray[i][j].insideCell(mouseX, mouseY) && visLatticeArray[i][j].getColor() == 0) {
-            visLatticeArray[i][j].flipColor();
-            visLatticeArray[i][j].drawCell(ctx);
+            visLatticeArray[i][j].flipColor(ctx);
+            visLatticeArray[i][j].drawCell(ctx, true);
             if (latticeArray[i + visBounds[1]][j + visBounds[0]] == 1) {
               changeNeighbor(j + visBounds[0], i + visBounds[1], -1);
             } else {

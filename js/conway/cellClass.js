@@ -86,16 +86,17 @@ export class cell {
     /**
    * Draws the Cell onto Canvas
    * @param {CanvasRenderingContext2D} ctx
+   * @param {boolean} override Allows you to draw even if zoomed far out
    * @returns {void}
    */
-  drawCell(ctx) {
-        if (this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && (this.color || this.height > 10) /*&& (this.color || border)*/) {
+  drawCell(ctx, override = false) {
+        if (this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && ((this.color || this.height > 10) || override) /*&& (this.color || border)*/) {
       let border = true;
             if (this.height <= 10) {
         border = false;
       }
-
-            if (border) {
+      console.log(override);
+            if (border || override) {
                 if (this.color == 1) {
           ctx.fillStyle = this.aliveBord;
         } else {
@@ -153,14 +154,17 @@ export class cell {
   /**
    * Sets the cell color to a specified value.
    * @param {string} color - New color for the cell (e.g., 'black' or 'white' or a numeric value).
+   * @param {CanvasRenderingContext2D} ctx
    * @returns {void}
    */
   setColor(color) {
     this.color = color;
+
   }
 
   /**
    * Toggles the color of the cell between "alive" and "dead" states.
+   * @param {CanvasRenderingContext2D} ctx
    * @returns {void}
    */
   flipColor() {
