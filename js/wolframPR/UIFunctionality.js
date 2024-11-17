@@ -256,7 +256,8 @@ const closeOptions = document.querySelector("#optionsContent .close");
  * Defaults to 0.
  * @type {number}
  */
-let addIterations = 0;
+let addIterations = 10;
+alterInf(inf[0], false, 10);
 
 /**
  * Flag to control if the iteration process is running.
@@ -683,8 +684,23 @@ ruleSubmit.addEventListener("click", function () {
 latticeFillButton.addEventListener("click", function () {
   stopIterating(); // Stops the iteration before completely filling the lattice
   clearResetToggle();
-  setLatticeSize();
+
+  let newCellNum = latSize[0] - 2 * latSize[1];
+  if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
+    alterLatSize(newCellNum);
+  } else {
+    makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue);
+  }
+  // Alters size of cells to accomodate for removed cells.
+  let size = canvas.width / latSize[0];
+  // Cells should have a maximum size of 45 :: This Caps cell size to 45
+  if (size > 45) {
+    size = 45;
+  }
+  alterSize(size);
   clear(latticeArray);
+  alterInf(inf[0], false);
+
   for (let i = 0; i < latticeArray[0].length; i++) {
     latticeArray[0][i].setColor(1);
   }
@@ -718,8 +734,23 @@ randomFillButton.addEventListener(
   debounce(function () {
     stopIterating(); // Stops the iteration before randomly filling the lattice
     clearResetToggle();
-    setLatticeSize();
+    
+    let newCellNum = latSize[0] - 2 * latSize[1];
+    if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
+      alterLatSize(newCellNum);
+    } else {
+      makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue);
+    }
+    // Alters size of cells to accomodate for removed cells.
+    let size = canvas.width / latSize[0];
+    // Cells should have a maximum size of 45 :: This Caps cell size to 45
+    if (size > 45) {
+      size = 45;
+    }
+    alterSize(size);
     clear(latticeArray);
+    alterInf(inf[0], false);
+
     for (let i = 0; i < latticeArray[0].length; i++) {
       latticeArray[0][i].setColor(Math.floor(Math.random() * 2));
     }
