@@ -354,7 +354,7 @@ let nSkip = 2; // Local variable nSkip needed for n-skip order setting
  * Global variable to control the number of additional iterations.
  * @type {number}
  */
-let addIterations = 0; // Defaults iterations
+let addIterations = 10; // Defaults iterations
 
 /**
  * Global flag that tracks whether the iterations should continue running.
