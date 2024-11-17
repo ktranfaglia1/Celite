@@ -86,24 +86,24 @@ export class cell {
     /**
    * Draws the Cell onto Canvas
    * @param {CanvasRenderingContext2D} ctx
-   * @param {boolean} override Allows you to draw even if zoomed far out
+   * @param {boolean} override Forces cell to draw even if zoomed out
    * @returns {void}
    */
   drawCell(ctx, override = false) {
         if (this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && ((this.color || this.height > 10) || override) /*&& (this.color || border)*/) {
-      let border = true;
+          ctx.clearRect(this.XLocation, this.YLocation, this.width, this.height);
+          let border = true;
             if (this.height <= 10) {
         border = false;
       }
-      console.log(override);
-            if (border || override) {
+        if (border) {
                 if (this.color == 1) {
           ctx.fillStyle = this.aliveBord;
         } else {
           ctx.fillStyle = this.deadBord;
         }
 
-                ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
+        ctx.fillRect(this.XLocation, this.YLocation, this.width, this.height);
       }
 
             if (this.color == 1) {
@@ -115,7 +115,7 @@ export class cell {
             if (border) {
         ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
       } else {
-        ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
+        ctx.fillRect(this.XLocation, this.YLocation, this.width, this.height);
       }
     }
   }
