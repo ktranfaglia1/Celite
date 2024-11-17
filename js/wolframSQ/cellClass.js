@@ -46,14 +46,11 @@ export class cell {
    *
    */
   constructor(height, width, XLocation, YLocation, color, border, setupMode) {
-    //holds the height and width of the cell this should be the same but can allow for rectangles if needed
-    this.height = height;
+        this.height = height;
     this.width = width;
-    //Holds location of the cell based on X and Y
-    this.XLocation = XLocation;
+        this.XLocation = XLocation;
     this.YLocation = YLocation;
-    //Sets the color of the cell to black or white
-    this.color = color;
+        this.color = color;
     this.border = border;
 
     this.deadCell = "#FFFFFF";
@@ -64,21 +61,17 @@ export class cell {
 
     this.setupMode = setupMode;
 
-    this.number = -2; //Displays one above this number
-  }
+    this.number = -2;   }
 
-  // Function used to draw the cell in its proper location
-  /**
+    /**
    * Draws the Cell onto Canvas
    * @param {CanvasRenderingContext2D} ctx
    * @returns {void}
    */
   drawCell(ctx) {
     if (this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && (this.color || this.height > 10) /*&& (this.color || border)*/) {
-      //Draws the Box Outline as long as Cells arent too small
-      if (this.height >= 15 && this.border) {
-        //Sets outline to be inverse of color of cell so you can see it
-        if (!this.setupMode) {
+            if (this.height >= 15 && this.border) {
+                if (!this.setupMode) {
           if (this.color == 1) {
             ctx.fillStyle = this.aliveBord;
           } else {
@@ -91,11 +84,9 @@ export class cell {
             ctx.fillStyle = "#000000";
           }
         }
-        // Draws the main section outside of the square
-        ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 2);
+                ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 2);
       }
-      //Sets color for the main part of the cell
-      if (!this.setupMode) {
+            if (!this.setupMode) {
         if (this.color == 1) {
           ctx.fillStyle = this.aliveCell;
         } else {
@@ -109,8 +100,7 @@ export class cell {
         }
       }
 
-      //Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
-      if (this.height >= 10 && this.border) {
+            if (this.height >= 10 && this.border) {
         ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
       } else {
         ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
@@ -122,8 +112,7 @@ export class cell {
 
         ctx.fillStyle = "black";
 
-        ctx.fillText(this.number + 1, this.XLocation, this.YLocation + this.height); //Plus 1 to stop 0 indexing
-      }
+        ctx.fillText(this.number + 1, this.XLocation, this.YLocation + this.height);       }
     }
   }
 
@@ -151,8 +140,7 @@ export class cell {
    * @returns {boolean} - Returns true if the mouse is inside the cell; otherwise, false.
    */
   insideCell(MouseX, MouseY) {
-    // Tests if location is inside if cell
-    if (MouseX >= this.XLocation && MouseX <= this.XLocation + this.width && MouseY >= this.YLocation && MouseY <= this.YLocation + this.height) {
+        if (MouseX >= this.XLocation && MouseX <= this.XLocation + this.width && MouseY >= this.YLocation && MouseY <= this.YLocation + this.height) {
       return true;
     } else {
       return false;

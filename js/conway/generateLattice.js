@@ -130,10 +130,8 @@ createInit();
  * @returns {void} This function does not return anything; it modifies the global bufferArray.
  */
 function alterNeighborCount(x, y, num) {
-  // Checks if coordinates are within cell boundaries
-  if (x >= 0 && x < bounds[1] && y >= 0 && y < bounds[0]) {
-    bufferArray[y][x] += num; // Alters the neighbor count for the specified cell
-  }
+    if (x >= 0 && x < bounds[1] && y >= 0 && y < bounds[0]) {
+    bufferArray[y][x] += num;   }
 }
 
 /**
@@ -153,8 +151,7 @@ function alterNeighborCount(x, y, num) {
  * @returns {void} This function does not return anything; it modifies the global bufferArray.
  */
 export function changeNeighbor(x, y, num) {
-  //Checks if coordinates are within cell boundaries
-  if (x >= 0 && x < bounds[1] && y >= 0 && y < bounds[0]) {
+    if (x >= 0 && x < bounds[1] && y >= 0 && y < bounds[0]) {
     alterNeighborCount(x + 1, y + 1, num);
     alterNeighborCount(x + 1, y - 1, num);
     alterNeighborCount(x - 1, y + 1, num);
@@ -215,12 +212,10 @@ export function recountNeighbors(clear = false) {
 export function createInit() {
   latticeArray = new Array(new Array());
   bufferArray = new Array(new Array());
-  //Iterate over number of rows in the calculated array
-  for (let i = 0; i < bounds[1]; i++) {
+    for (let i = 0; i < bounds[1]; i++) {
     let dummyArr = new Array();
     let dummyArr2 = new Array();
-    //Iterate over number of columns in the calculated array
-    for (let f = 0; f < bounds[0]; f++) {
+        for (let f = 0; f < bounds[0]; f++) {
       dummyArr.push(0);
       dummyArr2.push(0);
     }
@@ -243,14 +238,10 @@ export function createInit() {
  */
 export function createVisInit() {
   let newLat = new Array(new Array());
-  let xOffset = (window.innerWidth * 0.9 - (visBounds[2] - visBounds[0]) * cellSize) / 2; //Calculates offset need to center canvas although size is hard coded
-  //Iterate over number of rows in the visible array
-  for (let i = visBounds[1]; i < visBounds[3]; i++) {
+  let xOffset = (window.innerWidth * 0.9 - (visBounds[2] - visBounds[0]) * cellSize) / 2;     for (let i = visBounds[1]; i < visBounds[3]; i++) {
     let posY = i - visBounds[1];
     let dummyArr = new Array();
-    //Iterate over number of columns in visible array
-    //Create cells for visible lattice
-    for (let f = visBounds[0]; f < visBounds[2]; f++) {
+            for (let f = visBounds[0]; f < visBounds[2]; f++) {
       let posX = f - visBounds[0];
       dummyArr.push(new cell(cellSize, cellSize, posX * cellSize + xOffset, posY * cellSize, latticeArray[i][f], true));
     }
@@ -271,11 +262,8 @@ export function createVisInit() {
  * @param {number} [yOffset=0] The vertical offset to apply to the cell positions. Defaults to 0.
  */
 export function createVis(xOffset = 0, yOffset = 0) {
-  //Iterate over number of rows in the visible array
-  for (let i = 0; i < visBounds[3] - visBounds[1]; i++) {
-    //Iterate over number of columns in visible array
-    //Only changes X and Y positions to take offset into account if necassary and change cell color if need be
-    for (let f = 0; f < visBounds[2] - visBounds[0]; f++) {
+    for (let i = 0; i < visBounds[3] - visBounds[1]; i++) {
+            for (let f = 0; f < visBounds[2] - visBounds[0]; f++) {
       visLatticeArray[i][f].setXLoc(visLatticeArray[i][f].getXLoc() + xOffset);
       visLatticeArray[i][f].setYLoc(visLatticeArray[i][f].getYLoc() + yOffset);
       visLatticeArray[i][f].setColor(latticeArray[i + visBounds[1]][f + visBounds[0]]);
@@ -302,37 +290,30 @@ export function createVis(xOffset = 0, yOffset = 0) {
 export function iterate() {
   let neighborInstructions = new Array();
 
-  // If no iterations have happened yet, save the initial lattice for resetting purposes
-  if (iterationCount == 0) {
+    if (iterationCount == 0) {
     saveReset();
   }
 
-  // Iterate over all cells in the lattice and apply the rules based on the neighbor count
-  for (let i = 0; i < bounds[1]; i++) {
+    for (let i = 0; i < bounds[1]; i++) {
     for (let f = 0; f < bounds[0]; f++) {
-      // If the cell is dead and has exactly 3 live neighbors, it becomes alive
-      if (latticeArray[i][f] == 0 && bufferArray[i][f] == 3) {
+            if (latticeArray[i][f] == 0 && bufferArray[i][f] == 3) {
         latticeArray[i][f] = 1;
         neighborInstructions.push(new Array(f, i, 1));
       }
-      // If the cell is alive and has less than 2 or more than 3 live neighbors, it dies
-      else if (latticeArray[i][f] == 1 && (bufferArray[i][f] < 2 || bufferArray[i][f] > 3)) {
+            else if (latticeArray[i][f] == 1 && (bufferArray[i][f] < 2 || bufferArray[i][f] > 3)) {
         latticeArray[i][f] = 0;
         neighborInstructions.push(new Array(f, i, -1));
       }
     }
   }
 
-  // Apply changes to each neighbor based on the instructions collected during iteration
-  for (let i = 0; i < neighborInstructions.length; i++) {
+    for (let i = 0; i < neighborInstructions.length; i++) {
     changeNeighbor(neighborInstructions[i][0], neighborInstructions[i][1], neighborInstructions[i][2]);
   }
 
-  // Update the visual representation of the lattice
-  createVis();
+    createVis();
 
-  // Return the updated lattice array
-  return latticeArray;
+    return latticeArray;
 }
 
 /**
@@ -341,14 +322,12 @@ export function iterate() {
  */
 export function boundaryCollide() {
   let collide = false;
-  //Iterate over left and right edge to check for living cells. If there is a living cell, set collide to true
-  for (let i = 0; i < bounds[0]; i++) {
+    for (let i = 0; i < bounds[0]; i++) {
     if (latticeArray[0][i] == 1 || latticeArray[latticeArray.length - 1][i] == 1) {
       collide = true;
     }
   }
-  //Iterate over top and bottom edge to check for living cells. If there is a living cell, set collide to true
-  for (let i = 0; i < bounds[1]; i++) {
+    for (let i = 0; i < bounds[1]; i++) {
     if (latticeArray[i][0] == 1 || latticeArray[i][latticeArray[i].length - 1] == 1) {
       collide = true;
     }

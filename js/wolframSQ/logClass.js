@@ -37,11 +37,7 @@ export class logMessage {
    * @param {HTMLCanvasElement} canvas - The canvas element where the message will be displayed.
    */
   constructor(message, color, canvas) {
-    this.message = message; // Stores the message text
-    this.color = color; // Stores the color of the message
-    this.canvas = canvas; // Stores the canvas element where the message will be drawn
-    this.context = canvas.getContext("2d"); // Gets the 2D rendering context of the canvas
-  }
+    this.message = message;     this.color = color;     this.canvas = canvas;     this.context = canvas.getContext("2d");   }
 
   /**
    * Changes the index for the log message to adjust its position in the log.
@@ -51,8 +47,7 @@ export class logMessage {
    * @returns {void}
    */
   changeIndex(newIndex) {
-    this.index = newIndex; // Updates the index of the message
-  }
+    this.index = newIndex;   }
 
   /**
    * Clears the canvas, removing any previously displayed messages.
@@ -61,8 +56,7 @@ export class logMessage {
    * @returns {void}
    */
   clearCanvas() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); // Clears the entire canvas
-  }
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);   }
 
   /**
    * Displays the log message on the canvas at the given index.
@@ -72,12 +66,8 @@ export class logMessage {
    * @returns {void}
    */
   displayMessage(index) {
-    this.context.font = "13px Arial"; // Sets the font for the message
-    this.context.fillStyle = this.color; // Sets the color for the message text
-
+    this.context.font = "13px Arial";     this.context.fillStyle = this.color; 
     if (index < 3) {
-      // Prevents the display of more than 3 messages by limiting the index
-      this.context.fillText(this.message, 5, (index * this.canvas.height) / 3 + 10.2); // Displays the message at the calculated position
-    }
+            this.context.fillText(this.message, 5, (index * this.canvas.height) / 3 + 10.2);     }
   }
 }
