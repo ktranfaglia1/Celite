@@ -1454,7 +1454,9 @@ iterateButton.addEventListener(
       makeError("Iteration not set", logCanvas, messageQueue);
       return;
     }
-    stopIterating();     makeLog("Iterated to " + addIterations + " Rule: " + ruleNum, logCanvas, messageQueue);
+    stopIterating();     
+    makeLog("Used Rule " + ruleNum, logCanvas, messageQueue);
+    makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
     if (latticeArray.length == 1) {
       clearResetButton.innerHTML = "Reset";
     }
