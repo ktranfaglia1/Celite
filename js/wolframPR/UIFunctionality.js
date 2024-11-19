@@ -836,10 +836,9 @@ clearResetButton.addEventListener(
  *
  * @returns {void} - This function stops the iteration and triggers the boundary condition toggle.
  */
-boundToggleButton.addEventListener(
-  "click",
-  debounce(function () {
-    stopIterating();     toggleCheckbox();
+boundToggleButton.addEventListener("click", debounce(function () {
+    stopIterating();     
+    toggleCheckbox();
   })
 );
 
@@ -887,9 +886,7 @@ iterationToggleButton.addEventListener(
  *
  * @returns {void} - This function toggles the border state, redraws the lattice, and updates the border toggle option.
  */
-borderToggleButton.addEventListener(
-  "click",
-  debounce(function () {
+borderToggleButton.addEventListener("click", debounce(function () {
     alterBorder(!getBorder());
     drawLattice(latticeArray);
     borderToggleOption();

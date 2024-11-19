@@ -396,9 +396,7 @@ let messageQueue = [];
  * @returns {void} - This function does not return any value. It modifies the lattice
  *   state, updates button visibility, and triggers a redraw of the lattice.
  */
-setupButton.addEventListener(
-  "click",
-  debounce(function () {
+setupButton.addEventListener("click", debounce(function () {
     activateSetup();
     for (let i = 0; i < orderArray.length; i++) {
       latticeArray[0][i].setColor(1);
@@ -416,10 +414,10 @@ setupButton.addEventListener(
  *   This function activates setup mode by displaying relevant messages and toggling
  *   the visibility of UI elements. It handles the display of setup buttons, disables
  *   standard simulation buttons, and ensures that the options window is hidden during setup.
- *   It also logs messages and displays a "Hello, World!" greeting upon first activation.
+ *   It also logs messages and displays a greeting upon first activation.
  *
  * Features:
- *   - Displays a welcome message on the first activation, including a "Hello, World!" greeting.
+ *   - Displays a welcome message on the first activation, including a greeting.
  *   - Logs messages to the canvas about entering setup mode and providing instructions.
  *   - Hides the options window and disables standard simulation buttons during setup mode.
  *   - Enables setup-related UI elements and updates the lattice.
@@ -453,24 +451,29 @@ function activateSetup() {
   });
 
   clear(latticeArray, false);
-  alterSetup(1);   redrawLattice();
+  alterSetup(1);   
+  redrawLattice();
 
-    if(displayWelcome){
-    ctx.font = "50px Georgia";     ctx.fillStyle = "red"; 
+  if(displayWelcome) {
+    ctx.font = "40px Arial";    
+    ctx.fillStyle = "red"; 
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
 
     const centerX = canvas.width / 2;
 
-        ctx.fillText("SETUP MODE: Click the cells or use the library to configure ", centerX, 100);
-    ctx.fillText("a cell ordering for the sequential algorithm. \n", centerX, 150);
-    ctx.fillText("This is required to prepare for the simulation.", centerX, 200);
-    ctx.fillText("All cells must be ordered;", centerX, 250);
-    ctx.fillText("otherwise, the default left to right ordering will be used", centerX, 300);
-     
+    ctx.fillText("SETUP MODE: Click the cells or use the preset library to", centerX, 80);
+    ctx.fillText("configure a cell ordering for the sequential algorithm.", centerX, 140);
+    ctx.fillText("This is required to prepare for the simulation. ALL", centerX, 200);
+    ctx.fillText("cells must be ordered; otherwise, the default left", centerX, 260);
+    ctx.fillText(" to right ordering will be used", centerX, 320);
+      
     displayWelcome = false;
 
-        ctx.font = "10px sans-serif";     ctx.fillStyle = "black";     ctx.textAlign = "start";     ctx.textBaseline = "alphabetic"; 
+    ctx.font = "10px sans-serif";     
+    ctx.fillStyle = "black";     
+    ctx.textAlign = "start";     
+    ctx.textBaseline = "alphabetic"; 
   }
 }
 
@@ -1529,9 +1532,7 @@ iterationToggleButton.addEventListener(
  *
  * @returns {void} - This function updates the border visibility and the related UI accordingly.
  */
-borderToggleButton.addEventListener(
-  "click",
-  debounce(function () {
+borderToggleButton.addEventListener("click", debounce(function () {
     alterBorder(!getBorder());
     drawLattice(latticeArray);
     borderToggleOption();
