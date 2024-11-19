@@ -431,7 +431,7 @@ numOfIterations determines the number of timesteps including the starting timest
 */
 
 let latSize = 10;
-let numOfIterations = 1;
+let numOfIterations = 10;
 let currentIteration = 0;
 
 for (let i = 0; i < latSize; i++) {
