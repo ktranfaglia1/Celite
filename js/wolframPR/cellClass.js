@@ -69,62 +69,49 @@ export class cell {
    *
    */
   constructor(height, width, XLocation, YLocation, color, border) {
-    //holds the height and width of the cell this should be the same but can allow for rectangles if needed
-    this.height = height;
+        this.height = height;
     this.width = width;
-    //Holds location of the cell based on X and Y
-    this.XLocation = XLocation;
+        this.XLocation = XLocation;
     this.YLocation = YLocation;
-    //Sets the color of the cell to black or white
-    this.color = color;
+        this.color = color;
     this.border = border;
 
-    //Sets Dead Cell Colors
-    this.deadCell = "#FFFFFF";
+        this.deadCell = "#FFFFFF";
     this.deadBord = "#000000";
 
-    //Sets Alive Cell Colors
-    this.aliveCell = "#000000";
+        this.aliveCell = "#000000";
     this.aliveBord = "#808080";
   }
 
-  // Function used to draw the cell in its proper location
-  /**
+    /**
    * Draws the Cell onto Canvas
    * @param {CanvasRenderingContext2D} ctx
    * @returns {void}
    */
   drawCell(ctx) {
-    //Checks if the cell in question is within the current canvas. No need to run draw commands on anything outside canvas.
-    if (this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && (this.color || this.height > 10) /*&& (this.color || border)*/) {
+        if (this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && (this.color || this.height > 10) /*&& (this.color || border)*/) {
       let border = true;
-      //If the height of the cell is less then or equal to ten, dont draw cell borders
-      if (this.height <= 10) {
+            if (this.height <= 10) {
         border = false;
       }
 
-      //Draws the Box Outline as long as Cells arent too small
-      if (border) {
-        //Sets outline to be inverse of color of cell so you can see it
-        if (this.color == 1) {
+            if (border) {
+                if (this.color == 1) {
           ctx.fillStyle = this.aliveBord;
         } else {
           ctx.fillStyle = this.deadBord;
         }
 
-        // Draws the main section outside of the square
-        ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
+                ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
       }
 
-      //Sets color for the main part of the cell
-      if (this.color == 1) {
+            if (this.color == 1) {
         ctx.fillStyle = this.aliveCell;
       } else {
         ctx.fillStyle = this.deadCell;
       }
 
-      //Draws Inside of Cell and sets to proper size depending on  if their is or isnt an outline
-      if (border) {
+            if (border) {
         ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
       } else {
         ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
@@ -156,8 +143,7 @@ export class cell {
    * @returns {boolean} - Returns true if the mouse is inside the cell; otherwise, false.
    */
   insideCell(MouseX, MouseY) {
-    // Tests if location is inside if cell
-    if (MouseX >= this.XLocation && MouseX <= this.XLocation + this.width && MouseY >= this.YLocation && MouseY <= this.YLocation + this.height) {
+        if (MouseX >= this.XLocation && MouseX <= this.XLocation + this.width && MouseY >= this.YLocation && MouseY <= this.YLocation + this.height) {
       return true;
     } else {
       return false;

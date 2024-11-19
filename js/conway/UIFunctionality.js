@@ -46,7 +46,6 @@ import { visLatticeArray, visBounds, latticeArray, iterate, createVisInit, bound
 import { cell } from "./cellClass.js";
 import { build101, build295, build119, build1234, buildGlider, setLattice, buildGtoG, build60P, buildAK94, buildTrigger, buildSnail, buildTub } from "./presets.js";
 
-//DECLARATIONS
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */
 
 /**
@@ -109,20 +108,17 @@ const zoomValue = document.getElementById("zoomValue");
  * @type {HTMLElement}
  * @description Represents the container element for the "About" window.
  */
-const aboutWindow = document.getElementById("aboutContainer"); // Connect window for about
-
+const aboutWindow = document.getElementById("aboutContainer"); 
 /**
  * @type {HTMLElement}
  * @description Represents the close button for the "About" window, used to trigger window closure.
  */
-const closeAbout = document.querySelector("#aboutContent .close"); // Connect HTML/CSS close feature to JS for the about window
-
+const closeAbout = document.querySelector("#aboutContent .close"); 
 /**
  * @type {HTMLElement}
  * @description Represents the container element for the "Library" window.
  */
-const libraryWindow = document.getElementById("libraryContainer"); // Connect window for library
-
+const libraryWindow = document.getElementById("libraryContainer"); 
 /**
  * @type {HTMLElement}
  * @description Represents the close button for the "Library" window, used to trigger window closure.
@@ -309,8 +305,7 @@ document.addEventListener("DOMContentLoaded", function () {
         clearResetToggle(true);
         startStopToggle();
         run = !run;
-        //If continuous iterations are not currently happening, start them.
-        if (run) {
+                if (run) {
           continouslyIterate();
         }
       }
@@ -336,8 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
   iterateButton.addEventListener(
     "click",
     debounce(function () {
-      //If iterations are not happening continuously and no boundary collisions exist, iterate one timestep
-      if (!run && !boundaryCollide()) {
+            if (!run && !boundaryCollide()) {
         clearResetToggle(true);
         iterate();
         updateOutput(true);
@@ -366,14 +360,11 @@ document.addEventListener("DOMContentLoaded", function () {
   clearResetButton.addEventListener(
     "click",
     debounce(function () {
-      //If the button currently has clear functionality, clear the lattice
-      if (currentReset == 1) {
+            if (currentReset == 1) {
         clear();
       }
-      //Otherwise reset.
-      else {
-        //If iterations are currently happening, stop the iterations. Otherwise keep the button on reset, then reset the canvas.
-        if (run) {
+            else {
+                if (run) {
           startStopToggle();
           run = false;
         } else {
@@ -453,8 +444,7 @@ document.addEventListener("DOMContentLoaded", function () {
    * - Triggers actions based on specific key presses (e.g., button clicks, focusing inputs).
    */
   document.addEventListener("keydown", function (event) {
-    // Check if ALT key is pressed, then check if another key is pressed and complete corresponding action
-    if (event.shiftKey) {
+        if (event.shiftKey) {
       setTimeout(function () {
         if (!shift) {
           shift = true;
@@ -498,8 +488,7 @@ document.addEventListener("DOMContentLoaded", function () {
         default:
           break;
       }
-      // Enter key clicked, check if an inputbox is active and click submit for that box
-    } else if (event.key == "Enter") {
+          } else if (event.key == "Enter") {
       iterationSubmit.click();
     }
   });
@@ -527,14 +516,12 @@ document.addEventListener("DOMContentLoaded", function () {
   canvas.addEventListener("mousedown", function (event) {
     let mouseX, mouseY;
     [mouseX, mouseY] = getMouseLocation(event);
-    //When shift is true, the user should be able to click and drag across canvas, so draw on canvas when false.
-    if (!shift) {
+        if (!shift) {
       for (let i = 0; i < visLatticeArray.length; i++) {
         for (let j = 0; j < visLatticeArray[i].length; j++) {
-          //If the mouse click was inside of this cell, flip the cell's status
-          if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
-            visLatticeArray[i][j].flipColor();
-            visLatticeArray[i][j].drawCell(ctx);
+                    if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
+            visLatticeArray[i][j].flipColor(ctx);
+            visLatticeArray[i][j].drawCell(ctx, true);
             if (latticeArray[i + visBounds[1]][j + visBounds[0]] == 1) {
               changeNeighbor(j + visBounds[0], i + visBounds[1], -1);
             } else {
@@ -564,19 +551,17 @@ document.addEventListener("DOMContentLoaded", function () {
   canvas.addEventListener("mousemove", function (event) {
     let mouseX, mouseY;
     [mouseX, mouseY] = getMouseLocation(event);
-    //If the shift key is being held down and scribble is active, shift across canvas
-    if (scribble && shift) {
+        if (scribble && shift) {
       let offSetX = mouseX - mouseXPos;
       let offsetY = mouseY - mouseYPos;
       redrawLattice(offSetX, offsetY);
     }
-    //If just scribble is active, keep track of mouse location and flip cell colors over cursor
-    else if (scribble) {
+        else if (scribble) {
       for (let i = 0; i < visLatticeArray.length; i++) {
         for (let j = 0; j < visLatticeArray[i].length; j++) {
           if (visLatticeArray[i][j].insideCell(mouseX, mouseY) && visLatticeArray[i][j].getColor() == 0) {
-            visLatticeArray[i][j].flipColor();
-            visLatticeArray[i][j].drawCell(ctx);
+            visLatticeArray[i][j].flipColor(ctx);
+            visLatticeArray[i][j].drawCell(ctx, true);
             if (latticeArray[i + visBounds[1]][j + visBounds[0]] == 1) {
               changeNeighbor(j + visBounds[0], i + visBounds[1], -1);
             } else {
@@ -605,12 +590,10 @@ document.addEventListener("DOMContentLoaded", function () {
    * - Sets the initial mouse position if `shift` and `scribble` are both active.
    */
   canvas.addEventListener("mousedown", function (event) {
-    document.body.style.userSelect = "none"; // Disable text selection globally
-    setTimeout(function () {
+    document.body.style.userSelect = "none";     setTimeout(function () {
       if (!scribble) {
         scribble = true;
-        //If scribble and shift are true, get initial mouse location so that there is a reference point for canvas movement calculations
-        if (scribble && shift) {
+                if (scribble && shift) {
           [mouseXPos, mouseYPos] = getMouseLocation(event);
         }
       }
@@ -633,8 +616,7 @@ document.addEventListener("DOMContentLoaded", function () {
    * - Enables text selection globally.
    */
   canvas.addEventListener("mouseup", function () {
-    document.body.style.userSelect = "auto"; // Enable text selection globally
-    setTimeout(function () {
+    document.body.style.userSelect = "auto";     setTimeout(function () {
       if (scribble) {
         scribble = false;
         shiftX = 0;
@@ -665,11 +647,9 @@ document.addEventListener("DOMContentLoaded", function () {
     "wheel",
     function (event) {
       let mouseX, mouseY;
-      [mouseX, mouseY] = getMouseLocation(event); // Calculates Proper location of zoom center
-      let testLoc = inLattice(mouseX, mouseY);
+      [mouseX, mouseY] = getMouseLocation(event);       let testLoc = inLattice(mouseX, mouseY);
       if (testLoc) {
-        let delta = event.deltaY; //Get delta from mouse scroll.
-        let change = false;
+        let delta = event.deltaY;         let change = false;
         let currentScale = 100 / reverse[zoomSlider.value - 1];
         if (delta < 0 && zoomSlider.value < 100) {
           zoomSlider.value++;
@@ -748,8 +728,7 @@ function inLattice(xLoc, yLoc) {
  * @returns {void} - This function does not return any value.
  */
 function startStopToggle() {
-  // If the button is in start state, change it to stop state and vice versa
-  if (startStopButton.classList.contains("start_button") && !run) {
+    if (startStopButton.classList.contains("start_button") && !run) {
     startStopButton.innerHTML = "Stop";
     startStopButton.classList.remove("start_button");
     startStopButton.classList.add("stop_button");
@@ -771,8 +750,7 @@ function startStopToggle() {
  * @returns {void} - This function does not return any value.
  */
 function clearResetToggle(reset) {
-  // If the button is in clear state, change it to reset state and vice versa
-  if (reset) {
+    if (reset) {
     currentReset = 0;
     clearResetButton.innerHTML = "Reset";
   } else if (!reset) {
@@ -811,8 +789,7 @@ closeAbout.addEventListener("click", function () {
  * @returns {void} - This function does not return any value.
  */
 window.addEventListener("click", function (event) {
-  // Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
-  if (event.target == aboutWindow) {
+    if (event.target == aboutWindow) {
     aboutWindow.style.display = "none";
   }
 });
@@ -845,8 +822,7 @@ closeLibrary.addEventListener("click", function () {
  * @returns {void} - This function does not return any value, but modifies the display style of the library window.
  */
 window.addEventListener("click", function (event) {
-  // Check if about window is mouse target (outside text frame was clicked) and, if so, hide about window
-  if (event.target == libraryWindow) {
+    if (event.target == libraryWindow) {
     libraryWindow.style.display = "none";
   }
 });
@@ -874,31 +850,25 @@ iterationSpeedSlider.oninput = function () {
  * @returns {void} - This function modifies the properties of the `cell` object directly, it does not return any value.
  */
 function alterCell(cell, scale, mouseY, mouseX) {
-  //Get the X and Y position of corner 0 of the cell, the X position of the corner 1 (to the right of corner 0)
-  //and the Y position of corner 2 (below corner 0)
-  let corner0X = cell.getXLoc();
+      let corner0X = cell.getXLoc();
   let corner0Y = cell.getYLoc();
   let corner1X = cell.getXLoc() + cell.getWidth();
   let corner2Y = cell.getYLoc() + cell.getHeight();
 
-  //Find the corresponding X or Y distance between the current mouse location and the corners.
-  let deltaCorner0X = corner0X - mouseX;
+    let deltaCorner0X = corner0X - mouseX;
   let deltaCorner0Y = corner0Y - mouseY;
   let deltaCorner1X = corner1X - mouseX;
   let deltaCorner2Y = corner2Y - mouseY;
 
-  //Alter the positions by multiplying the ditance between the cursor and the corners by the scale factor
-  let newCell0X = mouseX + deltaCorner0X * scale;
+    let newCell0X = mouseX + deltaCorner0X * scale;
   let newCell0Y = mouseY + deltaCorner0Y * scale;
   let newCell1X = mouseX + deltaCorner1X * scale;
   let newCell2Y = mouseY + deltaCorner2Y * scale;
 
-  //Create the new cell width and height
-  let newCellWidth = newCell1X - newCell0X;
+    let newCellWidth = newCell1X - newCell0X;
   let newCellHeight = newCell2Y - newCell0Y;
 
-  //Set new values to the cell.
-  cell.setHeight(newCellHeight);
+    cell.setHeight(newCellHeight);
   cell.setWidth(newCellWidth);
   cell.setXLoc(newCell0X);
   cell.setYLoc(newCell0Y);
@@ -944,22 +914,17 @@ function setDelay(newDelay) {
  *    - The second value is the Y-coordinate.
  */
 function getMouseLocation(event) {
-  //Gets the posistion of the edges of canvas
-  let bounds = canvas.getBoundingClientRect();
+    let bounds = canvas.getBoundingClientRect();
 
-  // Calculates Height and Width cooresponding to CSS setting of Canvas
-  let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue("width"));
+    let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue("width"));
   let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue("height"));
 
-  //Calculates the width of the thin border that wraps around the canvas allowing for pixel perfect clicking
-  let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+    let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
 
-  //Gets the amount of padding which isnt generally considered in the mouse click
-  let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+    let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
   let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
 
-  //calculates mouse X and mouse Y of the Mouse during click and then distorts and move the location to where it needs cooresponding
-  let mouseX = ((event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width) / cssWidth;
+    let mouseX = ((event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width) / cssWidth;
   let mouseY = ((event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height) / cssHeight;
 
   return [mouseX, mouseY];
@@ -975,17 +940,14 @@ function getMouseLocation(event) {
 function continouslyIterate() {
   if (run) {
     setTimeout(function () {
-      // puts a wait before iterating again
-      if (run && !(shift && scribble) && !boundaryCollide()) {
+            if (run && !(shift && scribble) && !boundaryCollide()) {
         iterate();
         updateOutput(true);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        //displayLattice(visLatticeArray)
-        redrawLattice();
+                redrawLattice();
       }
       if (!boundaryCollide()) {
-        continouslyIterate(); // allows it to coninously run by calling it again
-      } else {
+        continouslyIterate();       } else {
         startStopToggle();
         run = false;
       }
@@ -993,7 +955,6 @@ function continouslyIterate() {
   }
 }
 
-// outputIteration.innerHTML = "Iteration Count: 0"; // Display (initial) iteration count to HTML page
 /**
  * Creates a debounced version of a function that delays the invocation until after a specified amount of time
  * has passed since the last time the debounced function was invoked. This is useful for limiting the frequency
@@ -1011,8 +972,7 @@ function debounce(callback) {
   return function (event) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
-      callback(event); // Directly pass the event object to the callback function
-    }, 100);
+      callback(event);     }, 100);
   };
 }
 
@@ -1022,8 +982,7 @@ function debounce(callback) {
  *
  * @returns {void} - This function does not return any value. It directly modifies the lattice and output.
  * @example
- * reset(); // Resets the lattice and updates the output display.
- */
+ * reset();  */
 function reset() {
   setLattice(resetLattice);
   updateOutput();
@@ -1040,17 +999,14 @@ function reset() {
  * @returns {void} - This function does not return any value. It modifies the `iterationCount`
  *                   and updates the displayed content in the HTML.
  * @example
- * updateOutput(true);  // Increments the iteration count by 1 and updates the display.
- * updateOutput();      // Resets the iteration count to 0 and updates the display.
- */
+ * updateOutput(true);   * updateOutput();       */
 function updateOutput(increment = false) {
   if (increment) {
     iterationCount++;
   } else {
     iterationCount = 0;
   }
-  outputIteration.innerHTML = "Iteration Count: " + iterationCount.toString(); // Display iteration count to HTML page
-}
+  outputIteration.innerHTML = "Iteration Count: " + iterationCount.toString(); }
 
 /**
  * Redraws the entire lattice array on the canvas with optional offsets.
@@ -1067,9 +1023,7 @@ function updateOutput(increment = false) {
  *                   canvas by clearing it and redrawing the lattice with any offset.
  *
  * @example
- * redrawLattice(10, 20);  // Redraws the lattice with a 10px horizontal offset and a 20px vertical offset.
- * redrawLattice();        // Redraws the lattice with no offset (default to 0, 0).
- */
+ * redrawLattice(10, 20);   * redrawLattice();         */
 export function redrawLattice(xOffset = 0, yOffset = 0) {
   let trueOffsetX = xOffset - shiftX;
   let trueOffsetY = yOffset - shiftY;
@@ -1129,9 +1083,7 @@ export function redrawLattice(xOffset = 0, yOffset = 0) {
  * @returns {void} - This function modifies the properties of the lattice cells directly, it does not return any value.
  *
  * @example
- * alterLattice(1.5);                // Scales all cells by a factor of 1.5, centered around the canvas center.
- * alterLattice(0.8, 200, 150);      // Scales all cells by a factor of 0.8, centered around (200, 150).
- */
+ * alterLattice(1.5);                 * alterLattice(0.8, 200, 150);       */
 export function alterLattice(scale, mouseY = canvas.height / 2, mouseX = canvas.width / 2) {
   for (let i = 0; i < visLatticeArray.length; i++) {
     for (let j = 0; j < visLatticeArray[i].length; j++) {
@@ -1150,11 +1102,9 @@ export function alterLattice(scale, mouseY = canvas.height / 2, mouseX = canvas.
  *                   of the `latticeArray` into it.
  *
  * @example
- * saveReset();  // Saves the current lattice state for later resetting.
- */
+ * saveReset();   */
 export function saveReset() {
-  resetLattice.length = 0; //Javascript is insane man
-  for (let i = 0; i < latticeArray.length; i++) {
+  resetLattice.length = 0;   for (let i = 0; i < latticeArray.length; i++) {
     let tempRow = new Array();
     for (let j = 0; j < latticeArray[0].length; j++) {
       tempRow.push(latticeArray[i][j]);
@@ -1173,8 +1123,7 @@ export function saveReset() {
  *                   and refreshes the lattice visualization on the canvas.
  *
  * @example
- * clear();  // Clears the lattice and updates the display.
- */
+ * clear();   */
 export function clear() {
   updateOutput();
   for (let i = 0; i < latticeArray.length; i++) {

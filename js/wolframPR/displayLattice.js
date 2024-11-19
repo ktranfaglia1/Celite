@@ -44,7 +44,6 @@
 import { cell } from "./cellClass.js";
 import { ruleNumToRule, generateLattice } from "./generateLattice.js";
 
-//This is the various document stuff for selecting color
 
 /**
  * Color selector for dead cells.
@@ -188,8 +187,7 @@ let inf = new Array(true, false, 0);
  * Flag determining whether the border around the lattice is enabled or disabled.
  * @type {boolean}
  */
-let border = false; // Border = false by default
-
+let border = false; 
 /**
  * The rule number used for determining cell behavior (dead or alive) in the simulation.
  * @type {number}
@@ -400,8 +398,7 @@ function LatticeDisplay(latticeArray) {
   let center = canvas.width / 2;
   let startX = center - startDif;
 
-  //Iterates over lattice size adding a new cell in top row.
-  for (let i = 0; i < latSize[0]; i++) {
+    for (let i = 0; i < latSize[0]; i++) {
     currentLattice.push(new cell(size, size, startX + i * size, 0, 0));
   }
   latticeArray.push(currentLattice);
@@ -420,12 +417,10 @@ function LatticeDisplay(latticeArray) {
  * where each element is a cell object that holds the properties and methods for drawing.
  */
 export function drawLattice(latticeArray) {
-  //Increases canvas size such that lattice can fit.
-  if (latticeArray.length * size > canvas.height) {
+    if (latticeArray.length * size > canvas.height) {
     canvas.height = latticeArray.length * size;
     tickCanvas.height = canvas.height;
-    //canvas.style.height = (latticeArray.length * size) + 'px';
-  }
+      }
 
   for (let i = 0; i < latticeArray.length; i++) {
     for (let j = 0; j < latticeArray[0].length; j++) {
@@ -433,15 +428,13 @@ export function drawLattice(latticeArray) {
     }
   }
 
-  //This sets the top row to always have borders on so its easy to be able to click
-  if (latticeArray.length <= 1)
+    if (latticeArray.length <= 1)
     for (let i = 0; i < latticeArray[0].length; i++) {
       latticeArray[0][i].setBorder(true);
     }
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //Iterates over each cell in each lattice in each timestep drawing them to the canvas.
-
+  
   ctx.fillStyle = deadColorSel.value;
   ctx.fillRect(latticeArray[0][0].getXLoc(), latticeArray[0][0].getYLoc(), latticeArray[0].length * latticeArray[0][0].getHeight(), latticeArray.length * latticeArray[0][0].getWidth());
   for (let j = 0; j < latticeArray.length; j++) {
@@ -464,19 +457,13 @@ export function drawLattice(latticeArray) {
  * @returns {void}
  */
 export function updateLattice() {
-  //Iterates over each new iteration that needs to be added to the lattice array.
-  for (; currentIteration < numOfIterations; currentIteration++) {
-    //Generate the next timestep using the current one, the existing rule, the boundary condition
-    //the current iteration so that the cells are created in the right spot, and the size of each
-    //individual cell to be created in the next timestep.
-    nextLattice = generateLattice(currentLattice, rule, boundaryCon, currentIteration, size);
+    for (; currentIteration < numOfIterations; currentIteration++) {
+                nextLattice = generateLattice(currentLattice, rule, boundaryCon, currentIteration, size);
     latticeArray[currentIteration] = nextLattice;
     currentLattice = nextLattice;
   }
-  //Update lattice in canvas
-  drawLattice(latticeArray);
-  outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); // Display iteration count to HTML page upon update
-}
+    drawLattice(latticeArray);
+  outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); }
 
 //Sends Variables to needed location
 export { ruleNum, boundaryCon, latSize, inf, size, currentIteration };

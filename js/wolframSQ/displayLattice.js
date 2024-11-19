@@ -81,8 +81,7 @@ aliveBorderSel.value = "#808080";
  * @returns {void} This function does not return a value; it modifies the global `orderArray`.
  *
  * @example
- * alterOrder([1, 2, 3, 4]); // Updates the orderArray to [1, 2, 3, 4]
- */
+ * alterOrder([1, 2, 3, 4]);  */
 export function alterOrder(neoOrderArray) {
   orderArray = neoOrderArray;
 }
@@ -96,8 +95,7 @@ export function alterOrder(neoOrderArray) {
  * @returns {void} This function does not return a value; it modifies the global `latSize`.
  *
  * @example
- * alterLatSize([50, 50]); // Updates the latSize to [50, 50]
- */
+ * alterLatSize([50, 50]);  */
 export function alterLatSize(neoLatSize = latSize) {
   latSize = neoLatSize;
 }
@@ -110,8 +108,7 @@ export function alterLatSize(neoLatSize = latSize) {
  * @returns {void} This function does not return a value; it modifies the global `size`.
  *
  * @example
- * alterSize(20); // Updates the size of the cells to 20
- */
+ * alterSize(20);  */
 export function alterSize(neoSize = size) {
   size = neoSize;
 }
@@ -124,8 +121,7 @@ export function alterSize(neoSize = size) {
  * @returns {void} This function does not return a value; it modifies the global `latticeArray`.
  *
  * @example
- * alterLatticeArray(newLatticeArray); // Updates the lattice array to the new state
- */
+ * alterLatticeArray(newLatticeArray);  */
 export function alterLatticeArray(neoLatticeArray) {
   latticeArray = neoLatticeArray;
 }
@@ -138,8 +134,7 @@ export function alterLatticeArray(neoLatticeArray) {
  * @returns {void} This function does not return a value; it modifies the global `currentLattice`.
  *
  * @example
- * alterCurrentLattice(newCurrentLattice); // Updates the current lattice to the new state
- */
+ * alterCurrentLattice(newCurrentLattice);  */
 export function alterCurrentLattice(neoCurrentLattice) {
   currentLattice = neoCurrentLattice;
 }
@@ -152,8 +147,7 @@ export function alterCurrentLattice(neoCurrentLattice) {
  * @returns {void} This function does not return a value; it modifies the global `nextLattice`.
  *
  * @example
- * alterNextLattice(newNextLattice); // Updates the next lattice to the new state
- */
+ * alterNextLattice(newNextLattice);  */
 
 export function alterNextLattice(neoNextLattice) {
   nextLattice = neoNextLattice;
@@ -167,8 +161,7 @@ export function alterNextLattice(neoNextLattice) {
  * @returns {void} This function does not return a value; it modifies the global `rule`.
  *
  * @example
- * alterRule(newRule); // Updates the rule to the new transition logic
- */
+ * alterRule(newRule);  */
 export function alterRule(neoRule) {
   rule = neoRule;
 }
@@ -181,8 +174,7 @@ export function alterRule(neoRule) {
  * @returns {void} This function does not return a value; it modifies the global `numOfIterations`.
  *
  * @example
- * alterNumOfIterations(100); // Sets the number of iterations to 100
- */
+ * alterNumOfIterations(100);  */
 export function alterNumOfIterations(neoNumOfIterations) {
   numOfIterations = neoNumOfIterations;
 }
@@ -195,8 +187,7 @@ export function alterNumOfIterations(neoNumOfIterations) {
  * @returns {void} This function does not return a value; it modifies the global `currentIteration`.
  *
  * @example
- * alterCurrentIteration(5); // Sets the current iteration to 5
- */
+ * alterCurrentIteration(5);  */
 export function alterCurrentIteration(neoCurrentIteration) {
   currentIteration = neoCurrentIteration;
 }
@@ -209,8 +200,7 @@ export function alterCurrentIteration(neoCurrentIteration) {
  * @returns {void} This function does not return a value; it modifies the global `ruleNum`.
  *
  * @example
- * alterRuleNum(30); // Sets the rule number to 30
- */
+ * alterRuleNum(30);  */
 export function alterRuleNum(neoRuleNum) {
   ruleNum = neoRuleNum;
 }
@@ -223,8 +213,7 @@ export function alterRuleNum(neoRuleNum) {
  * @returns {void} This function does not return a value; it modifies the global `boundaryCon`.
  *
  * @example
- * alterBoundaryCon(true); // Sets the boundary condition to true
- */
+ * alterBoundaryCon(true);  */
 export function alterBoundaryCon(neoBoundaryCon) {
   boundaryCon = neoBoundaryCon;
 }
@@ -265,8 +254,7 @@ function LatticeDisplay(latticeArray) {
   let center = canvas.width / 2;
   let startX = center - startDif;
 
-  //Iterates over lattice size adding a new cell in top row.
-  for (let i = 0; i < latSize; i++) {
+    for (let i = 0; i < latSize; i++) {
     currentLattice.push(new cell(size, size, startX + i * size, 0, 0));
   }
   latticeArray.push(currentLattice);
@@ -283,12 +271,10 @@ function LatticeDisplay(latticeArray) {
  * and draws them in the appropriate positions based on their state.
  */
 export function drawLattice(latticeArray) {
-  //Increases canvas size such that lattice can fit.
-  if (latticeArray.length * size > canvas.height) {
+    if (latticeArray.length * size > canvas.height) {
     canvas.height = latticeArray.length * size;
     tickCanvas.height = canvas.height;
-    //canvas.style.height = (latticeArray.length * size) + 'px';
-  }
+      }
 
   for (let i = 0; i < latticeArray.length; i++) {
     for (let j = 0; j < latticeArray[0].length; j++) {
@@ -296,15 +282,13 @@ export function drawLattice(latticeArray) {
     }
   }
 
-  //This sets the top row to always have borders on so its easy to be able to click
-  if (latticeArray.length <= 1)
+    if (latticeArray.length <= 1)
     for (let i = 0; i < latticeArray[0].length; i++) {
       latticeArray[0][i].setBorder(true);
     }
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //Iterates over each cell in each lattice in each timestep drawing them to the canvas.
-  for (let j = 0; j < latticeArray.length; j++) {
+    for (let j = 0; j < latticeArray.length; j++) {
     for (let i = 0; i < latticeArray[j].length; i++) {
       latticeArray[j][i].drawCell(ctx);
     }
@@ -322,19 +306,13 @@ export function drawLattice(latticeArray) {
  */
 
 export function updateLattice() {
-  //Iterates over each new iteration that needs to be added to the lattice array.
-  for (; currentIteration < numOfIterations; currentIteration++) {
-    //Generate the next timestep using the current one, the existing rule, the boundary condition
-    //the current iteration so that the cells are created in the right spot, and the size of each
-    //individual cell to be created in the next timestep.
-    nextLattice = generateLattice(currentLattice, rule, boundaryCon, currentIteration, size);
+    for (; currentIteration < numOfIterations; currentIteration++) {
+                nextLattice = generateLattice(currentLattice, rule, boundaryCon, currentIteration, size);
     latticeArray[currentIteration] = nextLattice;
     currentLattice = nextLattice;
   }
-  //Update lattice in canvas
-  drawLattice(latticeArray);
-  outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); // Display iteration count to HTML page upon update
-}
+    drawLattice(latticeArray);
+  outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); }
 
 /**
  * Initializes the orderArray with a sequence of numbers from 0 to latSize-1.
@@ -400,8 +378,7 @@ let rule = new Array();
 
 // Gets data on the canvas for displaying purposes
 let canvas = document.getElementById("latticeRegion");
-let ctx = canvas.getContext("2d"); // gets the lattice display region
-//Shows user what iteration we are currently on
+let ctx = canvas.getContext("2d"); //Shows user what iteration we are currently on
 let outputIteration = document.getElementById("iterationOutput");
 
 canvas.width = 1800;
@@ -409,15 +386,12 @@ canvas.height = 400;
 
 // pulls in Canvas used to display the ticker
 const tickCanvas = document.getElementById("tickmarkRegion");
-const tctx = tickCanvas.getContext("2d"); // gets the lattice display region
-//let errorBox = document.getElementById("errorRegion");
-
+const tctx = tickCanvas.getContext("2d"); 
 tickCanvas.height = canvas.height;
 tickCanvas.width = canvas.width;
 
 let logCanvas = document.getElementById("logRegion"); //Box for Displaying Errors
-let lctx = logCanvas.getContext("2d"); // gets the lattice display region
-
+let lctx = logCanvas.getContext("2d"); 
 logCanvas.width = 160;
 logCanvas.height = 45;
 
@@ -438,8 +412,7 @@ for (let i = 0; i < latSize; i++) {
   tempOrder[i] = -1;
 }
 
-export let border = false; //Border = false by default
-//Creates setup variable and defaults to false
+export let border = false; //Creates setup variable and defaults to false
 let setup = false;
 /*
 These variables determine the generation of new lattices. The rulenum determines the ruleset for when cells
@@ -451,13 +424,13 @@ latice.
 let ruleNum = 90;
 let boundaryCon = 1;
 
-//Sets starting lattice to all dead
 //latticeArray[0] = currentLattice;
 latticeArray = [];
 LatticeDisplay(latticeArray);
 rule = ruleNumToRule(ruleNum);
 createOrder();
 updateLattice();
+
 
 //Sends Variables to needed location
 export { ruleNum, boundaryCon, latSize, size, currentIteration };

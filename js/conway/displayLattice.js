@@ -52,11 +52,9 @@ displayLattice(visLatticeArray);
 export function intialCanvas() {
   const canvas = document.getElementById("latticeRegion");
 
-  // Set canvas width to 90% of the window width
-  canvas.width = 0.9 * window.innerWidth;
+    canvas.width = 0.9 * window.innerWidth;
 
-  // Set canvas height to 82% of the window height
-  canvas.height = 0.82 * window.innerHeight;
+    canvas.height = 0.82 * window.innerHeight;
 }
 
 /**
@@ -66,17 +64,13 @@ export function intialCanvas() {
  * @param {Array} visLatticeArray - A 2D array of cells representing the visual lattice.
  */
 export function displayLattice(visLatticeArray) {
-  // Set the background color to white
-  ctx.fillStyle = "#FFFFFF";
+    ctx.fillStyle = "#FFFFFF";
 
-  // Draw a white rectangle covering the entire canvas (this acts as the background)
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Iterate over the lattice array and draw each individual cell
-  for (let i = 0; i < visLatticeArray.length; i++) {
+    for (let i = 0; i < visLatticeArray.length; i++) {
     for (let j = 0; j < visLatticeArray[0].length; j++) {
-      visLatticeArray[i][j].drawCell(ctx); // Draw each cell to the canvas
-    }
+      visLatticeArray[i][j].drawCell(ctx);     }
   }
 }
 
