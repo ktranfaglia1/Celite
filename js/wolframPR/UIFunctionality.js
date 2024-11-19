@@ -631,7 +631,8 @@ tickCanvas.addEventListener(
  *   iteration, clearing the reset toggle, and setting the new rule.
  */
 ruleSubmit.addEventListener("click", function () {
-  stopIterating();   clearResetToggle();
+  stopIterating();   
+  clearResetToggle();
   setRule(rule);
 });
 
@@ -658,7 +659,6 @@ ruleSubmit.addEventListener("click", function () {
 latticeFillButton.addEventListener("click", function () {
   stopIterating();   
   clearResetToggle();
-  setLatticeSize();
   clear(latticeArray);
   alterInf(inf[0], false);
 
@@ -695,7 +695,6 @@ randomFillButton.addEventListener(
   debounce(function () {
     stopIterating();     
     clearResetToggle();
-    setLatticeSize();
     clear(latticeArray);
     alterInf(inf[0], false);
 
@@ -914,7 +913,8 @@ borderToggleButton.addEventListener(
  * @returns {void} - This function stops the iteration process and potentially resets the lattice size.
  */
 iterationSubmit.addEventListener("click", function () {
-  stopIterating();   setLatticeSize();
+  stopIterating();   
+  setLatticeSize();
 });
 
 /**
@@ -1369,8 +1369,9 @@ function setRule() {
  * @returns {number} - Returns the updated number of iterations (addIterations).
  */
 function setLatticeSize() {
-  let newValue = parseInt(iterationInputBox.value);   if (!isNaN(newValue) && newValue >= 0 && newValue <= 10000) {
-        let newCellNum = latSize[0] - 2 * latSize[1];
+  let newValue = parseInt(iterationInputBox.value);   
+  if (!isNaN(newValue) && newValue >= 0 && newValue <= 10000) {
+    let newCellNum = latSize[0] - 2 * latSize[1];
     if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
       alterLatSize(newCellNum);
     } else {

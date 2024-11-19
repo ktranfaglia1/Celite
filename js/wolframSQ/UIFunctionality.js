@@ -1386,8 +1386,8 @@ ruleSubmit.addEventListener("click", function () {
  * @returns {void} - This function updates the lattice to be fully filled with alive cells and logs the action.
  */
 latticeFillButton.addEventListener("click", function () {
-  stopIterating();   clearResetToggle();
-  setLatticeSize();
+  stopIterating();   
+  clearResetToggle();
   clear(latticeArray);
   for (let i = 0; i < latticeArray[0].length; i++) {
     latticeArray[0][i].setColor(1);
@@ -1416,8 +1416,8 @@ latticeFillButton.addEventListener("click", function () {
 randomFillButton.addEventListener(
   "click",
   debounce(function () {
-    stopIterating();     clearResetToggle();
-    setLatticeSize();
+    stopIterating();     
+    clearResetToggle();
     clear(latticeArray);
     for (let i = 0; i < latticeArray[0].length; i++) {
       latticeArray[0][i].setColor(Math.floor(Math.random() * 2));
