@@ -27,11 +27,17 @@
  *   - Timmy McKirgan
  *   - Dustin O'Brien
  */
-
-import { rule, canvas, latSize } from "./displayLattice.js";
 import { cell } from "./cellClass.js";
-import { alterRule } from "./displayLattice.js";
-import { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel } from "./displayLattice.js";
+import {
+  deadColorSel,
+  aliveColorSel,
+  deadBorderSel,
+  aliveBorderSel,
+  rule,
+  canvas,
+  latSize,
+  alterRule,
+} from "./displayLattice.js";
 
 /**
  * alterInf
@@ -56,7 +62,7 @@ import { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel } from "./di
  *   it does not return any value.
  */
 export function ruleNumToRule(ruleNum) {
-    let neoRule = new Array();
+  let neoRule = new Array();
   let ruleNumCopy = ruleNum;
   for (let i = 0; i < 8; i++) {
     neoRule[i] = ruleNumCopy % 2;
@@ -85,32 +91,69 @@ export function ruleNumToRule(ruleNum) {
  *
  * @returns {Array} newLattice - A new lattice with updated cells based on the rule and boundary condition.
  */
-export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, size) {
+export function generateLattice(
+  currentLattice,
+  rule,
+  boundaryCon,
+  rowIndex,
+  size
+) {
   let newLattice = new Array();
   let startDif = (latSize[0] * size) / 2;
   let center = canvas.width / 2;
   let startX = center - startDif;
-    if (boundaryCon == 1) {
-        for (let i = 0; i < currentLattice.length; i++) {
-      newLattice.push(new cell(size, size, startX + i * size, rowIndex * size, 0));
-                        if (i == 0) {
-        newLattice[i].setColor(rule[currentLattice[currentLattice.length - 1].color * 4 + currentLattice[i].color * 2 + currentLattice[i + 1].color]);
+  if (boundaryCon == 1) {
+    for (let i = 0; i < currentLattice.length; i++) {
+      newLattice.push(
+        new cell(size, size, startX + i * size, rowIndex * size, 0)
+      );
+      if (i == 0) {
+        newLattice[i].setColor(
+          rule[
+            currentLattice[currentLattice.length - 1].color * 4 +
+              currentLattice[i].color * 2 +
+              currentLattice[i + 1].color
+          ]
+        );
       } else if (i == currentLattice.length - 1) {
-        newLattice[i].setColor(rule[currentLattice[i - 1].color * 4 + currentLattice[i].color * 2 + currentLattice[0].color]);
+        newLattice[i].setColor(
+          rule[
+            currentLattice[i - 1].color * 4 +
+              currentLattice[i].color * 2 +
+              currentLattice[0].color
+          ]
+        );
       } else {
-        newLattice[i].setColor(rule[currentLattice[i - 1].color * 4 + currentLattice[i].color * 2 + currentLattice[i + 1].color]);
+        newLattice[i].setColor(
+          rule[
+            currentLattice[i - 1].color * 4 +
+              currentLattice[i].color * 2 +
+              currentLattice[i + 1].color
+          ]
+        );
       }
     }
-  }
-    else {
-        for (let i = 0; i < currentLattice.length; i++) {
-      newLattice.push(new cell(size, size, startX + i * size, rowIndex * size, 0));
-                        if (i == 0) {
-        newLattice[i].setColor(rule[currentLattice[i].color * 2 + currentLattice[i + 1].color]);
+  } else {
+    for (let i = 0; i < currentLattice.length; i++) {
+      newLattice.push(
+        new cell(size, size, startX + i * size, rowIndex * size, 0)
+      );
+      if (i == 0) {
+        newLattice[i].setColor(
+          rule[currentLattice[i].color * 2 + currentLattice[i + 1].color]
+        );
       } else if (i == currentLattice.length - 1) {
-        newLattice[i].setColor(rule[currentLattice[i - 1].color * 4 + currentLattice[i].color * 2]);
+        newLattice[i].setColor(
+          rule[currentLattice[i - 1].color * 4 + currentLattice[i].color * 2]
+        );
       } else {
-        newLattice[i].setColor(rule[currentLattice[i - 1].color * 4 + currentLattice[i].color * 2 + currentLattice[i + 1].color]);
+        newLattice[i].setColor(
+          rule[
+            currentLattice[i - 1].color * 4 +
+              currentLattice[i].color * 2 +
+              currentLattice[i + 1].color
+          ]
+        );
       }
     }
   }

@@ -37,7 +37,11 @@ export class logMessage {
    * @param {HTMLCanvasElement} canvas - The canvas element where the message will be displayed.
    */
   constructor(message, color, canvas) {
-    this.message = message;     this.color = color;     this.canvas = canvas;     this.context = canvas.getContext("2d");   }
+    this.message = message;
+    this.color = color;
+    this.canvas = canvas;
+    this.context = canvas.getContext("2d");
+  }
 
   /**
    * Changes the index for the log message to adjust its position in the log.
@@ -47,7 +51,8 @@ export class logMessage {
    * @returns {void}
    */
   changeIndex(newIndex) {
-    this.index = newIndex;   }
+    this.index = newIndex;
+  }
 
   /**
    * Clears the canvas, removing any previously displayed messages.
@@ -56,7 +61,8 @@ export class logMessage {
    * @returns {void}
    */
   clearCanvas() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);   }
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
 
   /**
    * Displays the log message on the canvas at the given index.
@@ -66,8 +72,14 @@ export class logMessage {
    * @returns {void}
    */
   displayMessage(index) {
-    this.context.font = "13px Arial";     this.context.fillStyle = this.color; 
+    this.context.font = "13px Arial";
+    this.context.fillStyle = this.color;
     if (index < 3) {
-            this.context.fillText(this.message, 5, (index * this.canvas.height) / 3 + 10.2);     }
+      this.context.fillText(
+        this.message,
+        5,
+        (index * this.canvas.height) / 3 + 10.2
+      );
+    }
   }
 }

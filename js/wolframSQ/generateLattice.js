@@ -32,10 +32,20 @@
  *   - Dustin O'Brien
  */
 
-import { rule, canvas, latSize, orderArray, getSetup } from "./displayLattice.js";
+import {
+  rule,
+  canvas,
+  latSize,
+  orderArray,
+  getSetup,
+  alterRule,
+  deadColorSel,
+  aliveColorSel,
+  deadBorderSel,
+  aliveBorderSel,
+  border,
+} from "./displayLattice.js";
 import { cell } from "./cellClass.js";
-import { alterRule } from "./displayLattice.js";
-import { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel, border, currentIteration } from "./displayLattice.js";
 
 /**
  * Generates a rule array based on the input rule number.
@@ -52,7 +62,7 @@ import { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel, border, cur
  * @returns {Array} - The generated binary rule array.
  */
 export function ruleNumToRule(ruleNum) {
-    let neoRule = new Array();
+  let neoRule = new Array();
   let ruleNumCopy = ruleNum;
   for (let i = 0; i < 8; i++) {
     neoRule[i] = ruleNumCopy % 2;
@@ -82,53 +92,69 @@ export function ruleNumToRule(ruleNum) {
  * @param {number} size - The size of each cell in the lattice.
  * @returns {Array} - The newly generated lattice after applying the rule and boundary condition.
  */
-export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, size) {
+export function generateLattice(
+  currentLattice,
+  rule,
+  boundaryCon,
+  rowIndex,
+  size
+) {
   let newLattice = new Array();
   let startDif = (latSize * size) / 2;
   let center = canvas.width / 2;
   let startX = center - startDif;
   let altered = new Array();
   for (let i = 0; i < currentLattice.length; i++) {
-    newLattice.push(new cell(size, size, startX + i * size, rowIndex * size, 0, border, getSetup()));
+    newLattice.push(
+      new cell(
+        size,
+        size,
+        startX + i * size,
+        rowIndex * size,
+        0,
+        border,
+        getSetup()
+      )
+    );
   }
 
-    {
-        if (boundaryCon == 1) {
-            for (let i = 0; i < currentLattice.length; i++) {
+  {
+    if (boundaryCon == 1) {
+      for (let i = 0; i < currentLattice.length; i++) {
         let k = orderArray[i];
         altered.push(k);
-                                let leftCell = -1;
+        let leftCell = -1;
         let rightCell = -1;
         let middleCell = currentLattice[k].color;
         if (k == 0) {
-                              if (altered.includes(currentLattice.length - 1)) {
+          if (altered.includes(currentLattice.length - 1)) {
             leftCell = newLattice[currentLattice.length - 1].color;
           } else {
             leftCell = currentLattice[currentLattice.length - 1].color;
           }
-                              if (altered.includes(k + 1)) {
+          if (altered.includes(k + 1)) {
             rightCell = newLattice[k + 1].color;
           } else {
             rightCell = currentLattice[k + 1].color;
           }
         } else if (k == currentLattice.length - 1) {
-                              if (altered.includes(k - 1)) {
+          if (altered.includes(k - 1)) {
             leftCell = newLattice[k - 1].color;
           } else {
             leftCell = currentLattice[k - 1].color;
           }
-                              if (altered.includes(0)) {
+          if (altered.includes(0)) {
             rightCell = newLattice[0].color;
           } else {
             rightCell = currentLattice[0].color;
           }
         } else {
-                              if (altered.includes(k - 1)) {
+          if (altered.includes(k - 1)) {
             leftCell = newLattice[k - 1].color;
           } else {
             leftCell = currentLattice[k - 1].color;
           }
-                              if (altered.includes(k + 1)) {
+          if (altered.includes(k + 1)) {
             rightCell = newLattice[k + 1].color;
           } else {
             rightCell = currentLattice[k + 1].color;
@@ -136,35 +162,34 @@ export function generateLattice(currentLattice, rule, boundaryCon, rowIndex, siz
         }
         newLattice[k].setColor(rule[leftCell * 4 + middleCell * 2 + rightCell]);
       }
-    }
-        else {
-            for (let i = 0; i < currentLattice.length; i++) {
+    } else {
+      for (let i = 0; i < currentLattice.length; i++) {
         let k = orderArray[i];
         altered.push(k);
-                                let leftCell = -1;
+        let leftCell = -1;
         let rightCell = -1;
         let middleCell = currentLattice[k].color;
         if (k == 0) {
           leftCell = 0;
-                              if (altered.includes(k + 1)) {
+          if (altered.includes(k + 1)) {
             rightCell = newLattice[k + 1].color;
           } else {
             rightCell = currentLattice[k + 1].color;
           }
         } else if (k == currentLattice.length - 1) {
-                              if (altered.includes(k - 1)) {
+          if (altered.includes(k - 1)) {
             leftCell = newLattice[k - 1].color;
           } else {
             leftCell = currentLattice[k - 1].color;
           }
           rightCell = 0;
         } else {
-                              if (altered.includes(k - 1)) {
+          if (altered.includes(k - 1)) {
             leftCell = newLattice[k - 1].color;
           } else {
             leftCell = currentLattice[k - 1].color;
           }
-                              if (altered.includes(k + 1)) {
+          if (altered.includes(k + 1)) {
             rightCell = newLattice[k + 1].color;
           } else {
             rightCell = currentLattice[k + 1].color;

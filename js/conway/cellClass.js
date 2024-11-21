@@ -69,35 +69,41 @@ export class cell {
    *
    */
   constructor(height, width, XLocation, YLocation, color, border) {
-        this.height = height;
+    this.height = height;
     this.width = width;
-        this.XLocation = XLocation;
+    this.XLocation = XLocation;
     this.YLocation = YLocation;
-        this.color = color;
+    this.color = color;
     this.border = border;
 
-        this.deadCell = "#FFFFFF";
+    this.deadCell = "#FFFFFF";
     this.deadBord = "#000000";
 
-        this.aliveCell = "#000000";
+    this.aliveCell = "#000000";
     this.aliveBord = "#808080";
   }
 
-    /**
+  /**
    * Draws the Cell onto Canvas
    * @param {CanvasRenderingContext2D} ctx
    * @param {boolean} override Forces cell to draw even if zoomed out
    * @returns {void}
    */
   drawCell(ctx, override = false) {
-        if (this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && ((this.color || this.height > 10) || override) /*&& (this.color || border)*/) {
-          ctx.clearRect(this.XLocation, this.YLocation, this.width, this.height);
-          let border = this.border;
-            if (this.height <= 10) {
+    if (
+      this.XLocation + this.width > 0 &&
+      this.XLocation < ctx.canvas.width &&
+      this.YLocation + this.height > 0 &&
+      this.YLocation < ctx.canvas.height &&
+      (this.color || this.height > 10 || override) /*&& (this.color || border)*/
+    ) {
+      ctx.clearRect(this.XLocation, this.YLocation, this.width, this.height);
+      let border = this.border;
+      if (this.height <= 10) {
         border = false;
       }
-        if (border) {
-                if (this.color == 1) {
+      if (border) {
+        if (this.color == 1) {
           ctx.fillStyle = this.aliveBord;
         } else {
           ctx.fillStyle = this.deadBord;
@@ -106,14 +112,19 @@ export class cell {
         ctx.fillRect(this.XLocation, this.YLocation, this.width, this.height);
       }
 
-            if (this.color == 1) {
+      if (this.color == 1) {
         ctx.fillStyle = this.aliveCell;
       } else {
         ctx.fillStyle = this.deadCell;
       }
 
-            if (border) {
-        ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
+      if (border) {
+        ctx.fillRect(
+          this.XLocation + 1,
+          this.YLocation + 1,
+          this.width - 2,
+          this.height - 2
+        );
       } else {
         ctx.fillRect(this.XLocation, this.YLocation, this.width, this.height);
       }
@@ -144,7 +155,12 @@ export class cell {
    * @returns {boolean} - Returns true if the mouse is inside the cell; otherwise, false.
    */
   insideCell(MouseX, MouseY) {
-        if (MouseX >= this.XLocation && MouseX <= this.XLocation + this.width && MouseY >= this.YLocation && MouseY <= this.YLocation + this.height) {
+    if (
+      MouseX >= this.XLocation &&
+      MouseX <= this.XLocation + this.width &&
+      MouseY >= this.YLocation &&
+      MouseY <= this.YLocation + this.height
+    ) {
       return true;
     } else {
       return false;
@@ -159,7 +175,6 @@ export class cell {
    */
   setColor(color) {
     this.color = color;
-
   }
 
   /**

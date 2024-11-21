@@ -254,7 +254,7 @@ function LatticeDisplay(latticeArray) {
   let center = canvas.width / 2;
   let startX = center - startDif;
 
-    for (let i = 0; i < latSize; i++) {
+  for (let i = 0; i < latSize; i++) {
     currentLattice.push(new cell(size, size, startX + i * size, 0, 0));
   }
   latticeArray.push(currentLattice);
@@ -271,10 +271,10 @@ function LatticeDisplay(latticeArray) {
  * and draws them in the appropriate positions based on their state.
  */
 export function drawLattice(latticeArray) {
-    if (latticeArray.length * size > canvas.height) {
+  if (latticeArray.length * size > canvas.height) {
     canvas.height = latticeArray.length * size;
     tickCanvas.height = canvas.height;
-      }
+  }
 
   for (let i = 0; i < latticeArray.length; i++) {
     for (let j = 0; j < latticeArray[0].length; j++) {
@@ -282,13 +282,13 @@ export function drawLattice(latticeArray) {
     }
   }
 
-    if (latticeArray.length <= 1)
+  if (latticeArray.length <= 1)
     for (let i = 0; i < latticeArray[0].length; i++) {
       latticeArray[0][i].setBorder(true);
     }
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let j = 0; j < latticeArray.length; j++) {
+  for (let j = 0; j < latticeArray.length; j++) {
     for (let i = 0; i < latticeArray[j].length; i++) {
       latticeArray[j][i].drawCell(ctx);
     }
@@ -306,13 +306,21 @@ export function drawLattice(latticeArray) {
  */
 
 export function updateLattice() {
-    for (; currentIteration < numOfIterations; currentIteration++) {
-                nextLattice = generateLattice(currentLattice, rule, boundaryCon, currentIteration, size);
+  for (; currentIteration < numOfIterations; currentIteration++) {
+    nextLattice = generateLattice(
+      currentLattice,
+      rule,
+      boundaryCon,
+      currentIteration,
+      size
+    );
     latticeArray[currentIteration] = nextLattice;
     currentLattice = nextLattice;
   }
-    drawLattice(latticeArray);
-  outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); }
+  drawLattice(latticeArray);
+  outputIteration.innerHTML =
+    "Iteration Count: " + (currentIteration - 1).toString();
+}
 
 /**
  * Initializes the orderArray with a sequence of numbers from 0 to latSize-1.
@@ -386,12 +394,12 @@ canvas.height = 400;
 
 // pulls in Canvas used to display the ticker
 const tickCanvas = document.getElementById("tickmarkRegion");
-const tctx = tickCanvas.getContext("2d"); 
+const tctx = tickCanvas.getContext("2d");
 tickCanvas.height = canvas.height;
 tickCanvas.width = canvas.width;
 
 let logCanvas = document.getElementById("logRegion"); //Box for Displaying Errors
-let lctx = logCanvas.getContext("2d"); 
+let lctx = logCanvas.getContext("2d");
 logCanvas.width = 160;
 logCanvas.height = 45;
 
@@ -431,9 +439,18 @@ rule = ruleNumToRule(ruleNum);
 createOrder();
 updateLattice();
 
-
 //Sends Variables to needed location
 export { ruleNum, boundaryCon, latSize, size, currentIteration };
-export { outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx };
+export {
+  outputIteration,
+  ctx,
+  canvas,
+  tctx,
+  tickCanvas,
+  rule,
+  nextLattice,
+  logCanvas,
+  lctx,
+};
 export { latticeArray, numOfIterations, currentLattice, orderArray, tempOrder };
 export { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel };

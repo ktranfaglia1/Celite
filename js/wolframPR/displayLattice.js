@@ -44,7 +44,6 @@
 import { cell } from "./cellClass.js";
 import { ruleNumToRule, generateLattice } from "./generateLattice.js";
 
-
 /**
  * Color selector for dead cells.
  * @type {HTMLInputElement}
@@ -187,7 +186,7 @@ let inf = new Array(true, false, 0);
  * Flag determining whether the border around the lattice is enabled or disabled.
  * @type {boolean}
  */
-let border = false; 
+let border = false;
 /**
  * The rule number used for determining cell behavior (dead or alive) in the simulation.
  * @type {number}
@@ -356,7 +355,11 @@ export function getBorder() {
  * @param {boolean} bufferToggle - The state for enabling or disabling the buffer.
  * @param {number} bufferSize - The new buffer size to be applied if the buffer is enabled.
  */
-export function alterInf(neoInf = inf[0], bufferToggle = inf[1], bufferSize = inf[2]) {
+export function alterInf(
+  neoInf = inf[0],
+  bufferToggle = inf[1],
+  bufferSize = inf[2]
+) {
   if (inf[2] != bufferSize) {
     inf[2] = bufferSize;
   }
@@ -398,7 +401,7 @@ function LatticeDisplay(latticeArray) {
   let center = canvas.width / 2;
   let startX = center - startDif;
 
-    for (let i = 0; i < latSize[0]; i++) {
+  for (let i = 0; i < latSize[0]; i++) {
     currentLattice.push(new cell(size, size, startX + i * size, 0, 0));
   }
   latticeArray.push(currentLattice);
@@ -417,10 +420,10 @@ function LatticeDisplay(latticeArray) {
  * where each element is a cell object that holds the properties and methods for drawing.
  */
 export function drawLattice(latticeArray) {
-    if (latticeArray.length * size > canvas.height) {
+  if (latticeArray.length * size > canvas.height) {
     canvas.height = latticeArray.length * size;
     tickCanvas.height = canvas.height;
-      }
+  }
 
   for (let i = 0; i < latticeArray.length; i++) {
     for (let j = 0; j < latticeArray[0].length; j++) {
@@ -428,15 +431,20 @@ export function drawLattice(latticeArray) {
     }
   }
 
-    if (latticeArray.length <= 1)
+  if (latticeArray.length <= 1)
     for (let i = 0; i < latticeArray[0].length; i++) {
       latticeArray[0][i].setBorder(true);
     }
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
+
   ctx.fillStyle = deadColorSel.value;
-  ctx.fillRect(latticeArray[0][0].getXLoc(), latticeArray[0][0].getYLoc(), latticeArray[0].length * latticeArray[0][0].getHeight(), latticeArray.length * latticeArray[0][0].getWidth());
+  ctx.fillRect(
+    latticeArray[0][0].getXLoc(),
+    latticeArray[0][0].getYLoc(),
+    latticeArray[0].length * latticeArray[0][0].getHeight(),
+    latticeArray.length * latticeArray[0][0].getWidth()
+  );
   for (let j = 0; j < latticeArray.length; j++) {
     for (let i = 0; i < latticeArray[j].length; i++) {
       latticeArray[j][i].drawCell(ctx);
@@ -457,16 +465,34 @@ export function drawLattice(latticeArray) {
  * @returns {void}
  */
 export function updateLattice() {
-    for (; currentIteration < numOfIterations; currentIteration++) {
-                nextLattice = generateLattice(currentLattice, rule, boundaryCon, currentIteration, size);
+  for (; currentIteration < numOfIterations; currentIteration++) {
+    nextLattice = generateLattice(
+      currentLattice,
+      rule,
+      boundaryCon,
+      currentIteration,
+      size
+    );
     latticeArray[currentIteration] = nextLattice;
     currentLattice = nextLattice;
   }
-    drawLattice(latticeArray);
-  outputIteration.innerHTML = "Iteration Count: " + (currentIteration - 1).toString(); }
+  drawLattice(latticeArray);
+  outputIteration.innerHTML =
+    "Iteration Count: " + (currentIteration - 1).toString();
+}
 
 //Sends Variables to needed location
 export { ruleNum, boundaryCon, latSize, inf, size, currentIteration };
-export { outputIteration, ctx, canvas, tctx, tickCanvas, rule, nextLattice, logCanvas, lctx };
+export {
+  outputIteration,
+  ctx,
+  canvas,
+  tctx,
+  tickCanvas,
+  rule,
+  nextLattice,
+  logCanvas,
+  lctx,
+};
 export { latticeArray, numOfIterations, currentLattice };
 export { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel };

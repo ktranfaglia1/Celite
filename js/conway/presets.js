@@ -38,8 +38,13 @@
  */
 
 //IMPORTS
-import { latticeArray, recountNeighbors, visBounds } from "./generateLattice.js";
-import { createVis, visLatticeArray } from "./generateLattice.js";
+import {
+  latticeArray,
+  recountNeighbors,
+  visBounds,
+  createVis, 
+  visLatticeArray
+} from "./generateLattice.js";
 import { displayLattice } from "./displayLattice.js";
 import { clear } from "./UIFunctionality.js";
 
@@ -53,7 +58,7 @@ import { clear } from "./UIFunctionality.js";
  */
 export function createNewConfig() {
   let newLattice = new Array(new Array());
-    for (let i = 0; i < visBounds[3] - visBounds[1]; i++) {
+  for (let i = 0; i < visBounds[3] - visBounds[1]; i++) {
     let dummyArr = new Array();
     for (let f = 0; f < visBounds[2] - visBounds[0]; f++) {
       dummyArr.push(0);
@@ -74,7 +79,10 @@ export function createNewConfig() {
  */
 export function setLattice(newLattice) {
   clear();
-    if (latticeArray.length == newLattice.length && latticeArray[0].length == newLattice[0].length) {
+  if (
+    latticeArray.length == newLattice.length &&
+    latticeArray[0].length == newLattice[0].length
+  ) {
     for (let i = 0; i < newLattice.length; i++) {
       for (let j = 0; j < newLattice[0].length; j++) {
         latticeArray[i][j] = newLattice[i][j];
@@ -115,7 +123,6 @@ export function yCenter() {
   return Math.floor((visBounds[3] - visBounds[1]) / 2);
 }
 
-
 /**
  * Creates a simple Glider pattern in the Game of Life.
  * Initializes a blank lattice and then sets the appropriate cells to form the Glider pattern.
@@ -127,14 +134,14 @@ export function yCenter() {
  * @returns {void}
  */
 export function buildGlider() {
-    let newLattice = createNewConfig();
+  let newLattice = createNewConfig();
 
-    newLattice[yCenter() + 1][xCenter()] = 1;
+  newLattice[yCenter() + 1][xCenter()] = 1;
   newLattice[yCenter()][xCenter() + 1] = 1;
   newLattice[yCenter() + 1][xCenter() + 1] = 1;
   newLattice[yCenter() + 1][xCenter() - 1] = 1;
   newLattice[yCenter() - 1][xCenter()] = 1;
-    setLattice(newLattice);
+  setLattice(newLattice);
 }
 
 /**
@@ -147,9 +154,9 @@ export function buildGlider() {
  * @returns {void}
  */
 export function build101() {
-    let newLattice = createNewConfig();
+  let newLattice = createNewConfig();
 
-      newLattice[yCenter() + 1][xCenter()] = 1;
+  newLattice[yCenter() + 1][xCenter()] = 1;
   newLattice[yCenter()][xCenter() + 1] = 1;
   newLattice[yCenter() + 1][xCenter + 1] = 1;
   newLattice[yCenter() + 1][xCenter() - 1] = 1;
@@ -159,21 +166,21 @@ export function build101() {
   newLattice[yCenter() - 1][xCenter() - 2] = 1;
   newLattice[yCenter()][xCenter() - 2] = 1;
 
-    newLattice[yCenter() - 1][xCenter() - 4] = 1;
+  newLattice[yCenter() - 1][xCenter() - 4] = 1;
   newLattice[yCenter() - 2][xCenter() - 4] = 1;
   newLattice[yCenter()][xCenter() - 4] = 1;
   newLattice[yCenter() + 1][xCenter() - 4] = 1;
 
-    newLattice[yCenter() - 1][xCenter() + 3] = 1;
+  newLattice[yCenter() - 1][xCenter() + 3] = 1;
   newLattice[yCenter() - 2][xCenter() + 3] = 1;
   newLattice[yCenter()][xCenter() + 3] = 1;
   newLattice[yCenter() + 1][xCenter() + 3] = 1;
 
-      newLattice[yCenter() - 5][xCenter() - 4] = 1;
+  newLattice[yCenter() - 5][xCenter() - 4] = 1;
   newLattice[yCenter() - 6][xCenter() - 4] = 1;
   newLattice[yCenter() - 6][xCenter() - 5] = 1;
 
-    newLattice[yCenter() - 5][xCenter() - 6] = 1;
+  newLattice[yCenter() - 5][xCenter() - 6] = 1;
   newLattice[yCenter() - 4][xCenter() - 6] = 1;
   newLattice[yCenter() - 3][xCenter() - 6] = 1;
   newLattice[yCenter() - 2][xCenter() - 6] = 1;
@@ -184,25 +191,25 @@ export function build101() {
   newLattice[yCenter() + 3][xCenter() - 6] = 1;
   newLattice[yCenter() + 4][xCenter() - 6] = 1;
 
-    newLattice[yCenter() + 4][xCenter() - 4] = 1;
+  newLattice[yCenter() + 4][xCenter() - 4] = 1;
   newLattice[yCenter() + 5][xCenter() - 4] = 1;
   newLattice[yCenter() + 5][xCenter() - 5] = 1;
 
-    newLattice[yCenter() - 3][xCenter() - 8] = 1;
+  newLattice[yCenter() - 3][xCenter() - 8] = 1;
   newLattice[yCenter() - 2][xCenter() - 8] = 1;
   newLattice[yCenter() - 3][xCenter() - 9] = 1;
   newLattice[yCenter() - 2][xCenter() - 9] = 1;
 
-    newLattice[yCenter() + 1][xCenter() - 8] = 1;
+  newLattice[yCenter() + 1][xCenter() - 8] = 1;
   newLattice[yCenter() + 2][xCenter() - 8] = 1;
   newLattice[yCenter() + 1][xCenter() - 9] = 1;
   newLattice[yCenter() + 2][xCenter() - 9] = 1;
 
-      newLattice[yCenter() - 5][xCenter() + 3] = 1;
+  newLattice[yCenter() - 5][xCenter() + 3] = 1;
   newLattice[yCenter() - 6][xCenter() + 3] = 1;
   newLattice[yCenter() - 6][xCenter() + 4] = 1;
 
-    newLattice[yCenter() - 5][xCenter() + 5] = 1;
+  newLattice[yCenter() - 5][xCenter() + 5] = 1;
   newLattice[yCenter() - 4][xCenter() + 5] = 1;
   newLattice[yCenter() - 2][xCenter() + 5] = 1;
   newLattice[yCenter() - 3][xCenter() + 5] = 1;
@@ -213,16 +220,16 @@ export function build101() {
   newLattice[yCenter() + 3][xCenter() + 5] = 1;
   newLattice[yCenter() + 4][xCenter() + 5] = 1;
 
-    newLattice[yCenter() + 4][xCenter() + 3] = 1;
+  newLattice[yCenter() + 4][xCenter() + 3] = 1;
   newLattice[yCenter() + 5][xCenter() + 3] = 1;
   newLattice[yCenter() + 5][xCenter() + 4] = 1;
 
-    newLattice[yCenter() - 3][xCenter() + 7] = 1;
+  newLattice[yCenter() - 3][xCenter() + 7] = 1;
   newLattice[yCenter() - 2][xCenter() + 7] = 1;
   newLattice[yCenter() - 3][xCenter() + 8] = 1;
   newLattice[yCenter() - 2][xCenter() + 8] = 1;
 
-    newLattice[yCenter() + 1][xCenter() + 7] = 1;
+  newLattice[yCenter() + 1][xCenter() + 7] = 1;
   newLattice[yCenter() + 2][xCenter() + 7] = 1;
   newLattice[yCenter() + 1][xCenter() + 8] = 1;
   newLattice[yCenter() + 2][xCenter() + 8] = 1;
@@ -240,36 +247,36 @@ export function build101() {
 export function build119() {
   let newLattice = createNewConfig();
 
-    newLattice[yCenter()][xCenter() - 28] = 1;
+  newLattice[yCenter()][xCenter() - 28] = 1;
   newLattice[yCenter() + 1][xCenter() - 27] = 1;
   newLattice[yCenter() - 1][xCenter() - 27] = 1;
   newLattice[yCenter() + 2][xCenter() - 27] = 1;
   newLattice[yCenter() - 2][xCenter() - 27] = 1;
 
-      newLattice[yCenter() - 2][xCenter() - 24] = 1;
+  newLattice[yCenter() - 2][xCenter() - 24] = 1;
   newLattice[yCenter() - 3][xCenter() - 24] = 1;
   newLattice[yCenter() - 1][xCenter() - 24] = 1;
   newLattice[yCenter() - 3][xCenter() - 23] = 1;
   newLattice[yCenter() - 2][xCenter() - 23] = 1;
 
-    newLattice[yCenter() + 3][xCenter() - 24] = 1;
+  newLattice[yCenter() + 3][xCenter() - 24] = 1;
   newLattice[yCenter() + 2][xCenter() - 24] = 1;
   newLattice[yCenter() + 1][xCenter() - 24] = 1;
   newLattice[yCenter() + 3][xCenter() - 23] = 1;
   newLattice[yCenter() + 2][xCenter() - 23] = 1;
 
-      newLattice[yCenter() + 5][xCenter() - 22] = 1;
+  newLattice[yCenter() + 5][xCenter() - 22] = 1;
   newLattice[yCenter() + 6][xCenter() - 22] = 1;
   newLattice[yCenter() + 7][xCenter() - 22] = 1;
 
-    newLattice[yCenter() - 5][xCenter() - 22] = 1;
+  newLattice[yCenter() - 5][xCenter() - 22] = 1;
   newLattice[yCenter() - 6][xCenter() - 22] = 1;
   newLattice[yCenter() - 7][xCenter() - 22] = 1;
 
-    newLattice[yCenter() - 7][xCenter() - 20] = 1;
+  newLattice[yCenter() - 7][xCenter() - 20] = 1;
   newLattice[yCenter() + 7][xCenter() - 20] = 1;
 
-      newLattice[yCenter() - 5][xCenter() - 20] = 1;
+  newLattice[yCenter() - 5][xCenter() - 20] = 1;
   newLattice[yCenter() - 5][xCenter() - 19] = 1;
   newLattice[yCenter() - 4][xCenter() - 19] = 1;
   newLattice[yCenter() - 5][xCenter() - 18] = 1;
@@ -281,7 +288,7 @@ export function build119() {
   newLattice[yCenter() - 5][xCenter() - 13] = 1;
   newLattice[yCenter() - 4][xCenter() - 13] = 1;
 
-    newLattice[yCenter() + 5][xCenter() - 20] = 1;
+  newLattice[yCenter() + 5][xCenter() - 20] = 1;
   newLattice[yCenter() + 5][xCenter() - 19] = 1;
   newLattice[yCenter() + 4][xCenter() - 19] = 1;
   newLattice[yCenter() + 5][xCenter() - 18] = 1;
@@ -293,12 +300,12 @@ export function build119() {
   newLattice[yCenter() + 5][xCenter() - 13] = 1;
   newLattice[yCenter() + 4][xCenter() - 13] = 1;
 
-    newLattice[yCenter() - 2][xCenter() - 15] = 1;
+  newLattice[yCenter() - 2][xCenter() - 15] = 1;
   newLattice[yCenter() - 2][xCenter() - 14] = 1;
   newLattice[yCenter() + 2][xCenter() - 14] = 1;
   newLattice[yCenter() + 2][xCenter() - 15] = 1;
 
-    newLattice[yCenter() - 6][xCenter() - 12] = 1;
+  newLattice[yCenter() - 6][xCenter() - 12] = 1;
   newLattice[yCenter() - 7][xCenter() - 13] = 1;
   newLattice[yCenter() - 8][xCenter() - 12] = 1;
 
@@ -306,7 +313,7 @@ export function build119() {
   newLattice[yCenter() + 7][xCenter() - 13] = 1;
   newLattice[yCenter() + 8][xCenter() - 12] = 1;
 
-      newLattice[yCenter() - 6][xCenter() - 10] = 1;
+  newLattice[yCenter() - 6][xCenter() - 10] = 1;
   newLattice[yCenter() - 6][xCenter() - 9] = 1;
   newLattice[yCenter() - 6][xCenter() - 8] = 1;
   newLattice[yCenter() - 6][xCenter() - 7] = 1;
@@ -315,7 +322,7 @@ export function build119() {
   newLattice[yCenter() - 6][xCenter() - 6] = 1;
   newLattice[yCenter() - 6][xCenter() - 5] = 1;
 
-    newLattice[yCenter() + 6][xCenter() - 10] = 1;
+  newLattice[yCenter() + 6][xCenter() - 10] = 1;
   newLattice[yCenter() + 6][xCenter() - 9] = 1;
   newLattice[yCenter() + 6][xCenter() - 8] = 1;
   newLattice[yCenter() + 6][xCenter() - 7] = 1;
@@ -324,7 +331,7 @@ export function build119() {
   newLattice[yCenter() + 6][xCenter() - 6] = 1;
   newLattice[yCenter() + 6][xCenter() - 5] = 1;
 
-      newLattice[yCenter() - 4][xCenter() - 5] = 1;
+  newLattice[yCenter() - 4][xCenter() - 5] = 1;
   newLattice[yCenter() - 3][xCenter() - 5] = 1;
   newLattice[yCenter() - 2][xCenter() - 5] = 1;
   newLattice[yCenter() - 4][xCenter() - 4] = 1;
@@ -336,7 +343,7 @@ export function build119() {
   newLattice[yCenter() - 5][xCenter() - 2] = 1;
   newLattice[yCenter() - 3][xCenter() - 1] = 1;
 
-    newLattice[yCenter() + 4][xCenter() - 5] = 1;
+  newLattice[yCenter() + 4][xCenter() - 5] = 1;
   newLattice[yCenter() + 3][xCenter() - 5] = 1;
   newLattice[yCenter() + 2][xCenter() - 5] = 1;
   newLattice[yCenter() + 4][xCenter() - 4] = 1;
@@ -348,7 +355,7 @@ export function build119() {
   newLattice[yCenter() + 5][xCenter() - 2] = 1;
   newLattice[yCenter() + 3][xCenter() - 1] = 1;
 
-      newLattice[yCenter() - 6][xCenter()] = 1;
+  newLattice[yCenter() - 6][xCenter()] = 1;
   newLattice[yCenter() - 6][xCenter() + 1] = 1;
   newLattice[yCenter() - 5][xCenter() + 1] = 1;
 
@@ -356,21 +363,21 @@ export function build119() {
   newLattice[yCenter() + 6][xCenter() + 1] = 1;
   newLattice[yCenter() + 5][xCenter() + 1] = 1;
 
-    newLattice[yCenter() - 5][xCenter() + 3] = 1;
+  newLattice[yCenter() - 5][xCenter() + 3] = 1;
   newLattice[yCenter() - 4][xCenter() + 3] = 1;
   newLattice[yCenter() - 5][xCenter() + 4] = 1;
   newLattice[yCenter() - 4][xCenter() + 4] = 1;
   newLattice[yCenter() - 5][xCenter() + 5] = 1;
   newLattice[yCenter() - 4][xCenter() + 5] = 1;
 
-    newLattice[yCenter() + 5][xCenter() + 3] = 1;
+  newLattice[yCenter() + 5][xCenter() + 3] = 1;
   newLattice[yCenter() + 4][xCenter() + 3] = 1;
   newLattice[yCenter() + 5][xCenter() + 4] = 1;
   newLattice[yCenter() + 4][xCenter() + 4] = 1;
   newLattice[yCenter() + 5][xCenter() + 5] = 1;
   newLattice[yCenter() + 4][xCenter() + 5] = 1;
 
-    newLattice[yCenter() - 7][xCenter() + 3] = 1;
+  newLattice[yCenter() - 7][xCenter() + 3] = 1;
   newLattice[yCenter() - 8][xCenter() + 4] = 1;
   newLattice[yCenter() - 9][xCenter() + 5] = 1;
   newLattice[yCenter() - 8][xCenter() + 6] = 1;
@@ -393,39 +400,39 @@ export function build119() {
 export function build1234() {
   let newLattice = createNewConfig();
 
-    newLattice[yCenter()][xCenter()] = 1;
+  newLattice[yCenter()][xCenter()] = 1;
   newLattice[yCenter() - 2][xCenter()] = 1;
 
-    newLattice[yCenter() - 3][xCenter() - 1] = 1;
+  newLattice[yCenter() - 3][xCenter() - 1] = 1;
   newLattice[yCenter() - 3][xCenter() - 1] = 1;
   newLattice[yCenter() - 4][xCenter()] = 1;
   newLattice[yCenter() - 3][xCenter() + 1] = 1;
 
-      newLattice[yCenter() - 2][xCenter() - 2] = 1;
+  newLattice[yCenter() - 2][xCenter() - 2] = 1;
   newLattice[yCenter() - 1][xCenter() - 2] = 1;
   newLattice[yCenter() - 0][xCenter() - 2] = 1;
 
-    newLattice[yCenter() - 0][xCenter() + 2] = 1;
+  newLattice[yCenter() - 0][xCenter() + 2] = 1;
   newLattice[yCenter() - 2][xCenter() + 2] = 1;
   newLattice[yCenter() - 1][xCenter() + 2] = 1;
 
-      newLattice[yCenter() + 1][xCenter() - 3] = 1;
+  newLattice[yCenter() + 1][xCenter() - 3] = 1;
   newLattice[yCenter()][xCenter() - 4] = 1;
   newLattice[yCenter()][xCenter() - 5] = 1;
   newLattice[yCenter() + 1][xCenter() - 5] = 1;
 
-    newLattice[yCenter() + 1][xCenter() + 3] = 1;
+  newLattice[yCenter() + 1][xCenter() + 3] = 1;
   newLattice[yCenter() + 0][xCenter() + 4] = 1;
   newLattice[yCenter() + 0][xCenter() + 5] = 1;
   newLattice[yCenter() + 1][xCenter() + 5] = 1;
 
-    newLattice[yCenter() + 2][xCenter() + 2] = 1;
+  newLattice[yCenter() + 2][xCenter() + 2] = 1;
   newLattice[yCenter() + 2][xCenter() + 1] = 1;
   newLattice[yCenter() + 2][xCenter() + 0] = 1;
   newLattice[yCenter() + 2][xCenter() - 1] = 1;
   newLattice[yCenter() + 2][xCenter() - 2] = 1;
 
-    newLattice[yCenter() + 4][xCenter()] = 1;
+  newLattice[yCenter() + 4][xCenter()] = 1;
   newLattice[yCenter() + 6][xCenter()] = 1;
   newLattice[yCenter() + 5][xCenter() - 1] = 1;
   newLattice[yCenter() + 5][xCenter() + 1] = 1;
@@ -443,7 +450,7 @@ export function build1234() {
 export function build295() {
   let newLattice = createNewConfig();
 
-    newLattice[yCenter() - 20][xCenter() - 20] = 1;
+  newLattice[yCenter() - 20][xCenter() - 20] = 1;
   newLattice[yCenter() - 19][xCenter() - 20] = 1;
   newLattice[yCenter() - 20][xCenter() - 19] = 1;
 
@@ -459,7 +466,7 @@ export function build295() {
   newLattice[yCenter() - 18][xCenter() - 22] = 1;
   newLattice[yCenter() - 17][xCenter() - 22] = 1;
 
-      newLattice[yCenter() - 17][xCenter() - 19] = 1;
+  newLattice[yCenter() - 17][xCenter() - 19] = 1;
   newLattice[yCenter() - 16][xCenter() - 19] = 1;
   newLattice[yCenter() - 15][xCenter() - 18] = 1;
   newLattice[yCenter() - 15][xCenter() - 17] = 1;
@@ -469,7 +476,7 @@ export function build295() {
   newLattice[yCenter() - 13][xCenter() - 17] = 1;
   newLattice[yCenter() - 12][xCenter() - 17] = 1;
 
-    newLattice[yCenter() - 16][xCenter() - 15] = 1;
+  newLattice[yCenter() - 16][xCenter() - 15] = 1;
   newLattice[yCenter() - 16][xCenter() - 14] = 1;
   newLattice[yCenter() - 17][xCenter() - 15] = 1;
   newLattice[yCenter() - 17][xCenter() - 14] = 1;
@@ -479,31 +486,31 @@ export function build295() {
   newLattice[yCenter() - 19][xCenter() - 16] = 1;
   newLattice[yCenter() - 19][xCenter() - 17] = 1;
 
-    newLattice[yCenter() - 11][xCenter() - 16] = 1;
+  newLattice[yCenter() - 11][xCenter() - 16] = 1;
   newLattice[yCenter() - 11][xCenter() - 15] = 1;
   newLattice[yCenter() - 11][xCenter() - 14] = 1;
   newLattice[yCenter() - 11][xCenter() - 13] = 1;
   newLattice[yCenter() - 11][xCenter() - 12] = 1;
   newLattice[yCenter() - 12][xCenter() - 14] = 1;
 
-    newLattice[yCenter() - 12][xCenter() - 11] = 1;
+  newLattice[yCenter() - 12][xCenter() - 11] = 1;
   newLattice[yCenter() - 13][xCenter() - 11] = 1;
   newLattice[yCenter() - 14][xCenter() - 11] = 1;
   newLattice[yCenter() - 15][xCenter() - 11] = 1;
   newLattice[yCenter() - 16][xCenter() - 11] = 1;
   newLattice[yCenter() - 14][xCenter() - 12] = 1;
 
-    newLattice[yCenter() - 10][xCenter() - 16] = 1;
+  newLattice[yCenter() - 10][xCenter() - 16] = 1;
   newLattice[yCenter() - 9][xCenter() - 15] = 1;
   newLattice[yCenter() - 8][xCenter() - 14] = 1;
   newLattice[yCenter() - 8][xCenter() - 16] = 1;
 
-    newLattice[yCenter() - 16][xCenter() - 10] = 1;
+  newLattice[yCenter() - 16][xCenter() - 10] = 1;
   newLattice[yCenter() - 15][xCenter() - 9] = 1;
   newLattice[yCenter() - 14][xCenter() - 8] = 1;
   newLattice[yCenter() - 16][xCenter() - 8] = 1;
 
-      newLattice[yCenter() - 12][xCenter() - 19] = 1;
+  newLattice[yCenter() - 12][xCenter() - 19] = 1;
   newLattice[yCenter() - 12][xCenter() - 20] = 1;
   newLattice[yCenter() - 12][xCenter() - 21] = 1;
   newLattice[yCenter() - 12][xCenter() - 22] = 1;
@@ -518,10 +525,10 @@ export function build295() {
   newLattice[yCenter() - 9][xCenter() - 22] = 1;
   newLattice[yCenter() - 9][xCenter() - 23] = 1;
 
-    newLattice[yCenter() - 9][xCenter() - 19] = 1;
+  newLattice[yCenter() - 9][xCenter() - 19] = 1;
   newLattice[yCenter() - 7][xCenter() - 22] = 1;
 
-    newLattice[yCenter() + -22][xCenter() + -11] = 1;
+  newLattice[yCenter() + -22][xCenter() + -11] = 1;
   newLattice[yCenter() + -21][xCenter() + -11] = 1;
   newLattice[yCenter() + -20][xCenter() + -11] = 1;
   newLattice[yCenter() + -23][xCenter() + -10] = 1;

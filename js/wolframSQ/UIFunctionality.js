@@ -37,12 +37,46 @@
  *
  */
 
-import { latticeArray, rule, canvas, ctx, outputIteration, alterRuleNum, tctx, tickCanvas, logCanvas, drawLattice, createOrder, alterOrder, tempOrder, alterTempOrder } from "./displayLattice.js";
-import { numOfIterations, currentIteration, size, latSize, ruleNum, orderArray } from "./displayLattice.js";
-import { alterLatSize, alterSize, alterLatticeArray, alterCurrentLattice, alterNextLattice, alterBorder } from "./displayLattice.js";
-import { alterRule, alterNumOfIterations, alterCurrentIteration, alterBoundaryCon, getBorder, alterSetup, getSetup } from "./displayLattice.js";
-import { updateLattice } from "./displayLattice.js";
-import { deadColorSel, aliveColorSel, deadBorderSel, aliveBorderSel } from "./displayLattice.js";
+import {
+  latticeArray,
+  rule,
+  canvas,
+  ctx,
+  outputIteration,
+  alterRuleNum,
+  tctx,
+  tickCanvas,
+  logCanvas,
+  drawLattice,
+  createOrder,
+  alterOrder,
+  tempOrder,
+  alterTempOrder,
+  numOfIterations,
+  currentIteration,
+  size,
+  latSize,
+  ruleNum,
+  orderArray,
+  alterLatSize,
+  alterSize,
+  alterLatticeArray,
+  alterCurrentLattice,
+  alterNextLattice,
+  alterBorder,
+  alterRule,
+  alterNumOfIterations,
+  alterCurrentIteration,
+  alterBoundaryCon,
+  getBorder,
+  alterSetup,
+  getSetup,
+  updateLattice,
+  deadColorSel,
+  aliveColorSel,
+  deadBorderSel,
+  aliveBorderSel,
+} from "./displayLattice.js";
 import { ruleNumToRule } from "./generateLattice.js";
 import { cell } from "./cellClass.js";
 import { logMessage } from "./logClass.js";
@@ -283,7 +317,9 @@ const checkboxes = document.querySelectorAll(".checkbox_select");
  * Toggle button for iteration functionality, located within the iteration toggle element.
  * @type {HTMLElement}
  */
-const iterationToggle = document.querySelector("#iterationToggle .toggle_button");
+const iterationToggle = document.querySelector(
+  "#iterationToggle .toggle_button"
+);
 
 /**
  * Toggle button for border visibility functionality, located within the border toggle element.
@@ -307,7 +343,9 @@ const setupItems = document.querySelectorAll(".setup_button");
  * NodeList of standard buttons for general simulation actions, including start and simulation-related buttons.
  * @type {NodeListOf<HTMLElement>}
  */
-const standardItems = document.querySelectorAll(".simulation_button, .start_button");
+const standardItems = document.querySelectorAll(
+  ".simulation_button, .start_button"
+);
 
 /**
  * Close button for the library content window.
@@ -321,7 +359,6 @@ const closeLibrary = document.querySelector("#libraryContent .close");
  */
 const closeHelp = document.querySelector("#helpContent .close");
 
-
 /**
  * Flag to track whether the mouse is currently pressed down.
  * @type {boolean}
@@ -332,12 +369,12 @@ let mouseDown = false;
  * Flag to control whether the setup mode welcome message is displayed on page load.
  * @type {boolean}
  */
-let displayWelcome = true; 
+let displayWelcome = true;
 /**
  * Local variable for the n-skip order setting in the simulation.
  * @type {number}
  */
-let nSkip = 2; 
+let nSkip = 2;
 /**
  * Global variable to control the number of additional iterations.
  * @type {number}
@@ -348,33 +385,32 @@ let addIterations = 10; // Defaults iterations
  * Global flag that tracks whether the iterations should continue running.
  * @type {number}
  */
-let run = 0; 
+let run = 0;
 /**
  * The time in milliseconds to wait before starting the next iteration.
  * @type {number}
  */
-let iterationTime = 750; 
+let iterationTime = 750;
 /**
  * Flag that controls whether the row ticker is active or not.
  * @type {number}
  */
-let tickerToggle = 0; 
+let tickerToggle = 0;
 /**
  * Stores the current scale value for zooming functionality.
  * @type {number}
  */
-let scale = 1; 
+let scale = 1;
 /**
  * Keeps track of the total scroll delta to prevent excessive zooming in or out.
  * @type {number}
  */
-let totalDelta = 0; 
+let totalDelta = 0;
 /**
  * A queue to store messages for logging purposes.
  * @type {Array}
  */
-let messageQueue = []; 
-
+let messageQueue = [];
 
 /**
  * setupButton Click Event Handler
@@ -396,7 +432,9 @@ let messageQueue = [];
  * @returns {void} - This function does not return any value. It modifies the lattice
  *   state, updates button visibility, and triggers a redraw of the lattice.
  */
-setupButton.addEventListener("click", debounce(function () {
+setupButton.addEventListener(
+  "click",
+  debounce(function () {
     activateSetup();
     for (let i = 0; i < orderArray.length; i++) {
       latticeArray[0][i].setColor(1);
@@ -404,7 +442,7 @@ setupButton.addEventListener("click", debounce(function () {
     }
     alterTempOrder(orderArray);
     redrawLattice();
-      })
+  })
 );
 
 /**
@@ -432,48 +470,62 @@ function activateSetup() {
     makeLog("Use Help for Assistance", logCanvas, messageQueue);
     makeLog("Please Select Order", logCanvas, messageQueue);
     makeLog("Welcome to Setup Mode", logCanvas, messageQueue);
-    
-    
   } else {
     makeLog("Entered Setup Mode", logCanvas, messageQueue);
   }
 
-    if (optionsWindow.style.display == "block") {
+  if (optionsWindow.style.display == "block") {
     optionsWindow.style.display = "none";
   }
 
-    standardItems.forEach((item) => {
+  standardItems.forEach((item) => {
     item.style.display = "none";
   });
 
-    setupItems.forEach((item) => {
+  setupItems.forEach((item) => {
     item.style.display = "inline-block";
   });
 
   clear(latticeArray, false);
-  alterSetup(1);   
+  alterSetup(1);
   redrawLattice();
 
-  if(displayWelcome) {
-    ctx.font = "36px Arial";    
-    ctx.fillStyle = "red"; 
+  if (displayWelcome) {
+    ctx.font = "36px Arial";
+    ctx.fillStyle = "red";
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
 
     const centerX = canvas.width / 2;
 
-    ctx.fillText("SETUP MODE: Click the cells or use the preset library to", centerX, 80);
-    ctx.fillText("configure a cell ordering for the sequential algorithm.", centerX, 140);
-    ctx.fillText("This is required to prepare for the simulation. All", centerX, 200);
-    ctx.fillText("cells must be ordered; otherwise, the default left", centerX, 260);
+    ctx.fillText(
+      "SETUP MODE: Click the cells or use the preset library to",
+      centerX,
+      80
+    );
+    ctx.fillText(
+      "configure a cell ordering for the sequential algorithm.",
+      centerX,
+      140
+    );
+    ctx.fillText(
+      "This is required to prepare for the simulation. All",
+      centerX,
+      200
+    );
+    ctx.fillText(
+      "cells must be ordered; otherwise, the default left",
+      centerX,
+      260
+    );
     ctx.fillText(" to right ordering will be used", centerX, 320);
-      
+
     displayWelcome = false;
 
-    ctx.font = "10px sans-serif";     
-    ctx.fillStyle = "black";     
-    ctx.textAlign = "start";     
-    ctx.textBaseline = "alphabetic"; 
+    ctx.font = "10px sans-serif";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "start";
+    ctx.textBaseline = "alphabetic";
   }
 }
 
@@ -497,15 +549,15 @@ function activateSetup() {
  *   and logs relevant messages based on the ordering and mode transition.
  */
 simulateButton.addEventListener("click", function () {
-    standardItems.forEach((item) => {
+  standardItems.forEach((item) => {
     item.style.display = "inline-block";
   });
 
-    setupItems.forEach((item) => {
+  setupItems.forEach((item) => {
     item.style.display = "none";
   });
 
-    if (!tempOrder.includes(-1)) {
+  if (!tempOrder.includes(-1)) {
     alterOrder(tempOrder);
     makeLog("Order Set", logCanvas, messageQueue);
   } else {
@@ -520,7 +572,8 @@ simulateButton.addEventListener("click", function () {
   makeLog("Entered Simulate Mode", logCanvas, messageQueue);
 
   clear(latticeArray, false);
-    alterSetup(0);   redrawLattice();
+  alterSetup(0);
+  redrawLattice();
 });
 
 /**
@@ -599,7 +652,7 @@ closeHelp.addEventListener("click", function () {
  *   by changing the display property of the help window to hide it when clicked outside.
  */
 window.addEventListener("click", function (event) {
-    if (event.target == helpWindow) {
+  if (event.target == helpWindow) {
     helpWindow.style.display = "none";
   }
 });
@@ -650,7 +703,8 @@ randOrder.addEventListener("click", function () {
   }
   for (let i = mockLattice.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [mockLattice[i], mockLattice[j]] = [mockLattice[j], mockLattice[i]];   }
+    [mockLattice[i], mockLattice[j]] = [mockLattice[j], mockLattice[i]];
+  }
   let neoLatticeArray = latticeArray;
   for (let i = 0; i < latticeArray[0].length; i++) {
     neoLatticeArray[0][i].flipColor();
@@ -1072,7 +1126,7 @@ closeLibrary.addEventListener("click", function () {
  */
 
 window.addEventListener("click", function (event) {
-    if (event.target == libraryWindow) {
+  if (event.target == libraryWindow) {
     libraryWindow.style.display = "none";
   }
 });
@@ -1094,7 +1148,12 @@ window.addEventListener("click", function (event) {
 function redrawLattice() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = deadColorSel.value;
-  ctx.fillRect(latticeArray[0][0].getXLoc(), latticeArray[0][0].getYLoc(), latticeArray[0].length * latticeArray[0][0].getHeight(), latticeArray.length * latticeArray[0][0].getWidth());
+  ctx.fillRect(
+    latticeArray[0][0].getXLoc(),
+    latticeArray[0][0].getYLoc(),
+    latticeArray[0].length * latticeArray[0][0].getHeight(),
+    latticeArray.length * latticeArray[0][0].getWidth()
+  );
   for (let i = 0; i < latticeArray.length; i++) {
     for (let f = 0; f < latticeArray[i].length; f++) {
       latticeArray[i][f].drawCell(ctx);
@@ -1123,13 +1182,21 @@ function redrawLattice() {
 
 function inLattice(mouseX, oneRow = true, mouseY = 0) {
   let inLat = false;
-    if (mouseX >= latticeArray[0][0].getXLoc()) {
-        if (mouseX <= latticeArray[0][latticeArray[0].length - 1].getXLoc() + latticeArray[0][latticeArray[0].length - 1].getWidth()) {
-            if (oneRow) {
+  if (mouseX >= latticeArray[0][0].getXLoc()) {
+    if (
+      mouseX <=
+      latticeArray[0][latticeArray[0].length - 1].getXLoc() +
+        latticeArray[0][latticeArray[0].length - 1].getWidth()
+    ) {
+      if (oneRow) {
         inLat = true;
       } else {
-                if (mouseY >= 0) {
-                    if (mouseY <= latticeArray[latticeArray.length - 1][0].getYLoc() + latticeArray[latticeArray.length - 1][0].getHeight()) {
+        if (mouseY >= 0) {
+          if (
+            mouseY <=
+            latticeArray[latticeArray.length - 1][0].getYLoc() +
+              latticeArray[latticeArray.length - 1][0].getHeight()
+          ) {
             inLat = true;
           }
         }
@@ -1182,25 +1249,25 @@ function revertCells() {
  * @returns {void} - This function modifies the given cell object, updating its dimensions and location.
  */
 function alterCell(mouseX, cell, scale, mouseY = 0) {
-      let corner0X = cell.getXLoc();
+  let corner0X = cell.getXLoc();
   let corner0Y = cell.getYLoc();
   let corner1X = cell.getXLoc() + cell.getWidth();
   let corner2Y = cell.getYLoc() + cell.getHeight();
 
-    let deltaCorner0X = corner0X - mouseX;
+  let deltaCorner0X = corner0X - mouseX;
   let deltaCorner0Y = corner0Y - mouseY;
   let deltaCorner1X = corner1X - mouseX;
   let deltaCorner2Y = corner2Y - mouseY;
 
-    let newCell0X = mouseX + deltaCorner0X * scale;
+  let newCell0X = mouseX + deltaCorner0X * scale;
   let newCell0Y = mouseY + deltaCorner0Y * scale;
   let newCell1X = mouseX + deltaCorner1X * scale;
   let newCell2Y = mouseY + deltaCorner2Y * scale;
 
-    let newCellWidth = newCell1X - newCell0X;
+  let newCellWidth = newCell1X - newCell0X;
   let newCellHeight = newCell2Y - newCell0Y;
 
-    cell.setHeight(newCellHeight);
+  cell.setHeight(newCellHeight);
   cell.setWidth(newCellWidth);
   cell.setXLoc(newCell0X);
   cell.setYLoc(newCell0Y);
@@ -1311,18 +1378,19 @@ tickCanvas.addEventListener(
   "wheel",
   function (event) {
     let mouseX, mouseY;
-    [mouseX, mouseY] = getMouseLocation(event);         if (latticeArray.length == 1 && inLattice(mouseX)) {
-      let delta = event.deltaY;             if (delta > 0 && totalDelta > 0) {
+    [mouseX, mouseY] = getMouseLocation(event);
+    if (latticeArray.length == 1 && inLattice(mouseX)) {
+      let delta = event.deltaY;
+      if (delta > 0 && totalDelta > 0) {
         scale = 0.9;
-      }
-            else if (delta < 0) {
+      } else if (delta < 0) {
         scale = 1.1;
       }
-      totalDelta -= delta;             if (totalDelta < 0) {
+      totalDelta -= delta;
+      if (totalDelta < 0) {
         revertCells();
         totalDelta = 0;
-      }
-            else {
+      } else {
         for (let i = 0; i < latticeArray.length; i++) {
           for (let f = 0; f < latticeArray[i].length; f++) {
             alterCell(mouseX, latticeArray[i][f], scale);
@@ -1331,17 +1399,17 @@ tickCanvas.addEventListener(
       }
       redrawLattice();
     } else if (latticeArray.length > 1 && inLattice(mouseX, false, mouseY)) {
-      let delta = event.deltaY;             if (delta > 0 && totalDelta > 0) {
+      let delta = event.deltaY;
+      if (delta > 0 && totalDelta > 0) {
         scale = 0.75;
-      }
-            else if (delta < 0) {
+      } else if (delta < 0) {
         scale = 1.25;
       }
-      totalDelta -= delta;             if (totalDelta < 0) {
+      totalDelta -= delta;
+      if (totalDelta < 0) {
         revertCells();
         totalDelta = 0;
-      }
-            else {
+      } else {
         for (let i = 0; i < latticeArray.length; i++) {
           for (let f = 0; f < latticeArray[i].length; f++) {
             alterCell(mouseX, latticeArray[i][f], scale, mouseY);
@@ -1368,7 +1436,8 @@ tickCanvas.addEventListener(
  * @returns {void} - This function alters the rule set and prepares the system for the next iteration with the new rule.
  */
 ruleSubmit.addEventListener("click", function () {
-  stopIterating();   clearResetToggle();
+  stopIterating();
+  clearResetToggle();
   setRule(rule);
 });
 
@@ -1389,7 +1458,7 @@ ruleSubmit.addEventListener("click", function () {
  * @returns {void} - This function updates the lattice to be fully filled with alive cells and logs the action.
  */
 latticeFillButton.addEventListener("click", function () {
-  stopIterating();   
+  stopIterating();
   clearResetToggle();
   clear(latticeArray);
   for (let i = 0; i < latticeArray[0].length; i++) {
@@ -1419,7 +1488,7 @@ latticeFillButton.addEventListener("click", function () {
 randomFillButton.addEventListener(
   "click",
   debounce(function () {
-    stopIterating();     
+    stopIterating();
     clearResetToggle();
     clear(latticeArray);
     for (let i = 0; i < latticeArray[0].length; i++) {
@@ -1454,7 +1523,7 @@ iterateButton.addEventListener(
       makeError("Iteration not set", logCanvas, messageQueue);
       return;
     }
-    stopIterating();     
+    stopIterating();
     makeLog("Used Rule " + ruleNum, logCanvas, messageQueue);
     makeLog("Iterated to " + addIterations, logCanvas, messageQueue);
     if (latticeArray.length == 1) {
@@ -1482,7 +1551,8 @@ iterateButton.addEventListener(
 clearResetButton.addEventListener(
   "click",
   debounce(function () {
-    stopIterating();     clearResetToggle();
+    stopIterating();
+    clearResetToggle();
     if (latticeArray.length == 1) {
       clear(latticeArray);
     } else {
@@ -1534,7 +1604,9 @@ iterationToggleButton.addEventListener(
  *
  * @returns {void} - This function updates the border visibility and the related UI accordingly.
  */
-borderToggleButton.addEventListener("click", debounce(function () {
+borderToggleButton.addEventListener(
+  "click",
+  debounce(function () {
     alterBorder(!getBorder());
     drawLattice(latticeArray);
     borderToggleOption();
@@ -1554,7 +1626,8 @@ borderToggleButton.addEventListener("click", debounce(function () {
  * @returns {void} - This function updates the iteration state and lattice size without returning any value.
  */
 iterationSubmit.addEventListener("click", function () {
-  stopIterating();   setLatticeSize();
+  stopIterating();
+  setLatticeSize();
 });
 
 /**
@@ -1573,10 +1646,10 @@ iterationSubmit.addEventListener("click", function () {
  * @returns {void} - This function updates the lattice size without returning any value.
  */
 latticeSizeSubmit.addEventListener("click", function () {
-    stopIterating();   clearResetToggle();
-  if (!getSetup())
-    setupButton.click();
-  
+  stopIterating();
+  clearResetToggle();
+  if (!getSetup()) setupButton.click();
+
   updateLatticeSize(canvas);
   clearOrder();
 });
@@ -1657,8 +1730,11 @@ tickCanvas.addEventListener("mousemove", function (event) {
 tickCanvas.addEventListener(
   "mousedown",
   debounce(function (event) {
-    document.body.style.userSelect = "none";     let mouseX, mouseY;
-    [mouseX, mouseY] = getMouseLocation(event);     setCells(latticeArray, mouseX, mouseY);     mouseDown = true;
+    document.body.style.userSelect = "none";
+    let mouseX, mouseY;
+    [mouseX, mouseY] = getMouseLocation(event);
+    setCells(latticeArray, mouseX, mouseY);
+    mouseDown = true;
   })
 );
 
@@ -1689,7 +1765,7 @@ tickCanvas.addEventListener(
  * @returns {void} - This function triggers specific UI actions based on key presses.
  */
 document.addEventListener("keydown", function (event) {
-    if (event.altKey) {
+  if (event.altKey) {
     if (setupButton.style.display == "inline-block") {
       switch (true) {
         case event.key == "Enter":
@@ -1777,7 +1853,7 @@ document.addEventListener("keydown", function (event) {
           break;
       }
     }
-      } else if (event.key == "Enter") {
+  } else if (event.key == "Enter") {
     if (document.activeElement == iterationInputBox) {
       iterationSubmit.click();
     } else if (document.activeElement == ruleInputBox) {
@@ -1812,12 +1888,16 @@ function updateLatticeSize(canvas) {
     createOrder();
     makeLog("Lattice Size Set to " + newCellNum, logCanvas, messageQueue);
   } else {
-    makeError("Invalid Lattice Size: " + latticeSizeBox.value, logCanvas, messageQueue);
+    makeError(
+      "Invalid Lattice Size: " + latticeSizeBox.value,
+      logCanvas,
+      messageQueue
+    );
   }
 
   let size = canvas.width / latSize;
 
-    if (size > 45) {
+  if (size > 45) {
     size = 45;
   }
 
@@ -1845,7 +1925,9 @@ function makeTickBox(event) {
     tctx.clearRect(0, 0, tickCanvas.width, tickCanvas.height);
 
     let lineNumber = Math.floor(mouseY / firstCell.getHeight());
-    let colNumber = Math.floor((mouseX - firstCell.getXLoc()) / firstCell.getWidth());
+    let colNumber = Math.floor(
+      (mouseX - firstCell.getXLoc()) / firstCell.getWidth()
+    );
 
     let insideBox = true;
 
@@ -1936,7 +2018,11 @@ function setN() {
     nSkip = newN;
     makeLog("N-value Set to " + newN, logCanvas, messageQueue);
   } else {
-    makeError("*Invalid N-value: " + nInputBox.value + "(N >= 2)*", logCanvas, messageQueue);
+    makeError(
+      "*Invalid N-value: " + nInputBox.value + "(N >= 2)*",
+      logCanvas,
+      messageQueue
+    );
   }
 }
 
@@ -1958,7 +2044,11 @@ function setRule() {
     makeLog("Rule Set to " + newRule, logCanvas, messageQueue);
     clear(latticeArray, true);
   } else {
-    makeError("Invalid Rule Number: " + ruleInputBox.value, logCanvas, messageQueue);
+    makeError(
+      "Invalid Rule Number: " + ruleInputBox.value,
+      logCanvas,
+      messageQueue
+    );
   }
 }
 
@@ -1978,7 +2068,11 @@ function setLatticeSize() {
     addIterations = newValue;
     makeLog("Iterations Set to " + newValue, logCanvas, messageQueue);
   } else {
-    makeError("Invalid Iteration Size: " + iterationInputBox.value, logCanvas, messageQueue);
+    makeError(
+      "Invalid Iteration Size: " + iterationInputBox.value,
+      logCanvas,
+      messageQueue
+    );
   }
   return addIterations;
 }
@@ -2008,7 +2102,15 @@ function clear(latticeArray, keepInit = false) {
     neoLatticeArray.pop();
   }
   for (let i = 0; i < latSize; i++) {
-    clearedLattice[0][i] = new cell(size, size, StartX + i * size, 0, 0, getBorder(), getSetup());
+    clearedLattice[0][i] = new cell(
+      size,
+      size,
+      StartX + i * size,
+      0,
+      0,
+      getBorder(),
+      getSetup()
+    );
     clearedLattice[0][i].setAliveColor(aliveColorSel.value);
     clearedLattice[0][i].setDeadColor(deadColorSel.value);
     clearedLattice[0][i].setAliveBorder(aliveBorderSel.value);
@@ -2018,7 +2120,8 @@ function clear(latticeArray, keepInit = false) {
   let latPlusBufferArr = new Array();
   if (keepInit) {
     clearResetButton.innerHTML = "Clear";
-    let bufferNum = (neoLatticeArray[0].length - clearedLattice[0].slice(0).length) / 2;
+    let bufferNum =
+      (neoLatticeArray[0].length - clearedLattice[0].slice(0).length) / 2;
     for (let i = bufferNum; i < latSize + bufferNum; i++) {
       latPlusBufferArr.push(latticeArray[0][i].getColor());
     }
@@ -2076,7 +2179,11 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
         } else {
           neoLatticeArray[0][i].setColor(1);
         }
-                if (getSetup() && latticeArray[0][i].getColor() == 1 && !tempOrder.includes(i)) {
+        if (
+          getSetup() &&
+          latticeArray[0][i].getColor() == 1 &&
+          !tempOrder.includes(i)
+        ) {
           for (let j = 0; j < tempOrder.length; j++) {
             if (tempOrder[j] == -1) {
               tempOrder[j] = i;
@@ -2095,11 +2202,10 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
         }
       }
 
-            neoLatticeArray[0][i].drawCell(ctx);
+      neoLatticeArray[0][i].drawCell(ctx);
       alterLatticeArray(neoLatticeArray);
-
-          }
-      }
+    }
+  }
 }
 
 /**
@@ -2112,18 +2218,24 @@ function setCells(latticeArray, mouseX, mouseY, mouseDown = false) {
  * @returns {Array} - An array containing the x and y coordinates of the mouse within the canvas.
  */
 function getMouseLocation(event) {
-    let bounds = canvas.getBoundingClientRect();
+  let bounds = canvas.getBoundingClientRect();
 
-    let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue("width"));
-  let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue("height"));
+  let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue("width"));
+  let cssHeight = parseFloat(
+    getComputedStyle(canvas).getPropertyValue("height")
+  );
 
-    let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+  let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
 
-    let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+  let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
   let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
 
-    let mouseX = ((event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width) / cssWidth;
-  let mouseY = ((event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height) / cssHeight;
+  let mouseX =
+    ((event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width) /
+    cssWidth;
+  let mouseY =
+    ((event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height) /
+    cssHeight;
 
   return [mouseX, mouseY];
 }
@@ -2175,7 +2287,7 @@ function stopIterating() {
 
 // Handle when bound toggle buton is activated: Animate toggle button, display checkboxes, select first checkbox
 export function toggleCheckbox() {
-    checkboxes[0].checked = true;
+  checkboxes[0].checked = true;
   checkboxes[1].checked = false;
   clear(latticeArray, true);
 }
@@ -2189,7 +2301,7 @@ export function toggleCheckbox() {
  * @returns {void}
  */
 function iterationToggleOption() {
-    if (iterationToggle.style.transform == "translateX(0px)") {
+  if (iterationToggle.style.transform == "translateX(0px)") {
     iterationToggle.style.transform = "translateX(25px)";
     makeLog("Iteration Box: On", logCanvas, messageQueue);
   } else {
@@ -2207,7 +2319,7 @@ function iterationToggleOption() {
  * @returns {void}
  */
 function borderToggleOption() {
-    if (borderToggle.style.transform === "translateX(0px)") {
+  if (borderToggle.style.transform === "translateX(0px)") {
     borderToggle.style.transform = "translateX(25px)";
     makeLog("Cell Border: On", logCanvas, messageQueue);
   } else {
@@ -2226,7 +2338,7 @@ function borderToggleOption() {
  * @returns {void}
  */
 function startStopToggle() {
-    if (startStopButton.classList.contains("start_button") && run) {
+  if (startStopButton.classList.contains("start_button") && run) {
     startStopButton.innerHTML = "Stop";
     startStopButton.classList.remove("start_button");
     startStopButton.classList.add("stop_button");
@@ -2269,13 +2381,14 @@ function clearResetToggle() {
 checkboxes.forEach(function (checkbox) {
   checkboxes[0].checked = true;
   checkbox.addEventListener("change", function () {
-    stopIterating();         if (this.checked) {
+    stopIterating();
+    if (this.checked) {
       checkboxes.forEach(function (otherCheckbox) {
-                if (otherCheckbox != checkbox) {
+        if (otherCheckbox != checkbox) {
           otherCheckbox.checked = false;
         }
       });
-                  if (checkboxes[0].checked) {
+      if (checkboxes[0].checked) {
         alterBoundaryCon(1);
         makeLog("Periodic Boundary Set", logCanvas, messageQueue);
         clear(latticeArray, true);
@@ -2284,8 +2397,7 @@ checkboxes.forEach(function (checkbox) {
         makeLog("Null Boundary Set", logCanvas, messageQueue);
         clear(latticeArray, true);
       }
-    }
-        else {
+    } else {
       this.checked = true;
     }
   });
@@ -2337,7 +2449,12 @@ function makeLog(errorMessage, logCanvas, messageQueue) {
  * @returns {void}
  */
 function displayLog(messageQueue, logCanvas) {
-  let dummyMessage = new logMessage("God Bless Ronald Reagan", "red", logCanvas);   dummyMessage.clearCanvas();
+  let dummyMessage = new logMessage(
+    "God Bless Ronald Reagan",
+    "red",
+    logCanvas
+  );
+  dummyMessage.clearCanvas();
   for (let i = 0; i < messageQueue.length; i++) {
     messageQueue[i].displayMessage(i);
   }
@@ -2355,26 +2472,37 @@ function displayLog(messageQueue, logCanvas) {
  * @returns {void}
  */
 downloadPDFButton.addEventListener("click", function () {
-  let imgData = canvas.toDataURL("image/png");   let pdf = new jsPDF("p", "pt", [canvas.width, canvas.height]); 
-    let canvasAspectRatio = canvas.width / canvas.height;
+  let imgData = canvas.toDataURL("image/png");
+  let pdf = new jsPDF("p", "pt", [canvas.width, canvas.height]);
+  let canvasAspectRatio = canvas.width / canvas.height;
 
-    let pdfWidth = pdf.internal.pageSize.getWidth();
+  let pdfWidth = pdf.internal.pageSize.getWidth();
   let pdfHeight = pdf.internal.pageSize.getHeight();
   let pdfAspectRatio = pdfWidth / pdfHeight;
 
-    let imgWidth = pdfHeight * canvasAspectRatio;
+  let imgWidth = pdfHeight * canvasAspectRatio;
   let imgHeight = pdfHeight;
 
-    if (canvasAspectRatio > pdfAspectRatio) {
+  if (canvasAspectRatio > pdfAspectRatio) {
     imgWidth = pdfWidth;
     imgHeight = pdfWidth / canvasAspectRatio;
   }
 
-    let offsetX = (pdfWidth - imgWidth) / 2;
+  let offsetX = (pdfWidth - imgWidth) / 2;
   let offsetY = (pdfHeight - imgHeight) / 2;
   pdf.addImage(imgData, "PNG", offsetX, offsetY, imgWidth, imgHeight);
 
-  pdf.save("SequentialWNN" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".pdf");   makeLog("Downloaded Canvas", logCanvas, messageQueue);
+  pdf.save(
+    "SequentialWNN" +
+      "I" +
+      numOfIterations +
+      "R" +
+      ruleNum +
+      "L" +
+      latSize +
+      ".pdf"
+  );
+  makeLog("Downloaded Canvas", logCanvas, messageQueue);
 });
 
 /**
@@ -2389,7 +2517,20 @@ downloadPDFButton.addEventListener("click", function () {
  * @returns {void}
  */
 downloadPNGButton.addEventListener("click", function () {
-  let image = canvas.toDataURL();   let link = document.createElement("a");   link.href = image;   link.download = "SequentialWNN" + "I" + numOfIterations + "R" + ruleNum + "L" + latSize + ".png";   link.click();   makeLog("Downloaded Canvas", logCanvas, messageQueue);
+  let image = canvas.toDataURL();
+  let link = document.createElement("a");
+  link.href = image;
+  link.download =
+    "SequentialWNN" +
+    "I" +
+    numOfIterations +
+    "R" +
+    ruleNum +
+    "L" +
+    latSize +
+    ".png";
+  link.click();
+  makeLog("Downloaded Canvas", logCanvas, messageQueue);
 });
 
 /**

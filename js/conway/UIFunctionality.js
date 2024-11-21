@@ -42,9 +42,31 @@
 
 /* Import utility and variables from other JS files */
 import { canvas, ctx, displayLattice } from "./displayLattice.js";
-import { visLatticeArray, visBounds, latticeArray, iterate, createVisInit, boundaryCollide, recountNeighbors, changeNeighbor } from "./generateLattice.js";
+import {
+  visLatticeArray,
+  visBounds,
+  latticeArray,
+  iterate,
+  createVisInit,
+  boundaryCollide,
+  recountNeighbors,
+  changeNeighbor,
+} from "./generateLattice.js";
 import { cell } from "./cellClass.js";
-import { build101, build295, build119, build1234, buildGlider, setLattice, buildGtoG, build60P, buildAK94, buildTrigger, buildSnail, buildTub } from "./presets.js";
+import {
+  build101,
+  build295,
+  build119,
+  build1234,
+  buildGlider,
+  setLattice,
+  buildGtoG,
+  build60P,
+  buildAK94,
+  buildTrigger,
+  buildSnail,
+  buildTub,
+} from "./presets.js";
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */
 
@@ -108,17 +130,17 @@ const zoomValue = document.getElementById("zoomValue");
  * @type {HTMLElement}
  * @description Represents the container element for the "About" window.
  */
-const aboutWindow = document.getElementById("aboutContainer"); 
+const aboutWindow = document.getElementById("aboutContainer");
 /**
  * @type {HTMLElement}
  * @description Represents the close button for the "About" window, used to trigger window closure.
  */
-const closeAbout = document.querySelector("#aboutContent .close"); 
+const closeAbout = document.querySelector("#aboutContent .close");
 /**
  * @type {HTMLElement}
  * @description Represents the container element for the "Library" window.
  */
-const libraryWindow = document.getElementById("libraryContainer"); 
+const libraryWindow = document.getElementById("libraryContainer");
 /**
  * @type {HTMLElement}
  * @description Represents the close button for the "Library" window, used to trigger window closure.
@@ -305,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
         clearResetToggle(true);
         startStopToggle();
         run = !run;
-                if (run) {
+        if (run) {
           continouslyIterate();
         }
       }
@@ -331,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function () {
   iterateButton.addEventListener(
     "click",
     debounce(function () {
-            if (!run && !boundaryCollide()) {
+      if (!run && !boundaryCollide()) {
         clearResetToggle(true);
         iterate();
         updateOutput(true);
@@ -360,11 +382,10 @@ document.addEventListener("DOMContentLoaded", function () {
   clearResetButton.addEventListener(
     "click",
     debounce(function () {
-            if (currentReset == 1) {
+      if (currentReset == 1) {
         clear();
-      }
-            else {
-                if (run) {
+      } else {
+        if (run) {
           startStopToggle();
           run = false;
         } else {
@@ -444,7 +465,7 @@ document.addEventListener("DOMContentLoaded", function () {
    * - Triggers actions based on specific key presses (e.g., button clicks, focusing inputs).
    */
   document.addEventListener("keydown", function (event) {
-        if (event.shiftKey) {
+    if (event.shiftKey) {
       setTimeout(function () {
         if (!shift) {
           shift = true;
@@ -488,7 +509,7 @@ document.addEventListener("DOMContentLoaded", function () {
         default:
           break;
       }
-          } else if (event.key == "Enter") {
+    } else if (event.key == "Enter") {
       iterationSubmit.click();
     }
   });
@@ -516,10 +537,10 @@ document.addEventListener("DOMContentLoaded", function () {
   canvas.addEventListener("mousedown", function (event) {
     let mouseX, mouseY;
     [mouseX, mouseY] = getMouseLocation(event);
-        if (!shift) {
+    if (!shift) {
       for (let i = 0; i < visLatticeArray.length; i++) {
         for (let j = 0; j < visLatticeArray[i].length; j++) {
-                    if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
+          if (visLatticeArray[i][j].insideCell(mouseX, mouseY)) {
             visLatticeArray[i][j].flipColor(ctx);
             visLatticeArray[i][j].drawCell(ctx, true);
             if (latticeArray[i + visBounds[1]][j + visBounds[0]] == 1) {
@@ -527,7 +548,8 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
               changeNeighbor(j + visBounds[0], i + visBounds[1], 1);
             }
-            latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
+            latticeArray[i + visBounds[1]][j + visBounds[0]] =
+              !latticeArray[i + visBounds[1]][j + visBounds[0]];
           }
         }
       }
@@ -551,15 +573,17 @@ document.addEventListener("DOMContentLoaded", function () {
   canvas.addEventListener("mousemove", function (event) {
     let mouseX, mouseY;
     [mouseX, mouseY] = getMouseLocation(event);
-        if (scribble && shift) {
+    if (scribble && shift) {
       let offSetX = mouseX - mouseXPos;
       let offsetY = mouseY - mouseYPos;
       redrawLattice(offSetX, offsetY);
-    }
-        else if (scribble) {
+    } else if (scribble) {
       for (let i = 0; i < visLatticeArray.length; i++) {
         for (let j = 0; j < visLatticeArray[i].length; j++) {
-          if (visLatticeArray[i][j].insideCell(mouseX, mouseY) && visLatticeArray[i][j].getColor() == 0) {
+          if (
+            visLatticeArray[i][j].insideCell(mouseX, mouseY) &&
+            visLatticeArray[i][j].getColor() == 0
+          ) {
             visLatticeArray[i][j].flipColor(ctx);
             visLatticeArray[i][j].drawCell(ctx, true);
             if (latticeArray[i + visBounds[1]][j + visBounds[0]] == 1) {
@@ -567,7 +591,8 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
               changeNeighbor(j + visBounds[0], i + visBounds[1], 1);
             }
-            latticeArray[i + visBounds[1]][j + visBounds[0]] = !latticeArray[i + visBounds[1]][j + visBounds[0]];
+            latticeArray[i + visBounds[1]][j + visBounds[0]] =
+              !latticeArray[i + visBounds[1]][j + visBounds[0]];
           }
         }
       }
@@ -590,10 +615,11 @@ document.addEventListener("DOMContentLoaded", function () {
    * - Sets the initial mouse position if `shift` and `scribble` are both active.
    */
   canvas.addEventListener("mousedown", function (event) {
-    document.body.style.userSelect = "none";     setTimeout(function () {
+    document.body.style.userSelect = "none";
+    setTimeout(function () {
       if (!scribble) {
         scribble = true;
-                if (scribble && shift) {
+        if (scribble && shift) {
           [mouseXPos, mouseYPos] = getMouseLocation(event);
         }
       }
@@ -616,7 +642,8 @@ document.addEventListener("DOMContentLoaded", function () {
    * - Enables text selection globally.
    */
   canvas.addEventListener("mouseup", function () {
-    document.body.style.userSelect = "auto";     setTimeout(function () {
+    document.body.style.userSelect = "auto";
+    setTimeout(function () {
       if (scribble) {
         scribble = false;
         shiftX = 0;
@@ -647,9 +674,11 @@ document.addEventListener("DOMContentLoaded", function () {
     "wheel",
     function (event) {
       let mouseX, mouseY;
-      [mouseX, mouseY] = getMouseLocation(event);       let testLoc = inLattice(mouseX, mouseY);
+      [mouseX, mouseY] = getMouseLocation(event);
+      let testLoc = inLattice(mouseX, mouseY);
       if (testLoc) {
-        let delta = event.deltaY;         let change = false;
+        let delta = event.deltaY;
+        let change = false;
         let currentScale = 100 / reverse[zoomSlider.value - 1];
         if (delta < 0 && zoomSlider.value < 100) {
           zoomSlider.value++;
@@ -708,9 +737,13 @@ document.addEventListener("DOMContentLoaded", function () {
  */
 function inLattice(xLoc, yLoc) {
   let xMin = visLatticeArray[0][0].getXLoc();
-  let xMax = visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() + visLatticeArray[0][visLatticeArray[0].length - 1].getWidth();
+  let xMax =
+    visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() +
+    visLatticeArray[0][visLatticeArray[0].length - 1].getWidth();
   let yMin = visLatticeArray[0][0].getYLoc();
-  let yMax = visLatticeArray[visLatticeArray.length - 1][0].getYLoc() + visLatticeArray[visLatticeArray.length - 1][0].getHeight();
+  let yMax =
+    visLatticeArray[visLatticeArray.length - 1][0].getYLoc() +
+    visLatticeArray[visLatticeArray.length - 1][0].getHeight();
   if (xLoc >= xMin && xLoc <= xMax && yLoc >= yMin && yLoc <= yMax) {
     return true;
   } else {
@@ -728,7 +761,7 @@ function inLattice(xLoc, yLoc) {
  * @returns {void} - This function does not return any value.
  */
 function startStopToggle() {
-    if (startStopButton.classList.contains("start_button") && !run) {
+  if (startStopButton.classList.contains("start_button") && !run) {
     startStopButton.innerHTML = "Stop";
     startStopButton.classList.remove("start_button");
     startStopButton.classList.add("stop_button");
@@ -750,7 +783,7 @@ function startStopToggle() {
  * @returns {void} - This function does not return any value.
  */
 function clearResetToggle(reset) {
-    if (reset) {
+  if (reset) {
     currentReset = 0;
     clearResetButton.innerHTML = "Reset";
   } else if (!reset) {
@@ -789,7 +822,7 @@ closeAbout.addEventListener("click", function () {
  * @returns {void} - This function does not return any value.
  */
 window.addEventListener("click", function (event) {
-    if (event.target == aboutWindow) {
+  if (event.target == aboutWindow) {
     aboutWindow.style.display = "none";
   }
 });
@@ -822,7 +855,7 @@ closeLibrary.addEventListener("click", function () {
  * @returns {void} - This function does not return any value, but modifies the display style of the library window.
  */
 window.addEventListener("click", function (event) {
-    if (event.target == libraryWindow) {
+  if (event.target == libraryWindow) {
     libraryWindow.style.display = "none";
   }
 });
@@ -850,25 +883,25 @@ iterationSpeedSlider.oninput = function () {
  * @returns {void} - This function modifies the properties of the `cell` object directly, it does not return any value.
  */
 function alterCell(cell, scale, mouseY, mouseX) {
-      let corner0X = cell.getXLoc();
+  let corner0X = cell.getXLoc();
   let corner0Y = cell.getYLoc();
   let corner1X = cell.getXLoc() + cell.getWidth();
   let corner2Y = cell.getYLoc() + cell.getHeight();
 
-    let deltaCorner0X = corner0X - mouseX;
+  let deltaCorner0X = corner0X - mouseX;
   let deltaCorner0Y = corner0Y - mouseY;
   let deltaCorner1X = corner1X - mouseX;
   let deltaCorner2Y = corner2Y - mouseY;
 
-    let newCell0X = mouseX + deltaCorner0X * scale;
+  let newCell0X = mouseX + deltaCorner0X * scale;
   let newCell0Y = mouseY + deltaCorner0Y * scale;
   let newCell1X = mouseX + deltaCorner1X * scale;
   let newCell2Y = mouseY + deltaCorner2Y * scale;
 
-    let newCellWidth = newCell1X - newCell0X;
+  let newCellWidth = newCell1X - newCell0X;
   let newCellHeight = newCell2Y - newCell0Y;
 
-    cell.setHeight(newCellHeight);
+  cell.setHeight(newCellHeight);
   cell.setWidth(newCellWidth);
   cell.setXLoc(newCell0X);
   cell.setYLoc(newCell0Y);
@@ -914,18 +947,24 @@ function setDelay(newDelay) {
  *    - The second value is the Y-coordinate.
  */
 function getMouseLocation(event) {
-    let bounds = canvas.getBoundingClientRect();
+  let bounds = canvas.getBoundingClientRect();
 
-    let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue("width"));
-  let cssHeight = parseFloat(getComputedStyle(canvas).getPropertyValue("height"));
+  let cssWidth = parseFloat(getComputedStyle(canvas).getPropertyValue("width"));
+  let cssHeight = parseFloat(
+    getComputedStyle(canvas).getPropertyValue("height")
+  );
 
-    let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
+  let borderWidth = parseInt(getComputedStyle(canvas).borderLeftWidth);
 
-    let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
+  let paddingLeft = parseFloat(getComputedStyle(canvas).paddingLeft);
   let paddingTop = parseFloat(getComputedStyle(canvas).paddingTop);
 
-    let mouseX = ((event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width) / cssWidth;
-  let mouseY = ((event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height) / cssHeight;
+  let mouseX =
+    ((event.clientX - bounds.left - paddingLeft - borderWidth) * canvas.width) /
+    cssWidth;
+  let mouseY =
+    ((event.clientY - bounds.top - paddingTop - borderWidth) * canvas.height) /
+    cssHeight;
 
   return [mouseX, mouseY];
 }
@@ -940,14 +979,15 @@ function getMouseLocation(event) {
 function continouslyIterate() {
   if (run) {
     setTimeout(function () {
-            if (run && !(shift && scribble) && !boundaryCollide()) {
+      if (run && !(shift && scribble) && !boundaryCollide()) {
         iterate();
         updateOutput(true);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-                redrawLattice();
+        redrawLattice();
       }
       if (!boundaryCollide()) {
-        continouslyIterate();       } else {
+        continouslyIterate();
+      } else {
         startStopToggle();
         run = false;
       }
@@ -972,7 +1012,8 @@ function debounce(callback) {
   return function (event) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
-      callback(event);     }, 100);
+      callback(event);
+    }, 100);
   };
 }
 
@@ -1006,7 +1047,8 @@ function updateOutput(increment = false) {
   } else {
     iterationCount = 0;
   }
-  outputIteration.innerHTML = "Iteration Count: " + iterationCount.toString(); }
+  outputIteration.innerHTML = "Iteration Count: " + iterationCount.toString();
+}
 
 /**
  * Redraws the entire lattice array on the canvas with optional offsets.
@@ -1028,10 +1070,22 @@ export function redrawLattice(xOffset = 0, yOffset = 0) {
   let trueOffsetX = xOffset - shiftX;
   let trueOffsetY = yOffset - shiftY;
   if (trueOffsetX != 0 || trueOffsetY != 0) {
-    let maxOffsetX = canvas.width - (visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() + visLatticeArray[0][visLatticeArray[0].length - 1].getWidth()) - 5 * visLatticeArray[0][0].getWidth();
-    let minOffsetX = -1 * (visLatticeArray[0][0].getXLoc() - 5 * visLatticeArray[0][0].getWidth());
-    let maxOffsetY = canvas.height - (visLatticeArray[visLatticeArray.length - 1][0].getYLoc() + visLatticeArray[visLatticeArray.length - 1][0].getHeight()) - 5 * visLatticeArray[0][0].getHeight();
-    let minOffsetY = -1 * (visLatticeArray[0][0].getYLoc() - 5 * visLatticeArray[0][0].getHeight());
+    let maxOffsetX =
+      canvas.width -
+      (visLatticeArray[0][visLatticeArray[0].length - 1].getXLoc() +
+        visLatticeArray[0][visLatticeArray[0].length - 1].getWidth()) -
+      5 * visLatticeArray[0][0].getWidth();
+    let minOffsetX =
+      -1 *
+      (visLatticeArray[0][0].getXLoc() - 5 * visLatticeArray[0][0].getWidth());
+    let maxOffsetY =
+      canvas.height -
+      (visLatticeArray[visLatticeArray.length - 1][0].getYLoc() +
+        visLatticeArray[visLatticeArray.length - 1][0].getHeight()) -
+      5 * visLatticeArray[0][0].getHeight();
+    let minOffsetY =
+      -1 *
+      (visLatticeArray[0][0].getYLoc() - 5 * visLatticeArray[0][0].getHeight());
 
     if (trueOffsetX > 0) {
       if (trueOffsetX > minOffsetX) {
@@ -1060,7 +1114,14 @@ export function redrawLattice(xOffset = 0, yOffset = 0) {
     for (let f = 0; f < visLatticeArray[i].length; f++) {
       if (trueOffsetX != 0 || trueOffsetY != 0) {
         let curCell = visLatticeArray[i][f];
-        offSetLat[i][f] = new cell(curCell.getHeight(), curCell.getWidth(), curCell.getXLoc() + trueOffsetX, curCell.getYLoc() + trueOffsetY, curCell.getColor(), curCell.getBorder());
+        offSetLat[i][f] = new cell(
+          curCell.getHeight(),
+          curCell.getWidth(),
+          curCell.getXLoc() + trueOffsetX,
+          curCell.getYLoc() + trueOffsetY,
+          curCell.getColor(),
+          curCell.getBorder()
+        );
       }
       offSetLat[i][f].drawCell(ctx);
     }
@@ -1084,7 +1145,11 @@ export function redrawLattice(xOffset = 0, yOffset = 0) {
  *
  * @example
  * alterLattice(1.5);                 * alterLattice(0.8, 200, 150);       */
-export function alterLattice(scale, mouseY = canvas.height / 2, mouseX = canvas.width / 2) {
+export function alterLattice(
+  scale,
+  mouseY = canvas.height / 2,
+  mouseX = canvas.width / 2
+) {
   for (let i = 0; i < visLatticeArray.length; i++) {
     for (let j = 0; j < visLatticeArray[i].length; j++) {
       alterCell(visLatticeArray[i][j], scale, mouseY, mouseX);
@@ -1104,7 +1169,8 @@ export function alterLattice(scale, mouseY = canvas.height / 2, mouseX = canvas.
  * @example
  * saveReset();   */
 export function saveReset() {
-  resetLattice.length = 0;   for (let i = 0; i < latticeArray.length; i++) {
+  resetLattice.length = 0;
+  for (let i = 0; i < latticeArray.length; i++) {
     let tempRow = new Array();
     for (let j = 0; j < latticeArray[0].length; j++) {
       tempRow.push(latticeArray[i][j]);
