@@ -76,10 +76,10 @@ export class cell {
         this.color = color;
     this.border = border;
 
-        this.deadCell = "#FFFFFF";
+    this.deadCell = "#FFFFFF";
     this.deadBord = "#000000";
 
-        this.aliveCell = "#000000";
+    this.aliveCell = "#000000";
     this.aliveBord = "#808080";
   }
 

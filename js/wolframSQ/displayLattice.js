@@ -1,5 +1,5 @@
 /**
- * UIFunctionality.js
+ * displayLattice.js
  *
  * Summary:
  *   Handles the user interface functionality for the Game of Life simulation. This script contains functions

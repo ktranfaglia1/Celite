@@ -1574,8 +1574,11 @@ iterationSubmit.addEventListener("click", function () {
  */
 latticeSizeSubmit.addEventListener("click", function () {
     stopIterating();   clearResetToggle();
-  if (!getSetup()) setupButton.click();
+  if (!getSetup())
+    setupButton.click();
+  
   updateLatticeSize(canvas);
+  clearOrder();
 });
 
 /**
