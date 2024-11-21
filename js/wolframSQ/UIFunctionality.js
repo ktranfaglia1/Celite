@@ -455,7 +455,7 @@ function activateSetup() {
   redrawLattice();
 
   if(displayWelcome) {
-    ctx.font = "40px Arial";    
+    ctx.font = "36px Arial";    
     ctx.fillStyle = "red"; 
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
@@ -464,7 +464,7 @@ function activateSetup() {
 
     ctx.fillText("SETUP MODE: Click the cells or use the preset library to", centerX, 80);
     ctx.fillText("configure a cell ordering for the sequential algorithm.", centerX, 140);
-    ctx.fillText("This is required to prepare for the simulation. ALL", centerX, 200);
+    ctx.fillText("This is required to prepare for the simulation. All", centerX, 200);
     ctx.fillText("cells must be ordered; otherwise, the default left", centerX, 260);
     ctx.fillText(" to right ordering will be used", centerX, 320);
       

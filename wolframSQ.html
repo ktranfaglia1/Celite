@@ -110,7 +110,7 @@
         <button id="randomFillButton" class="options_button"> Random Fill </button>
         <hr>
         <!-- Toggles -->
-        <div class="p1"> Iteration Box: </div>
+        <div class="p1"> Cell Position: </div>
         <div class="input_container1">
           <label class="toggle_label"> Off </label>
           <div class="options_toggle_bar" id="iterationToggle">
@@ -254,7 +254,8 @@
           meaning that the effect of earlier updates propagates forward, and the end of the lattice may look quite different from 
           the start, depending on the order in which cells were updated. This can lead to more complex, evolving behavior 
           within a single iteration due to the cascading updates, making it more natural for modeling processes where local changes 
-          propagate gradually.</p>
+          propagate gradually.
+        </p>
         <h3> How to configure cell ordering? </h3>
         <p> In setup mode, clicking a cell does not toggle it between dead and alive states, but rather, it sets the chronological 
           ordering such that a number will be set to the cell. The numbers are stored in a stack in descending order from
@@ -276,20 +277,20 @@
           simulate mode. While the presets are relatively basic and patterned (except for random ordering), they produce complex 
           models. The library allows users to efficiently apply these presets by clicking a preset image button. The current cell 
           ordering in the lattice will be cleared before applying the preset ordering from the library. The ordering will be displayed 
-          in setup mode, and then the 'Simulate' button must be clicked in order to proceed to simulation mode, which will use the selected 
-          ordering. Before entering simulate mode, the cell ordering displayed with the library preset may be altered as desired, 
-          ensuring users can maintain their efficiency while using the library.
+          in setup mode, and then the 'Simulate' button must be clicked in order to proceed to simulation mode, which will use the 
+          selected ordering. Before entering simulate mode, the cell ordering displayed with the library preset may be altered as 
+          desired, ensuring users can maintain their efficiency while using the library.
         </p>
         <h3> How to identify a cell index? </h3>
         <p> When selecting an order with a large lattice size, it may be difficult to determine which cell is the 120th or 300th in 
-          the lattice. In order to identify the cell without tediously counting all the cells before it, use the iteration box feature.
-          The iteration box is a hovering iteration calculator that follows the mouse inside the canvas. Anytime the mouse is on a lattice 
-          within the canvas, the box will update with the lattice iteration that is being hovered (which is always 0 in setup mode) and 
-          the cell index, starting at index 0. Lattice iteration and cell index are seperated by a colon. Thus, with the iteration box 
-          toggled on, hover over the cell in need of identification and reference the value after the colon (rightmost value). Since the 
-          iteration box toggle is located in the options window, which is not accessable in setup mode, it must be toggled by either
-          using the keyboard shortcut ALT + 'W' or by clicking the iteration box toggle bar within the options window in simulate mode.
-          Alternatively, use a preset ordering in the library to conveniently ensure all cells are ordered.
+          the lattice. In order to identify the cell without tediously counting all the cells before it, use the "Cell Position" feature.
+          The cell position is a hovering iteration number and cell index calculator that follows the mouse inside the canvas. Anytime the  
+          mouse is on a lattice within the canvas, the box will update with the lattice iteration that is being hovered (which is always 0 
+          in setup mode) and the cell index, starting at index 0. Lattice iteration and cell index are seperated by a colon (iteration number 
+          : cell index). Thus, with the cell position toggled on, hover over the cell in need of identification and reference the value after 
+          the colon (rightmost value). Since the cell position toggle is located in the options window, which is not accessable in setup mode, 
+          it must be toggled by either using the keyboard shortcut ALT + 'W' or by clicking the cell position toggle bar within the options 
+          window in simulate mode. Alternatively, use a preset ordering in the library to conveniently ensure all cells are ordered.
         </p>
       </div>
     </div>
