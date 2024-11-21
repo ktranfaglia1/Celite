@@ -92,7 +92,7 @@ export class cell {
   drawCell(ctx, override = false) {
         if (this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && ((this.color || this.height > 10) || override) /*&& (this.color || border)*/) {
           ctx.clearRect(this.XLocation, this.YLocation, this.width, this.height);
-          let border = true;
+          let border = this.border;
             if (this.height <= 10) {
         border = false;
       }

@@ -90,13 +90,13 @@ export class cell {
    */
   drawCell(ctx) {
         if (this.XLocation + this.width > 0 && this.XLocation < ctx.canvas.width && this.YLocation + this.height > 0 && this.YLocation < ctx.canvas.height && (this.color || this.height > 10) /*&& (this.color || border)*/) {
-      let border = true;
-            if (this.height <= 10) {
+      let border = this.border;
+      if (this.height <= 10) {
         border = false;
       }
 
-            if (border) {
-                if (this.color == 1) {
+        if (border) {
+           if (this.color == 1) {
           ctx.fillStyle = this.aliveBord;
         } else {
           ctx.fillStyle = this.deadBord;
@@ -111,7 +111,7 @@ export class cell {
         ctx.fillStyle = this.deadCell;
       }
 
-            if (border) {
+        if (border) {
         ctx.fillRect(this.XLocation + 1, this.YLocation + 1, this.width - 2, this.height - 2);
       } else {
         ctx.fillRect(this.XLocation, this.YLocation, this.width + 1, this.height + 1);
