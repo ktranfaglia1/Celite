@@ -411,6 +411,11 @@ let totalDelta = 0;
  * @type {Array}
  */
 let messageQueue = [];
+/**
+ * An array to store lattice configuration while in setup mode.
+ * @type {Array}
+ */
+let savedLattice = new Array();
 
 /**
  * setupButton Click Event Handler
@@ -435,6 +440,11 @@ let messageQueue = [];
 setupButton.addEventListener(
   "click",
   debounce(function () {
+    savedLattice = []
+    console.log("Begin printing latticeArray");
+    for (let i = 0; i < latticeArray[0].length; i++) {
+      savedLattice.push(latticeArray[0][i].getColor());
+    }
     activateSetup();
     for (let i = 0; i < orderArray.length; i++) {
       latticeArray[0][i].setColor(1);
@@ -573,6 +583,11 @@ simulateButton.addEventListener("click", function () {
 
   clear(latticeArray, false);
   alterSetup(0);
+  if (latticeArray[0].length == savedLattice.length) {
+    for (let i = 0; i < savedLattice.length; i++) {
+      latticeArray[0][i].setColor(savedLattice[i]);
+    }
+  }
   redrawLattice();
 });
 
@@ -1036,7 +1051,7 @@ edgesInR.addEventListener("click", function () {
     tempOrder[mockLattice[i]] = i;
   }
   libraryWindow.style.display = "none";
-  console.log(tempOrder);
+  //console.log(tempOrder);
   makeLog("Edges In Rev Order Set", logCanvas, messageQueue);
 });
 
@@ -1159,7 +1174,7 @@ function redrawLattice() {
       latticeArray[i][f].drawCell(ctx);
     }
   }
-  console.log("Redraw Lattice Called");
+  //console.log("Redraw Lattice Called");
 }
 
 /**
