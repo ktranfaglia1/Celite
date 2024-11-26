@@ -291,6 +291,13 @@ let addIterations = 10;
 alterInf(inf[0], false, 10);
 
 /**
+ * Maximum number of iterations.
+ * Defaults to 3500.
+ * @type {number}
+ */
+let maxIterations = 3500;
+
+/**
  * Flag to control if the iteration process is running.
  * Defaults to 0 (not running).
  * @type {number}
@@ -1444,7 +1451,7 @@ function setRule() {
  */
 function setLatticeSize() {
   let newValue = parseInt(iterationInputBox.value);
-  if (!isNaN(newValue) && newValue >= 0 && newValue <= 10000) {
+  if (!isNaN(newValue) && newValue >= 0 && newValue <= maxIterations) {
     let newCellNum = latSize[0] - 2 * latSize[1];
     if (!isNaN(newCellNum) && newCellNum >= 1 && newCellNum <= 1000) {
       alterLatSize(newCellNum);
@@ -1675,6 +1682,7 @@ export function toggleCheckbox() {
     if (size > 45) {
       size = 45;
     }
+    maxIterations = 10000;
     alterSize(size);
     alterInf(false);
     makeLog("Finite Condition Set", logCanvas, messageQueue);
@@ -1699,6 +1707,11 @@ export function toggleCheckbox() {
     }
     alterSize(size);
     alterInf(true);
+    if (addIterations > 3500) {
+      iterationInputBox.value = 3500;
+      setLatticeSize();
+    }
+    maxIterations = 3500;
     makeLog("Infinite Condition Set", logCanvas, messageQueue);
     clear(latticeArray, true);
     periodicCheckBox.style.display = "none";
