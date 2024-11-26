@@ -1710,6 +1710,7 @@ export function toggleCheckbox() {
     if (addIterations > 3500) {
       iterationInputBox.value = 3500;
       setLatticeSize();
+      makeLog("Iteration amount reduced", logCanvas, messageQueue);
     }
     maxIterations = 3500;
     makeLog("Infinite Condition Set", logCanvas, messageQueue);
