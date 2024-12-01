@@ -1479,6 +1479,9 @@ function setLatticeSize() {
       messageQueue
     );
   }
+  if (newValue > 1000) {
+    makeLog("Warning: Large Iteration", logCanvas, messageQueue);
+  }
   return addIterations;
 }
 
