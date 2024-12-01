@@ -47,6 +47,7 @@
  *   - Dustin O'Brien
  */
 
+import canvasSize from 'https://cdn.jsdelivr.net/npm/canvas-size@2/dist/canvas-size.esm.min.js';
 import {
   latticeArray,
   rule,
@@ -85,6 +86,12 @@ import {
 import { ruleNumToRule } from "./generateLattice.js";
 import { cell } from "./cellClass.js";
 import { logMessage } from "./logClass.js";
+
+//Global constant storing the maximum height that the canvas can be in the given browser
+const results = await canvasSize.maxArea({});
+//Variable dictating the theoretical current number of lattices that can stack on top of eachother on canvas given
+//current cell size.
+let theoHeight = 0;
 
 /*
 Hotkeys for zoom in/out
@@ -814,7 +821,11 @@ iterateButton.addEventListener(
       }
       clearResetButton.innerHTML = "Reset";
     }
-    iterate(currentIteration, addIterations);
+    theoHeight = Math.floor(results.height / size) - 1;
+    if (theoHeight < addIterations) {
+      makeError("Cannot print all output.", logCanvas, messageQueue);
+    }
+    iterate(currentIteration, Math.min(addIterations, theoHeight));
   })
 );
 
@@ -1055,6 +1066,10 @@ startStopButton.addEventListener(
         if (addIterations) {
           clearResetButton.innerHTML = "Reset";
         }
+      }
+      theoHeight = Math.floor(results.height / size) - 1;
+      if (theoHeight < addIterations) {
+        makeError("Cannot print all output.", logCanvas, messageQueue);
       }
       continouslyIterate(iterationTime);
     } else {
@@ -1365,9 +1380,9 @@ function setDelay(newDelay) {
  *                   through recursive calls and controls the iteration cycle.
  */
 function continouslyIterate(iterationTime) {
-  if (run) {
+  if (run && currentIteration + 1 <= Math.min(theoHeight, addIterations)) {
     setTimeout(function () {
-      if (run) {
+      if (run && currentIteration + 1 <= Math.min(theoHeight, addIterations)) {
         iterate(currentIteration, 1);
       }
       continouslyIterate(iterationTime);

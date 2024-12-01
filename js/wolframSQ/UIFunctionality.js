@@ -36,7 +36,7 @@
  *   - Dustin O'Brien
  *
  */
-
+import canvasSize from 'https://cdn.jsdelivr.net/npm/canvas-size@2/dist/canvas-size.esm.min.js';
 import {
   latticeArray,
   rule,
@@ -86,6 +86,12 @@ Hotkeys for zoom in/out
 change cell label when only one row
 Reset Perspective Button
 */
+
+//Global constant storing the maximum height that the canvas can be in the given browser
+const results = await canvasSize.maxArea({});
+//Variable dictating the theoretical current number of lattices that can stack on top of eachother on canvas given
+//current cell size.
+let theoHeight = 0;
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */
 
@@ -1534,6 +1540,7 @@ randomFillButton.addEventListener(
 iterateButton.addEventListener(
   "click",
   debounce(function () {
+    theoHeight = Math.floor(results.height / size) - 1;
     if (addIterations == 0) {
       makeError("Iteration not set", logCanvas, messageQueue);
       return;
@@ -1544,7 +1551,11 @@ iterateButton.addEventListener(
     if (latticeArray.length == 1) {
       clearResetButton.innerHTML = "Reset";
     }
-    iterate(currentIteration, addIterations);
+    if (theoHeight < addIterations) {
+      makeError("Cannot print all output.", logCanvas, messageQueue);
+    }
+    iterate(currentIteration, Math.min(addIterations, theoHeight))
+    //iterate(currentIteration, addIterations);
   })
 );
 
@@ -1704,6 +1715,10 @@ startStopButton.addEventListener(
   "click",
   debounce(function () {
     if (run != 1) {
+      theoHeight = Math.floor(results.height / size) - 1;
+      if (theoHeight < addIterations) {
+        makeError("Cannot print all output.", logCanvas, messageQueue);
+      }
       run = 1;
       startStopToggle();
       if (latticeArray.length == 1) {
@@ -2007,9 +2022,9 @@ function setDelay(newDelay) {
  */
 
 function continouslyIterate(iterationTime) {
-  if (run) {
+  if (run && currentIteration + 1 <= Math.min(theoHeight, addIterations)) {
     setTimeout(function () {
-      if (run) {
+      if (run && currentIteration + 1 <= Math.min(theoHeight, addIterations)) {
         iterate(currentIteration, 1);
       }
       continouslyIterate(iterationTime);
