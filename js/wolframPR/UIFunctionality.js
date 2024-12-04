@@ -830,7 +830,8 @@ iterateButton.addEventListener(
     }
     theoHeight = Math.floor(results.height / size) - 1;
     if (theoHeight < addIterations) {
-      makeError("Cannot print all output.", logCanvas, messageQueue);
+      makeError("Output Truncated", logCanvas, messageQueue);
+      makeError("Hit Max Canvas Height", logCanvas, messageQueue);
     }
     iterate(currentIteration, Math.min(addIterations, theoHeight));
   })

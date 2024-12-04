@@ -578,7 +578,7 @@ simulateButton.addEventListener("click", function () {
     makeLog("Order Set", logCanvas, messageQueue);
   } else {
     makeLog("Defaulting order to L->R", logCanvas, messageQueue);
-    makeError("*Incomplete Ordering*", logCanvas, messageQueue);
+    makeError("Incomplete Ordering", logCanvas, messageQueue);
     for (let i = 0; i < tempOrder.length; i++) {
       tempOrder[i] = i;
     }
@@ -1552,7 +1552,8 @@ iterateButton.addEventListener(
       clearResetButton.innerHTML = "Reset";
     }
     if (theoHeight < addIterations) {
-      makeError("Cannot print all output.", logCanvas, messageQueue);
+      makeError("Output Truncated", logCanvas, messageQueue);
+      makeError("Hit Max Canvas Height", logCanvas, messageQueue);
     }
     iterate(currentIteration, Math.min(addIterations, theoHeight))
     //iterate(currentIteration, addIterations);
