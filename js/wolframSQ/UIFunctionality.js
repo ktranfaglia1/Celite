@@ -36,7 +36,7 @@
  *   - Dustin O'Brien
  *
  */
-
+import canvasSize from 'https://cdn.jsdelivr.net/npm/canvas-size@2/dist/canvas-size.esm.min.js';
 import {
   latticeArray,
   rule,
@@ -86,6 +86,12 @@ Hotkeys for zoom in/out
 change cell label when only one row
 Reset Perspective Button
 */
+
+//Global constant storing the maximum height that the canvas can be in the given browser
+const results = await canvasSize.maxArea({});
+//Variable dictating the theoretical current number of lattices that can stack on top of eachother on canvas given
+//current cell size.
+let theoHeight = 0;
 
 /* Global constants connecting HTML buttons to JS by ID to impliment functionality */
 
@@ -411,6 +417,11 @@ let totalDelta = 0;
  * @type {Array}
  */
 let messageQueue = [];
+/**
+ * An array to store lattice configuration while in setup mode.
+ * @type {Array}
+ */
+let savedLattice = new Array();
 
 /**
  * setupButton Click Event Handler
@@ -435,6 +446,11 @@ let messageQueue = [];
 setupButton.addEventListener(
   "click",
   debounce(function () {
+    savedLattice = []
+    console.log("Begin printing latticeArray");
+    for (let i = 0; i < latticeArray[0].length; i++) {
+      savedLattice.push(latticeArray[0][i].getColor());
+    }
     activateSetup();
     for (let i = 0; i < orderArray.length; i++) {
       latticeArray[0][i].setColor(1);
@@ -573,6 +589,11 @@ simulateButton.addEventListener("click", function () {
 
   clear(latticeArray, false);
   alterSetup(0);
+  if (latticeArray[0].length == savedLattice.length) {
+    for (let i = 0; i < savedLattice.length; i++) {
+      latticeArray[0][i].setColor(savedLattice[i]);
+    }
+  }
   redrawLattice();
 });
 
@@ -1036,7 +1057,7 @@ edgesInR.addEventListener("click", function () {
     tempOrder[mockLattice[i]] = i;
   }
   libraryWindow.style.display = "none";
-  console.log(tempOrder);
+  //console.log(tempOrder);
   makeLog("Edges In Rev Order Set", logCanvas, messageQueue);
 });
 
@@ -1159,7 +1180,7 @@ function redrawLattice() {
       latticeArray[i][f].drawCell(ctx);
     }
   }
-  console.log("Redraw Lattice Called");
+  //console.log("Redraw Lattice Called");
 }
 
 /**
@@ -1519,6 +1540,7 @@ randomFillButton.addEventListener(
 iterateButton.addEventListener(
   "click",
   debounce(function () {
+    theoHeight = Math.floor(results.height / size) - 1;
     if (addIterations == 0) {
       makeError("Iteration not set", logCanvas, messageQueue);
       return;
@@ -1529,7 +1551,11 @@ iterateButton.addEventListener(
     if (latticeArray.length == 1) {
       clearResetButton.innerHTML = "Reset";
     }
-    iterate(currentIteration, addIterations);
+    if (theoHeight < addIterations) {
+      makeError("Cannot print all output.", logCanvas, messageQueue);
+    }
+    iterate(currentIteration, Math.min(addIterations, theoHeight))
+    //iterate(currentIteration, addIterations);
   })
 );
 
@@ -1689,6 +1715,10 @@ startStopButton.addEventListener(
   "click",
   debounce(function () {
     if (run != 1) {
+      theoHeight = Math.floor(results.height / size) - 1;
+      if (theoHeight < addIterations) {
+        makeError("Cannot print all output.", logCanvas, messageQueue);
+      }
       run = 1;
       startStopToggle();
       if (latticeArray.length == 1) {
@@ -1992,9 +2022,9 @@ function setDelay(newDelay) {
  */
 
 function continouslyIterate(iterationTime) {
-  if (run) {
+  if (run && currentIteration + 1 <= Math.min(theoHeight, addIterations)) {
     setTimeout(function () {
-      if (run) {
+      if (run && currentIteration + 1 <= Math.min(theoHeight, addIterations)) {
         iterate(currentIteration, 1);
       }
       continouslyIterate(iterationTime);
