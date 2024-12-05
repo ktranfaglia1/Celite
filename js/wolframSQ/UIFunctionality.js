@@ -1552,8 +1552,8 @@ iterateButton.addEventListener(
       clearResetButton.innerHTML = "Reset";
     }
     if (theoHeight < addIterations) {
-      makeError("Output Truncated", logCanvas, messageQueue);
       makeError("Hit Max Canvas Height", logCanvas, messageQueue);
+      makeLog("Output Truncated", logCanvas, messageQueue);
     }
     iterate(currentIteration, Math.min(addIterations, theoHeight))
     //iterate(currentIteration, addIterations);
@@ -2094,7 +2094,7 @@ function setRule() {
  */
 function setLatticeSize() {
   let newValue = parseInt(iterationInputBox.value);
-  if (!isNaN(newValue) && newValue >= 0 && newValue <= 10000) {
+  if (!isNaN(newValue) && newValue >= 0 && newValue <= 9000) {
     clear(latticeArray, true);
     addIterations = newValue;
     makeLog("Iterations Set to " + newValue, logCanvas, messageQueue);

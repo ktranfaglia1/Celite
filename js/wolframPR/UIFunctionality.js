@@ -830,8 +830,8 @@ iterateButton.addEventListener(
     }
     theoHeight = Math.floor(results.height / size) - 1;
     if (theoHeight < addIterations) {
-      makeError("Output Truncated", logCanvas, messageQueue);
       makeError("Hit Max Canvas Height", logCanvas, messageQueue);
+      makeLog("Output Truncated", logCanvas, messageQueue);
     }
     iterate(currentIteration, Math.min(addIterations, theoHeight));
   })
@@ -1488,15 +1488,15 @@ function setLatticeSize() {
     clear(latticeArray, true);
     addIterations = newValue;
     makeLog("Iterations Set to " + newValue, logCanvas, messageQueue);
+    if (newValue > 1000) {
+      makeLog("Warning: Large Iteration", logCanvas, messageQueue);
+    }
   } else {
     makeError(
       "Invalid Iteration Size: " + iterationInputBox.value,
       logCanvas,
       messageQueue
     );
-  }
-  if (newValue > 1000) {
-    makeLog("Warning: Large Iteration", logCanvas, messageQueue);
   }
   return addIterations;
 }
@@ -1701,7 +1701,7 @@ export function toggleCheckbox() {
     if (size > 45) {
       size = 45;
     }
-    maxIterations = 10000;
+    maxIterations = 9000;
     alterSize(size);
     alterInf(false);
     makeLog("Finite Condition Set", logCanvas, messageQueue);
