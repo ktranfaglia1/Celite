@@ -1717,9 +1717,6 @@ startStopButton.addEventListener(
   debounce(function () {
     if (run != 1) {
       theoHeight = Math.floor(results.height / size) - 1;
-      if (theoHeight < addIterations) {
-        makeError("Cannot print all output.", logCanvas, messageQueue);
-      }
       run = 1;
       startStopToggle();
       if (latticeArray.length == 1) {

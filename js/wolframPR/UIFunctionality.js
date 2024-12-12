@@ -1076,9 +1076,6 @@ startStopButton.addEventListener(
         }
       }
       theoHeight = Math.floor(results.height / size) - 1;
-      if (theoHeight < addIterations) {
-        makeError("Cannot print all output.", logCanvas, messageQueue);
-      }
       continouslyIterate(iterationTime);
     } else {
       run = 0;
