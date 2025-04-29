@@ -136,7 +136,7 @@ a {
   float: left;
   display: block;
   color: whitesmoke;
-  padding: 24px 24px;
+  padding: 22px 24px;
   text-decoration: none;
 }
 .navbar a:not(.logo):hover {
@@ -160,7 +160,7 @@ a {
   border: none;
   outline: none;
   color: whitesmoke;
-  padding: 24px 24px;
+  padding: 22px 24px;
   background-color: inherit;
 }
 .navbar .dropdown_item {
