@@ -1,6 +1,6 @@
 # Celite
 
-**Browser-based cellular automata simulators for research in discrete mathematics.**
+**Browser-based cellular automata simulators: an educational and research tool for discrete mathematics.**
 
 [Live site: celite.org](https://celite.org) · [Documentation](https://celite.org/documentation.html)
 
@@ -12,7 +12,7 @@ Celite is a web application with three cellular automaton simulators:
 - Sequential Wolfram's Nearest Neighbor
 - Conway's Game of Life
 
-It was built for Dr. Michael Bardzell of Salisbury University's Mathematics Department, whose research focuses on discrete mathematical systems. He used it to study emergent behavior, self-organization and pattern formation in cellular automata.
+It was built for Dr. Michael Bardzell of Salisbury University's Mathematics Department, whose research focuses on discrete mathematical systems, to support his book and his research. It lets students and researchers explore emergent behavior, self-organization and pattern formation in cellular automata.
 
 The project ran for two semesters, in Salisbury University's COSC 425/426 (Software Engineering I/II) sequence. A three-person team built it under Agile/Scrum, with the professor as our client. It was presented at the Salisbury University Student Research Conference (SUSRC) in April 2025.
 
@@ -78,7 +78,7 @@ The code is split into the same four modules for each simulator:
 ├── js/
 │   ├── wolframPR/        # cellClass, generateLattice, displayLattice, UIFunctionality, logClass
 │   ├── wolframSQ/        # same layout, plus setup mode and the ordering library
-│   ├── conway/           # same layout, plus presets.js (pattern library)
+│   ├── conway/           # cellClass, generateLattice, displayLattice, UIFunctionality, plus presets.js (pattern library)
 │   └── documentation/
 ├── styles/               # One stylesheet per page, plus global.css
 └── images/               # Preset thumbnails, logos and team photos
@@ -99,7 +99,7 @@ There is no build step and nothing to install.
 
 | Name | Role |
 |---|---|
-| [Kyle Tranfaglia](https://github.com/ktranfaglia1) | Team lead and full-stack developer. Ran meetings and the client relationship, planned sprints, owned all UI/UX and front-end work, and built back-end simulation logic. |
+| [Kyle Tranfaglia](https://github.com/ktranfaglia1) | Team lead and product manager. Ran meetings and the client relationship, set direction from the client's needs, planned sprints, assigned tasks, merged code and tested. Owned all UI/UX and front-end work, and built back-end simulation logic. |
 | [Timothy McKirgan](https://github.com/TimothyJMcKirgan) | Back-end developer |
 | [Dustin O'Brien](https://github.com/Omniladder) | Back-end developer |
 
